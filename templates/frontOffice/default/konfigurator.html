@@ -1,0 +1,296 @@
+{extends file="layout.tpl"}
+
+{* Body Class *}
+{block name="body-class"}page-konfigurator{/block}
+
+{* Breadcrumb *}
+{block name='no-return-functions' append}
+    {$breadcrumbs = [['title' => {intl l="Configurator" d="hookkonfigurator.fo.default"}, 'url'=>{url path="/konfigurator"}]]}
+{/block}
+
+{block name="main-content"}
+    <div class="main">
+        <article class="col-main grid" role="main" aria-labelledby="main-label">
+            <h1 id="main-label" class="page-header">{intl l="Your personal offer" d="hookkonfigurator.fo.default"}</h1>
+            {hook name="konfigurator.top"}
+            {form name="konfigurator.heizlast.berechnung"}
+            <form id="form-konfigurator" class="form-horizontal" action="{url path="/konfigurator/ajax"}" method="post">
+                {form_field field='error_message'}
+                    <input type="hidden" name="{$name}" value="{intl l="missing or invalid data"}" />
+                {/form_field}
+                {form_hidden_fields}
+                {if $form_error}<div class="alert alert-danger">{$form_error_message}</div>{/if}
+                {hook name="konfigurator.form-top"}
+                <fieldset id="konfigurator-info" class="panel panel-default">
+                    <div class="panel-heading">
+                        {intl l="Here you can configure your heating system" d="hookkonfigurator.fo.default"}
+                    </div>
+                    <div class="panel-body">
+					
+						<fieldset>
+						{form_field field="gebaeudeart"}<!--form=$form -->
+			
+						<legend class="legend-konfigurator">{intl l="{$label}" d="hookkonfigurator.fo.default"}</legend>
+							<div class="radio-group-konfigurator">
+							{foreach $choices as $choice}
+							<div class="radio radio-konfigurator">
+								<label for="{$label_attr.for}">
+									<input type="radio" name="{$name}" id="{$label_attr.for}{$choice->value}" value="{$choice->value}"{if $value === {$choice->value}} checked{/if}> {$choice->label}
+								</label>
+							</div>
+							{/foreach}
+							</div>
+						{/form_field}
+						</fieldset>
+						
+						<fieldset>
+						{form_field field="baujahr"}
+						<div class="radio-group-konfigurator">
+						<legend class="legend-konfigurator">{intl l="{$label}" d="hookkonfigurator.fo.default"}</legend>
+							{foreach $choices as $choice}
+							<div class="radio radio-konfigurator">
+								<label for="{$label_attr.for}">
+									<input type="radio" name="{$name}" id="{$label_attr.for}{$choice->value}" value="{$choice->value}"{if $value === {$choice->value}} checked{/if}> {$choice->label}
+								</label>
+							</div>
+							{/foreach}
+						</div>
+						{/form_field}
+						</fieldset>
+									
+						<fieldset>
+						{form_field field="lage_des_gebaeudes"}
+						<div class="radio-group-konfigurator">
+						<legend class="legend-konfigurator">{intl l="{$label}" d="hookkonfigurator.fo.default"}</legend>
+							{foreach $choices as $choice}
+							<div class="radio radio-konfigurator">
+								<label for="{$label_attr.for}">
+									<input type="radio" name="{$name}" id="{$label_attr.for}{$choice->value}" value="{$choice->value}"{if $value === {$choice->value}} checked{/if}> {$choice->label}
+								</label>
+							</div>
+							{/foreach}
+						</div>
+						{/form_field}
+						</fieldset>
+						
+						<fieldset>
+						{form_field field="windlage_des_gebaudes"}
+						<div class="radio-group-konfigurator">
+						<legend class="legend-konfigurator">{intl l="{$label}" d="hookkonfigurator.fo.default"}</legend>
+							{foreach $choices as $choice}
+							<div class="radio radio-konfigurator">
+								<label for="{$label_attr.for}">
+									<input type="radio" name="{$name}" id="{$label_attr.for}{$choice->value}" value="{$choice->value}"{if $value === {$choice->value}} checked{/if}> {$choice->label}
+								</label>
+							</div>
+							{/foreach}
+						</div>
+						{/form_field}
+						</fieldset>
+						
+						<fieldset>
+						{form_field field="lage_des_raumes"}
+						<div class="radio-group-konfigurator">
+						<legend class="legend-konfigurator">{intl l="{$label}" d="hookkonfigurator.fo.default"}</legend>
+							{foreach $choices as $choice}
+							<div class="radio radio-konfigurator">
+								<label for="{$label_attr.for}">
+									<input type="radio" name="{$name}" id="{$label_attr.for}{$choice->value}" value="{$choice->value}"{if $value === {$choice->value}} checked{/if}> {$choice->label}
+								</label>
+							</div>
+							{/foreach}
+						</div>
+						{/form_field}
+						</fieldset>
+						
+						<fieldset>
+						{form_field field="anzahl_aussenwaende"}
+						<div class="radio-group-konfigurator">
+						<legend class="legend-konfigurator">{intl l="{$label}" d="hookkonfigurator.fo.default"}</legend>
+							{foreach $choices as $choice}
+							<div class="radio radio-konfigurator">
+								<label for="{$label_attr.for}">
+									<input type="radio" name="{$name}" id="{$label_attr.for}{$choice->value}" value="{$choice->value}"{if $value === {$choice->value}} checked{/if}> {$choice->label}
+								</label>
+							</div>
+							{/foreach}
+						</div>
+						{/form_field}
+						</fieldset>
+						
+						<fieldset>
+						{form_field field="fenster"}
+						<div class="radio-group-konfigurator">
+						<legend class="legend-konfigurator">{intl l="{$label}" d="hookkonfigurator.fo.default"}</legend>
+							{foreach $choices as $choice}
+							<div class="radio radio-konfigurator">
+								<label for="{$label_attr.for}">
+									<input type="radio" name="{$name}" id="{$label_attr.for}{$choice->value}" value="{$choice->value}"{if $value === {$choice->value}} checked{/if}> {$choice->label}
+								</label>
+							</div>
+							{/foreach}
+						</div>
+						{/form_field}
+						</fieldset>
+						
+						<fieldset>
+						{form_field field="verglaste_flaeche"}
+						<div class="radio-group-konfigurator">
+						<legend class="legend-konfigurator">{intl l="{$label}" d="hookkonfigurator.fo.default"}</legend>
+							{foreach $choices as $choice}
+							<div class="radio radio-konfigurator">
+								<label for="{$label_attr.for}">
+									<input type="radio" name="{$name}" id="{$label_attr.for}{$choice->value}" value="{$choice->value}"{if $value === {$choice->value}} checked{/if}> {$choice->label}
+								</label>
+							</div>
+							{/foreach}
+						</div>
+						{/form_field}
+						</fieldset>
+						
+						<fieldset>
+						{form_field field="wohnraumtemperatur"}
+						<div class="radio-group-konfigurator">
+						<legend class="legend-konfigurator">{intl l="{$label}" d="hookkonfigurator.fo.default"}</legend>
+							{foreach $choices as $choice}
+							<div class="radio radio-konfigurator">
+								<label for="{$label_attr.for}">
+									<input type="radio" name="{$name}" id="{$label_attr.for}{$choice->value}" value="{$choice->value}"{if $value === {$choice->value}} checked{/if}> {$choice->label}
+								</label>
+							</div>
+							{/foreach}
+						</div>
+						{/form_field}
+						</fieldset>
+						
+						<fieldset>
+						{form_field field="aussentemperatur"}
+						<div class="radio-group-konfigurator">
+						<legend class="legend-konfigurator">{intl l="{$label}" d="hookkonfigurator.fo.default"}</legend>
+							{foreach $choices as $choice}
+							<div class="radio radio-konfigurator">
+								<label for="{$label_attr.for}">
+									<input type="radio" name="{$name}" id="{$label_attr.for}{$choice->value}" value="{$choice->value}"{if $value === {$choice->value}} checked{/if}> {$choice->label}
+								</label>
+							</div>
+							{/foreach}
+						</div>
+						{/form_field}
+						</fieldset>
+						
+						<fieldset>
+						{form_field field="waermedaemmung"}
+						<div class="radio-group-konfigurator">
+						<legend class="legend-konfigurator">{intl l="{$label}" d="hookkonfigurator.fo.default"}</legend>
+							{foreach $choices as $choice}
+							<div class="radio radio-konfigurator">
+								<label for="{$label_attr.for}">
+									<input type="radio" name="{$name}" id="{$label_attr.for}{$choice->value}" value="{$choice->value}"{if $value === {$choice->value}} checked{/if}> {$choice->label}
+								</label>
+							</div>
+							{/foreach}
+						</div>
+						{/form_field}
+						</fieldset>
+						
+						<fieldset>
+						{form_field field="flaeche"}
+						<div class="radio-group-konfigurator group-text{if $error} has-error{/if}">
+						<legend class="legend-konfigurator">{intl l="{$label}" d="hookkonfigurator.fo.default"}</legend>
+							<div class="control-input radio-konfigurator">
+								<input type="text" name="{$name}" id="{$label_attr.for}" value="{$value}" class="form-control input-sm" maxlength="50" {$attr} {if $required}aria-required="true" required{/if}{if !$value || $error} autofocus{/if}>
+								{if $error}
+									<span class="help-block">{$message}</span>
+									{assign var="error_focus" value="true"}
+								{elseif !$value}
+									{assign var="error_focus" value="true"}
+								{/if}
+							</div>
+						 </div>
+						{/form_field}
+						</fieldset>
+									
+						<fieldset>
+						{form_field field="waermebedarf"}
+						<div class="radio-group-konfigurator group-text{if $error} has-error{/if}">
+						<legend class="legend-konfigurator">{intl l="{$label}" d="hookkonfigurator.fo.default"}</legend>
+							<div class="control-input radio-konfigurator">
+								<input type="text" name="{$name}" id="{$label_attr.for}" value="{$value}" class="form-control input-sm" maxlength="50" {$attr}>
+							</div>
+						 </div>
+						{/form_field}
+						</fieldset>		
+						<button type="submit">Submit</button>				
+                    </div>
+                </fieldset>
+
+				
+            </form>
+            {/form}
+		<section id="products-new">	
+			<div class="products-heading">
+				<h2>{intl l="Suggestions" d="hookkonfigurator.fo.default"} <a href="{url path="/view_all"  type="new"}" class="btn-all">{intl l="+ View All" d="hookkonfigurator.fo.default"}</a></h2>
+			</div>
+			<div id="category-products">
+            </div><!-- /#category-products -->
+			</section><!-- #products-heizung -->	
+		
+
+
+	
+			        </article>
+				
+
+
+		
+		
+		
+	<div id="product_suggestion">
+	<ul id="products">
+	</ul>
+	</div>
+    </div><!-- /.layout -->
+{/block}
+
+{block name="stylesheet"}
+{hook name="register.stylesheet"}
+{/block}
+
+{block name="after-javascript-include"}
+<script>
+$('body').on('submit', '.form-horizontal', function (e) {
+    e.preventDefault();
+    $.ajax({
+        type: $(this).attr('method'),
+        url: $(this).attr('action'),
+        data: $(this).serialize()
+    })
+    .done(function (data, textStatus, request) {
+    	$waermebedarf = request.getResponseHeader('waermebedarf');
+    	if($waermebedarf != null) 
+    		$('input[name="konfigurator[waermebedarf]"]').val($waermebedarf);
+    	$("#category-products").empty().append(data);
+      /*  if (typeof data.message !== 'undefined') {
+        	$('input[name="konfigurator[waermebedarf]"]').val(data.waermebedarf);
+        	
+        }*/
+    })
+    .fail(function (jqXHR, textStatus, errorThrown) {
+        if (typeof jqXHR.responseJSON !== 'undefined') {
+            if (jqXHR.responseJSON.hasOwnProperty('form')) {
+                $('#form_body').html(jqXHR.responseJSON.form);
+            }
+            $('.form_error').html(jqXHR.responseJSON.message);
+        } else {
+            alert(errorThrown);
+        }
+    });
+});
+</script>
+
+{hook name="register.after-javascript-include"}
+{/block}
+
+{block name="javascript-initialization"}
+{hook name="register.javascript-initialization"}
+{/block}
