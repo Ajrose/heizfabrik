@@ -4,7 +4,6 @@ local/config/build
 local/config/database.yml
 local/config/database.yml.sample.save
 local/config/key
-core/vendor
 local/config/runtime-conf.xml
 cache/*
 log/*
