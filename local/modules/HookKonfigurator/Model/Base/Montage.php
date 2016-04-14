@@ -25,7 +25,7 @@ use Propel\Runtime\Exception\PropelException;
 use Propel\Runtime\Map\TableMap;
 use Propel\Runtime\Parser\AbstractParser;
 
-abstract class Montage implements ActiveRecordInterface
+abstract class Montage implements ActiveRecordInterface 
 {
     /**
      * TableMap class name
@@ -64,19 +64,6 @@ abstract class Montage implements ActiveRecordInterface
      * @var        int
      */
     protected $id;
-
-    /**
-     * The value for the name field.
-     * Note: this column has a database default value of: 'montage'
-     * @var        string
-     */
-    protected $name;
-
-    /**
-     * The value for the description field.
-     * @var        string
-     */
-    protected $description;
 
     /**
      * The value for the type field.
@@ -148,7 +135,6 @@ abstract class Montage implements ActiveRecordInterface
      */
     public function applyDefaultValues()
     {
-        $this->name = 'montage';
         $this->type = 'montage';
         $this->quantity = '0.000000';
         $this->unit = 'piece';
@@ -417,7 +403,7 @@ abstract class Montage implements ActiveRecordInterface
 
     /**
      * Get the [id] column value.
-     *
+     * 
      * @return   int
      */
     public function getId()
@@ -427,30 +413,8 @@ abstract class Montage implements ActiveRecordInterface
     }
 
     /**
-     * Get the [name] column value.
-     *
-     * @return   string
-     */
-    public function getName()
-    {
-
-        return $this->name;
-    }
-
-    /**
-     * Get the [description] column value.
-     *
-     * @return   string
-     */
-    public function getDescription()
-    {
-
-        return $this->description;
-    }
-
-    /**
      * Get the [type] column value.
-     *
+     * 
      * @return   string
      */
     public function getType()
@@ -461,7 +425,7 @@ abstract class Montage implements ActiveRecordInterface
 
     /**
      * Get the [quantity] column value.
-     *
+     * 
      * @return   string
      */
     public function getQuantity()
@@ -472,7 +436,7 @@ abstract class Montage implements ActiveRecordInterface
 
     /**
      * Get the [unit] column value.
-     *
+     * 
      * @return   string
      */
     public function getUnit()
@@ -483,7 +447,7 @@ abstract class Montage implements ActiveRecordInterface
 
     /**
      * Get the [extra_quantity_price] column value.
-     *
+     * 
      * @return   string
      */
     public function getExtraQuantityPrice()
@@ -494,7 +458,7 @@ abstract class Montage implements ActiveRecordInterface
 
     /**
      * Get the [duration] column value.
-     *
+     * 
      * @return   int
      */
     public function getDuration()
@@ -505,7 +469,7 @@ abstract class Montage implements ActiveRecordInterface
 
     /**
      * Set the value of [id] column.
-     *
+     * 
      * @param      int $v new value
      * @return   \HookKonfigurator\Model\Montage The current object (for fluent API support)
      */
@@ -529,50 +493,8 @@ abstract class Montage implements ActiveRecordInterface
     } // setId()
 
     /**
-     * Set the value of [name] column.
-     *
-     * @param      string $v new value
-     * @return   \HookKonfigurator\Model\Montage The current object (for fluent API support)
-     */
-    public function setName($v)
-    {
-        if ($v !== null) {
-            $v = (string) $v;
-        }
-
-        if ($this->name !== $v) {
-            $this->name = $v;
-            $this->modifiedColumns[MontageTableMap::NAME] = true;
-        }
-
-
-        return $this;
-    } // setName()
-
-    /**
-     * Set the value of [description] column.
-     *
-     * @param      string $v new value
-     * @return   \HookKonfigurator\Model\Montage The current object (for fluent API support)
-     */
-    public function setDescription($v)
-    {
-        if ($v !== null) {
-            $v = (string) $v;
-        }
-
-        if ($this->description !== $v) {
-            $this->description = $v;
-            $this->modifiedColumns[MontageTableMap::DESCRIPTION] = true;
-        }
-
-
-        return $this;
-    } // setDescription()
-
-    /**
      * Set the value of [type] column.
-     *
+     * 
      * @param      string $v new value
      * @return   \HookKonfigurator\Model\Montage The current object (for fluent API support)
      */
@@ -593,7 +515,7 @@ abstract class Montage implements ActiveRecordInterface
 
     /**
      * Set the value of [quantity] column.
-     *
+     * 
      * @param      string $v new value
      * @return   \HookKonfigurator\Model\Montage The current object (for fluent API support)
      */
@@ -614,7 +536,7 @@ abstract class Montage implements ActiveRecordInterface
 
     /**
      * Set the value of [unit] column.
-     *
+     * 
      * @param      string $v new value
      * @return   \HookKonfigurator\Model\Montage The current object (for fluent API support)
      */
@@ -635,7 +557,7 @@ abstract class Montage implements ActiveRecordInterface
 
     /**
      * Set the value of [extra_quantity_price] column.
-     *
+     * 
      * @param      string $v new value
      * @return   \HookKonfigurator\Model\Montage The current object (for fluent API support)
      */
@@ -656,7 +578,7 @@ abstract class Montage implements ActiveRecordInterface
 
     /**
      * Set the value of [duration] column.
-     *
+     * 
      * @param      int $v new value
      * @return   \HookKonfigurator\Model\Montage The current object (for fluent API support)
      */
@@ -685,10 +607,6 @@ abstract class Montage implements ActiveRecordInterface
      */
     public function hasOnlyDefaultValues()
     {
-            if ($this->name !== 'montage') {
-                return false;
-            }
-
             if ($this->type !== 'montage') {
                 return false;
             }
@@ -735,25 +653,19 @@ abstract class Montage implements ActiveRecordInterface
             $col = $row[TableMap::TYPE_NUM == $indexType ? 0 + $startcol : MontageTableMap::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)];
             $this->id = (null !== $col) ? (int) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 1 + $startcol : MontageTableMap::translateFieldName('Name', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->name = (null !== $col) ? (string) $col : null;
-
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 2 + $startcol : MontageTableMap::translateFieldName('Description', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->description = (null !== $col) ? (string) $col : null;
-
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 3 + $startcol : MontageTableMap::translateFieldName('Type', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 1 + $startcol : MontageTableMap::translateFieldName('Type', TableMap::TYPE_PHPNAME, $indexType)];
             $this->type = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 4 + $startcol : MontageTableMap::translateFieldName('Quantity', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 2 + $startcol : MontageTableMap::translateFieldName('Quantity', TableMap::TYPE_PHPNAME, $indexType)];
             $this->quantity = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 5 + $startcol : MontageTableMap::translateFieldName('Unit', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 3 + $startcol : MontageTableMap::translateFieldName('Unit', TableMap::TYPE_PHPNAME, $indexType)];
             $this->unit = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 6 + $startcol : MontageTableMap::translateFieldName('ExtraQuantityPrice', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 4 + $startcol : MontageTableMap::translateFieldName('ExtraQuantityPrice', TableMap::TYPE_PHPNAME, $indexType)];
             $this->extra_quantity_price = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 7 + $startcol : MontageTableMap::translateFieldName('Duration', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 5 + $startcol : MontageTableMap::translateFieldName('Duration', TableMap::TYPE_PHPNAME, $indexType)];
             $this->duration = (null !== $col) ? (int) $col : null;
             $this->resetModified();
 
@@ -763,7 +675,7 @@ abstract class Montage implements ActiveRecordInterface
                 $this->ensureConsistency();
             }
 
-            return $startcol + 8; // 8 = MontageTableMap::NUM_HYDRATE_COLUMNS.
+            return $startcol + 6; // 6 = MontageTableMap::NUM_HYDRATE_COLUMNS.
 
         } catch (Exception $e) {
             throw new PropelException("Error populating \HookKonfigurator\Model\Montage object", 0, $e);
@@ -1011,12 +923,6 @@ abstract class Montage implements ActiveRecordInterface
         if ($this->isColumnModified(MontageTableMap::ID)) {
             $modifiedColumns[':p' . $index++]  = 'ID';
         }
-        if ($this->isColumnModified(MontageTableMap::NAME)) {
-            $modifiedColumns[':p' . $index++]  = 'NAME';
-        }
-        if ($this->isColumnModified(MontageTableMap::DESCRIPTION)) {
-            $modifiedColumns[':p' . $index++]  = 'DESCRIPTION';
-        }
         if ($this->isColumnModified(MontageTableMap::TYPE)) {
             $modifiedColumns[':p' . $index++]  = 'TYPE';
         }
@@ -1043,28 +949,22 @@ abstract class Montage implements ActiveRecordInterface
             $stmt = $con->prepare($sql);
             foreach ($modifiedColumns as $identifier => $columnName) {
                 switch ($columnName) {
-                    case 'ID':
+                    case 'ID':                        
                         $stmt->bindValue($identifier, $this->id, PDO::PARAM_INT);
                         break;
-                    case 'NAME':
-                        $stmt->bindValue($identifier, $this->name, PDO::PARAM_STR);
-                        break;
-                    case 'DESCRIPTION':
-                        $stmt->bindValue($identifier, $this->description, PDO::PARAM_STR);
-                        break;
-                    case 'TYPE':
+                    case 'TYPE':                        
                         $stmt->bindValue($identifier, $this->type, PDO::PARAM_STR);
                         break;
-                    case 'QUANTITY':
+                    case 'QUANTITY':                        
                         $stmt->bindValue($identifier, $this->quantity, PDO::PARAM_STR);
                         break;
-                    case 'UNIT':
+                    case 'UNIT':                        
                         $stmt->bindValue($identifier, $this->unit, PDO::PARAM_STR);
                         break;
-                    case 'EXTRA_QUANTITY_PRICE':
+                    case 'EXTRA_QUANTITY_PRICE':                        
                         $stmt->bindValue($identifier, $this->extra_quantity_price, PDO::PARAM_STR);
                         break;
-                    case 'DURATION':
+                    case 'DURATION':                        
                         $stmt->bindValue($identifier, $this->duration, PDO::PARAM_INT);
                         break;
                 }
@@ -1126,24 +1026,18 @@ abstract class Montage implements ActiveRecordInterface
                 return $this->getId();
                 break;
             case 1:
-                return $this->getName();
-                break;
-            case 2:
-                return $this->getDescription();
-                break;
-            case 3:
                 return $this->getType();
                 break;
-            case 4:
+            case 2:
                 return $this->getQuantity();
                 break;
-            case 5:
+            case 3:
                 return $this->getUnit();
                 break;
-            case 6:
+            case 4:
                 return $this->getExtraQuantityPrice();
                 break;
-            case 7:
+            case 5:
                 return $this->getDuration();
                 break;
             default:
@@ -1176,19 +1070,17 @@ abstract class Montage implements ActiveRecordInterface
         $keys = MontageTableMap::getFieldNames($keyType);
         $result = array(
             $keys[0] => $this->getId(),
-            $keys[1] => $this->getName(),
-            $keys[2] => $this->getDescription(),
-            $keys[3] => $this->getType(),
-            $keys[4] => $this->getQuantity(),
-            $keys[5] => $this->getUnit(),
-            $keys[6] => $this->getExtraQuantityPrice(),
-            $keys[7] => $this->getDuration(),
+            $keys[1] => $this->getType(),
+            $keys[2] => $this->getQuantity(),
+            $keys[3] => $this->getUnit(),
+            $keys[4] => $this->getExtraQuantityPrice(),
+            $keys[5] => $this->getDuration(),
         );
         $virtualColumns = $this->virtualColumns;
         foreach ($virtualColumns as $key => $virtualColumn) {
             $result[$key] = $virtualColumn;
         }
-
+        
         if ($includeForeignObjects) {
             if (null !== $this->aProduct) {
                 $result['Product'] = $this->aProduct->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
@@ -1240,24 +1132,18 @@ abstract class Montage implements ActiveRecordInterface
                 $this->setId($value);
                 break;
             case 1:
-                $this->setName($value);
-                break;
-            case 2:
-                $this->setDescription($value);
-                break;
-            case 3:
                 $this->setType($value);
                 break;
-            case 4:
+            case 2:
                 $this->setQuantity($value);
                 break;
-            case 5:
+            case 3:
                 $this->setUnit($value);
                 break;
-            case 6:
+            case 4:
                 $this->setExtraQuantityPrice($value);
                 break;
-            case 7:
+            case 5:
                 $this->setDuration($value);
                 break;
         } // switch()
@@ -1285,13 +1171,11 @@ abstract class Montage implements ActiveRecordInterface
         $keys = MontageTableMap::getFieldNames($keyType);
 
         if (array_key_exists($keys[0], $arr)) $this->setId($arr[$keys[0]]);
-        if (array_key_exists($keys[1], $arr)) $this->setName($arr[$keys[1]]);
-        if (array_key_exists($keys[2], $arr)) $this->setDescription($arr[$keys[2]]);
-        if (array_key_exists($keys[3], $arr)) $this->setType($arr[$keys[3]]);
-        if (array_key_exists($keys[4], $arr)) $this->setQuantity($arr[$keys[4]]);
-        if (array_key_exists($keys[5], $arr)) $this->setUnit($arr[$keys[5]]);
-        if (array_key_exists($keys[6], $arr)) $this->setExtraQuantityPrice($arr[$keys[6]]);
-        if (array_key_exists($keys[7], $arr)) $this->setDuration($arr[$keys[7]]);
+        if (array_key_exists($keys[1], $arr)) $this->setType($arr[$keys[1]]);
+        if (array_key_exists($keys[2], $arr)) $this->setQuantity($arr[$keys[2]]);
+        if (array_key_exists($keys[3], $arr)) $this->setUnit($arr[$keys[3]]);
+        if (array_key_exists($keys[4], $arr)) $this->setExtraQuantityPrice($arr[$keys[4]]);
+        if (array_key_exists($keys[5], $arr)) $this->setDuration($arr[$keys[5]]);
     }
 
     /**
@@ -1304,8 +1188,6 @@ abstract class Montage implements ActiveRecordInterface
         $criteria = new Criteria(MontageTableMap::DATABASE_NAME);
 
         if ($this->isColumnModified(MontageTableMap::ID)) $criteria->add(MontageTableMap::ID, $this->id);
-        if ($this->isColumnModified(MontageTableMap::NAME)) $criteria->add(MontageTableMap::NAME, $this->name);
-        if ($this->isColumnModified(MontageTableMap::DESCRIPTION)) $criteria->add(MontageTableMap::DESCRIPTION, $this->description);
         if ($this->isColumnModified(MontageTableMap::TYPE)) $criteria->add(MontageTableMap::TYPE, $this->type);
         if ($this->isColumnModified(MontageTableMap::QUANTITY)) $criteria->add(MontageTableMap::QUANTITY, $this->quantity);
         if ($this->isColumnModified(MontageTableMap::UNIT)) $criteria->add(MontageTableMap::UNIT, $this->unit);
@@ -1375,8 +1257,6 @@ abstract class Montage implements ActiveRecordInterface
     public function copyInto($copyObj, $deepCopy = false, $makeNew = true)
     {
         $copyObj->setId($this->getId());
-        $copyObj->setName($this->getName());
-        $copyObj->setDescription($this->getDescription());
         $copyObj->setType($this->getType());
         $copyObj->setQuantity($this->getQuantity());
         $copyObj->setUnit($this->getUnit());
@@ -1604,8 +1484,6 @@ abstract class Montage implements ActiveRecordInterface
     public function clear()
     {
         $this->id = null;
-        $this->name = null;
-        $this->description = null;
         $this->type = null;
         $this->quantity = null;
         $this->unit = null;

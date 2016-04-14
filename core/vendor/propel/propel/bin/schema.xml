@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<database name="thelia" defaultIdMethod="native" defaultPhpNamingMethod="underscore"  namespace="HookKonfigurator\Model">
+<database name="thelia" defaultIdMethod="native" defaultPhpNamingMethod="underscore" namespace="HookKonfigurator\Model">
   <table name="accessory" idMethod="native" phpName="Accessory">
     <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
     <column name="product_id" phpName="ProductId" type="INTEGER" required="true"/>
@@ -641,7 +641,7 @@
     </vendor>
   </table>
   <table name="constraints" idMethod="native" phpName="Constraints">
-    <column name="id" phpName="Id" type="INTEGER" primaryKey="true" required="true"/>
+    <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
     <column name="name" phpName="Name" type="VARCHAR" size="255"/>
     <column name="description" phpName="Description" type="VARCHAR" size="255"/>
     <column name="tools_necessary" phpName="ToolsNecessary" type="VARCHAR" size="45"/>
@@ -1818,8 +1818,6 @@
   </table>
   <table name="montage" idMethod="native" phpName="Montage">
     <column name="id" phpName="Id" type="INTEGER" primaryKey="true" required="true"/>
-    <column name="name" phpName="Name" type="VARCHAR" size="255" required="true" defaultValue="montage"/>
-    <column name="description" phpName="Description" type="VARCHAR" size="255"/>
     <column name="type" phpName="Type" type="VARCHAR" size="255" required="true" defaultValue="montage"/>
     <column name="quantity" phpName="Quantity" type="DECIMAL" size="16" scale="6" defaultValue="0.000000"/>
     <column name="unit" phpName="Unit" type="VARCHAR" size="255" defaultValue="piece"/>
@@ -1833,16 +1831,22 @@
     </vendor>
   </table>
   <table name="montage_constraints" idMethod="native" phpName="MontageConstraints">
-    <column name="id" phpName="Id" type="INTEGER" primaryKey="true" required="true"/>
+    <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
     <column name="montage_id" phpName="MontageId" type="INTEGER" required="true"/>
     <column name="constraints_id" phpName="ConstraintsId" type="INTEGER" required="true"/>
     <column name="constraint_value" phpName="ConstraintValue" type="DECIMAL" size="16" scale="6" defaultValue="0.000000"/>
-    <foreign-key foreignTable="constraints" name="fk_mc_constraints_id">
-      <reference local="id" foreign="id"/>
+    <foreign-key foreignTable="constraints" name="fk_mc_constraint" onDelete="CASCADE">
+      <reference local="constraints_id" foreign="id"/>
     </foreign-key>
-    <foreign-key foreignTable="montage" name="fk_mc_montage_id">
-      <reference local="id" foreign="id"/>
+    <foreign-key foreignTable="montage" name="fk_mc_montage_id" onDelete="CASCADE">
+      <reference local="montage_id" foreign="id"/>
     </foreign-key>
+    <index name="fk_mc_montage_id_idx">
+      <index-column name="montage_id"/>
+    </index>
+    <index name="fk_mc_constraint_idx">
+      <index-column name="constraints_id"/>
+    </index>
     <vendor type="mysql">
       <parameter name="Engine" value="InnoDB"/>
     </vendor>
@@ -2309,15 +2313,21 @@
     </vendor>
   </table>
   <table name="product_heizung_montage" idMethod="native" phpName="ProductHeizungMontage">
-    <column name="id" phpName="Id" type="INTEGER" primaryKey="true" required="true"/>
+    <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
     <column name="product_heizung_id" phpName="ProductHeizungId" type="INTEGER" required="true"/>
     <column name="montage_id" phpName="MontageId" type="INTEGER" required="true"/>
-    <foreign-key foreignTable="montage" name="fk_phm_montage_id">
-      <reference local="id" foreign="id"/>
+    <foreign-key foreignTable="montage" name="fk_montage_id" onDelete="CASCADE">
+      <reference local="montage_id" foreign="id"/>
     </foreign-key>
-    <foreign-key foreignTable="product_heizung" name="fk_phm_product_heizung_id">
-      <reference local="id" foreign="product_id"/>
+    <foreign-key foreignTable="product_heizung" name="fk_product_heizung_id" onDelete="CASCADE">
+      <reference local="product_heizung_id" foreign="product_id"/>
     </foreign-key>
+    <index name="fk_product_heizung_id_idx">
+      <index-column name="product_heizung_id"/>
+    </index>
+    <index name="fk_montage_id_idx">
+      <index-column name="montage_id"/>
+    </index>
     <vendor type="mysql">
       <parameter name="Engine" value="InnoDB"/>
     </vendor>
@@ -2712,31 +2722,43 @@
     </vendor>
   </table>
   <table name="set_montage" idMethod="native" phpName="SetMontage">
-    <column name="id" phpName="Id" type="INTEGER" primaryKey="true" required="true"/>
+    <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
     <column name="set_id" phpName="SetId" type="INTEGER" required="true"/>
     <column name="montage_id" phpName="MontageId" type="INTEGER" required="true"/>
     <column name="number_of_montage_units" phpName="NumberOfMontageUnits" type="INTEGER" size="3" defaultValue="1"/>
-    <foreign-key foreignTable="montage" name="fk_sm_montage_id">
-      <reference local="id" foreign="id"/>
+    <foreign-key foreignTable="montage" name="fk_sm_montage_id" onDelete="CASCADE">
+      <reference local="montage_id" foreign="id"/>
     </foreign-key>
-    <foreign-key foreignTable="sets" name="fk_sm_set_id">
-      <reference local="id" foreign="product_id"/>
+    <foreign-key foreignTable="sets" name="fk_sm_set_id" onDelete="CASCADE">
+      <reference local="set_id" foreign="product_id"/>
     </foreign-key>
+    <index name="fk_sm_set_id_idx">
+      <index-column name="set_id"/>
+    </index>
+    <index name="fk_sm_montage_id_idx">
+      <index-column name="montage_id"/>
+    </index>
     <vendor type="mysql">
       <parameter name="Engine" value="InnoDB"/>
     </vendor>
   </table>
   <table name="set_products" idMethod="native" phpName="SetProducts">
-    <column name="id" phpName="Id" type="INTEGER" primaryKey="true" required="true"/>
+    <column name="id" phpName="Id" type="INTEGER" primaryKey="true" autoIncrement="true" required="true"/>
     <column name="set_id" phpName="SetId" type="INTEGER" required="true"/>
     <column name="product_id" phpName="ProductId" type="INTEGER" required="true"/>
     <column name="number_of_products" phpName="NumberOfProducts" type="INTEGER"/>
-    <foreign-key foreignTable="product_heizung" name="fk_sph_product_heizung_id" onDelete="CASCADE">
-      <reference local="id" foreign="product_id"/>
+    <foreign-key foreignTable="product_heizung" name="fk_sp_product_id" onDelete="CASCADE">
+      <reference local="product_id" foreign="product_id"/>
     </foreign-key>
-    <foreign-key foreignTable="sets" name="fk_sph_set_id">
-      <reference local="id" foreign="product_id"/>
+    <foreign-key foreignTable="sets" name="fk_sp_set_id" onDelete="CASCADE">
+      <reference local="set_id" foreign="product_id"/>
     </foreign-key>
+    <index name="fk_sp_set_id_idx">
+      <index-column name="set_id"/>
+    </index>
+    <index name="fk_sp_product_id_idx">
+      <index-column name="product_id"/>
+    </index>
     <vendor type="mysql">
       <parameter name="Engine" value="InnoDB"/>
     </vendor>

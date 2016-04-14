@@ -22,6 +22,7 @@ use HookKonfigurator\Model\ProductHeizung;
 use HookKonfigurator\Model\ProductHeizungQuery;
 use Thelia\Core\Event\Cart\CartItemEvent;
 use Thelia\Model\CartItem;
+use HookKonfigurator\Model\MontageQuery;
 
 class KonfiguratorController extends BaseFrontController {
 	
@@ -29,7 +30,7 @@ class KonfiguratorController extends BaseFrontController {
 
 		//TODO sequence diagramm with the operations starting from konfigurator form and ending to the response products
 		if ($request->isXmlHttpRequest ()) {
-			$view = $request->get ( 'ajax-view', "includes/mini-konfigurator" );
+			$view = $request->get ( 'ajax-view', "includes/konfigurator_suggestions" );
 			$request->attributes->set ( '_view', $view );
 			
 		//	header('waermebedarf:'.$waermebedarf);
@@ -53,7 +54,8 @@ class KonfiguratorController extends BaseFrontController {
 			 *
 			 * }
 			 */
-			
+			//$montageQuerry = MontageQuery::create();
+			//$found = $montageQuerry->findById(72);
 			// "<a href=\"http://eek.fts.at/files/labels/".$product->getLabelName()."\" target=\"_blank\">Label</a>"
 			
 			// "<a href=\"http://eek.fts.at/files/specifications/".$product->getSpecificationName()."\" target=\"_blank\">Datenblatt</a>"
@@ -65,8 +67,7 @@ class KonfiguratorController extends BaseFrontController {
 			// $products = $this->getDoctrine ();
 			// ,'product'=> $html,'size'=> sizeof($products),'product_heizung'=>$product_heizung->__toString(),'product_thelia'=>$product_thelia->__toString()
 			return new JsonResponse ( array (
-					'message' => 'Success!',
-					'waermebedarf' => $waermebedarf 
+					'message' => 'Success!'
 			) ); // $productsQuerry->__toString()
 		}
 	}

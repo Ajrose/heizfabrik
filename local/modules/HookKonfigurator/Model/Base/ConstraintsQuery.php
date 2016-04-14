@@ -19,7 +19,7 @@ use Propel\Runtime\Exception\PropelException;
 /**
  * Base class that represents a query for the 'constraints' table.
  *
- *
+ * 
  *
  * @method     ChildConstraintsQuery orderById($order = Criteria::ASC) Order by the id column
  * @method     ChildConstraintsQuery orderByName($order = Criteria::ASC) Order by the name column
@@ -55,7 +55,7 @@ use Propel\Runtime\Exception\PropelException;
  */
 abstract class ConstraintsQuery extends ModelCriteria
 {
-
+    
     /**
      * Initializes internal state of \HookKonfigurator\Model\Base\ConstraintsQuery object.
      *
@@ -63,7 +63,7 @@ abstract class ConstraintsQuery extends ModelCriteria
      * @param     string $modelName The phpName of a model, e.g. 'Book'
      * @param     string $modelAlias The alias for the model in this query, e.g. 'b'
      */
-    public function __construct($dbName = 'default', $modelName = '\\HookKonfigurator\\Model\\Constraints', $modelAlias = null)
+    public function __construct($dbName = 'thelia', $modelName = '\\HookKonfigurator\\Model\\Constraints', $modelAlias = null)
     {
         parent::__construct($dbName, $modelName, $modelAlias);
     }
@@ -141,7 +141,7 @@ abstract class ConstraintsQuery extends ModelCriteria
     {
         $sql = 'SELECT ID, NAME, DESCRIPTION, TOOLS_NECESSARY FROM constraints WHERE ID = :p0';
         try {
-            $stmt = $con->prepare($sql);
+            $stmt = $con->prepare($sql);            
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
             $stmt->execute();
         } catch (Exception $e) {
@@ -505,10 +505,10 @@ abstract class ConstraintsQuery extends ModelCriteria
             // use transaction because $criteria could contain info
             // for more than one table or we could emulating ON DELETE CASCADE, etc.
             $con->beginTransaction();
-
+            
 
         ConstraintsTableMap::removeInstanceFromPool($criteria);
-
+        
             $affectedRows += ModelCriteria::delete($con);
             ConstraintsTableMap::clearRelatedInstancePool();
             $con->commit();

@@ -38,7 +38,7 @@ class MontageTableMap extends TableMap
     /**
      * The default database name for this class
      */
-    const DATABASE_NAME = 'default';
+    const DATABASE_NAME = 'thelia';
 
     /**
      * The table name for this class
@@ -58,7 +58,7 @@ class MontageTableMap extends TableMap
     /**
      * The total number of columns
      */
-    const NUM_COLUMNS = 8;
+    const NUM_COLUMNS = 6;
 
     /**
      * The number of lazy-loaded columns
@@ -68,22 +68,12 @@ class MontageTableMap extends TableMap
     /**
      * The number of columns to hydrate (NUM_COLUMNS - NUM_LAZY_LOAD_COLUMNS)
      */
-    const NUM_HYDRATE_COLUMNS = 8;
+    const NUM_HYDRATE_COLUMNS = 6;
 
     /**
      * the column name for the ID field
      */
     const ID = 'montage.ID';
-
-    /**
-     * the column name for the NAME field
-     */
-    const NAME = 'montage.NAME';
-
-    /**
-     * the column name for the DESCRIPTION field
-     */
-    const DESCRIPTION = 'montage.DESCRIPTION';
 
     /**
      * the column name for the TYPE field
@@ -122,12 +112,12 @@ class MontageTableMap extends TableMap
      * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
      */
     protected static $fieldNames = array (
-        self::TYPE_PHPNAME       => array('Id', 'Name', 'Description', 'Type', 'Quantity', 'Unit', 'ExtraQuantityPrice', 'Duration', ),
-        self::TYPE_STUDLYPHPNAME => array('id', 'name', 'description', 'type', 'quantity', 'unit', 'extraQuantityPrice', 'duration', ),
-        self::TYPE_COLNAME       => array(MontageTableMap::ID, MontageTableMap::NAME, MontageTableMap::DESCRIPTION, MontageTableMap::TYPE, MontageTableMap::QUANTITY, MontageTableMap::UNIT, MontageTableMap::EXTRA_QUANTITY_PRICE, MontageTableMap::DURATION, ),
-        self::TYPE_RAW_COLNAME   => array('ID', 'NAME', 'DESCRIPTION', 'TYPE', 'QUANTITY', 'UNIT', 'EXTRA_QUANTITY_PRICE', 'DURATION', ),
-        self::TYPE_FIELDNAME     => array('id', 'name', 'description', 'type', 'quantity', 'unit', 'extra_quantity_price', 'duration', ),
-        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, )
+        self::TYPE_PHPNAME       => array('Id', 'Type', 'Quantity', 'Unit', 'ExtraQuantityPrice', 'Duration', ),
+        self::TYPE_STUDLYPHPNAME => array('id', 'type', 'quantity', 'unit', 'extraQuantityPrice', 'duration', ),
+        self::TYPE_COLNAME       => array(MontageTableMap::ID, MontageTableMap::TYPE, MontageTableMap::QUANTITY, MontageTableMap::UNIT, MontageTableMap::EXTRA_QUANTITY_PRICE, MontageTableMap::DURATION, ),
+        self::TYPE_RAW_COLNAME   => array('ID', 'TYPE', 'QUANTITY', 'UNIT', 'EXTRA_QUANTITY_PRICE', 'DURATION', ),
+        self::TYPE_FIELDNAME     => array('id', 'type', 'quantity', 'unit', 'extra_quantity_price', 'duration', ),
+        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, )
     );
 
     /**
@@ -137,12 +127,12 @@ class MontageTableMap extends TableMap
      * e.g. self::$fieldKeys[self::TYPE_PHPNAME]['Id'] = 0
      */
     protected static $fieldKeys = array (
-        self::TYPE_PHPNAME       => array('Id' => 0, 'Name' => 1, 'Description' => 2, 'Type' => 3, 'Quantity' => 4, 'Unit' => 5, 'ExtraQuantityPrice' => 6, 'Duration' => 7, ),
-        self::TYPE_STUDLYPHPNAME => array('id' => 0, 'name' => 1, 'description' => 2, 'type' => 3, 'quantity' => 4, 'unit' => 5, 'extraQuantityPrice' => 6, 'duration' => 7, ),
-        self::TYPE_COLNAME       => array(MontageTableMap::ID => 0, MontageTableMap::NAME => 1, MontageTableMap::DESCRIPTION => 2, MontageTableMap::TYPE => 3, MontageTableMap::QUANTITY => 4, MontageTableMap::UNIT => 5, MontageTableMap::EXTRA_QUANTITY_PRICE => 6, MontageTableMap::DURATION => 7, ),
-        self::TYPE_RAW_COLNAME   => array('ID' => 0, 'NAME' => 1, 'DESCRIPTION' => 2, 'TYPE' => 3, 'QUANTITY' => 4, 'UNIT' => 5, 'EXTRA_QUANTITY_PRICE' => 6, 'DURATION' => 7, ),
-        self::TYPE_FIELDNAME     => array('id' => 0, 'name' => 1, 'description' => 2, 'type' => 3, 'quantity' => 4, 'unit' => 5, 'extra_quantity_price' => 6, 'duration' => 7, ),
-        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, )
+        self::TYPE_PHPNAME       => array('Id' => 0, 'Type' => 1, 'Quantity' => 2, 'Unit' => 3, 'ExtraQuantityPrice' => 4, 'Duration' => 5, ),
+        self::TYPE_STUDLYPHPNAME => array('id' => 0, 'type' => 1, 'quantity' => 2, 'unit' => 3, 'extraQuantityPrice' => 4, 'duration' => 5, ),
+        self::TYPE_COLNAME       => array(MontageTableMap::ID => 0, MontageTableMap::TYPE => 1, MontageTableMap::QUANTITY => 2, MontageTableMap::UNIT => 3, MontageTableMap::EXTRA_QUANTITY_PRICE => 4, MontageTableMap::DURATION => 5, ),
+        self::TYPE_RAW_COLNAME   => array('ID' => 0, 'TYPE' => 1, 'QUANTITY' => 2, 'UNIT' => 3, 'EXTRA_QUANTITY_PRICE' => 4, 'DURATION' => 5, ),
+        self::TYPE_FIELDNAME     => array('id' => 0, 'type' => 1, 'quantity' => 2, 'unit' => 3, 'extra_quantity_price' => 4, 'duration' => 5, ),
+        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, )
     );
 
     /**
@@ -162,8 +152,6 @@ class MontageTableMap extends TableMap
         $this->setUseIdGenerator(false);
         // columns
         $this->addForeignPrimaryKey('ID', 'Id', 'INTEGER' , 'product', 'ID', true, null, null);
-        $this->addColumn('NAME', 'Name', 'VARCHAR', true, 255, 'montage');
-        $this->addColumn('DESCRIPTION', 'Description', 'VARCHAR', false, 255, null);
         $this->addColumn('TYPE', 'Type', 'VARCHAR', true, 255, 'montage');
         $this->addColumn('QUANTITY', 'Quantity', 'DECIMAL', false, 16, 0);
         $this->addColumn('UNIT', 'Unit', 'VARCHAR', false, 255, 'piece');
@@ -224,7 +212,7 @@ class MontageTableMap extends TableMap
                             : self::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)
                         ];
     }
-
+    
     /**
      * The class that the tableMap will make instances of.
      *
@@ -284,7 +272,7 @@ class MontageTableMap extends TableMap
     public static function populateObjects(DataFetcherInterface $dataFetcher)
     {
         $results = array();
-
+    
         // set the class once to avoid overhead in the loop
         $cls = static::getOMClass(false);
         // populate the object(s)
@@ -321,8 +309,6 @@ class MontageTableMap extends TableMap
     {
         if (null === $alias) {
             $criteria->addSelectColumn(MontageTableMap::ID);
-            $criteria->addSelectColumn(MontageTableMap::NAME);
-            $criteria->addSelectColumn(MontageTableMap::DESCRIPTION);
             $criteria->addSelectColumn(MontageTableMap::TYPE);
             $criteria->addSelectColumn(MontageTableMap::QUANTITY);
             $criteria->addSelectColumn(MontageTableMap::UNIT);
@@ -330,8 +316,6 @@ class MontageTableMap extends TableMap
             $criteria->addSelectColumn(MontageTableMap::DURATION);
         } else {
             $criteria->addSelectColumn($alias . '.ID');
-            $criteria->addSelectColumn($alias . '.NAME');
-            $criteria->addSelectColumn($alias . '.DESCRIPTION');
             $criteria->addSelectColumn($alias . '.TYPE');
             $criteria->addSelectColumn($alias . '.QUANTITY');
             $criteria->addSelectColumn($alias . '.UNIT');

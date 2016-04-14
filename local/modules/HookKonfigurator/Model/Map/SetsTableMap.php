@@ -38,7 +38,7 @@ class SetsTableMap extends TableMap
     /**
      * The default database name for this class
      */
-    const DATABASE_NAME = 'default';
+    const DATABASE_NAME = 'thelia';
 
     /**
      * The table name for this class

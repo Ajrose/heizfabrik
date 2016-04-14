@@ -23,7 +23,7 @@ class Front extends BaseHook{
 
     public function onMiniKonfigurator(HookRenderEvent $event)
     {
-        $content = $this->render('mini-konfigurator.html',array('power'=> 30));
+        $content = $this->render('konfigurator_suggestions.html');
         $event->add($content);
     }
 }

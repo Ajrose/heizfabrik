@@ -38,7 +38,7 @@ class SetProductsTableMap extends TableMap
     /**
      * The default database name for this class
      */
-    const DATABASE_NAME = 'default';
+    const DATABASE_NAME = 'thelia';
 
     /**
      * The table name for this class
@@ -139,12 +139,11 @@ class SetProductsTableMap extends TableMap
         $this->setPhpName('SetProducts');
         $this->setClassName('\\HookKonfigurator\\Model\\SetProducts');
         $this->setPackage('HookKonfigurator.Model');
-        $this->setUseIdGenerator(false);
+        $this->setUseIdGenerator(true);
         // columns
-        $this->addForeignPrimaryKey('ID', 'Id', 'INTEGER' , 'product_heizung', 'PRODUCT_ID', true, null, null);
-        $this->addForeignPrimaryKey('ID', 'Id', 'INTEGER' , 'sets', 'PRODUCT_ID', true, null, null);
-        $this->addColumn('SET_ID', 'SetId', 'INTEGER', true, null, null);
-        $this->addColumn('PRODUCT_ID', 'ProductId', 'INTEGER', true, null, null);
+        $this->addPrimaryKey('ID', 'Id', 'INTEGER', true, null, null);
+        $this->addForeignKey('SET_ID', 'SetId', 'INTEGER', 'sets', 'PRODUCT_ID', true, null, null);
+        $this->addForeignKey('PRODUCT_ID', 'ProductId', 'INTEGER', 'product_heizung', 'PRODUCT_ID', true, null, null);
         $this->addColumn('NUMBER_OF_PRODUCTS', 'NumberOfProducts', 'INTEGER', false, null, null);
     } // initialize()
 
@@ -153,8 +152,8 @@ class SetProductsTableMap extends TableMap
      */
     public function buildRelations()
     {
-        $this->addRelation('ProductHeizung', '\\HookKonfigurator\\Model\\ProductHeizung', RelationMap::MANY_TO_ONE, array('id' => 'product_id', ), 'CASCADE', null);
-        $this->addRelation('Sets', '\\HookKonfigurator\\Model\\Sets', RelationMap::MANY_TO_ONE, array('id' => 'product_id', ), null, null);
+        $this->addRelation('ProductHeizung', '\\HookKonfigurator\\Model\\ProductHeizung', RelationMap::MANY_TO_ONE, array('product_id' => 'product_id', ), 'CASCADE', null);
+        $this->addRelation('Sets', '\\HookKonfigurator\\Model\\Sets', RelationMap::MANY_TO_ONE, array('set_id' => 'product_id', ), 'CASCADE', null);
     } // buildRelations()
 
     /**
@@ -199,7 +198,7 @@ class SetProductsTableMap extends TableMap
                             : self::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)
                         ];
     }
-
+    
     /**
      * The class that the tableMap will make instances of.
      *
@@ -259,7 +258,7 @@ class SetProductsTableMap extends TableMap
     public static function populateObjects(DataFetcherInterface $dataFetcher)
     {
         $results = array();
-
+    
         // set the class once to avoid overhead in the loop
         $cls = static::getOMClass(false);
         // populate the object(s)
@@ -399,6 +398,10 @@ class SetProductsTableMap extends TableMap
             $criteria = clone $criteria; // rename for clarity
         } else {
             $criteria = $criteria->buildCriteria(); // build Criteria from SetProducts object
+        }
+
+        if ($criteria->containsKey(SetProductsTableMap::ID) && $criteria->keyContainsValue(SetProductsTableMap::ID) ) {
+            throw new PropelException('Cannot insert a value for auto-increment primary key ('.SetProductsTableMap::ID.')');
         }
 
 

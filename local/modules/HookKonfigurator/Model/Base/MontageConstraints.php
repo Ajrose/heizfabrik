@@ -21,7 +21,7 @@ use Propel\Runtime\Exception\PropelException;
 use Propel\Runtime\Map\TableMap;
 use Propel\Runtime\Parser\AbstractParser;
 
-abstract class MontageConstraints implements ActiveRecordInterface
+abstract class MontageConstraints implements ActiveRecordInterface 
 {
     /**
      * TableMap class name
@@ -371,7 +371,7 @@ abstract class MontageConstraints implements ActiveRecordInterface
 
     /**
      * Get the [id] column value.
-     *
+     * 
      * @return   int
      */
     public function getId()
@@ -382,7 +382,7 @@ abstract class MontageConstraints implements ActiveRecordInterface
 
     /**
      * Get the [montage_id] column value.
-     *
+     * 
      * @return   int
      */
     public function getMontageId()
@@ -393,7 +393,7 @@ abstract class MontageConstraints implements ActiveRecordInterface
 
     /**
      * Get the [constraints_id] column value.
-     *
+     * 
      * @return   int
      */
     public function getConstraintsId()
@@ -404,7 +404,7 @@ abstract class MontageConstraints implements ActiveRecordInterface
 
     /**
      * Get the [constraint_value] column value.
-     *
+     * 
      * @return   string
      */
     public function getConstraintValue()
@@ -415,7 +415,7 @@ abstract class MontageConstraints implements ActiveRecordInterface
 
     /**
      * Set the value of [id] column.
-     *
+     * 
      * @param      int $v new value
      * @return   \HookKonfigurator\Model\MontageConstraints The current object (for fluent API support)
      */
@@ -430,21 +430,13 @@ abstract class MontageConstraints implements ActiveRecordInterface
             $this->modifiedColumns[MontageConstraintsTableMap::ID] = true;
         }
 
-        if ($this->aConstraints !== null && $this->aConstraints->getId() !== $v) {
-            $this->aConstraints = null;
-        }
-
-        if ($this->aMontage !== null && $this->aMontage->getId() !== $v) {
-            $this->aMontage = null;
-        }
-
 
         return $this;
     } // setId()
 
     /**
      * Set the value of [montage_id] column.
-     *
+     * 
      * @param      int $v new value
      * @return   \HookKonfigurator\Model\MontageConstraints The current object (for fluent API support)
      */
@@ -459,13 +451,17 @@ abstract class MontageConstraints implements ActiveRecordInterface
             $this->modifiedColumns[MontageConstraintsTableMap::MONTAGE_ID] = true;
         }
 
+        if ($this->aMontage !== null && $this->aMontage->getId() !== $v) {
+            $this->aMontage = null;
+        }
+
 
         return $this;
     } // setMontageId()
 
     /**
      * Set the value of [constraints_id] column.
-     *
+     * 
      * @param      int $v new value
      * @return   \HookKonfigurator\Model\MontageConstraints The current object (for fluent API support)
      */
@@ -480,13 +476,17 @@ abstract class MontageConstraints implements ActiveRecordInterface
             $this->modifiedColumns[MontageConstraintsTableMap::CONSTRAINTS_ID] = true;
         }
 
+        if ($this->aConstraints !== null && $this->aConstraints->getId() !== $v) {
+            $this->aConstraints = null;
+        }
+
 
         return $this;
     } // setConstraintsId()
 
     /**
      * Set the value of [constraint_value] column.
-     *
+     * 
      * @param      string $v new value
      * @return   \HookKonfigurator\Model\MontageConstraints The current object (for fluent API support)
      */
@@ -587,11 +587,11 @@ abstract class MontageConstraints implements ActiveRecordInterface
      */
     public function ensureConsistency()
     {
-        if ($this->aConstraints !== null && $this->id !== $this->aConstraints->getId()) {
-            $this->aConstraints = null;
-        }
-        if ($this->aMontage !== null && $this->id !== $this->aMontage->getId()) {
+        if ($this->aMontage !== null && $this->montage_id !== $this->aMontage->getId()) {
             $this->aMontage = null;
+        }
+        if ($this->aConstraints !== null && $this->constraints_id !== $this->aConstraints->getId()) {
+            $this->aConstraints = null;
         }
     } // ensureConsistency
 
@@ -795,6 +795,10 @@ abstract class MontageConstraints implements ActiveRecordInterface
         $modifiedColumns = array();
         $index = 0;
 
+        $this->modifiedColumns[MontageConstraintsTableMap::ID] = true;
+        if (null !== $this->id) {
+            throw new PropelException('Cannot insert a value for auto-increment primary key (' . MontageConstraintsTableMap::ID . ')');
+        }
 
          // check the columns in natural order for more readable SQL queries
         if ($this->isColumnModified(MontageConstraintsTableMap::ID)) {
@@ -820,16 +824,16 @@ abstract class MontageConstraints implements ActiveRecordInterface
             $stmt = $con->prepare($sql);
             foreach ($modifiedColumns as $identifier => $columnName) {
                 switch ($columnName) {
-                    case 'ID':
+                    case 'ID':                        
                         $stmt->bindValue($identifier, $this->id, PDO::PARAM_INT);
                         break;
-                    case 'MONTAGE_ID':
+                    case 'MONTAGE_ID':                        
                         $stmt->bindValue($identifier, $this->montage_id, PDO::PARAM_INT);
                         break;
-                    case 'CONSTRAINTS_ID':
+                    case 'CONSTRAINTS_ID':                        
                         $stmt->bindValue($identifier, $this->constraints_id, PDO::PARAM_INT);
                         break;
-                    case 'CONSTRAINT_VALUE':
+                    case 'CONSTRAINT_VALUE':                        
                         $stmt->bindValue($identifier, $this->constraint_value, PDO::PARAM_STR);
                         break;
                 }
@@ -839,6 +843,13 @@ abstract class MontageConstraints implements ActiveRecordInterface
             Propel::log($e->getMessage(), Propel::LOG_ERR);
             throw new PropelException(sprintf('Unable to execute INSERT statement [%s]', $sql), 0, $e);
         }
+
+        try {
+            $pk = $con->lastInsertId();
+        } catch (Exception $e) {
+            throw new PropelException('Unable to get autoincrement id.', 0, $e);
+        }
+        $this->setId($pk);
 
         $this->setNew(false);
     }
@@ -937,7 +948,7 @@ abstract class MontageConstraints implements ActiveRecordInterface
         foreach ($virtualColumns as $key => $virtualColumn) {
             $result[$key] = $virtualColumn;
         }
-
+        
         if ($includeForeignObjects) {
             if (null !== $this->aConstraints) {
                 $result['Constraints'] = $this->aConstraints->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
@@ -1097,12 +1108,12 @@ abstract class MontageConstraints implements ActiveRecordInterface
      */
     public function copyInto($copyObj, $deepCopy = false, $makeNew = true)
     {
-        $copyObj->setId($this->getId());
         $copyObj->setMontageId($this->getMontageId());
         $copyObj->setConstraintsId($this->getConstraintsId());
         $copyObj->setConstraintValue($this->getConstraintValue());
         if ($makeNew) {
             $copyObj->setNew(true);
+            $copyObj->setId(NULL); // this is a auto-increment column, so set to default value
         }
     }
 
@@ -1138,16 +1149,17 @@ abstract class MontageConstraints implements ActiveRecordInterface
     public function setConstraints(ChildConstraints $v = null)
     {
         if ($v === null) {
-            $this->setId(NULL);
+            $this->setConstraintsId(NULL);
         } else {
-            $this->setId($v->getId());
+            $this->setConstraintsId($v->getId());
         }
 
         $this->aConstraints = $v;
 
-        // Add binding for other direction of this 1:1 relationship.
+        // Add binding for other direction of this n:n relationship.
+        // If this object has already been added to the ChildConstraints object, it will not be re-added.
         if ($v !== null) {
-            $v->setMontageConstraints($this);
+            $v->addMontageConstraints($this);
         }
 
 
@@ -1164,10 +1176,15 @@ abstract class MontageConstraints implements ActiveRecordInterface
      */
     public function getConstraints(ConnectionInterface $con = null)
     {
-        if ($this->aConstraints === null && ($this->id !== null)) {
-            $this->aConstraints = ChildConstraintsQuery::create()->findPk($this->id, $con);
-            // Because this foreign key represents a one-to-one relationship, we will create a bi-directional association.
-            $this->aConstraints->setMontageConstraints($this);
+        if ($this->aConstraints === null && ($this->constraints_id !== null)) {
+            $this->aConstraints = ChildConstraintsQuery::create()->findPk($this->constraints_id, $con);
+            /* The following can be used additionally to
+                guarantee the related object contains a reference
+                to this object.  This level of coupling may, however, be
+                undesirable since it could result in an only partially populated collection
+                in the referenced object.
+                $this->aConstraints->addMontageConstraintss($this);
+             */
         }
 
         return $this->aConstraints;
@@ -1183,16 +1200,17 @@ abstract class MontageConstraints implements ActiveRecordInterface
     public function setMontage(ChildMontage $v = null)
     {
         if ($v === null) {
-            $this->setId(NULL);
+            $this->setMontageId(NULL);
         } else {
-            $this->setId($v->getId());
+            $this->setMontageId($v->getId());
         }
 
         $this->aMontage = $v;
 
-        // Add binding for other direction of this 1:1 relationship.
+        // Add binding for other direction of this n:n relationship.
+        // If this object has already been added to the ChildMontage object, it will not be re-added.
         if ($v !== null) {
-            $v->setMontageConstraints($this);
+            $v->addMontageConstraints($this);
         }
 
 
@@ -1209,10 +1227,15 @@ abstract class MontageConstraints implements ActiveRecordInterface
      */
     public function getMontage(ConnectionInterface $con = null)
     {
-        if ($this->aMontage === null && ($this->id !== null)) {
-            $this->aMontage = ChildMontageQuery::create()->findPk($this->id, $con);
-            // Because this foreign key represents a one-to-one relationship, we will create a bi-directional association.
-            $this->aMontage->setMontageConstraints($this);
+        if ($this->aMontage === null && ($this->montage_id !== null)) {
+            $this->aMontage = ChildMontageQuery::create()->findPk($this->montage_id, $con);
+            /* The following can be used additionally to
+                guarantee the related object contains a reference
+                to this object.  This level of coupling may, however, be
+                undesirable since it could result in an only partially populated collection
+                in the referenced object.
+                $this->aMontage->addMontageConstraintss($this);
+             */
         }
 
         return $this->aMontage;

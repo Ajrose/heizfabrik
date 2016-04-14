@@ -19,11 +19,9 @@ use Propel\Runtime\Exception\PropelException;
 /**
  * Base class that represents a query for the 'montage' table.
  *
- *
+ * 
  *
  * @method     ChildMontageQuery orderById($order = Criteria::ASC) Order by the id column
- * @method     ChildMontageQuery orderByName($order = Criteria::ASC) Order by the name column
- * @method     ChildMontageQuery orderByDescription($order = Criteria::ASC) Order by the description column
  * @method     ChildMontageQuery orderByType($order = Criteria::ASC) Order by the type column
  * @method     ChildMontageQuery orderByQuantity($order = Criteria::ASC) Order by the quantity column
  * @method     ChildMontageQuery orderByUnit($order = Criteria::ASC) Order by the unit column
@@ -31,8 +29,6 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildMontageQuery orderByDuration($order = Criteria::ASC) Order by the duration column
  *
  * @method     ChildMontageQuery groupById() Group by the id column
- * @method     ChildMontageQuery groupByName() Group by the name column
- * @method     ChildMontageQuery groupByDescription() Group by the description column
  * @method     ChildMontageQuery groupByType() Group by the type column
  * @method     ChildMontageQuery groupByQuantity() Group by the quantity column
  * @method     ChildMontageQuery groupByUnit() Group by the unit column
@@ -63,8 +59,6 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildMontage findOneOrCreate(ConnectionInterface $con = null) Return the first ChildMontage matching the query, or a new ChildMontage object populated from the query conditions when no match is found
  *
  * @method     ChildMontage findOneById(int $id) Return the first ChildMontage filtered by the id column
- * @method     ChildMontage findOneByName(string $name) Return the first ChildMontage filtered by the name column
- * @method     ChildMontage findOneByDescription(string $description) Return the first ChildMontage filtered by the description column
  * @method     ChildMontage findOneByType(string $type) Return the first ChildMontage filtered by the type column
  * @method     ChildMontage findOneByQuantity(string $quantity) Return the first ChildMontage filtered by the quantity column
  * @method     ChildMontage findOneByUnit(string $unit) Return the first ChildMontage filtered by the unit column
@@ -72,8 +66,6 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildMontage findOneByDuration(int $duration) Return the first ChildMontage filtered by the duration column
  *
  * @method     array findById(int $id) Return ChildMontage objects filtered by the id column
- * @method     array findByName(string $name) Return ChildMontage objects filtered by the name column
- * @method     array findByDescription(string $description) Return ChildMontage objects filtered by the description column
  * @method     array findByType(string $type) Return ChildMontage objects filtered by the type column
  * @method     array findByQuantity(string $quantity) Return ChildMontage objects filtered by the quantity column
  * @method     array findByUnit(string $unit) Return ChildMontage objects filtered by the unit column
@@ -83,7 +75,7 @@ use Propel\Runtime\Exception\PropelException;
  */
 abstract class MontageQuery extends ModelCriteria
 {
-
+    
     /**
      * Initializes internal state of \HookKonfigurator\Model\Base\MontageQuery object.
      *
@@ -91,7 +83,7 @@ abstract class MontageQuery extends ModelCriteria
      * @param     string $modelName The phpName of a model, e.g. 'Book'
      * @param     string $modelAlias The alias for the model in this query, e.g. 'b'
      */
-    public function __construct($dbName = 'default', $modelName = '\\HookKonfigurator\\Model\\Montage', $modelAlias = null)
+    public function __construct($dbName = 'thelia', $modelName = '\\HookKonfigurator\\Model\\Montage', $modelAlias = null)
     {
         parent::__construct($dbName, $modelName, $modelAlias);
     }
@@ -167,9 +159,9 @@ abstract class MontageQuery extends ModelCriteria
      */
     protected function findPkSimple($key, $con)
     {
-        $sql = 'SELECT ID, NAME, DESCRIPTION, TYPE, QUANTITY, UNIT, EXTRA_QUANTITY_PRICE, DURATION FROM montage WHERE ID = :p0';
+        $sql = 'SELECT ID, TYPE, QUANTITY, UNIT, EXTRA_QUANTITY_PRICE, DURATION FROM montage WHERE ID = :p0';
         try {
-            $stmt = $con->prepare($sql);
+            $stmt = $con->prepare($sql);            
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
             $stmt->execute();
         } catch (Exception $e) {
@@ -297,64 +289,6 @@ abstract class MontageQuery extends ModelCriteria
         }
 
         return $this->addUsingAlias(MontageTableMap::ID, $id, $comparison);
-    }
-
-    /**
-     * Filter the query on the name column
-     *
-     * Example usage:
-     * <code>
-     * $query->filterByName('fooValue');   // WHERE name = 'fooValue'
-     * $query->filterByName('%fooValue%'); // WHERE name LIKE '%fooValue%'
-     * </code>
-     *
-     * @param     string $name The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
-     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-     *
-     * @return ChildMontageQuery The current query, for fluid interface
-     */
-    public function filterByName($name = null, $comparison = null)
-    {
-        if (null === $comparison) {
-            if (is_array($name)) {
-                $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $name)) {
-                $name = str_replace('*', '%', $name);
-                $comparison = Criteria::LIKE;
-            }
-        }
-
-        return $this->addUsingAlias(MontageTableMap::NAME, $name, $comparison);
-    }
-
-    /**
-     * Filter the query on the description column
-     *
-     * Example usage:
-     * <code>
-     * $query->filterByDescription('fooValue');   // WHERE description = 'fooValue'
-     * $query->filterByDescription('%fooValue%'); // WHERE description LIKE '%fooValue%'
-     * </code>
-     *
-     * @param     string $description The value to use as filter.
-     *              Accepts wildcards (* and % trigger a LIKE)
-     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-     *
-     * @return ChildMontageQuery The current query, for fluid interface
-     */
-    public function filterByDescription($description = null, $comparison = null)
-    {
-        if (null === $comparison) {
-            if (is_array($description)) {
-                $comparison = Criteria::IN;
-            } elseif (preg_match('/[\%\*]/', $description)) {
-                $description = str_replace('*', '%', $description);
-                $comparison = Criteria::LIKE;
-            }
-        }
-
-        return $this->addUsingAlias(MontageTableMap::DESCRIPTION, $description, $comparison);
     }
 
     /**
@@ -908,10 +842,10 @@ abstract class MontageQuery extends ModelCriteria
             // use transaction because $criteria could contain info
             // for more than one table or we could emulating ON DELETE CASCADE, etc.
             $con->beginTransaction();
-
+            
 
         MontageTableMap::removeInstanceFromPool($criteria);
-
+        
             $affectedRows += ModelCriteria::delete($con);
             MontageTableMap::clearRelatedInstancePool();
             $con->commit();

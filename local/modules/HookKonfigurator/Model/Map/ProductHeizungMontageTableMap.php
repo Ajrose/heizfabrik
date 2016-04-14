@@ -38,7 +38,7 @@ class ProductHeizungMontageTableMap extends TableMap
     /**
      * The default database name for this class
      */
-    const DATABASE_NAME = 'default';
+    const DATABASE_NAME = 'thelia';
 
     /**
      * The table name for this class
@@ -134,12 +134,11 @@ class ProductHeizungMontageTableMap extends TableMap
         $this->setPhpName('ProductHeizungMontage');
         $this->setClassName('\\HookKonfigurator\\Model\\ProductHeizungMontage');
         $this->setPackage('HookKonfigurator.Model');
-        $this->setUseIdGenerator(false);
+        $this->setUseIdGenerator(true);
         // columns
-        $this->addForeignPrimaryKey('ID', 'Id', 'INTEGER' , 'montage', 'ID', true, null, null);
-        $this->addForeignPrimaryKey('ID', 'Id', 'INTEGER' , 'product_heizung', 'PRODUCT_ID', true, null, null);
-        $this->addColumn('PRODUCT_HEIZUNG_ID', 'ProductHeizungId', 'INTEGER', true, null, null);
-        $this->addColumn('MONTAGE_ID', 'MontageId', 'INTEGER', true, null, null);
+        $this->addPrimaryKey('ID', 'Id', 'INTEGER', true, null, null);
+        $this->addForeignKey('PRODUCT_HEIZUNG_ID', 'ProductHeizungId', 'INTEGER', 'product_heizung', 'PRODUCT_ID', true, null, null);
+        $this->addForeignKey('MONTAGE_ID', 'MontageId', 'INTEGER', 'montage', 'ID', true, null, null);
     } // initialize()
 
     /**
@@ -147,8 +146,8 @@ class ProductHeizungMontageTableMap extends TableMap
      */
     public function buildRelations()
     {
-        $this->addRelation('Montage', '\\HookKonfigurator\\Model\\Montage', RelationMap::MANY_TO_ONE, array('id' => 'id', ), null, null);
-        $this->addRelation('ProductHeizung', '\\HookKonfigurator\\Model\\ProductHeizung', RelationMap::MANY_TO_ONE, array('id' => 'product_id', ), null, null);
+        $this->addRelation('Montage', '\\HookKonfigurator\\Model\\Montage', RelationMap::MANY_TO_ONE, array('montage_id' => 'id', ), 'CASCADE', null);
+        $this->addRelation('ProductHeizung', '\\HookKonfigurator\\Model\\ProductHeizung', RelationMap::MANY_TO_ONE, array('product_heizung_id' => 'product_id', ), 'CASCADE', null);
     } // buildRelations()
 
     /**
@@ -193,7 +192,7 @@ class ProductHeizungMontageTableMap extends TableMap
                             : self::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)
                         ];
     }
-
+    
     /**
      * The class that the tableMap will make instances of.
      *
@@ -253,7 +252,7 @@ class ProductHeizungMontageTableMap extends TableMap
     public static function populateObjects(DataFetcherInterface $dataFetcher)
     {
         $results = array();
-
+    
         // set the class once to avoid overhead in the loop
         $cls = static::getOMClass(false);
         // populate the object(s)
@@ -391,6 +390,10 @@ class ProductHeizungMontageTableMap extends TableMap
             $criteria = clone $criteria; // rename for clarity
         } else {
             $criteria = $criteria->buildCriteria(); // build Criteria from ProductHeizungMontage object
+        }
+
+        if ($criteria->containsKey(ProductHeizungMontageTableMap::ID) && $criteria->keyContainsValue(ProductHeizungMontageTableMap::ID) ) {
+            throw new PropelException('Cannot insert a value for auto-increment primary key ('.ProductHeizungMontageTableMap::ID.')');
         }
 
 

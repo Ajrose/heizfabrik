@@ -19,7 +19,7 @@ use Propel\Runtime\Exception\PropelException;
 /**
  * Base class that represents a query for the 'set_products' table.
  *
- *
+ * 
  *
  * @method     ChildSetProductsQuery orderById($order = Criteria::ASC) Order by the id column
  * @method     ChildSetProductsQuery orderBySetId($order = Criteria::ASC) Order by the set_id column
@@ -59,7 +59,7 @@ use Propel\Runtime\Exception\PropelException;
  */
 abstract class SetProductsQuery extends ModelCriteria
 {
-
+    
     /**
      * Initializes internal state of \HookKonfigurator\Model\Base\SetProductsQuery object.
      *
@@ -67,7 +67,7 @@ abstract class SetProductsQuery extends ModelCriteria
      * @param     string $modelName The phpName of a model, e.g. 'Book'
      * @param     string $modelAlias The alias for the model in this query, e.g. 'b'
      */
-    public function __construct($dbName = 'default', $modelName = '\\HookKonfigurator\\Model\\SetProducts', $modelAlias = null)
+    public function __construct($dbName = 'thelia', $modelName = '\\HookKonfigurator\\Model\\SetProducts', $modelAlias = null)
     {
         parent::__construct($dbName, $modelName, $modelAlias);
     }
@@ -145,7 +145,7 @@ abstract class SetProductsQuery extends ModelCriteria
     {
         $sql = 'SELECT ID, SET_ID, PRODUCT_ID, NUMBER_OF_PRODUCTS FROM set_products WHERE ID = :p0';
         try {
-            $stmt = $con->prepare($sql);
+            $stmt = $con->prepare($sql);            
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
             $stmt->execute();
         } catch (Exception $e) {
@@ -242,10 +242,6 @@ abstract class SetProductsQuery extends ModelCriteria
      * $query->filterById(array('min' => 12)); // WHERE id > 12
      * </code>
      *
-     * @see       filterByProductHeizung()
-     *
-     * @see       filterBySets()
-     *
      * @param     mixed $id The value to use as filter.
      *              Use scalar values for equality.
      *              Use array values for in_array() equivalent.
@@ -287,6 +283,8 @@ abstract class SetProductsQuery extends ModelCriteria
      * $query->filterBySetId(array('min' => 12)); // WHERE set_id > 12
      * </code>
      *
+     * @see       filterBySets()
+     *
      * @param     mixed $setId The value to use as filter.
      *              Use scalar values for equality.
      *              Use array values for in_array() equivalent.
@@ -327,6 +325,8 @@ abstract class SetProductsQuery extends ModelCriteria
      * $query->filterByProductId(array(12, 34)); // WHERE product_id IN (12, 34)
      * $query->filterByProductId(array('min' => 12)); // WHERE product_id > 12
      * </code>
+     *
+     * @see       filterByProductHeizung()
      *
      * @param     mixed $productId The value to use as filter.
      *              Use scalar values for equality.
@@ -412,14 +412,14 @@ abstract class SetProductsQuery extends ModelCriteria
     {
         if ($productHeizung instanceof \HookKonfigurator\Model\ProductHeizung) {
             return $this
-                ->addUsingAlias(SetProductsTableMap::ID, $productHeizung->getProductId(), $comparison);
+                ->addUsingAlias(SetProductsTableMap::PRODUCT_ID, $productHeizung->getProductId(), $comparison);
         } elseif ($productHeizung instanceof ObjectCollection) {
             if (null === $comparison) {
                 $comparison = Criteria::IN;
             }
 
             return $this
-                ->addUsingAlias(SetProductsTableMap::ID, $productHeizung->toKeyValue('PrimaryKey', 'ProductId'), $comparison);
+                ->addUsingAlias(SetProductsTableMap::PRODUCT_ID, $productHeizung->toKeyValue('PrimaryKey', 'ProductId'), $comparison);
         } else {
             throw new PropelException('filterByProductHeizung() only accepts arguments of type \HookKonfigurator\Model\ProductHeizung or Collection');
         }
@@ -487,14 +487,14 @@ abstract class SetProductsQuery extends ModelCriteria
     {
         if ($sets instanceof \HookKonfigurator\Model\Sets) {
             return $this
-                ->addUsingAlias(SetProductsTableMap::ID, $sets->getProductId(), $comparison);
+                ->addUsingAlias(SetProductsTableMap::SET_ID, $sets->getProductId(), $comparison);
         } elseif ($sets instanceof ObjectCollection) {
             if (null === $comparison) {
                 $comparison = Criteria::IN;
             }
 
             return $this
-                ->addUsingAlias(SetProductsTableMap::ID, $sets->toKeyValue('PrimaryKey', 'ProductId'), $comparison);
+                ->addUsingAlias(SetProductsTableMap::SET_ID, $sets->toKeyValue('PrimaryKey', 'ProductId'), $comparison);
         } else {
             throw new PropelException('filterBySets() only accepts arguments of type \HookKonfigurator\Model\Sets or Collection');
         }
@@ -626,10 +626,10 @@ abstract class SetProductsQuery extends ModelCriteria
             // use transaction because $criteria could contain info
             // for more than one table or we could emulating ON DELETE CASCADE, etc.
             $con->beginTransaction();
-
+            
 
         SetProductsTableMap::removeInstanceFromPool($criteria);
-
+        
             $affectedRows += ModelCriteria::delete($con);
             SetProductsTableMap::clearRelatedInstancePool();
             $con->commit();

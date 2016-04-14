@@ -38,7 +38,7 @@ class ConstraintsTableMap extends TableMap
     /**
      * The default database name for this class
      */
-    const DATABASE_NAME = 'default';
+    const DATABASE_NAME = 'thelia';
 
     /**
      * The table name for this class
@@ -139,7 +139,7 @@ class ConstraintsTableMap extends TableMap
         $this->setPhpName('Constraints');
         $this->setClassName('\\HookKonfigurator\\Model\\Constraints');
         $this->setPackage('HookKonfigurator.Model');
-        $this->setUseIdGenerator(false);
+        $this->setUseIdGenerator(true);
         // columns
         $this->addPrimaryKey('ID', 'Id', 'INTEGER', true, null, null);
         $this->addColumn('NAME', 'Name', 'VARCHAR', false, 255, null);
@@ -197,7 +197,7 @@ class ConstraintsTableMap extends TableMap
                             : self::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)
                         ];
     }
-
+    
     /**
      * The class that the tableMap will make instances of.
      *
@@ -257,7 +257,7 @@ class ConstraintsTableMap extends TableMap
     public static function populateObjects(DataFetcherInterface $dataFetcher)
     {
         $results = array();
-
+    
         // set the class once to avoid overhead in the loop
         $cls = static::getOMClass(false);
         // populate the object(s)
@@ -397,6 +397,10 @@ class ConstraintsTableMap extends TableMap
             $criteria = clone $criteria; // rename for clarity
         } else {
             $criteria = $criteria->buildCriteria(); // build Criteria from Constraints object
+        }
+
+        if ($criteria->containsKey(ConstraintsTableMap::ID) && $criteria->keyContainsValue(ConstraintsTableMap::ID) ) {
+            throw new PropelException('Cannot insert a value for auto-increment primary key ('.ConstraintsTableMap::ID.')');
         }
 
 

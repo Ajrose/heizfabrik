@@ -21,7 +21,7 @@ use Propel\Runtime\Exception\PropelException;
 use Propel\Runtime\Map\TableMap;
 use Propel\Runtime\Parser\AbstractParser;
 
-abstract class ProductHeizungMontage implements ActiveRecordInterface
+abstract class ProductHeizungMontage implements ActiveRecordInterface 
 {
     /**
      * TableMap class name
@@ -351,7 +351,7 @@ abstract class ProductHeizungMontage implements ActiveRecordInterface
 
     /**
      * Get the [id] column value.
-     *
+     * 
      * @return   int
      */
     public function getId()
@@ -362,7 +362,7 @@ abstract class ProductHeizungMontage implements ActiveRecordInterface
 
     /**
      * Get the [product_heizung_id] column value.
-     *
+     * 
      * @return   int
      */
     public function getProductHeizungId()
@@ -373,7 +373,7 @@ abstract class ProductHeizungMontage implements ActiveRecordInterface
 
     /**
      * Get the [montage_id] column value.
-     *
+     * 
      * @return   int
      */
     public function getMontageId()
@@ -384,7 +384,7 @@ abstract class ProductHeizungMontage implements ActiveRecordInterface
 
     /**
      * Set the value of [id] column.
-     *
+     * 
      * @param      int $v new value
      * @return   \HookKonfigurator\Model\ProductHeizungMontage The current object (for fluent API support)
      */
@@ -399,21 +399,13 @@ abstract class ProductHeizungMontage implements ActiveRecordInterface
             $this->modifiedColumns[ProductHeizungMontageTableMap::ID] = true;
         }
 
-        if ($this->aMontage !== null && $this->aMontage->getId() !== $v) {
-            $this->aMontage = null;
-        }
-
-        if ($this->aProductHeizung !== null && $this->aProductHeizung->getProductId() !== $v) {
-            $this->aProductHeizung = null;
-        }
-
 
         return $this;
     } // setId()
 
     /**
      * Set the value of [product_heizung_id] column.
-     *
+     * 
      * @param      int $v new value
      * @return   \HookKonfigurator\Model\ProductHeizungMontage The current object (for fluent API support)
      */
@@ -428,13 +420,17 @@ abstract class ProductHeizungMontage implements ActiveRecordInterface
             $this->modifiedColumns[ProductHeizungMontageTableMap::PRODUCT_HEIZUNG_ID] = true;
         }
 
+        if ($this->aProductHeizung !== null && $this->aProductHeizung->getProductId() !== $v) {
+            $this->aProductHeizung = null;
+        }
+
 
         return $this;
     } // setProductHeizungId()
 
     /**
      * Set the value of [montage_id] column.
-     *
+     * 
      * @param      int $v new value
      * @return   \HookKonfigurator\Model\ProductHeizungMontage The current object (for fluent API support)
      */
@@ -447,6 +443,10 @@ abstract class ProductHeizungMontage implements ActiveRecordInterface
         if ($this->montage_id !== $v) {
             $this->montage_id = $v;
             $this->modifiedColumns[ProductHeizungMontageTableMap::MONTAGE_ID] = true;
+        }
+
+        if ($this->aMontage !== null && $this->aMontage->getId() !== $v) {
+            $this->aMontage = null;
         }
 
 
@@ -528,11 +528,11 @@ abstract class ProductHeizungMontage implements ActiveRecordInterface
      */
     public function ensureConsistency()
     {
-        if ($this->aMontage !== null && $this->id !== $this->aMontage->getId()) {
-            $this->aMontage = null;
-        }
-        if ($this->aProductHeizung !== null && $this->id !== $this->aProductHeizung->getProductId()) {
+        if ($this->aProductHeizung !== null && $this->product_heizung_id !== $this->aProductHeizung->getProductId()) {
             $this->aProductHeizung = null;
+        }
+        if ($this->aMontage !== null && $this->montage_id !== $this->aMontage->getId()) {
+            $this->aMontage = null;
         }
     } // ensureConsistency
 
@@ -736,6 +736,10 @@ abstract class ProductHeizungMontage implements ActiveRecordInterface
         $modifiedColumns = array();
         $index = 0;
 
+        $this->modifiedColumns[ProductHeizungMontageTableMap::ID] = true;
+        if (null !== $this->id) {
+            throw new PropelException('Cannot insert a value for auto-increment primary key (' . ProductHeizungMontageTableMap::ID . ')');
+        }
 
          // check the columns in natural order for more readable SQL queries
         if ($this->isColumnModified(ProductHeizungMontageTableMap::ID)) {
@@ -758,13 +762,13 @@ abstract class ProductHeizungMontage implements ActiveRecordInterface
             $stmt = $con->prepare($sql);
             foreach ($modifiedColumns as $identifier => $columnName) {
                 switch ($columnName) {
-                    case 'ID':
+                    case 'ID':                        
                         $stmt->bindValue($identifier, $this->id, PDO::PARAM_INT);
                         break;
-                    case 'PRODUCT_HEIZUNG_ID':
+                    case 'PRODUCT_HEIZUNG_ID':                        
                         $stmt->bindValue($identifier, $this->product_heizung_id, PDO::PARAM_INT);
                         break;
-                    case 'MONTAGE_ID':
+                    case 'MONTAGE_ID':                        
                         $stmt->bindValue($identifier, $this->montage_id, PDO::PARAM_INT);
                         break;
                 }
@@ -774,6 +778,13 @@ abstract class ProductHeizungMontage implements ActiveRecordInterface
             Propel::log($e->getMessage(), Propel::LOG_ERR);
             throw new PropelException(sprintf('Unable to execute INSERT statement [%s]', $sql), 0, $e);
         }
+
+        try {
+            $pk = $con->lastInsertId();
+        } catch (Exception $e) {
+            throw new PropelException('Unable to get autoincrement id.', 0, $e);
+        }
+        $this->setId($pk);
 
         $this->setNew(false);
     }
@@ -868,7 +879,7 @@ abstract class ProductHeizungMontage implements ActiveRecordInterface
         foreach ($virtualColumns as $key => $virtualColumn) {
             $result[$key] = $virtualColumn;
         }
-
+        
         if ($includeForeignObjects) {
             if (null !== $this->aMontage) {
                 $result['Montage'] = $this->aMontage->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
@@ -1023,11 +1034,11 @@ abstract class ProductHeizungMontage implements ActiveRecordInterface
      */
     public function copyInto($copyObj, $deepCopy = false, $makeNew = true)
     {
-        $copyObj->setId($this->getId());
         $copyObj->setProductHeizungId($this->getProductHeizungId());
         $copyObj->setMontageId($this->getMontageId());
         if ($makeNew) {
             $copyObj->setNew(true);
+            $copyObj->setId(NULL); // this is a auto-increment column, so set to default value
         }
     }
 
@@ -1063,16 +1074,17 @@ abstract class ProductHeizungMontage implements ActiveRecordInterface
     public function setMontage(ChildMontage $v = null)
     {
         if ($v === null) {
-            $this->setId(NULL);
+            $this->setMontageId(NULL);
         } else {
-            $this->setId($v->getId());
+            $this->setMontageId($v->getId());
         }
 
         $this->aMontage = $v;
 
-        // Add binding for other direction of this 1:1 relationship.
+        // Add binding for other direction of this n:n relationship.
+        // If this object has already been added to the ChildMontage object, it will not be re-added.
         if ($v !== null) {
-            $v->setProductHeizungMontage($this);
+            $v->addProductHeizungMontage($this);
         }
 
 
@@ -1089,10 +1101,15 @@ abstract class ProductHeizungMontage implements ActiveRecordInterface
      */
     public function getMontage(ConnectionInterface $con = null)
     {
-        if ($this->aMontage === null && ($this->id !== null)) {
-            $this->aMontage = ChildMontageQuery::create()->findPk($this->id, $con);
-            // Because this foreign key represents a one-to-one relationship, we will create a bi-directional association.
-            $this->aMontage->setProductHeizungMontage($this);
+        if ($this->aMontage === null && ($this->montage_id !== null)) {
+            $this->aMontage = ChildMontageQuery::create()->findPk($this->montage_id, $con);
+            /* The following can be used additionally to
+                guarantee the related object contains a reference
+                to this object.  This level of coupling may, however, be
+                undesirable since it could result in an only partially populated collection
+                in the referenced object.
+                $this->aMontage->addProductHeizungMontages($this);
+             */
         }
 
         return $this->aMontage;
@@ -1108,16 +1125,17 @@ abstract class ProductHeizungMontage implements ActiveRecordInterface
     public function setProductHeizung(ChildProductHeizung $v = null)
     {
         if ($v === null) {
-            $this->setId(NULL);
+            $this->setProductHeizungId(NULL);
         } else {
-            $this->setId($v->getProductId());
+            $this->setProductHeizungId($v->getProductId());
         }
 
         $this->aProductHeizung = $v;
 
-        // Add binding for other direction of this 1:1 relationship.
+        // Add binding for other direction of this n:n relationship.
+        // If this object has already been added to the ChildProductHeizung object, it will not be re-added.
         if ($v !== null) {
-            $v->setProductHeizungMontage($this);
+            $v->addProductHeizungMontage($this);
         }
 
 
@@ -1134,10 +1152,15 @@ abstract class ProductHeizungMontage implements ActiveRecordInterface
      */
     public function getProductHeizung(ConnectionInterface $con = null)
     {
-        if ($this->aProductHeizung === null && ($this->id !== null)) {
-            $this->aProductHeizung = ChildProductHeizungQuery::create()->findPk($this->id, $con);
-            // Because this foreign key represents a one-to-one relationship, we will create a bi-directional association.
-            $this->aProductHeizung->setProductHeizungMontage($this);
+        if ($this->aProductHeizung === null && ($this->product_heizung_id !== null)) {
+            $this->aProductHeizung = ChildProductHeizungQuery::create()->findPk($this->product_heizung_id, $con);
+            /* The following can be used additionally to
+                guarantee the related object contains a reference
+                to this object.  This level of coupling may, however, be
+                undesirable since it could result in an only partially populated collection
+                in the referenced object.
+                $this->aProductHeizung->addProductHeizungMontages($this);
+             */
         }
 
         return $this->aProductHeizung;

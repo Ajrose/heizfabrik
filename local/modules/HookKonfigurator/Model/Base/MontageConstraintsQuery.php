@@ -19,7 +19,7 @@ use Propel\Runtime\Exception\PropelException;
 /**
  * Base class that represents a query for the 'montage_constraints' table.
  *
- *
+ * 
  *
  * @method     ChildMontageConstraintsQuery orderById($order = Criteria::ASC) Order by the id column
  * @method     ChildMontageConstraintsQuery orderByMontageId($order = Criteria::ASC) Order by the montage_id column
@@ -59,7 +59,7 @@ use Propel\Runtime\Exception\PropelException;
  */
 abstract class MontageConstraintsQuery extends ModelCriteria
 {
-
+    
     /**
      * Initializes internal state of \HookKonfigurator\Model\Base\MontageConstraintsQuery object.
      *
@@ -67,7 +67,7 @@ abstract class MontageConstraintsQuery extends ModelCriteria
      * @param     string $modelName The phpName of a model, e.g. 'Book'
      * @param     string $modelAlias The alias for the model in this query, e.g. 'b'
      */
-    public function __construct($dbName = 'default', $modelName = '\\HookKonfigurator\\Model\\MontageConstraints', $modelAlias = null)
+    public function __construct($dbName = 'thelia', $modelName = '\\HookKonfigurator\\Model\\MontageConstraints', $modelAlias = null)
     {
         parent::__construct($dbName, $modelName, $modelAlias);
     }
@@ -145,7 +145,7 @@ abstract class MontageConstraintsQuery extends ModelCriteria
     {
         $sql = 'SELECT ID, MONTAGE_ID, CONSTRAINTS_ID, CONSTRAINT_VALUE FROM montage_constraints WHERE ID = :p0';
         try {
-            $stmt = $con->prepare($sql);
+            $stmt = $con->prepare($sql);            
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
             $stmt->execute();
         } catch (Exception $e) {
@@ -242,10 +242,6 @@ abstract class MontageConstraintsQuery extends ModelCriteria
      * $query->filterById(array('min' => 12)); // WHERE id > 12
      * </code>
      *
-     * @see       filterByConstraints()
-     *
-     * @see       filterByMontage()
-     *
      * @param     mixed $id The value to use as filter.
      *              Use scalar values for equality.
      *              Use array values for in_array() equivalent.
@@ -287,6 +283,8 @@ abstract class MontageConstraintsQuery extends ModelCriteria
      * $query->filterByMontageId(array('min' => 12)); // WHERE montage_id > 12
      * </code>
      *
+     * @see       filterByMontage()
+     *
      * @param     mixed $montageId The value to use as filter.
      *              Use scalar values for equality.
      *              Use array values for in_array() equivalent.
@@ -327,6 +325,8 @@ abstract class MontageConstraintsQuery extends ModelCriteria
      * $query->filterByConstraintsId(array(12, 34)); // WHERE constraints_id IN (12, 34)
      * $query->filterByConstraintsId(array('min' => 12)); // WHERE constraints_id > 12
      * </code>
+     *
+     * @see       filterByConstraints()
      *
      * @param     mixed $constraintsId The value to use as filter.
      *              Use scalar values for equality.
@@ -412,14 +412,14 @@ abstract class MontageConstraintsQuery extends ModelCriteria
     {
         if ($constraints instanceof \HookKonfigurator\Model\Constraints) {
             return $this
-                ->addUsingAlias(MontageConstraintsTableMap::ID, $constraints->getId(), $comparison);
+                ->addUsingAlias(MontageConstraintsTableMap::CONSTRAINTS_ID, $constraints->getId(), $comparison);
         } elseif ($constraints instanceof ObjectCollection) {
             if (null === $comparison) {
                 $comparison = Criteria::IN;
             }
 
             return $this
-                ->addUsingAlias(MontageConstraintsTableMap::ID, $constraints->toKeyValue('PrimaryKey', 'Id'), $comparison);
+                ->addUsingAlias(MontageConstraintsTableMap::CONSTRAINTS_ID, $constraints->toKeyValue('PrimaryKey', 'Id'), $comparison);
         } else {
             throw new PropelException('filterByConstraints() only accepts arguments of type \HookKonfigurator\Model\Constraints or Collection');
         }
@@ -487,14 +487,14 @@ abstract class MontageConstraintsQuery extends ModelCriteria
     {
         if ($montage instanceof \HookKonfigurator\Model\Montage) {
             return $this
-                ->addUsingAlias(MontageConstraintsTableMap::ID, $montage->getId(), $comparison);
+                ->addUsingAlias(MontageConstraintsTableMap::MONTAGE_ID, $montage->getId(), $comparison);
         } elseif ($montage instanceof ObjectCollection) {
             if (null === $comparison) {
                 $comparison = Criteria::IN;
             }
 
             return $this
-                ->addUsingAlias(MontageConstraintsTableMap::ID, $montage->toKeyValue('PrimaryKey', 'Id'), $comparison);
+                ->addUsingAlias(MontageConstraintsTableMap::MONTAGE_ID, $montage->toKeyValue('PrimaryKey', 'Id'), $comparison);
         } else {
             throw new PropelException('filterByMontage() only accepts arguments of type \HookKonfigurator\Model\Montage or Collection');
         }
@@ -626,10 +626,10 @@ abstract class MontageConstraintsQuery extends ModelCriteria
             // use transaction because $criteria could contain info
             // for more than one table or we could emulating ON DELETE CASCADE, etc.
             $con->beginTransaction();
-
+            
 
         MontageConstraintsTableMap::removeInstanceFromPool($criteria);
-
+        
             $affectedRows += ModelCriteria::delete($con);
             MontageConstraintsTableMap::clearRelatedInstancePool();
             $con->commit();

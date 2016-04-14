@@ -21,7 +21,7 @@ use Propel\Runtime\Exception\PropelException;
 use Propel\Runtime\Map\TableMap;
 use Propel\Runtime\Parser\AbstractParser;
 
-abstract class SetMontage implements ActiveRecordInterface
+abstract class SetMontage implements ActiveRecordInterface 
 {
     /**
      * TableMap class name
@@ -371,7 +371,7 @@ abstract class SetMontage implements ActiveRecordInterface
 
     /**
      * Get the [id] column value.
-     *
+     * 
      * @return   int
      */
     public function getId()
@@ -382,7 +382,7 @@ abstract class SetMontage implements ActiveRecordInterface
 
     /**
      * Get the [set_id] column value.
-     *
+     * 
      * @return   int
      */
     public function getSetId()
@@ -393,7 +393,7 @@ abstract class SetMontage implements ActiveRecordInterface
 
     /**
      * Get the [montage_id] column value.
-     *
+     * 
      * @return   int
      */
     public function getMontageId()
@@ -404,7 +404,7 @@ abstract class SetMontage implements ActiveRecordInterface
 
     /**
      * Get the [number_of_montage_units] column value.
-     *
+     * 
      * @return   int
      */
     public function getNumberOfMontageUnits()
@@ -415,7 +415,7 @@ abstract class SetMontage implements ActiveRecordInterface
 
     /**
      * Set the value of [id] column.
-     *
+     * 
      * @param      int $v new value
      * @return   \HookKonfigurator\Model\SetMontage The current object (for fluent API support)
      */
@@ -430,21 +430,13 @@ abstract class SetMontage implements ActiveRecordInterface
             $this->modifiedColumns[SetMontageTableMap::ID] = true;
         }
 
-        if ($this->aMontage !== null && $this->aMontage->getId() !== $v) {
-            $this->aMontage = null;
-        }
-
-        if ($this->aSets !== null && $this->aSets->getProductId() !== $v) {
-            $this->aSets = null;
-        }
-
 
         return $this;
     } // setId()
 
     /**
      * Set the value of [set_id] column.
-     *
+     * 
      * @param      int $v new value
      * @return   \HookKonfigurator\Model\SetMontage The current object (for fluent API support)
      */
@@ -459,13 +451,17 @@ abstract class SetMontage implements ActiveRecordInterface
             $this->modifiedColumns[SetMontageTableMap::SET_ID] = true;
         }
 
+        if ($this->aSets !== null && $this->aSets->getProductId() !== $v) {
+            $this->aSets = null;
+        }
+
 
         return $this;
     } // setSetId()
 
     /**
      * Set the value of [montage_id] column.
-     *
+     * 
      * @param      int $v new value
      * @return   \HookKonfigurator\Model\SetMontage The current object (for fluent API support)
      */
@@ -480,13 +476,17 @@ abstract class SetMontage implements ActiveRecordInterface
             $this->modifiedColumns[SetMontageTableMap::MONTAGE_ID] = true;
         }
 
+        if ($this->aMontage !== null && $this->aMontage->getId() !== $v) {
+            $this->aMontage = null;
+        }
+
 
         return $this;
     } // setMontageId()
 
     /**
      * Set the value of [number_of_montage_units] column.
-     *
+     * 
      * @param      int $v new value
      * @return   \HookKonfigurator\Model\SetMontage The current object (for fluent API support)
      */
@@ -587,11 +587,11 @@ abstract class SetMontage implements ActiveRecordInterface
      */
     public function ensureConsistency()
     {
-        if ($this->aMontage !== null && $this->id !== $this->aMontage->getId()) {
-            $this->aMontage = null;
-        }
-        if ($this->aSets !== null && $this->id !== $this->aSets->getProductId()) {
+        if ($this->aSets !== null && $this->set_id !== $this->aSets->getProductId()) {
             $this->aSets = null;
+        }
+        if ($this->aMontage !== null && $this->montage_id !== $this->aMontage->getId()) {
+            $this->aMontage = null;
         }
     } // ensureConsistency
 
@@ -795,6 +795,10 @@ abstract class SetMontage implements ActiveRecordInterface
         $modifiedColumns = array();
         $index = 0;
 
+        $this->modifiedColumns[SetMontageTableMap::ID] = true;
+        if (null !== $this->id) {
+            throw new PropelException('Cannot insert a value for auto-increment primary key (' . SetMontageTableMap::ID . ')');
+        }
 
          // check the columns in natural order for more readable SQL queries
         if ($this->isColumnModified(SetMontageTableMap::ID)) {
@@ -820,16 +824,16 @@ abstract class SetMontage implements ActiveRecordInterface
             $stmt = $con->prepare($sql);
             foreach ($modifiedColumns as $identifier => $columnName) {
                 switch ($columnName) {
-                    case 'ID':
+                    case 'ID':                        
                         $stmt->bindValue($identifier, $this->id, PDO::PARAM_INT);
                         break;
-                    case 'SET_ID':
+                    case 'SET_ID':                        
                         $stmt->bindValue($identifier, $this->set_id, PDO::PARAM_INT);
                         break;
-                    case 'MONTAGE_ID':
+                    case 'MONTAGE_ID':                        
                         $stmt->bindValue($identifier, $this->montage_id, PDO::PARAM_INT);
                         break;
-                    case 'NUMBER_OF_MONTAGE_UNITS':
+                    case 'NUMBER_OF_MONTAGE_UNITS':                        
                         $stmt->bindValue($identifier, $this->number_of_montage_units, PDO::PARAM_INT);
                         break;
                 }
@@ -839,6 +843,13 @@ abstract class SetMontage implements ActiveRecordInterface
             Propel::log($e->getMessage(), Propel::LOG_ERR);
             throw new PropelException(sprintf('Unable to execute INSERT statement [%s]', $sql), 0, $e);
         }
+
+        try {
+            $pk = $con->lastInsertId();
+        } catch (Exception $e) {
+            throw new PropelException('Unable to get autoincrement id.', 0, $e);
+        }
+        $this->setId($pk);
 
         $this->setNew(false);
     }
@@ -937,7 +948,7 @@ abstract class SetMontage implements ActiveRecordInterface
         foreach ($virtualColumns as $key => $virtualColumn) {
             $result[$key] = $virtualColumn;
         }
-
+        
         if ($includeForeignObjects) {
             if (null !== $this->aMontage) {
                 $result['Montage'] = $this->aMontage->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
@@ -1097,12 +1108,12 @@ abstract class SetMontage implements ActiveRecordInterface
      */
     public function copyInto($copyObj, $deepCopy = false, $makeNew = true)
     {
-        $copyObj->setId($this->getId());
         $copyObj->setSetId($this->getSetId());
         $copyObj->setMontageId($this->getMontageId());
         $copyObj->setNumberOfMontageUnits($this->getNumberOfMontageUnits());
         if ($makeNew) {
             $copyObj->setNew(true);
+            $copyObj->setId(NULL); // this is a auto-increment column, so set to default value
         }
     }
 
@@ -1138,16 +1149,17 @@ abstract class SetMontage implements ActiveRecordInterface
     public function setMontage(ChildMontage $v = null)
     {
         if ($v === null) {
-            $this->setId(NULL);
+            $this->setMontageId(NULL);
         } else {
-            $this->setId($v->getId());
+            $this->setMontageId($v->getId());
         }
 
         $this->aMontage = $v;
 
-        // Add binding for other direction of this 1:1 relationship.
+        // Add binding for other direction of this n:n relationship.
+        // If this object has already been added to the ChildMontage object, it will not be re-added.
         if ($v !== null) {
-            $v->setSetMontage($this);
+            $v->addSetMontage($this);
         }
 
 
@@ -1164,10 +1176,15 @@ abstract class SetMontage implements ActiveRecordInterface
      */
     public function getMontage(ConnectionInterface $con = null)
     {
-        if ($this->aMontage === null && ($this->id !== null)) {
-            $this->aMontage = ChildMontageQuery::create()->findPk($this->id, $con);
-            // Because this foreign key represents a one-to-one relationship, we will create a bi-directional association.
-            $this->aMontage->setSetMontage($this);
+        if ($this->aMontage === null && ($this->montage_id !== null)) {
+            $this->aMontage = ChildMontageQuery::create()->findPk($this->montage_id, $con);
+            /* The following can be used additionally to
+                guarantee the related object contains a reference
+                to this object.  This level of coupling may, however, be
+                undesirable since it could result in an only partially populated collection
+                in the referenced object.
+                $this->aMontage->addSetMontages($this);
+             */
         }
 
         return $this->aMontage;
@@ -1183,16 +1200,17 @@ abstract class SetMontage implements ActiveRecordInterface
     public function setSets(ChildSets $v = null)
     {
         if ($v === null) {
-            $this->setId(NULL);
+            $this->setSetId(NULL);
         } else {
-            $this->setId($v->getProductId());
+            $this->setSetId($v->getProductId());
         }
 
         $this->aSets = $v;
 
-        // Add binding for other direction of this 1:1 relationship.
+        // Add binding for other direction of this n:n relationship.
+        // If this object has already been added to the ChildSets object, it will not be re-added.
         if ($v !== null) {
-            $v->setSetMontage($this);
+            $v->addSetMontage($this);
         }
 
 
@@ -1209,10 +1227,15 @@ abstract class SetMontage implements ActiveRecordInterface
      */
     public function getSets(ConnectionInterface $con = null)
     {
-        if ($this->aSets === null && ($this->id !== null)) {
-            $this->aSets = ChildSetsQuery::create()->findPk($this->id, $con);
-            // Because this foreign key represents a one-to-one relationship, we will create a bi-directional association.
-            $this->aSets->setSetMontage($this);
+        if ($this->aSets === null && ($this->set_id !== null)) {
+            $this->aSets = ChildSetsQuery::create()->findPk($this->set_id, $con);
+            /* The following can be used additionally to
+                guarantee the related object contains a reference
+                to this object.  This level of coupling may, however, be
+                undesirable since it could result in an only partially populated collection
+                in the referenced object.
+                $this->aSets->addSetMontages($this);
+             */
         }
 
         return $this->aSets;

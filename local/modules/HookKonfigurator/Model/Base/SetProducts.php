@@ -21,7 +21,7 @@ use Propel\Runtime\Exception\PropelException;
 use Propel\Runtime\Map\TableMap;
 use Propel\Runtime\Parser\AbstractParser;
 
-abstract class SetProducts implements ActiveRecordInterface
+abstract class SetProducts implements ActiveRecordInterface 
 {
     /**
      * TableMap class name
@@ -357,7 +357,7 @@ abstract class SetProducts implements ActiveRecordInterface
 
     /**
      * Get the [id] column value.
-     *
+     * 
      * @return   int
      */
     public function getId()
@@ -368,7 +368,7 @@ abstract class SetProducts implements ActiveRecordInterface
 
     /**
      * Get the [set_id] column value.
-     *
+     * 
      * @return   int
      */
     public function getSetId()
@@ -379,7 +379,7 @@ abstract class SetProducts implements ActiveRecordInterface
 
     /**
      * Get the [product_id] column value.
-     *
+     * 
      * @return   int
      */
     public function getProductId()
@@ -390,7 +390,7 @@ abstract class SetProducts implements ActiveRecordInterface
 
     /**
      * Get the [number_of_products] column value.
-     *
+     * 
      * @return   int
      */
     public function getNumberOfProducts()
@@ -401,7 +401,7 @@ abstract class SetProducts implements ActiveRecordInterface
 
     /**
      * Set the value of [id] column.
-     *
+     * 
      * @param      int $v new value
      * @return   \HookKonfigurator\Model\SetProducts The current object (for fluent API support)
      */
@@ -416,21 +416,13 @@ abstract class SetProducts implements ActiveRecordInterface
             $this->modifiedColumns[SetProductsTableMap::ID] = true;
         }
 
-        if ($this->aProductHeizung !== null && $this->aProductHeizung->getProductId() !== $v) {
-            $this->aProductHeizung = null;
-        }
-
-        if ($this->aSets !== null && $this->aSets->getProductId() !== $v) {
-            $this->aSets = null;
-        }
-
 
         return $this;
     } // setId()
 
     /**
      * Set the value of [set_id] column.
-     *
+     * 
      * @param      int $v new value
      * @return   \HookKonfigurator\Model\SetProducts The current object (for fluent API support)
      */
@@ -445,13 +437,17 @@ abstract class SetProducts implements ActiveRecordInterface
             $this->modifiedColumns[SetProductsTableMap::SET_ID] = true;
         }
 
+        if ($this->aSets !== null && $this->aSets->getProductId() !== $v) {
+            $this->aSets = null;
+        }
+
 
         return $this;
     } // setSetId()
 
     /**
      * Set the value of [product_id] column.
-     *
+     * 
      * @param      int $v new value
      * @return   \HookKonfigurator\Model\SetProducts The current object (for fluent API support)
      */
@@ -466,13 +462,17 @@ abstract class SetProducts implements ActiveRecordInterface
             $this->modifiedColumns[SetProductsTableMap::PRODUCT_ID] = true;
         }
 
+        if ($this->aProductHeizung !== null && $this->aProductHeizung->getProductId() !== $v) {
+            $this->aProductHeizung = null;
+        }
+
 
         return $this;
     } // setProductId()
 
     /**
      * Set the value of [number_of_products] column.
-     *
+     * 
      * @param      int $v new value
      * @return   \HookKonfigurator\Model\SetProducts The current object (for fluent API support)
      */
@@ -569,11 +569,11 @@ abstract class SetProducts implements ActiveRecordInterface
      */
     public function ensureConsistency()
     {
-        if ($this->aProductHeizung !== null && $this->id !== $this->aProductHeizung->getProductId()) {
-            $this->aProductHeizung = null;
-        }
-        if ($this->aSets !== null && $this->id !== $this->aSets->getProductId()) {
+        if ($this->aSets !== null && $this->set_id !== $this->aSets->getProductId()) {
             $this->aSets = null;
+        }
+        if ($this->aProductHeizung !== null && $this->product_id !== $this->aProductHeizung->getProductId()) {
+            $this->aProductHeizung = null;
         }
     } // ensureConsistency
 
@@ -777,6 +777,10 @@ abstract class SetProducts implements ActiveRecordInterface
         $modifiedColumns = array();
         $index = 0;
 
+        $this->modifiedColumns[SetProductsTableMap::ID] = true;
+        if (null !== $this->id) {
+            throw new PropelException('Cannot insert a value for auto-increment primary key (' . SetProductsTableMap::ID . ')');
+        }
 
          // check the columns in natural order for more readable SQL queries
         if ($this->isColumnModified(SetProductsTableMap::ID)) {
@@ -802,16 +806,16 @@ abstract class SetProducts implements ActiveRecordInterface
             $stmt = $con->prepare($sql);
             foreach ($modifiedColumns as $identifier => $columnName) {
                 switch ($columnName) {
-                    case 'ID':
+                    case 'ID':                        
                         $stmt->bindValue($identifier, $this->id, PDO::PARAM_INT);
                         break;
-                    case 'SET_ID':
+                    case 'SET_ID':                        
                         $stmt->bindValue($identifier, $this->set_id, PDO::PARAM_INT);
                         break;
-                    case 'PRODUCT_ID':
+                    case 'PRODUCT_ID':                        
                         $stmt->bindValue($identifier, $this->product_id, PDO::PARAM_INT);
                         break;
-                    case 'NUMBER_OF_PRODUCTS':
+                    case 'NUMBER_OF_PRODUCTS':                        
                         $stmt->bindValue($identifier, $this->number_of_products, PDO::PARAM_INT);
                         break;
                 }
@@ -821,6 +825,13 @@ abstract class SetProducts implements ActiveRecordInterface
             Propel::log($e->getMessage(), Propel::LOG_ERR);
             throw new PropelException(sprintf('Unable to execute INSERT statement [%s]', $sql), 0, $e);
         }
+
+        try {
+            $pk = $con->lastInsertId();
+        } catch (Exception $e) {
+            throw new PropelException('Unable to get autoincrement id.', 0, $e);
+        }
+        $this->setId($pk);
 
         $this->setNew(false);
     }
@@ -919,7 +930,7 @@ abstract class SetProducts implements ActiveRecordInterface
         foreach ($virtualColumns as $key => $virtualColumn) {
             $result[$key] = $virtualColumn;
         }
-
+        
         if ($includeForeignObjects) {
             if (null !== $this->aProductHeizung) {
                 $result['ProductHeizung'] = $this->aProductHeizung->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
@@ -1079,12 +1090,12 @@ abstract class SetProducts implements ActiveRecordInterface
      */
     public function copyInto($copyObj, $deepCopy = false, $makeNew = true)
     {
-        $copyObj->setId($this->getId());
         $copyObj->setSetId($this->getSetId());
         $copyObj->setProductId($this->getProductId());
         $copyObj->setNumberOfProducts($this->getNumberOfProducts());
         if ($makeNew) {
             $copyObj->setNew(true);
+            $copyObj->setId(NULL); // this is a auto-increment column, so set to default value
         }
     }
 
@@ -1120,16 +1131,17 @@ abstract class SetProducts implements ActiveRecordInterface
     public function setProductHeizung(ChildProductHeizung $v = null)
     {
         if ($v === null) {
-            $this->setId(NULL);
+            $this->setProductId(NULL);
         } else {
-            $this->setId($v->getProductId());
+            $this->setProductId($v->getProductId());
         }
 
         $this->aProductHeizung = $v;
 
-        // Add binding for other direction of this 1:1 relationship.
+        // Add binding for other direction of this n:n relationship.
+        // If this object has already been added to the ChildProductHeizung object, it will not be re-added.
         if ($v !== null) {
-            $v->setSetProducts($this);
+            $v->addSetProducts($this);
         }
 
 
@@ -1146,10 +1158,15 @@ abstract class SetProducts implements ActiveRecordInterface
      */
     public function getProductHeizung(ConnectionInterface $con = null)
     {
-        if ($this->aProductHeizung === null && ($this->id !== null)) {
-            $this->aProductHeizung = ChildProductHeizungQuery::create()->findPk($this->id, $con);
-            // Because this foreign key represents a one-to-one relationship, we will create a bi-directional association.
-            $this->aProductHeizung->setSetProducts($this);
+        if ($this->aProductHeizung === null && ($this->product_id !== null)) {
+            $this->aProductHeizung = ChildProductHeizungQuery::create()->findPk($this->product_id, $con);
+            /* The following can be used additionally to
+                guarantee the related object contains a reference
+                to this object.  This level of coupling may, however, be
+                undesirable since it could result in an only partially populated collection
+                in the referenced object.
+                $this->aProductHeizung->addSetProductss($this);
+             */
         }
 
         return $this->aProductHeizung;
@@ -1165,16 +1182,17 @@ abstract class SetProducts implements ActiveRecordInterface
     public function setSets(ChildSets $v = null)
     {
         if ($v === null) {
-            $this->setId(NULL);
+            $this->setSetId(NULL);
         } else {
-            $this->setId($v->getProductId());
+            $this->setSetId($v->getProductId());
         }
 
         $this->aSets = $v;
 
-        // Add binding for other direction of this 1:1 relationship.
+        // Add binding for other direction of this n:n relationship.
+        // If this object has already been added to the ChildSets object, it will not be re-added.
         if ($v !== null) {
-            $v->setSetProducts($this);
+            $v->addSetProducts($this);
         }
 
 
@@ -1191,10 +1209,15 @@ abstract class SetProducts implements ActiveRecordInterface
      */
     public function getSets(ConnectionInterface $con = null)
     {
-        if ($this->aSets === null && ($this->id !== null)) {
-            $this->aSets = ChildSetsQuery::create()->findPk($this->id, $con);
-            // Because this foreign key represents a one-to-one relationship, we will create a bi-directional association.
-            $this->aSets->setSetProducts($this);
+        if ($this->aSets === null && ($this->set_id !== null)) {
+            $this->aSets = ChildSetsQuery::create()->findPk($this->set_id, $con);
+            /* The following can be used additionally to
+                guarantee the related object contains a reference
+                to this object.  This level of coupling may, however, be
+                undesirable since it could result in an only partially populated collection
+                in the referenced object.
+                $this->aSets->addSetProductss($this);
+             */
         }
 
         return $this->aSets;

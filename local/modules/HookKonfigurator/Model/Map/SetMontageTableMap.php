@@ -38,7 +38,7 @@ class SetMontageTableMap extends TableMap
     /**
      * The default database name for this class
      */
-    const DATABASE_NAME = 'default';
+    const DATABASE_NAME = 'thelia';
 
     /**
      * The table name for this class
@@ -139,12 +139,11 @@ class SetMontageTableMap extends TableMap
         $this->setPhpName('SetMontage');
         $this->setClassName('\\HookKonfigurator\\Model\\SetMontage');
         $this->setPackage('HookKonfigurator.Model');
-        $this->setUseIdGenerator(false);
+        $this->setUseIdGenerator(true);
         // columns
-        $this->addForeignPrimaryKey('ID', 'Id', 'INTEGER' , 'montage', 'ID', true, null, null);
-        $this->addForeignPrimaryKey('ID', 'Id', 'INTEGER' , 'sets', 'PRODUCT_ID', true, null, null);
-        $this->addColumn('SET_ID', 'SetId', 'INTEGER', true, null, null);
-        $this->addColumn('MONTAGE_ID', 'MontageId', 'INTEGER', true, null, null);
+        $this->addPrimaryKey('ID', 'Id', 'INTEGER', true, null, null);
+        $this->addForeignKey('SET_ID', 'SetId', 'INTEGER', 'sets', 'PRODUCT_ID', true, null, null);
+        $this->addForeignKey('MONTAGE_ID', 'MontageId', 'INTEGER', 'montage', 'ID', true, null, null);
         $this->addColumn('NUMBER_OF_MONTAGE_UNITS', 'NumberOfMontageUnits', 'INTEGER', false, 3, 1);
     } // initialize()
 
@@ -153,8 +152,8 @@ class SetMontageTableMap extends TableMap
      */
     public function buildRelations()
     {
-        $this->addRelation('Montage', '\\HookKonfigurator\\Model\\Montage', RelationMap::MANY_TO_ONE, array('id' => 'id', ), null, null);
-        $this->addRelation('Sets', '\\HookKonfigurator\\Model\\Sets', RelationMap::MANY_TO_ONE, array('id' => 'product_id', ), null, null);
+        $this->addRelation('Montage', '\\HookKonfigurator\\Model\\Montage', RelationMap::MANY_TO_ONE, array('montage_id' => 'id', ), 'CASCADE', null);
+        $this->addRelation('Sets', '\\HookKonfigurator\\Model\\Sets', RelationMap::MANY_TO_ONE, array('set_id' => 'product_id', ), 'CASCADE', null);
     } // buildRelations()
 
     /**
@@ -199,7 +198,7 @@ class SetMontageTableMap extends TableMap
                             : self::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)
                         ];
     }
-
+    
     /**
      * The class that the tableMap will make instances of.
      *
@@ -259,7 +258,7 @@ class SetMontageTableMap extends TableMap
     public static function populateObjects(DataFetcherInterface $dataFetcher)
     {
         $results = array();
-
+    
         // set the class once to avoid overhead in the loop
         $cls = static::getOMClass(false);
         // populate the object(s)
@@ -399,6 +398,10 @@ class SetMontageTableMap extends TableMap
             $criteria = clone $criteria; // rename for clarity
         } else {
             $criteria = $criteria->buildCriteria(); // build Criteria from SetMontage object
+        }
+
+        if ($criteria->containsKey(SetMontageTableMap::ID) && $criteria->keyContainsValue(SetMontageTableMap::ID) ) {
+            throw new PropelException('Cannot insert a value for auto-increment primary key ('.SetMontageTableMap::ID.')');
         }
 
 
