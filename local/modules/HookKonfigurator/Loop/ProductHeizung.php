@@ -44,6 +44,8 @@ use HookKonfigurator\Model\Montage;
 use HookKonfigurator\Model\ConstraintsQuery;
 use HookKonfigurator\Model\MontageConstraints;
 use HookKonfigurator\Model\Constraints;
+use HookKonfigurator\Model\Map\ProductHeizungMontageTableMap;
+use HookKonfigurator\Model\MontageQuery;
 
 /**
  *
@@ -147,9 +149,30 @@ class ProductHeizung extends BaseI18nLoop implements PropelSearchLoopInterface, 
 	private function associateValues($loopResultRow, $product, $default_category_id) {
 		$log = Tlog::getInstance ();
 		$log->debug ( " innerjoinprod " . implode ( "|", $product->getVirtualColumns () ) );
-		$loopResultRow->set ( "ID", $product->getId () )->set ( "REF", $product->getRef () )->set ( "LOCALE", $this->locale )->set ( "URL", $product->getUrl ( $this->locale ) )->set ( "POSITION", $product->getPosition () )->set ( "VIRTUAL", $product->getVirtual () ? "1" : "0" )->set ( "VISIBLE", $product->getVisible () ? "1" : "0" )->set ( "TEMPLATE", $product->getTemplateId () )->set ( "DEFAULT_CATEGORY", $default_category_id )->set ( "TAX_RULE_ID", $product->getTaxRuleId () )->set ( "BRAND_ID", $product->getBrandId () ?: 0 )->set ( "TITLE", $product->getTitle () )-> // $product->getTitle())
-set ( "BEST_TAXED_PRICE", $product->getProductSaleElementss () [0]->getProductPrices () [0]->getPrice () )->set ( "CHAPO", $product->getVirtualColumn ( 'power' ) )-> // $product->getProductI18ns()[0]->getChapo())
-set ( "QUANTITY", 20 );
+		$montage = MontageQuery::create()->findById($product->getVirtualColumn('montage_id'));
+		
+		$loopResultRow
+		->set ( "ID", $product->getId () )
+		->set ( "REF", $product->getRef () )
+		->set ( "LOCALE", $this->locale )
+		->set ( "URL", $product->getUrl ( $this->locale ) )
+		->set ( "POSITION", $product->getPosition () )
+		->set ( "VIRTUAL", $product->getVirtual () ? "1" : "0" )
+		->set ( "VISIBLE", $product->getVisible () ? "1" : "0" )
+		->set ( "TEMPLATE", $product->getTemplateId () )
+		->set ( "DEFAULT_CATEGORY", $default_category_id )
+		->set ( "TAX_RULE_ID", $product->getTaxRuleId () )
+		->set ( "BRAND_ID", $product->getBrandId () ?: 0 )
+		->set ( "TITLE", $product->getTitle () )// $product->getTitle())
+		->set ( "BEST_TAXED_PRICE", $product->getProductSaleElementss () [0]->getProductPrices () [0]->getPrice () )
+		//->set ( "CHAPO",  ) // $product->getProductI18ns()[0]->getChapo())
+		->set ( "DESCRIPTION", $product->getDescription())
+		->set ( "POWER", $product->getVirtualColumn ( 'power' ) )
+		->set ( "GRADE", $product->getVirtualColumn ( 'grade' ))
+		->set ( "WARMWATER", $product->getVirtualColumn ( 'warm_water' )? "Yes" : "No")
+		->set ( "MONTAGE", $product->getVirtualColumn('montage_id'))
+		->set ( "MONTAGETEXT", $montage->__toString())
+		->set ( "QUANTITY", 20 );
 		
 		return $loopResultRow;
 	}
@@ -471,11 +494,7 @@ set ( "QUANTITY", 20 );
 		
 		$log = Tlog::getInstance ();
 		
-		
-		
 		$search = ProductQuery::create ();
-		
-	
 		
 		// there has to be some better way to convert request parameters into an entity
 		$request = $this->request;
@@ -488,39 +507,36 @@ set ( "QUANTITY", 20 );
 		// $log->debug("productsuggestionpower ".$waermebedarf." request ".$request->__toString()." waermebedarf ".$waermebedarf);
 		
 		$heizungJoin = new Join ();
-		$heizungJoin->addExplicitCondition ( ProductTableMap::TABLE_NAME, 'ID', null, ProductHeizungTableMap::TABLE_NAME, 'PRODUCT_ID', 'a' );
+		$heizungJoin->addExplicitCondition ( ProductTableMap::TABLE_NAME, 'ID', null, ProductHeizungTableMap::TABLE_NAME, 'PRODUCT_ID', 'hz' );
 		$heizungJoin->setJoinType ( Criteria::LEFT_JOIN );
+
+		$search
+		->addJoinObject ( $heizungJoin, 'HeizungProduct' )
+		->withColumn ( '`hz`.grade', 'grade' )
+		->withColumn ( '`hz`.power', 'power' )
+		->withColumn ( '`hz`.energy_efficiency', 'energy_efficiency' )
+		->withColumn ( '`hz`.priority', 'priority' )
+		->withColumn ( '`hz`.warm_water', 'warm_water' )
+		->withColumn ( '`hz`.energy_carrier', 'energy_carrier' )
+		->withColumn ( '`hz`.storage_capacity', 'storage_capacity' )
+		->condition ( 'same_product_id', 'product.id = `hz`.product_id' )
+		->setJoinCondition ( 'HeizungProduct', 'same_product_id' )
+		->condition ( 'power_larger_then', 'power >= ?', $waermebedarf - 1, \PDO::PARAM_INT )
+		->condition ( 'power_smaller_then', 'power <= ?', $waermebedarf + 1, \PDO::PARAM_INT )
+		->where ( array ('power_larger_then','power_smaller_then' ), Criteria::LOGICAL_AND ); // power_condition
+
+		$servicesJoin = new Join();
+		$servicesJoin->addExplicitCondition ( ProductTableMap::TABLE_NAME, 'ID', null, ProductHeizungMontageTableMap::TABLE_NAME, 'PRODUCT_HEIZUNG_ID', 'hzm' );
+		$servicesJoin->setJoinType ( Criteria::LEFT_JOIN );
 		
-		// $heizung = new ProductHeizung();
-		// $heizung->getPower()
-		// ProductHeizungTableMap::PRODUCT_ID
-		$search->addJoinObject ( $heizungJoin, 'HeizungProductPower' )->withColumn ( '`a`.grade', 'grade' )->withColumn ( '`a`.power', 'power' )->withColumn ( '`a`.energy_efficiency', 'energy_efficiency' )->withColumn ( '`a`.priority', 'priority' )->withColumn ( '`a`.warm_water', 'warm_water' )->withColumn ( '`a`.energy_carrier', 'energy_carrier' )->withColumn ( '`a`.storage_capacity', 'storage_capacity' )->condition ( 'same_id', 'product.id = `a`.product_id' )->
-		// ->combine(array('same_id','power_larger_then','power_smaller_then'),'and','power_condition')
-		setJoinCondition ( 'HeizungProductPower', 'same_id' )->condition ( 'power_larger_then', 'power >= ?', $waermebedarf - 1, \PDO::PARAM_INT )->condition ( 'power_smaller_then', 'power <= ?', $waermebedarf + 1, \PDO::PARAM_INT )->where ( array (
-				'power_larger_then',
-				'power_smaller_then' 
-		), Criteria::LOGICAL_AND ); // power_condition
-		                            
-		// ->where('`a`.power >= (?-1) AND `a`.power <= (?+1)',$waermebedarf, \PDO::PARAM_INT)
-		                            
-		// ->addc;
+		$search
+		->addJoinObject ( $servicesJoin, 'HeizungProductMontage' )
+		->withColumn ( '`hzm`.montage_id', 'montage_id' )
+		->condition ( 'same_heizung_id', 'product.id = `hzm`.product_heizung_id' )
+		->setJoinCondition ( 'HeizungProductMontage', 'same_heizung_id' );
+		
 		                            // $search->condition('power_interval', '`a`.power >= (?-1) AND `a`.power <= (?+1)',$waermebedarf);
 		                            // $search->setJoinCondition('HeizungProductPower','power_interval');
-		                            
-		// ->withColumn($clause)
-		                            
-		// $log->debug("123search ".$search->get." 123searchb");
-		
-		/*
-		 * Infers the ON clause from a relation name Uses the Propel table maps, based on the schema,
-		 * to guess the related columns Beware that the default JOIN operator is INNER JOIN, while
-		 * Criteria defaults to WHERE Examples: $c->join('Book.Author'); =>
-		 * $c->addJoin(BookTableMap::AUTHOR_ID, AuthorTableMap::ID, Criteria::INNER_JOIN);
-		 * $c->join('Book.Author', Criteria::RIGHT_JOIN); =>
-		 * $c->addJoin(BookTableMap::AUTHOR_ID, AuthorTableMap::ID, Criteria::RIGHT_JOIN);
-		 * $c->join('Book.Author a', Criteria::RIGHT_JOIN); => $c->addAlias('a', AuthorTableMap::TABLE_NAME);
-		 * => $c->addJoin(BookTableMap::AUTHOR_ID, 'a.ID', Criteria::RIGHT_JOIN);
-		 */
 		
 		return $search;
 	}

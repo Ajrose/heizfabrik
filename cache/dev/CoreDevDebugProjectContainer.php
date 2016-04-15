@@ -623,11 +623,9 @@ class CoreDevDebugProjectContainer extends Container
         $instance->addListenerService('hook.1.main.navbar-secondary', array(0 => 'hookcurrency.hook.front', 1 => 'onMainNavbarSecondary'), 999);
         $instance->addListenerService('hook.1.main.navbar-secondary', array(0 => 'hooklang.hook.front', 1 => 'onMainNavbarSecondary'), 998);
         $instance->addListenerService('hook.1.main.navbar-secondary', array(0 => 'hooksearch.hook.front', 1 => 'onMainNavbarSecondary'), 997);
-        $instance->addListenerService('hook.1.main.navbar-secondary', array(0 => 'hookcustomer.hook.front', 1 => 'onMainNavbarSecondary'), 996);
-        $instance->addListenerService('hook.1.main.navbar-secondary', array(0 => 'hookkonfigurator.hook.front', 1 => 'onMainHeadBottom'), 995);
-        $instance->addListenerService('hook.1.main.navbar-secondary', array(0 => 'hookcart.hook.front', 1 => 'onMainHeadBottom'), 994);
-        $instance->addListenerService('hook.1.main.navbar-secondary', array(0 => 'hookkonfigurator.hook.front', 1 => 'onMainNavbarSecondary'), 993);
-        $instance->addListenerService('hook.1.main.navbar-secondary', array(0 => 'hookcart.hook.front', 1 => 'onMainNavbarSecondary'), 992);
+        $instance->addListenerService('hook.1.main.navbar-secondary', array(0 => 'hookcustomer.hook.front', 1 => 'onMainNavbarSecondary'), 992);
+        $instance->addListenerService('hook.1.main.navbar-secondary', array(0 => 'hookkonfigurator.hook.front', 1 => 'onMainNavbarSecondary'), 991);
+        $instance->addListenerService('hook.1.main.navbar-secondary', array(0 => 'hookcart.hook.front', 1 => 'onMainNavbarSecondary'), 990);
         $instance->addListenerService('hook.1.main.navbar-primary', array(0 => 'hooknavigation.hook.front', 1 => 'onMainNavbarPrimary'), 998);
         $instance->addListenerService('hook.1.main.footer-body', array(0 => 'hookcontact.hook.front', 1 => 'onMainFooterBody'), 999);
         $instance->addListenerService('hook.1.main.footer-body', array(0 => 'hooklinks.hook.front', 1 => 'onMainFooterBody'), 998);
@@ -640,7 +638,7 @@ class CoreDevDebugProjectContainer extends Container
         $instance->addListenerService('hook.1.home.body', array(0 => 'carousel.hook', 1 => 'onHomeBody'), 997);
         $instance->addListenerService('hook.1.mini-cart', array(0 => 'hookcart.hook.front', 1 => 'onMiniCart'), 999);
         $instance->addListenerService('hook.2.main.before-content', array(0 => 'virtualproductcontrol.hook', 1 => 'onMainBeforeContent'), 999);
-        $instance->addListenerService('hook.1.mini-konfigurator', array(0 => 'hookkonfigurator.hook.front', 1 => 'onMiniKonfigurator'), 999);
+        $instance->addListenerService('hook.1.konfigurator-suggestions', array(0 => 'hookkonfigurator.hook.front', 1 => 'onKonfiguratorSuggestions'), 999);
 
         return $instance;
     }

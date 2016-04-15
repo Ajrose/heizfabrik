@@ -1,6 +1,6 @@
-<?php /* Smarty version Smarty-3.1.19-dev, created on 2016-04-14 16:29:18
+<?php /* Smarty version Smarty-3.1.19-dev, created on 2016-04-14 19:39:42
          compiled from "C:\Development\programs\xampp\htdocs\heizfabrik\templates\frontOffice\default\includes\single-product.html" */ ?>
-<?php /*%%SmartyHeaderCode:20843570fa93e9f15a9-27125658%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
+<?php /*%%SmartyHeaderCode:8681570fd5de277172-61292583%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
   'file_dependency' => 
   array (
@@ -11,7 +11,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
       2 => 'file',
     ),
   ),
-  'nocache_hash' => '20843570fa93e9f15a9-27125658',
+  'nocache_hash' => '8681570fd5de277172-61292583',
   'function' => 
   array (
   ),
@@ -54,9 +54,9 @@ $_valid = $_smarty_tpl->decodeProperties(array (
   ),
   'has_nocache_code' => false,
   'version' => 'Smarty-3.1.19-dev',
-  'unifunc' => 'content_570fa93eaa6d13_81746149',
+  'unifunc' => 'content_570fd5de310484_98874659',
 ),false); /*/%%SmartyHeaderCode%%*/?>
-<?php if ($_valid && !is_callable('content_570fa93eaa6d13_81746149')) {function content_570fa93eaa6d13_81746149($_smarty_tpl) {?><li class="item <?php echo TheliaSmarty\Template\SmartyParser::theliaEscape((($tmp = @$_smarty_tpl->tpl_vars['colClass']->value)===null||$tmp==='' ? "col-md-3" : $tmp),$_smarty_tpl);?>
+<?php if ($_valid && !is_callable('content_570fd5de310484_98874659')) {function content_570fd5de310484_98874659($_smarty_tpl) {?><li class="item <?php echo TheliaSmarty\Template\SmartyParser::theliaEscape((($tmp = @$_smarty_tpl->tpl_vars['colClass']->value)===null||$tmp==='' ? "col-md-3" : $tmp),$_smarty_tpl);?>
 ">
     <?php if ($_smarty_tpl->tpl_vars['PSE_COUNT']->value>1) {?>
         <?php $_smarty_tpl->tpl_vars["hasSubmit"] = new Smarty_variable(false, null, 0);?>
@@ -106,7 +106,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
         <?php $_smarty_tpl->tpl_vars["current_stock_content"] = new Smarty_variable("in_stock", null, 0);?>
         <?php $_smarty_tpl->tpl_vars["current_stock_href"] = new Smarty_variable("http://schema.org/InStock", null, 0);?>
         <?php ob_start();?><?php echo $_smarty_tpl->smarty->registered_plugins[Smarty::PLUGIN_FUNCTION]['config'][0][0]->configDataAccess(array('key'=>"check-available-stock"),$_smarty_tpl);?>
-<?php $_tmp1=ob_get_clean();?><?php if ($_tmp1!=0) {?>
+<?php $_tmp22=ob_get_clean();?><?php if ($_tmp22!=0) {?>
             <?php if ($_smarty_tpl->tpl_vars['VIRTUAL']->value==0&&$_smarty_tpl->tpl_vars['QUANTITY']->value<=0) {?>
                 <?php $_smarty_tpl->tpl_vars["current_stock_content"] = new Smarty_variable("out_stock", null, 0);?>
                 <?php $_smarty_tpl->tpl_vars["current_stock_href"] = new Smarty_variable("http://schema.org/OutOfStock", null, 0);?>
@@ -128,29 +128,29 @@ $_valid = $_smarty_tpl->decodeProperties(array (
                 <?php if ($_smarty_tpl->tpl_vars['IS_PROMO']->value) {?>
 
                     <?php ob_start();?><?php echo $_smarty_tpl->smarty->registered_plugins[Smarty::PLUGIN_FUNCTION]['count'][0][0]->theliaCount(array('type'=>"product_sale_elements",'promo'=>"1",'product'=>$_smarty_tpl->tpl_vars['ID']->value),$_smarty_tpl);?>
-<?php $_tmp2=ob_get_clean();?><?php $_smarty_tpl->tpl_vars["combination_count"] = new Smarty_variable($_tmp2, null, 0);?>
+<?php $_tmp23=ob_get_clean();?><?php $_smarty_tpl->tpl_vars["combination_count"] = new Smarty_variable($_tmp23, null, 0);?>
                     <span class="special-price col-xs-6"><span itemprop="price" class="price-label"><?php echo $_smarty_tpl->smarty->registered_plugins[Smarty::PLUGIN_FUNCTION]['intl'][0][0]->translate(array('l'=>"Special Price:"),$_smarty_tpl);?>
  </span><span class="price">
                         <?php if ($_smarty_tpl->tpl_vars['combination_count']->value>1) {?>
                             <?php ob_start();?><?php echo $_smarty_tpl->smarty->registered_plugins[Smarty::PLUGIN_FUNCTION]['currency'][0][0]->currencyDataAccess(array('attr'=>"symbol"),$_smarty_tpl);?>
-<?php $_tmp3=ob_get_clean();?><?php ob_start();?><?php echo $_smarty_tpl->smarty->registered_plugins[Smarty::PLUGIN_FUNCTION]['format_money'][0][0]->formatMoney(array('number'=>$_smarty_tpl->tpl_vars['BEST_TAXED_PRICE']->value,'symbol'=>$_tmp3),$_smarty_tpl);?>
-<?php $_tmp4=ob_get_clean();?><?php echo $_smarty_tpl->smarty->registered_plugins[Smarty::PLUGIN_FUNCTION]['intl'][0][0]->translate(array('l'=>"From %price",'price'=>$_tmp4),$_smarty_tpl);?>
+<?php $_tmp24=ob_get_clean();?><?php ob_start();?><?php echo $_smarty_tpl->smarty->registered_plugins[Smarty::PLUGIN_FUNCTION]['format_money'][0][0]->formatMoney(array('number'=>$_smarty_tpl->tpl_vars['BEST_TAXED_PRICE']->value,'symbol'=>$_tmp24),$_smarty_tpl);?>
+<?php $_tmp25=ob_get_clean();?><?php echo $_smarty_tpl->smarty->registered_plugins[Smarty::PLUGIN_FUNCTION]['intl'][0][0]->translate(array('l'=>"From %price",'price'=>$_tmp25),$_smarty_tpl);?>
 
                         <?php } else { ?>
                             <?php ob_start();?><?php echo $_smarty_tpl->smarty->registered_plugins[Smarty::PLUGIN_FUNCTION]['currency'][0][0]->currencyDataAccess(array('attr'=>"symbol"),$_smarty_tpl);?>
-<?php $_tmp5=ob_get_clean();?><?php echo $_smarty_tpl->smarty->registered_plugins[Smarty::PLUGIN_FUNCTION]['format_money'][0][0]->formatMoney(array('number'=>$_smarty_tpl->tpl_vars['BEST_TAXED_PRICE']->value,'symbol'=>$_tmp5),$_smarty_tpl);?>
+<?php $_tmp26=ob_get_clean();?><?php echo $_smarty_tpl->smarty->registered_plugins[Smarty::PLUGIN_FUNCTION]['format_money'][0][0]->formatMoney(array('number'=>$_smarty_tpl->tpl_vars['BEST_TAXED_PRICE']->value,'symbol'=>$_tmp26),$_smarty_tpl);?>
 
                         <?php }?>
                     </span></span>
                     <?php if ($_smarty_tpl->tpl_vars['SHOW_ORIGINAL_PRICE']->value) {?>
                     <span class="old-price col-xs-6"><span class="price-label"><?php echo $_smarty_tpl->smarty->registered_plugins[Smarty::PLUGIN_FUNCTION]['intl'][0][0]->translate(array('l'=>"Regular Price:"),$_smarty_tpl);?>
  </span><span class="price"><?php ob_start();?><?php echo $_smarty_tpl->smarty->registered_plugins[Smarty::PLUGIN_FUNCTION]['currency'][0][0]->currencyDataAccess(array('attr'=>"symbol"),$_smarty_tpl);?>
-<?php $_tmp6=ob_get_clean();?><?php echo $_smarty_tpl->smarty->registered_plugins[Smarty::PLUGIN_FUNCTION]['format_money'][0][0]->formatMoney(array('number'=>$_smarty_tpl->tpl_vars['TAXED_PRICE']->value,'symbol'=>$_tmp6),$_smarty_tpl);?>
+<?php $_tmp27=ob_get_clean();?><?php echo $_smarty_tpl->smarty->registered_plugins[Smarty::PLUGIN_FUNCTION]['format_money'][0][0]->formatMoney(array('number'=>$_smarty_tpl->tpl_vars['TAXED_PRICE']->value,'symbol'=>$_tmp27),$_smarty_tpl);?>
 </span></span>
                     <?php }?>
                 <?php } else { ?>
                     <span class="regular-price col-xs-12"><span itemprop="price" class="price"><?php ob_start();?><?php echo $_smarty_tpl->smarty->registered_plugins[Smarty::PLUGIN_FUNCTION]['currency'][0][0]->currencyDataAccess(array('attr'=>"symbol"),$_smarty_tpl);?>
-<?php $_tmp7=ob_get_clean();?><?php echo $_smarty_tpl->smarty->registered_plugins[Smarty::PLUGIN_FUNCTION]['format_money'][0][0]->formatMoney(array('number'=>$_smarty_tpl->tpl_vars['BEST_TAXED_PRICE']->value,'symbol'=>$_tmp7),$_smarty_tpl);?>
+<?php $_tmp28=ob_get_clean();?><?php echo $_smarty_tpl->smarty->registered_plugins[Smarty::PLUGIN_FUNCTION]['format_money'][0][0]->formatMoney(array('number'=>$_smarty_tpl->tpl_vars['BEST_TAXED_PRICE']->value,'symbol'=>$_tmp28),$_smarty_tpl);?>
 </span></span>
                 <?php }?>
             </div>

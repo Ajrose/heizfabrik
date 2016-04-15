@@ -1,6 +1,6 @@
-<?php /* Smarty version Smarty-3.1.19-dev, created on 2016-04-12 12:52:38
+<?php /* Smarty version Smarty-3.1.19-dev, created on 2016-04-14 18:20:13
          compiled from "C:\Development\programs\xampp\htdocs\heizfabrik\local\modules\Carousel\templates\frontOffice\default\carousel.html" */ ?>
-<?php /*%%SmartyHeaderCode:32732570cd376e794a2-47819009%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
+<?php /*%%SmartyHeaderCode:20657570fc33d8b3512-96441599%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
   'file_dependency' => 
   array (
@@ -11,7 +11,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
       2 => 'file',
     ),
   ),
-  'nocache_hash' => '32732570cd376e794a2-47819009',
+  'nocache_hash' => '20657570fc33d8b3512-96441599',
   'function' => 
   array (
   ),
@@ -26,9 +26,9 @@ $_valid = $_smarty_tpl->decodeProperties(array (
   ),
   'has_nocache_code' => false,
   'version' => 'Smarty-3.1.19-dev',
-  'unifunc' => 'content_570cd376e8f1a8_80829525',
+  'unifunc' => 'content_570fc33d8d1516_61410462',
 ),false); /*/%%SmartyHeaderCode%%*/?>
-<?php if ($_valid && !is_callable('content_570cd376e8f1a8_80829525')) {function content_570cd376e8f1a8_80829525($_smarty_tpl) {?><?php $_smarty_tpl->smarty->_tag_stack[] = array('ifloop', array('rel'=>"carousel.front")); $_block_repeat=true; echo $_smarty_tpl->smarty->registered_plugins['block']['ifloop'][0][0]->theliaIfLoop(array('rel'=>"carousel.front"), null, $_smarty_tpl, $_block_repeat);while ($_block_repeat) { ob_start();?>
+<?php if ($_valid && !is_callable('content_570fc33d8d1516_61410462')) {function content_570fc33d8d1516_61410462($_smarty_tpl) {?><?php $_smarty_tpl->smarty->_tag_stack[] = array('ifloop', array('rel'=>"carousel.front")); $_block_repeat=true; echo $_smarty_tpl->smarty->registered_plugins['block']['ifloop'][0][0]->theliaIfLoop(array('rel'=>"carousel.front"), null, $_smarty_tpl, $_block_repeat);while ($_block_repeat) { ob_start();?>
 
 <section class="carousel-container">
     <div id="carousel" class="carousel slide" data-ride="carousel">

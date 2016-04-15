@@ -1,6 +1,6 @@
-<?php /* Smarty version Smarty-3.1.19-dev, created on 2016-04-12 12:52:32
+<?php /* Smarty version Smarty-3.1.19-dev, created on 2016-04-14 18:20:13
          compiled from "C:\Development\programs\xampp\htdocs\heizfabrik\local\modules\HookSearch\templates\frontOffice\default\main-navbar-secondary.html" */ ?>
-<?php /*%%SmartyHeaderCode:6398570cd370ca49b3-26317768%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
+<?php /*%%SmartyHeaderCode:11129570fc33d4c1813-21677206%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
   'file_dependency' => 
   array (
@@ -11,15 +11,15 @@ $_valid = $_smarty_tpl->decodeProperties(array (
       2 => 'file',
     ),
   ),
-  'nocache_hash' => '6398570cd370ca49b3-26317768',
+  'nocache_hash' => '11129570fc33d4c1813-21677206',
   'function' => 
   array (
   ),
   'has_nocache_code' => false,
   'version' => 'Smarty-3.1.19-dev',
-  'unifunc' => 'content_570cd370cb2778_33377455',
+  'unifunc' => 'content_570fc33d4cd217_51895159',
 ),false); /*/%%SmartyHeaderCode%%*/?>
-<?php if ($_valid && !is_callable('content_570cd370cb2778_33377455')) {function content_570cd370cb2778_33377455($_smarty_tpl) {?><div class="search-container navbar-form navbar-left">
+<?php if ($_valid && !is_callable('content_570fc33d4cd217_51895159')) {function content_570fc33d4cd217_51895159($_smarty_tpl) {?><div class="search-container navbar-form navbar-left">
     <form id="form-search" action="<?php echo $_smarty_tpl->smarty->registered_plugins[Smarty::PLUGIN_FUNCTION]['url'][0][0]->generateUrlFunction(array('path'=>"/search"),$_smarty_tpl);?>
 " method="get" role="search" aria-labelledby="search-label">
         <label id="search-label" class="sr-only" for="q"><?php echo $_smarty_tpl->smarty->registered_plugins[Smarty::PLUGIN_FUNCTION]['intl'][0][0]->translate(array('l'=>"Search a product",'d'=>"hooksearch.fo.default"),$_smarty_tpl);?>

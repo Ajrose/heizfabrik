@@ -30,7 +30,7 @@ class KonfiguratorController extends BaseFrontController {
 
 		//TODO sequence diagramm with the operations starting from konfigurator form and ending to the response products
 		if ($request->isXmlHttpRequest ()) {
-			$view = $request->get ( 'ajax-view', "includes/konfigurator_suggestions" );
+			$view = $request->get ( 'ajax-view', "includes/konfigurator-suggestions" );
 			$request->attributes->set ( '_view', $view );
 			
 		//	header('waermebedarf:'.$waermebedarf);

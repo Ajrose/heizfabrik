@@ -1,0 +1,59 @@
+
+.radio-konfigurator {
+	display:inline-block;
+}
+
+.radio-group-konfigurator {
+	display:inline-block;
+}
+
+.legend-konfigurator {
+	width: 250px;
+	display: inline-block;
+}
+/*
+	html {
+	background: #fafafa;
+	}
+	
+	label {
+	display: inline-block;
+    width: 150px;
+	}
+	
+		#in {
+	display: inline-block;
+	}
+	
+	#konfigurator_form {
+	    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
+	display: flex;
+    max-width: 670px;
+    min-width: 670px;
+    background: white;
+    transition: box-shadow 200ms ease-in-out;
+    margin: 48px 62px;
+    padding: 16px 32px;
+	}
+	
+	#konfigurator_form:hover {
+    box-shadow: 0 4px 12px 2px rgba(0,0,0,0.14), 0 6px 15px 5px rgba(0,0,0,0.12), 0 8px 5px -5px rgba(0,0,0,0.4);
+}
+    #products {
+    padding:0px;
+    }
+
+	#product {
+	    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
+	display: flex;
+    max-width: 670px;
+    min-width: 670px;
+    background: white;
+    transition: box-shadow 200ms ease-in-out;
+    margin: 48px 62px;
+    padding: 16px 32px;
+	}
+	
+	#product:hover {
+    box-shadow: 0 4px 12px 2px rgba(0,0,0,0.14), 0 6px 15px 5px rgba(0,0,0,0.12), 0 8px 5px -5px rgba(0,0,0,0.4);*/
+}

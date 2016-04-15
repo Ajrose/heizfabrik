@@ -31,7 +31,7 @@
         <hook id="hookkonfigurator.hook.front" class="HookKonfigurator\Hook\FrontHook" scope="request">
 		    <tag name="hook.event_listener" event="main.head-bottom" />
             <tag name="hook.event_listener" event="main.navbar-secondary" />
-            <tag name="hook.event_listener" event="mini-konfigurator" type="front" method="onMiniKonfigurator" active="1"/>
+            <tag name="hook.event_listener" event="konfigurator_suggestions" type="front" method="onKonfiguratorSuggestions" active="1"/>
         </hook>
     </hooks>
     

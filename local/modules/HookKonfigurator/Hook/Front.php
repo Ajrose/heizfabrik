@@ -21,9 +21,9 @@ class Front extends BaseHook{
         $event->add($content);
     }
 
-    public function onMiniKonfigurator(HookRenderEvent $event)
+    public function onKonfiguratorSuggestions(HookRenderEvent $event)
     {
-        $content = $this->render('konfigurator_suggestions.html');
+        $content = $this->render('konfigurator-suggestions.html');
         $event->add($content);
     }
 }
