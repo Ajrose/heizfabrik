@@ -138,10 +138,11 @@
 			{hook name="singleproduct.bottom" product="{$product_id}"}
 		</div>
 		<div style="width: 33%; float: left;">
-			<div class="short-description" itemprop="description">
-				<p>{intl l="Montage" d="hookkonfigurator.fo.default"}:</p>
-				<p>{$MONTAGETEXT nofilter}</p>
-			</div>
+		<p>{$MONTAGE}</p>
+		{loop type="service" name="services_for_$ID" limit="1" power=1111}
+			 {include file="includes/product-services.html" product_id=123  hasBtn=true hasDescription=true hasQuickView=true width="218" height="146"}
+		
+		{/loop}
 		</div>
 	</article> <!-- /product -->
 </li>

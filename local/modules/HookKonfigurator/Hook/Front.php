@@ -26,4 +26,10 @@ class Front extends BaseHook{
         $content = $this->render('konfigurator-suggestions.html');
         $event->add($content);
     }
+    public function onMainNavbarPrimary(HookRenderEvent $event)
+    {
+    	$content = $this->render('main-navbar-primary.html');
+    	$event->add($content);
+    }
+    
 }

@@ -6,6 +6,7 @@
 
     <loops>
         <loop name="product_heizung" class="HookKonfigurator\Loop\ProductHeizung" />
+        <loop name="service" class="HookKonfigurator\Loop\Service" />
     </loops>
 
     <forms>
@@ -25,19 +26,18 @@
         <hook id="hookkonfigurator.hook.front" class="HookKonfigurator\Hook\Front" scope="request">
 		    <tag name="hook.event_listener" event="main.head-bottom" />
             <tag name="hook.event_listener" event="main.navbar-secondary" />
+            <tag name="hook.event_listener" event="main.navbar-primary" />
             <tag name="hook.event_listener" event="konfigurator-suggestions" />
         </hook>
     </hooks>
     
     <!--
     <exports>
-
     </exports>
     -->
 
     <!--
     <imports>
-
     </imports>
     -->
 </config>

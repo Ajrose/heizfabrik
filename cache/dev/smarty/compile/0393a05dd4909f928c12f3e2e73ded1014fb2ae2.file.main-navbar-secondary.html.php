@@ -1,6 +1,6 @@
-<?php /* Smarty version Smarty-3.1.19-dev, created on 2016-04-14 19:37:51
+<?php /* Smarty version Smarty-3.1.19-dev, created on 2016-04-15 12:32:40
          compiled from "C:\Development\programs\xampp\htdocs\heizfabrik\local\modules\HookCart\templates\frontOffice\default\main-navbar-secondary.html" */ ?>
-<?php /*%%SmartyHeaderCode:30127570fd56f9e7042-27108060%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
+<?php /*%%SmartyHeaderCode:2985710c34814fdd3-99390161%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
   'file_dependency' => 
   array (
@@ -11,15 +11,15 @@ $_valid = $_smarty_tpl->decodeProperties(array (
       2 => 'file',
     ),
   ),
-  'nocache_hash' => '30127570fd56f9e7042-27108060',
+  'nocache_hash' => '2985710c34814fdd3-99390161',
   'function' => 
   array (
   ),
   'has_nocache_code' => false,
   'version' => 'Smarty-3.1.19-dev',
-  'unifunc' => 'content_570fd56f9e96e3_34995995',
+  'unifunc' => 'content_5710c348152214_42686514',
 ),false); /*/%%SmartyHeaderCode%%*/?>
-<?php if ($_valid && !is_callable('content_570fd56f9e96e3_34995995')) {function content_570fd56f9e96e3_34995995($_smarty_tpl) {?><ul class="nav navbar-nav navbar-cart navbar-right">
+<?php if ($_valid && !is_callable('content_5710c348152214_42686514')) {function content_5710c348152214_42686514($_smarty_tpl) {?><ul class="nav navbar-nav navbar-cart navbar-right">
     <?php echo $_smarty_tpl->smarty->registered_plugins[Smarty::PLUGIN_FUNCTION]['hook'][0][0]->processHookFunction(array('name'=>"mini-cart"),$_smarty_tpl);?>
 
 </ul><?php }} ?>

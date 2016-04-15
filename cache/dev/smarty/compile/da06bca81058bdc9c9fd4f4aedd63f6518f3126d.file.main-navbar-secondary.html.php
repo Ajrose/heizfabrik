@@ -1,6 +1,6 @@
-<?php /* Smarty version Smarty-3.1.19-dev, created on 2016-04-14 19:37:51
+<?php /* Smarty version Smarty-3.1.19-dev, created on 2016-04-15 12:32:39
          compiled from "C:\Development\programs\xampp\htdocs\heizfabrik\local\modules\HookCustomer\templates\frontOffice\default\main-navbar-secondary.html" */ ?>
-<?php /*%%SmartyHeaderCode:13705570fd56f8359b1-10163444%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
+<?php /*%%SmartyHeaderCode:19965710c347f107d2-51956464%%*/if(!defined('SMARTY_DIR')) exit('no direct access allowed');
 $_valid = $_smarty_tpl->decodeProperties(array (
   'file_dependency' => 
   array (
@@ -11,7 +11,7 @@ $_valid = $_smarty_tpl->decodeProperties(array (
       2 => 'file',
     ),
   ),
-  'nocache_hash' => '13705570fd56f8359b1-10163444',
+  'nocache_hash' => '19965710c347f107d2-51956464',
   'function' => 
   array (
   ),
@@ -22,9 +22,9 @@ $_valid = $_smarty_tpl->decodeProperties(array (
   ),
   'has_nocache_code' => false,
   'version' => 'Smarty-3.1.19-dev',
-  'unifunc' => 'content_570fd56f86e0a6_08091447',
+  'unifunc' => 'content_5710c348007305_74466616',
 ),false); /*/%%SmartyHeaderCode%%*/?>
-<?php if ($_valid && !is_callable('content_570fd56f86e0a6_08091447')) {function content_570fd56f86e0a6_08091447($_smarty_tpl) {?><ul class="nav navbar-nav navbar-customer navbar-right">
+<?php if ($_valid && !is_callable('content_5710c348007305_74466616')) {function content_5710c348007305_74466616($_smarty_tpl) {?><ul class="nav navbar-nav navbar-customer navbar-right">
     <?php $_smarty_tpl->smarty->_tag_stack[] = array('loop', array('type'=>"auth",'name'=>"customer_info_block",'role'=>"CUSTOMER")); $_block_repeat=true; echo $_smarty_tpl->smarty->registered_plugins['block']['loop'][0][0]->theliaLoop(array('type'=>"auth",'name'=>"customer_info_block",'role'=>"CUSTOMER"), null, $_smarty_tpl, $_block_repeat);while ($_block_repeat) { ob_start();?>
 
     <li><a href="<?php echo $_smarty_tpl->smarty->registered_plugins[Smarty::PLUGIN_FUNCTION]['url'][0][0]->generateUrlFunction(array('path'=>"/logout"),$_smarty_tpl);?>
