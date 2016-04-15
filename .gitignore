@@ -1,2 +1,4 @@
 .settings
 cache
+web/cache
+web/assets
