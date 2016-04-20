@@ -174,8 +174,12 @@
 	
 	<!-- konfigurator routes -->
 	
-	<route id="konfigurator.ajax" path="/konfigurator/ajax">
-        <default key="_controller">Front\Controller\KonfiguratorController::ajaxAction</default>
+	<route id="konfigurator.ajax" path="/konfigurator/suggestions">
+        <default key="_controller">Front\Controller\KonfiguratorController::suggestionsAction</default>
+    </route>
+    
+    <route id="konfigurator.services" path="/konfigurator/services">
+        <default key="_controller">Front\Controller\KonfiguratorController::servicesAction</default>
     </route>
 	
 	<!-- end konfigurator routes -->

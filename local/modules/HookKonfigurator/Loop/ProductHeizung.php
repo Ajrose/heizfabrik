@@ -501,9 +501,10 @@ class ProductHeizung extends BaseI18nLoop implements PropelSearchLoopInterface, 
 		// $this->import_product_heizung_from_hfproducts();
 		//$this->import_montage_from_csv ();
 		//debug
-		$log = Tlog::getInstance ();
-		$log->debug(" building modelCriteria for ".ProductHeizungTableMap::TABLE_NAME);
 		
+		$log = Tlog::getInstance ();
+		$log->debug(" building modelCriteria for ".ProductHeizungTableMap::TABLE_NAME." ".$this->request->attributes->get('category_id'));
+		//$this->request->attributes->get('category_id')
 		$search = ProductQuery::create ();
 		/*
 		//product sale element

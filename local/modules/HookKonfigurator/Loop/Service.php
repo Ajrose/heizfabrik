@@ -34,6 +34,8 @@ use HookKonfigurator\Model\MontageConstraints;
 use HookKonfigurator\Model\Constraints;
 use HookKonfigurator\Model\Map\ProductHeizungMontageTableMap;
 use HookKonfigurator\Model\MontageQuery;
+use HookKonfigurator\Model\ProductHeizungMontageQuery;
+use Propel\Runtime\Collection\ArrayCollection;
 
 /**
  *
@@ -55,7 +57,7 @@ class Service extends BaseI18nLoop implements PropelSearchLoopInterface, SearchL
 	protected function getArgDefinitions() {
 		return new ArgumentCollection ( 
 				Argument::createFloatTypeArgument ( 'power' ),
-				Argument::createIntListTypeArgument('id'));
+				Argument::createIntTypeArgument('product_id'));
 	}
 	public function getSearchIn() {
 		return [ 
@@ -166,23 +168,8 @@ class Service extends BaseI18nLoop implements PropelSearchLoopInterface, SearchL
 	public function buildModelCriteria() {
 		
 		$log = Tlog::getInstance ();
-		$log->debug("parametersfromloop ");
-		/*$argcol = $this->getArgDefinitions();
-		$argcol->rewind();
-		$args_text = "";
-		$args_text = $args_text.$argcol->current()->name." ".$argcol->current()->getValue();
-		$argcol->next();
-		$args_text = $args_text.$argcol->current()->name." ".$argcol->current()->getValue();
-		$argcol->next();
-		$args_text = $args_text.$argcol->current()->name." ".$argcol->current()->getValue();
-		$argcol->next();
-		$args_text = $args_text.$argcol->current()->name." ".$argcol->current()->getValue();
-		$argcol->next();
-		$args_text = $args_text.$argcol->current()->name." ".$argcol->current()->getValue();
-		$argcol->next();
-		$args_text = $args_text.$argcol->current()->name." ".$argcol->current()->getValue();
-		$argcol->next();*/
-		//this->getArgDefinitions()->current()->name." m ".$this->getArgDefinitions()->current()->getRawValue());
+		$log->debug("parametersfromloop ".$this->getProductId());
+		
 		$search = ProductQuery::create ();
 		
 		$search->innerJoinProductSaleElements('pse');
@@ -196,71 +183,12 @@ class Service extends BaseI18nLoop implements PropelSearchLoopInterface, SearchL
 		
 		$search->groupBy(ProductTableMap::ID);
 		
-		$search
-		->condition ( 'power_larger_then', 'product.id >= ?', "250", \PDO::PARAM_INT )
-		->condition ( 'power_smaller_then', 'product.id <= ?', 260, \PDO::PARAM_INT )
-		->where ( array ('power_larger_then','power_smaller_then' ), Criteria::LOGICAL_AND );
+		$productHeizungMontageQuerry = ProductHeizungMontageQuery::create();
+		$productHeizungMontageQuerry->select('MONTAGE_ID');
+		$montageArrayCollection = $productHeizungMontageQuerry->findByProductHeizungId($this->getProductId());
 		
-		
-		
-		
-	//	where('b.Title = ?', 'foo');
-/*		$heizungJoin = new Join ();
-		$heizungJoin->addExplicitCondition ( ProductTableMap::TABLE_NAME, 'ID', null, ProductHeizungTableMap::TABLE_NAME, 'PRODUCT_ID', 'hz' );
-		$heizungJoin->setJoinType ( Criteria::LEFT_JOIN );
-		
-		$search
-		->addJoinObject ( $heizungJoin, 'HeizungProduct' )
-		->withColumn ( '`hz`.grade', 'grade' )
-		->withColumn ( '`hz`.power', 'power' )
-		->withColumn ( '`hz`.energy_efficiency', 'energy_efficiency' )
-		->withColumn ( '`hz`.priority', 'priority' )
-		->withColumn ( '`hz`.warm_water', 'warm_water' )
-		->withColumn ( '`hz`.energy_carrier', 'energy_carrier' )
-		->withColumn ( '`hz`.storage_capacity', 'storage_capacity' )
-		->condition ( 'same_product_id', 'product.id = `hz`.product_id' )
-		->setJoinCondition ( 'HeizungProduct', 'same_product_id' )
-		->condition ( 'power_larger_then', 'power >= ?', 25 - 1, \PDO::PARAM_INT )
-		->condition ( 'power_smaller_then', 'power <= ?', 25 + 1, \PDO::PARAM_INT )
-		->where ( array ('power_larger_then','power_smaller_then' ), Criteria::LOGICAL_AND ); // power_condition
-		/*
-		$servicesJoin = new Join();
-		$servicesJoin->addExplicitCondition ( ProductTableMap::TABLE_NAME, 'ID', null, ProductHeizungMontageTableMap::TABLE_NAME, 'PRODUCT_HEIZUNG_ID', 'hzm' );
-		$servicesJoin->setJoinType ( Criteria::LEFT_JOIN );
-		
-		$search
-		->addJoinObject ( $servicesJoin, 'HeizungProductMontage' )
-		->withColumn ( '`hzm`.montage_id', 'montage_id' )
-		->condition ( 'same_heizung_id', 'product.id = `hzm`.product_heizung_id' )
-		->setJoinCondition ( 'HeizungProductMontage', 'same_heizung_id' );*/
-		
-		// $search->condition('power_interval', '`a`.power >= (?-1) AND `a`.power <= (?+1)',$waermebedarf);
-		// $search->setJoinCondition('HeizungProductPower','power_interval');
-		
-		/*
-		$heizungJoin = new Join ();
-		$heizungJoin->addExplicitCondition ( ProductTableMap::TABLE_NAME, 'ID', null, ProductHeizungMontageTableMap::TABLE_NAME, 'PRODUCT_HEIZUNG_ID', 'hz' );
-		$heizungJoin->setJoinType ( Criteria::LEFT_JOIN );
-		
-		$search
-		->addJoinObject ( $heizungJoin, 'ProductMontageId' )
-		->withColumn ( '`hz`.montage_id', 'montage_id' )
-		->condition ( 'same_product_id', 'product.id = `hz`.product_heizung_id' )
-		->setJoinCondition ( 'ProductMontageId', 'same_product_id' );
-		//->where ('`hz`.montage_id >= ?', 250); // power_condition
-/*
-		$servicesJoin = new Join();
-		$servicesJoin->addExplicitCondition ( ProductTableMap::TABLE_NAME, 'ID', null, ProductHeizungMontageTableMap::TABLE_NAME, 'PRODUCT_HEIZUNG_ID', 'hzm' );
-		$servicesJoin->setJoinType ( Criteria::LEFT_JOIN );
-		
-		$search
-		->addJoinObject ( $servicesJoin, 'HeizungProductMontage' )
-		->withColumn ( '`hzm`.montage_id', 'montage_id' )
-		->condition ( 'same_heizung_id', 'product.id = `hzm`.product_heizung_id' )
-		->setJoinCondition ( 'HeizungProductMontage', 'same_heizung_id' );*/
-		
-		                            // $search->condition('power_interval', '`a`.power >= (?-1) AND `a`.power <= (?+1)',$waermebedarf);
-		                            // $search->setJoinCondition('HeizungProductPower','power_interval');
+		$search->filterById($montageArrayCollection->toArray(null));
+
 		
 		return $search;
 	}

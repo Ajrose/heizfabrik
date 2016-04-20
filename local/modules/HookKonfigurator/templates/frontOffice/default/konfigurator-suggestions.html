@@ -5,3 +5,18 @@
 		{/loop}
 	</ul>
 </div>    
+
+{block name="after-javascript-include"}
+<script>
+$('.products-content').on('click', '.thumbnail', function (event) {
+	if($(this).hasClass("selected")){
+    $(this).removeClass("selected");
+	}
+	else  {
+		$(this).addClass("selected");
+	}
+});
+</script>
+
+{hook name="register.after-javascript-include"}
+{/block}

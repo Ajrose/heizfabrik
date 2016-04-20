@@ -428,7 +428,15 @@ class Product extends BaseI18nLoop implements PropelSearchLoopInterface, SearchL
 
     public function buildModelCriteria()
     {
-        Tlog::getInstance()->debug("-- Starting new product build criteria");
+        $log = Tlog::getInstance();
+        $log->debug("-- Starting new product build criteria");
+        
+        $categoryArgument = $this->getCategory();
+        if($this->request->attributes->has('category'))
+        $categoryArgument = $this->request->attributes->get('category');
+        
+        $log->debug("thisisit 1 ".$categoryArgument." 2 ".$this->getCategoryDefault()." 3 ".$this->request->attributes->has('category'));
+
 
         $currencyId = $this->getCurrency();
         if (null !== $currencyId) {
@@ -529,7 +537,7 @@ class Product extends BaseI18nLoop implements PropelSearchLoopInterface, SearchL
             $manualOrderAllowed = (1 == count($categoryDefault));
         }
 
-        if (null !== $categoryIdList = $this->getCategory()) {
+        if (null !== $categoryIdList = $categoryArgument) {
             // Select all products which have one of the required categories as the default one, or an associated one
             $depth = $this->getDepth();
 

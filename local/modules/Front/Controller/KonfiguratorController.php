@@ -23,52 +23,40 @@ use HookKonfigurator\Model\ProductHeizungQuery;
 use Thelia\Core\Event\Cart\CartItemEvent;
 use Thelia\Model\CartItem;
 use HookKonfigurator\Model\MontageQuery;
+use Thelia\Log\Tlog;
 
 class KonfiguratorController extends BaseFrontController {
 	
-	public function ajaxAction(Request $request) {
+	public function suggestionsAction(Request $request) {
 
 		//TODO sequence diagramm with the operations starting from konfigurator form and ending to the response products
 		if ($request->isXmlHttpRequest ()) {
 			$view = $request->get ( 'ajax-view', "includes/konfigurator-suggestions" );
 			$request->attributes->set ( '_view', $view );
-			
+			//$request->attributes->set ( 'category_id', 13 );
 		//	header('waermebedarf:'.$waermebedarf);
 			// ->getProductByPower(20,22)->find();//findByProductNumber('84112');
-		} else {
-			$html = "";
-			/*
-			 * foreach ($products as $product){
-			 * $html.="<li id=\"product\">";
-			 * $product_image = $product->getImage();
-			 * if($product_image == null)$product_image = "http://placehold.it/100x160";
-			 * $html.="<img src=\"".$product_image."\">";
-			 * $html.="<ul><li><b>Name:</b> ".$product->getName()."</li>";
-			 * $html.="<li><b>Space Heater Power:</b> ".$product->getSpaceHeaterPower()."</li>";
-			 * $html.="<li><b>Grade:</b> ".$product->getGrade()."</li>";
-			 * $html.="<li><b>Montage:</b> ".$product->getMontageId()."</li>";
-			 * $html.="<li><b>Price:</b> ".$product->getPrice()."</li>";
-			 * $html.="<li><a href=\"http://eek.fts.at/files/labels/".$product->getLabelName()."\" target=\"_blank\">Label</a></li>";
-			 * $html.="<li><a href=\"http://eek.fts.at/files/specifications/".$product->getSpecificationName()."\" target=\"_blank\">Datenblatt</a></li>";
-			 * $html.="</ul></li>";
-			 *
-			 * }
-			 */
-			//$montageQuerry = MontageQuery::create();
-			//$found = $montageQuerry->findById(72);
-			// "<a href=\"http://eek.fts.at/files/labels/".$product->getLabelName()."\" target=\"_blank\">Label</a>"
-			
-			// "<a href=\"http://eek.fts.at/files/specifications/".$product->getSpecificationName()."\" target=\"_blank\">Datenblatt</a>"
-			
-			/*
-			 * return new JsonResponse(array('message' => 'Success!','waermebedarf' => $waermebedarf,
-			 * 'product' => $html), 200);
-			 */
-			// $products = $this->getDoctrine ();
-			// ,'product'=> $html,'size'=> sizeof($products),'product_heizung'=>$product_heizung->__toString(),'product_thelia'=>$product_thelia->__toString()
-			return new JsonResponse ( array (
-					'message' => 'Success!'
-			) ); // $productsQuerry->__toString()
+		}
+		else 
+		{	
+		return new JsonResponse ( array ('stuff' => 'more stuff') ); // $productsQuerry->__toString()
 		}
 	}
+	
+	public function servicesAction(Request $request) {
+		if ($request->isXmlHttpRequest ()) {
+			$view = $request->get ( 'ajax-view', "includes/category-services" );
+			
+			$log = Tlog::getInstance ();
+			$log->debug("servicesaction ". $request->get('category'));
+			
+			$request->attributes->set ( 'category', $request->request->get('category') );
+			$request->attributes->set ( '_view', $view );
+		}
+		else
+		{
+			return new JsonResponse ( array ('service_stuff' => 'more_service_stuff') ); // $productsQuerry->__toString()
+		}
+	}
+	
 }

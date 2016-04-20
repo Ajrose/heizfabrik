@@ -183,7 +183,7 @@
             </div><!-- /.toolbar toolbar-bottom -->
             {/ifloop}
             {elseloop rel="product_list"}
-  			            {if $category_id eq 12}<!-- services_category_id is set in configs\variables.conf -->
+  			            {if $category_id eq #services_category_id#}<!-- services_category_id is set in configs\variables.conf -->
 				{loop name="subcategories" type="category" parent=$category_id}
 				{assign var="subcategorie_title" value=$TITLE}
 				{assign var="subcategorie_id" value=$ID}	

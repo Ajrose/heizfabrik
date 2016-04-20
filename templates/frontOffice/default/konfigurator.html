@@ -28,7 +28,7 @@
           
             {hook name="konfigurator.top"}
             {form name="konfigurator.heizlast.berechnung"}
-				<form id="form-konfigurator" class="form-horizontal fs-form fs-form-full " action="{url path="/konfigurator/ajax"}" method="post" autocomplete="off">
+				<form id="form-konfigurator" class="form-horizontal fs-form fs-form-full " action="{url path="/konfigurator/suggestions"}" method="post" autocomplete="off">
                     {form_field field='error_message'}
                     <input type="hidden" name="{$name}" value="{intl l="missing or invalid data"}" />
                 {/form_field}  
