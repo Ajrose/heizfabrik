@@ -1,59 +1,44 @@
 <li class="item {$colClass|default:"col-md"}">
-{if $PSE_COUNT > 1}
+{if $SERVICE_PSE_COUNT > 1}
 	{assign var="hasSubmit" value = false} 
 {else} 
 	{assign var="hasSubmit" value = true} 
 {/if} 
-{assign var="productTitle" value="{$TITLE}"} 
-{if	not $product_id} 
-	{assign var="product_id" value=$ID} 
+{assign var="serviceTitle" value="{$SERVICE_TITLE}"} 
+{if	not $service_id} 
+	{assign var="service_id" value=$SERVICE_ID} 
 {/if}
 	<article class="row" itemscope itemtype="http://schema.org/Product">
 
-		<div style="width: 33%; float: left;">
-			{hook name="singleproduct.top" product="{$product_id}"} <a
-				href="{$URL nofilter}" itemprop="url" tabindex="-1"
+		<div style="width: 43%;">
+			{hook name="singleproduct.top" product="{$service_id}"} <a
+				href="{$SERVICE_URL nofilter}" itemprop="url" tabindex="-1"
 				class="product-image{if $hasQuickView == true} product-quickview{/if} overlay col-sm-3">
-				{loop name="product_thumbnail" type="image" product=$product_id
+				{loop name="product_thumbnail" type="image" product=$service_id
 				width="{$width}" height="{$height}" resize_mode="borders" limit="1"}
 				<img itemprop="image" src="{$IMAGE_URL nofilter}"
-				class="img-responsive" alt="{$productTitle}"> {/loop}
+				class="img-responsive" alt="{$serviceTitle}"> {/loop}
 				{elseloop rel="product_thumbnail"} <img itemprop="image"
 				src="{image file='assets/dist/img/218x146.png'}"
-				class="img-responsive" alt="{$productTitle}"> {/elseloop}
+				class="img-responsive" alt="{$serviceTitle}"> {/elseloop}
 			</a>
 		</div>
-		<div style="width: 33%; float: left;">
+
 			<div class="product-info col-sm-6">
 				<h2 class="name">
-					<a href="{$URL nofilter}"><span itemprop="name">{$productTitle}</span></a>
+					<a href="{$SERVICE_URL nofilter}"><span itemprop="name">{$serviceTitle}</span></a>
 				</h2>
-				{if $hasDescription}
+				{if $hasServiceDescription}
 				<div class="short-description" itemprop="description">
-					<p>{$DESCRIPTION nofilter}</p>
-				</div>
-				{/if} {if $hasGrade}
-				<div class="short-description" itemprop="description">
-					<p>{intl l="Grade" d="hookkonfigurator.fo.default"}: {$GRADE
-						nofilter}</p>
-				</div>
-				{/if} {if $hasPower}
-				<div class="short-description" itemprop="description">
-					<p>{intl l="Power" d="hookkonfigurator.fo.default"}: {$POWER
-						nofilter}</p>
-				</div>
-				{/if} {if $hasWarmwater}
-				<div class="short-description" itemprop="description">
-					<p>{intl l="Warmwater" d="hookkonfigurator.fo.default"}:
-						{$WARMWATER nofilter}</p>
+					<p>{$SERVICE_DESCRIPTION nofilter}</p>
 				</div>
 				{/if}
 			</div>
 
 			{* Stock *} {assign var="current_stock_content" value = "in_stock"}
 			{assign var="current_stock_href" value = "http://schema.org/InStock"}
-			{if {config key="check-available-stock"} != 0} {if $VIRTUAL == 0 &&
-			$QUANTITY <= 0} {assign var="current_stock_content" value =
+			{if {config key="check-available-stock"} != 0} {if $SERVICE_VIRTUAL == 0 &&
+			$SERVICE_QUANTITY <= 0} {assign var="current_stock_content" value =
 			"out_stock"} {assign var="current_stock_href" value =
 			"http://schema.org/OutOfStock"} {/if} {/if}
 
@@ -75,33 +60,32 @@
 						class="special-price col-xs-6"><span itemprop="price"
 						class="price-label">{intl l="Special Price:"} </span><span
 						class="price"> {if $combination_count > 1} {intl l="From
-							%price" price={format_money number=$BEST_TAXED_PRICE
+							%price" price={format_money number=$SERVICE_BEST_TAXED_PRICE
 							symbol={currency attr="symbol"}}} {else} {format_money
-							number=$BEST_TAXED_PRICE symbol={currency attr="symbol"}} {/if} </span></span>
-					{if $SHOW_ORIGINAL_PRICE} <span class="old-price col-xs-6"><span
+							number=$SERVICE_BEST_TAXED_PRICE symbol={currency attr="symbol"}} {/if} </span></span>
+					{if $SERVICE_SHOW_ORIGINAL_PRICE} <span class="old-price col-xs-6"><span
 						class="price-label">{intl l="Regular Price:"} </span><span
-						class="price">{format_money number=$TAXED_PRICE
+						class="price">{format_money number=$SERVICE_TAXED_PRICE
 							symbol={currency attr="symbol"}}</span></span> {/if} {else} <span
 						class="regular-price col-xs-12"><span itemprop="price"
-						class="price">{format_money number=$BEST_TAXED_PRICE
+						class="price">{format_money number=$SERVICE_BEST_TAXED_PRICE
 							symbol={currency attr="symbol"}}</span></span> {/if}
 				</div>
 
 				{if $hasBtn == true} {if $hasSubmit == true &&
 				$current_stock_content == "in_stock"} {form name="thelia.cart.add" }
-				<form id="form-product-details{$product_id}" action="{url path="
-					/cart/add" }" method="post" class="form-product">
+				<form id="form-product-details{$product_id}" action="{url path="/cart/add" }" method="post" class="form-product">
 					{form_hidden_fields} <input type="hidden" name="view"
 						value="product"> <input type="hidden" name="product_id"
-						value="{$product_id}"> {form_field field="append"} <input
+						value="{$service_id}"> {form_field field="append"} <input
 						type="hidden" name="{$name}" value="1"> {/form_field} {if
 					$form_error}
 					<div class="alert alert-error">{$form_error_message}</div>
 					{/if} {form_field field='product_sale_elements_id'} <input
 						type="hidden" class="pse-id" name="{$name}"
-						value="{$PRODUCT_SALE_ELEMENT}"{$attr}> {/form_field}
+						value="{$SERVICE_SALE_ELEMENT}"{$attr}> {/form_field}
 					{form_field field="product"} <input id="{$label_attr.for}"
-						type="hidden" name="{$name}" value="{$product_id}"{$attr} >
+						type="hidden" name="{$name}" value="{$service_id}"{$attr} >
 					{/form_field}
 
 					<fieldset class="product-cart form-inline">
@@ -129,16 +113,13 @@
 				{/form} {else}
 				<div>
 					<div class="product-btn">
-						<a href="{$URL nofilter}" class="btn btn-primary btn-block"><i
+						<a href="{$SERVICE_URL nofilter}" class="btn btn-primary btn-block"><i
 							class="fa fa-eye"></i> {intl l="View product"}</a>
 					</div>
 				</div>
 				{/if} {/if}
 			</div>
 			{hook name="singleproduct.bottom" product="{$product_id}"}
-		</div>
-		<div style="width: 33%; float: left;">
 
-		</div>
 	</article> <!-- /product -->
 </li>

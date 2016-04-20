@@ -86,10 +86,11 @@ GNU General Public License : http://www.gnu.org/licenses/
         <script>window.respond || document.write('<script src="{$asset_url}"><\/script>');</script>
     {/javascripts}
     <![endif]-->
+    <script src="{javascript file='assets/dist/js/vendors/modernizr.custom.js'}"></script>
 
     {hook name="main.head-bottom"}
 </head>
-<body class="{block name="body-class"}{/block}" itemscope itemtype="http://schema.org/WebPage">
+<body class="{block name='body-class'}{/block}" itemscope itemtype="http://schema.org/WebPage">
     {hook name="main.body-top"}
 
     <!-- Accessibility -->
@@ -99,7 +100,7 @@ GNU General Public License : http://www.gnu.org/licenses/
 
         <div class="header-container" itemscope itemtype="http://schema.org/WPHeader">
             {hook name="main.header-top"}
-            <div class="navbar navbar-default navbar-secondary" itemscope itemtype="http://schema.org/SiteNavigationElement">
+            <div class="navbar  navbar-default navbar-secondary" itemscope itemtype="http://schema.org/SiteNavigationElement">
                 <div class="container">
 
                     <div class="navbar-header">
@@ -124,12 +125,30 @@ GNU General Public License : http://www.gnu.org/licenses/
 
 
             <header class="container" role="banner">
-                <div class="header row">
-                    <h1 class="logo container hidden-xs">
+                <h1 class="logo  hidden-xs" style="float:left">
                         <a href="{navigate to="index"}" title="{$store_name}">
-                            <img src="{image file='assets/dist/img/logo.gif'}" alt="{$store_name}">
+                            <img src="{image file='assets/dist/img/logo.png'}" alt="{$store_name}">
                         </a>
-                    </h1>
+                </h1>
+                <div class="hotline">
+               
+                    <div class="hotline-icon"> <span></span></div>
+                    <div class="hotline-text">
+                    <h3>0800/022573</h3>
+                    <small> Mo-Fr:  8-20 Uhr<br>
+                        Sa:  11-17 Uhr</small>
+                    </div>
+                   
+                
+                   
+               
+                </div>
+                <div style="clear:both"></div>
+                <div class="header row">
+                   
+                    
+                   
+                    
                     {hook name="main.navbar-primary"}
                 </div>
             </header><!-- /.header -->
@@ -141,7 +160,19 @@ GNU General Public License : http://www.gnu.org/licenses/
             <div class="container">
                 {hook name="main.content-top"}
                 {block name="breadcrumb"}{include file="misc/breadcrumb.tpl"}{/block}
-                <div id="content">{block name="main-content"}{/block}</div>
+                <div id="content">{block name="main-content"}{/block}
+                    
+                    
+                    
+              
+ 
+                   
+
+      
+		
+                    
+                    
+                </div>
                 {hook name="main.content-bottom"}
             </div><!-- /.container -->
         </main><!-- /.main-container -->
@@ -162,23 +193,37 @@ GNU General Public License : http://www.gnu.org/licenses/
                     <div class="container">
                         <div class="banner row banner-col-3">
                             <div class="col col-sm-4">
-                                <span class="fa fa-truck fa-flip-horizontal"></span>
-                                {intl l="Free shipping"} <small>{intl l="Orders over $50"}</small>
+                                <span class="shopicon shop-lieferung highlightcolor fa-flip-horizontal"></span>
+                                <div><strong>{intl l="LIEFERUNG"}</strong></div> <div><br><small>{intl l="Wir berechnen Festpreise pro Adresse, die von der Lieferoption abhängen. Liefergebühren.
+Die Standardlieferung dauert bis 3 Arbeitstage."}</small></div>
                             </div>
                             <div class="col col-sm-4">
-                                <span class="fa fa-credit-card"></span>
-                                {intl l="Secure payment"} <small>{intl l="Multi-payment platform"}</small>
+                                <span class="shopicon shop-bezahlung highlightcolor"></span>
+                                <div><strong>{intl l="BEZAHLUNG"} </strong></div><div><br><small>{intl l="Die folgenden Zahlungsmethoden stehen Ihnen zur Verfügung:"}</small></div>
+                                <div>
+                                    <img src="{image file='assets/dist/img/paymentsystems/paypal.jpg'}" alt="paypal"/>
+                                    <img src="{image file='assets/dist/img/paymentsystems/mastercard.jpg'}" alt="paypal"/>
+                                    <img src="{image file='assets/dist/img/paymentsystems/visa.jpg'}" alt="paypal"/>
+                                    <img src="{image file='assets/dist/img/paymentsystems/western.jpg'}" alt="paypal"/>
+                                </div>
                             </div>
                             <div class="col col-sm-4">
-                                <span class="fa fa-info"></span>
-                                {intl l="Need help ?"} <small>{intl l="Questions ? See our F.A.Q."}</small>
+                                <span class="shopicon shop-kontakt highlightcolor"></span>
+                                <div>
+                                    <strong>{intl l="KONTAKT"} </strong>
+                                </div>
+                                <div>
+                                    <h3><strong>{intl l="0800/022573"}</strong></h3>
+                                    <h5>Mo-Fr: 8-20Uhr</h5>
+                                    <h5>Sa: 11-17Uhr</h5>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </section><!-- /.footer-banner -->
             {/elsehook}
 
-            {ifhook rel="main.footer-body"}
+            {*ifhook rel="main.footer-body"}
                 <section class="footer-block">
                     <div class="container">
                         <div class="blocks row">
@@ -197,7 +242,7 @@ GNU General Public License : http://www.gnu.org/licenses/
                         </div>
                     </div>
                 </section>
-            {/ifhook}
+            {/ifhook*}
 
             {ifhook rel="main.footer-bottom"}
                 <footer class="footer-info" role="contentinfo">
@@ -207,7 +252,7 @@ GNU General Public License : http://www.gnu.org/licenses/
                                 {hook name="main.footer-bottom"}
                             </div>
                             <div class="col-lg-3">
-                                <section class="copyright">{intl l="Copyright"} &copy; <time datetime="{'Y-m-d'|date}">{'Y'|date}</time> <a href="http://thelia.net" rel="external">Thelia</a></section>
+                                <section class="copyright">{intl l="Copyright"} &copy; <time datetime="{'Y-m-d'|date}">{'Y'|date}</time> <a href="http://thelia.net" rel="external">HEIZFABRIK</a></section>
                             </div>
                         </div>
                     </div>
@@ -228,7 +273,7 @@ GNU General Public License : http://www.gnu.org/licenses/
                                     <li><a href="{url path="/contact"}">{intl l="Contact Us"}</a></li>
                                 </ul>
                             </nav>
-                            <section class="copyright col-lg-3">{intl l="Copyright"} &copy; <time datetime="{'Y-m-d'|date}">{'Y'|date}</time> <a href="http://thelia.net" rel="external">Thelia</a></section>
+                            <section class="copyright col-lg-3">{intl l="Copyright"} &copy; <time datetime="{'Y-m-d'|date}">{'Y'|date}</time> <a href="http://thelia.net" rel="external">HEIZFABRIK</a></section>
                         </div>
                     </div>
                 </footer><!-- /.footer-info -->
@@ -278,6 +323,7 @@ GNU General Public License : http://www.gnu.org/licenses/
 
     <!-- Custom scripts -->
     <script src="{javascript file='assets/dist/js/thelia.min.js'}"></script>
+  
 
     {hook name="main.body-bottom"}
 </body>

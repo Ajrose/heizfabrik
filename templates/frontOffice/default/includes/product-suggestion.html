@@ -89,8 +89,7 @@
 
 				{if $hasBtn == true} {if $hasSubmit == true &&
 				$current_stock_content == "in_stock"} {form name="thelia.cart.add" }
-				<form id="form-product-details{$product_id}" action="{url path="
-					/cart/add" }" method="post" class="form-product">
+				<form id="form-product-details{$product_id}" action="{url path="/cart/add" }" method="post" class="form-product">
 					{form_hidden_fields} <input type="hidden" name="view"
 						value="product"> <input type="hidden" name="product_id"
 						value="{$product_id}"> {form_field field="append"} <input
@@ -138,11 +137,9 @@
 			{hook name="singleproduct.bottom" product="{$product_id}"}
 		</div>
 		<div style="width: 33%; float: left;">
-		<p>{$MONTAGE}</p>
-		{loop type="service" name="services_for_$ID" limit="1" power=1111}
-			 {include file="includes/product-services.html" product_id=123  hasBtn=true hasDescription=true hasQuickView=true width="218" height="146"}
-		
-		{/loop}
+		{loop type="service"  name="services_list" category=$category_id  limit="1"}
+ {include file="includes/product-services.html"  hasBtn=true  hasServiceDescription=true hasQuickView=true width="218" height="146"}
+		{/loop}	
 		</div>
 	</article> <!-- /product -->
 </li>
