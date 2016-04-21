@@ -108,7 +108,7 @@ class Service extends BaseI18nLoop implements PropelSearchLoopInterface, SearchL
 		
 		/** @var \Thelia\Core\Security\SecurityContext $securityContext */
 		$securityContext = $this->container->get ( 'thelia.securityContext' );
-		$i = 0;
+		$i = 1;
 		/** @var \Thelia\Model\Product $product */
 		foreach ( $loopResult->getResultDataCollection () as $product ) {
 			$log->debug ( "serviceloop product " . $product->__toString() );
@@ -120,8 +120,10 @@ class Service extends BaseI18nLoop implements PropelSearchLoopInterface, SearchL
 			->set("SERVICE_SALE_ELEMENT", $product->getVirtualColumn('pse_id'))
 			->set("SERVICE_PSE_COUNT", $product->getVirtualColumn('pse_count'))
 			->set("SERVICE_QUANTITY", $product->getVirtualColumn('quantity'))
+			->set("RESULT_NUMBER", $i)
 			;
 			
+			$i++;
 			$this->addOutputFields ( $loopResultRow, $product );
 			
 			$loopResult->addRow ( $this->associateValues ( $loopResultRow, $product, $default_category_id ) );

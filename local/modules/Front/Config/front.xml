@@ -3,14 +3,6 @@
 <routes xmlns="http://symfony.com/schema/routing"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://symfony.com/schema/routing http://symfony.com/schema/routing/routing-1.0.xsd">
-
-		
-<!-- 
-		<route id="mini-konfigurator" path="/mini-konfigurator">
-        <default key="_controller">Thelia\Controller\Front\DefaultController::noAction</default>
-        <default key="_view">includes/mini-konfigurator</default>
-    </route>
-	-->
 		
     <route id="ajax.mini-cart" path="/ajax/mini-cart">
         <default key="_controller">Thelia\Controller\Front\DefaultController::noAction</default>
@@ -174,12 +166,16 @@
 	
 	<!-- konfigurator routes -->
 	
-	<route id="konfigurator.ajax" path="/konfigurator/suggestions">
+	<route id="konfigurator.suggestions" path="/konfigurator/suggestions">
         <default key="_controller">Front\Controller\KonfiguratorController::suggestionsAction</default>
     </route>
     
     <route id="konfigurator.services" path="/konfigurator/services">
         <default key="_controller">Front\Controller\KonfiguratorController::servicesAction</default>
+    </route>
+    
+    <route id="konfigurator.add" path="/konfigurator/add">
+        <default key="_controller">Front\Controller\KonfiguratorController::addProductWithServicesAction</default>
     </route>
 	
 	<!-- end konfigurator routes -->

@@ -561,7 +561,7 @@ class ProductHeizung extends BaseI18nLoop implements PropelSearchLoopInterface, 
 		->condition ( 'power_larger_then', 'power >= ?', $waermebedarf - 1, \PDO::PARAM_INT )
 		->condition ( 'power_smaller_then', 'power <= ?', $waermebedarf + 1, \PDO::PARAM_INT )
 		->where ( array ('power_larger_then','power_smaller_then' ), Criteria::LOGICAL_AND ); // power_condition
-
+/*
 		$servicesJoin = new Join();
 		$servicesJoin->addExplicitCondition ( ProductTableMap::TABLE_NAME, 'ID', null, ProductHeizungMontageTableMap::TABLE_NAME, 'PRODUCT_HEIZUNG_ID', 'hzm' );
 		$servicesJoin->setJoinType ( Criteria::LEFT_JOIN );
@@ -571,7 +571,7 @@ class ProductHeizung extends BaseI18nLoop implements PropelSearchLoopInterface, 
 		->withColumn ( '`hzm`.montage_id', 'montage_id' )
 		->condition ( 'same_heizung_id', 'product.id = `hzm`.product_heizung_id' )
 		->setJoinCondition ( 'HeizungProductMontage', 'same_heizung_id' );
-
+*/
 		/*
 		$priceJoin = new Join();
 		$priceJoin->addExplicitCondition(ProductSaleElementsTableMap::TABLE_NAME, 'ID', 'pse', ProductPriceTableMap::TABLE_NAME, 'PRODUCT_SALE_ELEMENTS_ID', 'price');

@@ -24,6 +24,8 @@ use Thelia\Core\Event\Cart\CartItemEvent;
 use Thelia\Model\CartItem;
 use HookKonfigurator\Model\MontageQuery;
 use Thelia\Log\Tlog;
+use Thelia\Model\OrderPostage;
+use Thelia\Model\AddressQuery;
 
 class KonfiguratorController extends BaseFrontController {
 	
@@ -34,8 +36,6 @@ class KonfiguratorController extends BaseFrontController {
 			$view = $request->get ( 'ajax-view', "includes/konfigurator-suggestions" );
 			$request->attributes->set ( '_view', $view );
 			//$request->attributes->set ( 'category_id', 13 );
-		//	header('waermebedarf:'.$waermebedarf);
-			// ->getProductByPower(20,22)->find();//findByProductNumber('84112');
 		}
 		else 
 		{	
@@ -47,8 +47,8 @@ class KonfiguratorController extends BaseFrontController {
 		if ($request->isXmlHttpRequest ()) {
 			$view = $request->get ( 'ajax-view', "includes/category-services" );
 			
-			$log = Tlog::getInstance ();
-			$log->debug("servicesaction ". $request->get('category'));
+		//	$log = Tlog::getInstance ();
+		//	$log->debug("servicesaction ". $request->get('category'));
 			
 			$request->attributes->set ( 'category', $request->request->get('category') );
 			$request->attributes->set ( '_view', $view );
@@ -58,5 +58,148 @@ class KonfiguratorController extends BaseFrontController {
 			return new JsonResponse ( array ('service_stuff' => 'more_service_stuff') ); // $productsQuerry->__toString()
 		}
 	}
+	
+	protected function addServiceToCart($id,$product_sale_id){
+		$log = Tlog::getInstance ();
+		$log->debug ( "-- addservices " );
+	}
+	
+	public function addProductWithServicesAction(Request $request) {
+		$request = $this->getRequest();
+		
+		$cartAdd = $this->getAddCartForm($request);
+		$message = null;
+		
+		try {
+			$form = $this->validateForm($cartAdd);
+		
+			$cartEvent = $this->getCartEvent();
+		
+			$cartEvent->bindForm($form);
+		
+			$this->getDispatcher()->dispatch(TheliaEvents::CART_ADDITEM, $cartEvent);
+		
+			$this->afterModifyCart();
+		
+			
+			$service_ids = $request->request->get('service_id');
+			if($service_ids != null){
+				$service_product_sale_ids = $request->request->get('service_product_sale_id');
+				$nr_services = count($service_ids);
+				$log = Tlog::getInstance ();
+				$log->debug ( "-- addservices " );
+				if($nr_services > 0)
+					for ($i = 1; $i<=$nr_services; $i++){
+					if($service_ids[$i]){
+						$log->debug ( "-- addservicesewerwrwe ".$service_ids[$i] );
+						$this->addServiceToCart($service_ids[$i], $service_product_sale_ids[$i]);
+					}
+				};
+			}
+		
+			if ($this->getRequest()->isXmlHttpRequest()) {
+				$this->changeViewForAjax();
+			} elseif (null !== $response = $this->generateSuccessRedirect($cartAdd)) {
+				return $response;
+			}
+		
+		} catch (PropelException $e) {
+			Tlog::getInstance()->error(sprintf("Failed to add item to cart with message : %s", $e->getMessage()));
+			$message = $this->getTranslator()->trans(
+					"Failed to add this article to your cart, please try again",
+					[],
+					Front::MESSAGE_DOMAIN
+					);
+		} catch (FormValidationException $e) {
+			$message = $e->getMessage();
+		}
+		
+		if ($message) {
+			$cartAdd->setErrorMessage($message);
+			$this->getParserContext()->addForm($cartAdd);
+		}
+		}
+		
+		protected function changeViewForAjax()
+		{
+			// If Ajax Request
+			if ($this->getRequest()->isXmlHttpRequest()) {
+				$request = $this->getRequest();
+		
+				$view = $request->get('ajax-view', "includes/mini-cart");//konfigurator
+				//$log = Tlog::getInstance();
+				//$log->debug("carcontroller ".implode(" ", $request->attributes->all()));
+				$request->attributes->set('_view', $view);
+			}
+		}
+
+		/**
+		 * @return \Thelia\Core\Event\Cart\CartEvent
+		 */
+		protected function getCartEvent()
+		{
+			$cart = $this->getSession()->getSessionCart($this->getDispatcher());
+		
+			return new CartEvent($cart);
+		}
+		
+		/**
+		 * Find the good way to construct the cart form
+		 *
+		 * @param  Request $request
+		 * @return CartAdd
+		 */
+		private function getAddCartForm(Request $request)
+		{
+			if ($request->isMethod("post")) {
+				$cartAdd = $this->createForm(FrontForm::CART_ADD);
+			} else {
+				$cartAdd = $this->createForm(
+						FrontForm::CART_ADD,
+						"form",
+						array(),
+						array(
+								'csrf_protection'   => false,
+						),
+						$this->container
+						);
+			}
+		
+			return $cartAdd;
+		}
+		
+		protected function afterModifyCart()
+		{
+			/* recalculate postage amount */
+			$order = $this->getSession()->getOrder();
+			if (null !== $order) {
+				$deliveryModule = $order->getModuleRelatedByDeliveryModuleId();
+				$deliveryAddress = AddressQuery::create()->findPk($order->getChoosenDeliveryAddress());
+		
+				if (null !== $deliveryModule && null !== $deliveryAddress) {
+					$moduleInstance = $deliveryModule->getDeliveryModuleInstance($this->container);
+		
+					$orderEvent = new OrderEvent($order);
+		
+					try {
+						$postage = OrderPostage::loadFromPostage(
+								$moduleInstance->getPostage($deliveryAddress->getCountry())
+								);
+		
+						$orderEvent->setPostage($postage->getAmount());
+						$orderEvent->setPostageTax($postage->getAmountTax());
+						$orderEvent->setPostageTaxRuleTitle($postage->getTaxRuleTitle());
+		
+						$this->getDispatcher()->dispatch(TheliaEvents::ORDER_SET_POSTAGE, $orderEvent);
+					} catch (DeliveryException $ex) {
+						// The postage has been chosen, but changes in the cart causes an exception.
+						// Reset the postage data in the order
+						$orderEvent->setDeliveryModule(0);
+		
+						$this->getDispatcher()->dispatch(TheliaEvents::ORDER_SET_DELIVERY_MODULE, $orderEvent);
+					}
+				}
+			}
+		}
 	
 }
