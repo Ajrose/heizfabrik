@@ -1,4 +1,6 @@
 .settings
 cache
-web/cache
-web/assets
+web/cache/*
+web/assets/*
+log
+local/session
