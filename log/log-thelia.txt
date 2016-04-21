@@ -1616,3 +1616,9 @@
 1: ERROR [SmartyAssetsResolver.php:resolveAssetURL()] {79} 2016-04-20 20:19:46: Asset assets\css\styles.css (type css) was not found.
 1: ERROR [SmartyAssetsResolver.php:resolveAssetURL()] {79} 2016-04-20 20:20:06: Asset assets\css\styles.css (type css) was not found.
 1: ERROR [SmartyAssetsResolver.php:resolveAssetURL()] {79} 2016-04-20 20:20:54: Asset assets\css\styles.css (type css) was not found.
+1: ERROR [SmartyAssetsResolver.php:resolveAssetURL()] {79} 2016-04-21 9:45:18: Asset assets\css\styles.css (type css) was not found.
+1: ERROR [SmartyAssetsResolver.php:resolveAssetURL()] {79} 2016-04-21 9:51:33: Asset assets\css\styles.css (type css) was not found.
+1: ERROR [SmartyAssetsResolver.php:resolveAssetURL()] {79} 2016-04-21 9:51:46: Asset assets\css\styles.css (type css) was not found.
+1: ERROR [SmartyAssetsResolver.php:resolveAssetURL()] {79} 2016-04-21 9:56:13: Asset assets\css\styles.css (type css) was not found.
+1: ERROR [SmartyAssetsResolver.php:resolveAssetURL()] {79} 2016-04-21 9:56:18: Asset assets\css\styles.css (type css) was not found.
+1: ERROR [SmartyAssetsResolver.php:resolveAssetURL()] {79} 2016-04-21 9:58:10: Asset assets\css\styles.css (type css) was not found.

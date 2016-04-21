@@ -161,6 +161,19 @@
 								
 							</div>
                             {/form_field}
+                            
+                            <label class="fs-field-label-sm fs-anim-upper" for="q9" >Wie groß sind die Fenster Fläche?</label>
+                           {form_field field="verglaste_flaeche"}
+							<div class="fs-radio-group fs-radio-normal clearfix fs-anim-lower">
+                                {foreach $choices as $choice}
+								<span>
+								<input id="{$label_attr.for}{$choice->value}" name="{$name}" type="radio" value="{$choice->value}"{if $value === {$choice->value}} checked{/if}><label for="q9b" class="radio-conversion fs-field-label-sm">{$choice->label}</label>
+                                </span>
+								 {/foreach}
+								
+							</div>
+                            {/form_field}
+                            
                             <label class="fs-field-label-sm fs-anim-upper" for="q9" >Ist das Dach gedämmt?</label>
 							<div class="fs-radio-group fs-radio-normal clearfix fs-anim-lower">
 								<span><input id="q9b" name="q9" type="radio" value="conversion"/><label for="q9b" class="radio-conversion fs-field-label-sm">Ja</label></span>
