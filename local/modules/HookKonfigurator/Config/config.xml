@@ -25,7 +25,6 @@
     <hooks>
         <hook id="hookkonfigurator.hook.front" class="HookKonfigurator\Hook\Front" scope="request">
 		    <tag name="hook.event_listener" event="main.head-bottom" />
-            <tag name="hook.event_listener" event="main.navbar-secondary" />
             <tag name="hook.event_listener" event="main.navbar-primary" />
             <tag name="hook.event_listener" event="konfigurator-suggestions" />
         </hook>
@@ -36,8 +35,16 @@
     </exports>
     -->
 
-    <!--
-    <imports>
-    </imports>
-    -->
+	<imports>
+		<import id="hookkonfigurator.import.services" class="HookKonfigurator\Import\ServicesImport" category_id="thelia.import.products">
+			<import_descriptive locale="en_US">
+				<title>Import hausfabrik services </title>
+				 <description> describe service import format </description>
+			</import_descriptive>
+			<import_descriptive locale="fr_FR">
+				<title>Import hausfabrik services </title>
+				 <description> describe service import format </description>
+			</import_descriptive>
+		</import>
+	</imports>
 </config>
