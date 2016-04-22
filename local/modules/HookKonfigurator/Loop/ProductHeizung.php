@@ -303,7 +303,6 @@ class ProductHeizung extends BaseI18nLoop implements PropelSearchLoopInterface, 
 								$constraint->save ();
 								$montageConstraint->setConstraintsId ( $constraint->getId () );
 							}
-							
 							$montageConstraint->save();
 						}
 						else

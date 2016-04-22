@@ -15,6 +15,7 @@ namespace Thelia\Core\FileFormat\Formatting\Formatter;
 use Thelia\Core\FileFormat\Formatting\AbstractFormatter;
 use Thelia\Core\FileFormat\Formatting\FormatterData;
 use Thelia\Core\FileFormat\FormatType;
+use Thelia\Log\Tlog;
 
 /**
  * Class CSVFormatter
@@ -158,11 +159,13 @@ class CSVFormatter extends AbstractFormatter
         $raw = explode($this->lineReturn, $rawData);
 
         $result = array();
-
+        $log = Tlog::getInstance ();
+       // $log->debug ( " service_import ");
         if (count($raw) > 0) {
             $keys = str_getcsv($raw[0], $this->delimiter, $this->stringDelimiter);
             unset($raw[0]);
             foreach ($raw as $line) {
+            //	$log->debug ("count ".count($keys)." ".count(str_getcsv($line, $this->delimiter, $this->stringDelimiter)));
                 $result[] = array_combine($keys, str_getcsv($line, $this->delimiter, $this->stringDelimiter));
             }
         }
