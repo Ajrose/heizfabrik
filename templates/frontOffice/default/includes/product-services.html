@@ -71,9 +71,10 @@
 						{/if} 
 						{else} 
 						<span class="regular-price col-xs-12">
-						<span itemprop="price" class="price">
+						<span itemprop="price" class="price" name="price_service" >
 						{format_money number=$SERVICE_BEST_TAXED_PRICE symbol={currency attr="symbol"}}
 						</span>
+						<div name="price_service_o" product="{$product_id}" style="display:none;">{$SERVICE_BEST_TAXED_PRICE}</div>
 						</span>
 						{/if}
 				</div>

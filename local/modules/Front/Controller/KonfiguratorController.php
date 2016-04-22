@@ -26,6 +26,7 @@ use HookKonfigurator\Model\MontageQuery;
 use Thelia\Log\Tlog;
 use Thelia\Model\OrderPostage;
 use Thelia\Model\AddressQuery;
+use Thelia\Form\CartAdd;
 
 class KonfiguratorController extends BaseFrontController {
 	
@@ -59,40 +60,84 @@ class KonfiguratorController extends BaseFrontController {
 		}
 	}
 	
-	protected function addServiceToCart($id,$product_sale_id){
+	protected function addServiceToCart($id,$product_sale_id,Request $request){
 		$log = Tlog::getInstance ();
 		$log->debug ( "-- addservices " );
+		
+		$message = null;
+
+		
+		try {
+			//$cartEvent = new CartEvent();
+			
+			$cartEvent = $this->getCartEvent();
+			$cartEvent->setProduct($id);
+			$cartEvent->setAppend(1);
+			$cartEvent->setProductSaleElementsId($product_sale_id);
+			$cartEvent->setQuantity(1);
+		//	$cartEvent->set
+			$log->debug ( "-- addservices ".$cartEvent->getProduct() );
+			
+			
+				
+			$this->getDispatcher()->dispatch(TheliaEvents::CART_ADDITEM, $cartEvent);
+		
+			$this->afterModifyCart();
+		
+		
+			if ($this->getRequest()->isXmlHttpRequest()) {
+				$this->changeViewForAjax();
+			}
+		
+		} catch (PropelException $e) {
+			Tlog::getInstance()->error(sprintf("Failed to add item to cart with message : %s", $e->getMessage()));
+			$message = $this->getTranslator()->trans(
+					"Failed to add this article to your cart, please try again",
+					[],
+					Front::MESSAGE_DOMAIN
+					);
+		} catch (FormValidationException $e) {
+			$message = $e->getMessage();
+		}
+		
+		if ($message) {
+			$cartAdd->setErrorMessage($message);
+			$this->getParserContext()->addForm($cartAdd);
+		}	
 	}
 	
 	public function addProductWithServicesAction(Request $request) {
-		$request = $this->getRequest();
-		
+		//$request = $this->getRequest();
+	//	$cartAdd = new CartAdd();
 		$cartAdd = $this->getAddCartForm($request);
+		
 		$message = null;
 		
 		try {
 			$form = $this->validateForm($cartAdd);
 		
 			$cartEvent = $this->getCartEvent();
-		
+			
 			$cartEvent->bindForm($form);
 		
+			$log = Tlog::getInstance ();
+		//	$log->debug ( "-- addservices ".$cartEvent->getProduct() );
+			
 			$this->getDispatcher()->dispatch(TheliaEvents::CART_ADDITEM, $cartEvent);
 		
 			$this->afterModifyCart();
 		
+		//	$log->debug ( "-- addservices ".$cartEvent->getProduct() );
 			
 			$service_ids = $request->request->get('service_id');
 			if($service_ids != null){
 				$service_product_sale_ids = $request->request->get('service_product_sale_id');
 				$nr_services = count($service_ids);
-				$log = Tlog::getInstance ();
-				$log->debug ( "-- addservices " );
 				if($nr_services > 0)
 					for ($i = 1; $i<=$nr_services; $i++){
 					if($service_ids[$i]){
-						$log->debug ( "-- addservicesewerwrwe ".$service_ids[$i] );
-						$this->addServiceToCart($service_ids[$i], $service_product_sale_ids[$i]);
+					//	$log->debug ( "-- addservicesewerwrwe ".$service_ids[$i] );
+						$this->addServiceToCart($service_ids[$i], $service_product_sale_ids[$i],$request);
 					}
 				};
 			}

@@ -81,7 +81,8 @@
 							{/if} 
 							{else} 
 								<span class="regular-price col-xs-12">
-								<span itemprop="price" class="price">{format_money number=$BEST_TAXED_PRICE symbol={currency attr="symbol"}}</span>
+								<span itemprop="price" class="price" name="price_product">{format_money number=$BEST_TAXED_PRICE symbol={currency attr="symbol"}}</span>
+								<div name="price_product_{$product_id}" >{$BEST_TAXED_PRICE}</div>
 						</span> 
 					{/if}
 				</div>
@@ -127,9 +128,7 @@
 							{/form_field}
 							<ul class="thumbnails image_picker_selector">
 								{loop type="service"  name="services_list" product_id=$product_id limit="8"}
-
  									{include file="includes/product-services.html"  hasServiceDescription=false hasQuickView=true width="200" height="100"}
-
 								{/loop}	
  							</ul>
 							<div>
