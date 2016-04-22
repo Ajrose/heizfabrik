@@ -184,27 +184,43 @@
             {/ifloop}
             {elseloop rel="product_list"}
   			            {if $category_id eq #services_category_id#}<!-- services_category_id is set in configs\variables.conf -->
-            
-				{loop name="subcategories" type="category" parent=$category_id}
+            {$counter=1}
+				{loop name="subcategories" type="category" parent=$category_id }
 				{assign var="subcategorie_title" value=$TITLE}
 				{assign var="subcategorie_id" value=$ID}	
             <div class="aside-banners">
     <div class="block-main col col-sm-6 ">
+        
 						{loop name="category.image" type="image" source="category" source_id={$ID}  resize_mode="borders"}
-         
+        
+    
 						<a class="service_category"  href="javascript:void(0);">
 							<img itemprop="image" src="{$IMAGE_URL nofilter}" alt="{$subcategorie_title}" onClick="showSubcategoryServices({$subcategorie_id})">
 						</a>
-        <div class="mini-title">{$subcategorie_title}</div>
+        <div class="mini-title">{$subcategorie_title}{$counter}</div>
         <div><br><button class="btn btn-1 btn-1a" onClick="showSubcategoryServices({$subcategorie_id})">SERVICES ANSEHEN</button></div>
-						<div class ="service_category_products{$subcategorie_id}" id="{$subcategorie_id}" style="display: none;">
-							this is service_category_{$subcategorie_id}
-						</div>
+        
+        
+        
+        
+						{$counter=$counter+1}
 						{/loop}
                 </div>
+                
             </div>
+             
+            
+        <div class="clear:both"></div>
 
+         <div class ="service_category_products{$subcategorie_id}" id="{$subcategorie_id}" style="display: none; ">
+							this is service_category_{$subcategorie_id}{$counter}
+		</div>
+       
+            
+           
+            
 				{/loop}
+            <div class="service_category_products"></div>
 			{/if}
             {/elseloop}
 
@@ -236,7 +252,7 @@
     						url: ''.concat($(location).attr('pathname'),'konfigurator/services')
     					})
     					.done(function (data, textStatus, request) {
-    					$('.service_category_products'+id).append(data);
+    					$('.service_category_products').append(data);
     					})
     					.fail(function (jqXHR, textStatus, errorThrown) {
     						if (typeof jqXHR.responseJSON !== 'undefined') {
