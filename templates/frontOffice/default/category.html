@@ -3,7 +3,6 @@
 {block name="init"}
 {$category_id={category attr="id"}}
 {/block}
-<link rel="stylesheet" type="text/css" href="assets/dist/css/component.css" />
 
 {* Body Class *}
 {block name="body-class"}page-category{/block}
@@ -51,6 +50,29 @@
 {$product_order={$smarty.get.order|default:'alpha'}}
 
 {hook name="category.top" category="$category_id"}
+
+
+<!-- div class="main">
+				<ul id="og-grid" class="og-grid">
+					<li>
+						<a href="#" data-largesrc="http://localhost/cache/images/1.jpg" data-title="Azuki bean" data-description="Swiss chard pumpkin bunya nuts maize plantain aubergine napa cabbage soko coriander sweet pepper water spinach winter purslane shallot tigernut lentil beetroot.">
+							<img src="http://localhost/cache/images/thumbs/1.jpg" alt="img01"/>
+						</a>
+					</li>
+					<li>
+						<a href="#" data-largesrc="http://localhost/cache/images/2.jpg" data-title="Veggies sunt bona vobis" data-description="Komatsuna prairie turnip wattle seed artichoke mustard horseradish taro rutabaga ricebean carrot black-eyed pea turnip greens beetroot yarrow watercress kombu.">
+							<img src="http://localhost/cache/images/thumbs/2.jpg" alt="img02"/>
+						</a>
+					</li>
+					<li>
+						<a href="#" data-largesrc="http://localhost/cache/images/3.jpg" data-title="Dandelion horseradish" data-description="Cabbage bamboo shoot broccoli rabe chickpea chard sea lettuce lettuce ricebean artichoke earthnut pea aubergine okra brussels sprout avocado tomato.">
+							<img src="http://localhost/cache/images/thumbs/3.jpg" alt="img03"/>
+						</a>
+					</li>
+				</ul>
+
+			</div-->
+
 
     <div class="main row">
 
@@ -187,89 +209,36 @@
   				
 
   				
-  				    			<div class="main">
-				<ul id="og-grid" class="og-grid">
-					<li>
-						<a href="#" data-largesrc="http://localhost/cache/images/1.jpg" data-title="Azuki bean" data-description="Swiss chard pumpkin bunya nuts maize plantain aubergine napa cabbage soko coriander sweet pepper water spinach winter purslane shallot tigernut lentil beetroot.">
-							<img src="http://localhost/cache/images/thumbs/1.jpg" alt="img01"/>
-						</a>
-					</li>
-					<li>
-						<a href="#" data-largesrc="http://localhost/cache/images/2.jpg" data-title="Veggies sunt bona vobis" data-description="Komatsuna prairie turnip wattle seed artichoke mustard horseradish taro rutabaga ricebean carrot black-eyed pea turnip greens beetroot yarrow watercress kombu.">
-							<img src="http://localhost/cache/images/thumbs/2.jpg" alt="img02"/>
-						</a>
-					</li>
-					<li>
-						<a href="#" data-largesrc="http://localhost/cache/images/3.jpg" data-title="Dandelion horseradish" data-description="Cabbage bamboo shoot broccoli rabe chickpea chard sea lettuce lettuce ricebean artichoke earthnut pea aubergine okra brussels sprout avocado tomato.">
-							<img src="http://localhost/cache/images/thumbs/3.jpg" alt="img03"/>
-						</a>
-					</li>
 
-					<li>
-						<a href="#" data-largesrc="http://localhost/cache/images/2.jpg" data-title="Veggies sunt bona vobis" data-description="Komatsuna prairie turnip wattle seed artichoke mustard horseradish taro rutabaga ricebean carrot black-eyed pea turnip greens beetroot yarrow watercress kombu.">
-							<img src="http://localhost/cache/images/thumbs/2.jpg" alt="img02"/>
-						</a>
-					</li>
-                    		<li>
-						<a href="#" data-largesrc="http://localhost/cache/images/3.jpg" data-title="Dandelion horseradish" data-description="Cabbage bamboo shoot broccoli rabe chickpea chard sea lettuce lettuce ricebean artichoke earthnut pea aubergine okra brussels sprout avocado tomato.">
-							<img src="http://localhost/cache/images/thumbs/3.jpg" alt="img03"/>
-						</a>
-					</li>
-
-					<li>
-						<a href="#" data-largesrc="http://localhost/cache/images/2.jpg" data-title="Veggies sunt bona vobis" data-description="Komatsuna prairie turnip wattle seed artichoke mustard horseradish taro rutabaga ricebean carrot black-eyed pea turnip greens beetroot yarrow watercress kombu.">
-							<img src="http://localhost/cache/images/thumbs/2.jpg" alt="img02"/>
-						</a>
-					</li>
-                    		<li>
-						<a href="#" data-largesrc="http://localhost/cache/images/3.jpg" data-title="Dandelion horseradish" data-description="Cabbage bamboo shoot broccoli rabe chickpea chard sea lettuce lettuce ricebean artichoke earthnut pea aubergine okra brussels sprout avocado tomato.">
-							<img src="http://localhost/cache/images/thumbs/3.jpg" alt="img03"/>
-						</a>
-					</li>
-
-					<li>
-						<a href="#" data-largesrc="http://localhost/cache/images/2.jpg" data-title="Veggies sunt bona vobis" data-description="Komatsuna prairie turnip wattle seed artichoke mustard horseradish taro rutabaga ricebean carrot black-eyed pea turnip greens beetroot yarrow watercress kombu.">
-							<img src="http://localhost/cache/images/thumbs/2.jpg" alt="img02"/>
-						</a>
-					</li>
-				</ul>
-
-			</div>
-  				
+  				<ul id="og-grid" class="og-grid">
 				{loop name="subcategories" type="category" parent=$category_id }
 				{assign var="subcategorie_title" value=$TITLE}
 				{assign var="subcategorie_id" value=$ID}	
-            <div class="aside-banners">
-    <div class="block-main col col-sm-6 ">
-    
-    
-        <ul id="og-grid" class="og-grid">
+   				
+        			
 						{loop name="category.image" type="image" source="category" source_id={$ID}  resize_mode="borders"}
 						<li>
-						<a class="service_category"  href="javascript:void(0);">
-							<img itemprop="image" src="{$IMAGE_URL nofilter}" alt="{$subcategorie_title}" onClick="showSubcategoryServices({$subcategorie_id})">
-						</a>
-        <div class="mini-title">{$subcategorie_title}</div>
-        <div><br><button class="btn btn-1 btn-1a" onClick="showSubcategoryServices({$subcategorie_id})">SERVICES ANSEHEN</button></div>
-      	
-      	 </li>
+							<a class="service_category"  href="#"  >
+								<img itemprop="image" src="{$IMAGE_URL nofilter}" alt="{$subcategorie_title}" onClick="showSubcategoryServices({$subcategorie_id})">
+							</a>
+        					<div class="mini-title">{$subcategorie_title}</div>
+        					<div><br><button class="btn btn-1 btn-1a" onClick="showSubcategoryServices({$subcategorie_id})">SERVICES ANSEHEN</button></div>
+      	 				</li>
 						{/loop}
-						</ul> 
-    </div>
-                
-            </div>
-             
+     
             
-        <div class="clear:both"></div>
+ 
 
-         <div class ="service_category_products{$subcategorie_id}" id="{$subcategorie_id}" style="display: none; ">
+         <!-- div class ="service_category_products{$subcategorie_id}" id="{$subcategorie_id}" style="display: none; ">
 							this is service_category_{$subcategorie_id}
-		</div>
+		</div-->
        
             
            
             
 				{/loop}
+				</ul> 
+				
             <div class="service_category_products"></div>
 			{/if}
             {/elseloop}
@@ -291,7 +260,7 @@
     
     <script>
 
- /*   function showSubcategoryServices(id) {
+    function showSubcategoryServices(id) {
     	$subcategory = $('.service_category_products'+id);
     				if($($subcategory).is(':visible') == true)$($subcategory).hide();
     				else $($subcategory).show();
@@ -303,7 +272,7 @@
     						url: ''.concat($(location).attr('pathname'),'konfigurator/services')
     					})
     					.done(function (data, textStatus, request) {
-    					$('.service_category_products').append(data);
+    					$('.og-expander-inner').html(data);
     					})
     					.fail(function (jqXHR, textStatus, errorThrown) {
     						if (typeof jqXHR.responseJSON !== 'undefined') {
@@ -316,7 +285,7 @@
     						}
     					});
     				}
-    	}*/
+    	}
  	</script>
 {/block}
 
