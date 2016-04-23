@@ -125,11 +125,16 @@ GNU General Public License : http://www.gnu.org/licenses/
 
 
             <header class="container" role="banner">
-                <h1 class="logo  hidden-xs" style="float:left">
+                <h1 class="logo  hidden-xs col-sm-4" >
                         <a href="{navigate to="index"}" title="{$store_name}">
                             <img src="{image file='assets/dist/img/logo.png'}" alt="{$store_name}">
                         </a>
                 </h1>
+                <div class="col-sm-4 zertifikat-logos">
+               <img src={image file='assets/dist/img/installateur_fachbetrieb-logo.png'}>
+                         <img src={image file='assets/dist/img/shk_innung.png'}>       
+                </div>
+                
                 <div class="hotline">
                
                     <div class="hotline-icon"> <span></span></div>
@@ -137,11 +142,7 @@ GNU General Public License : http://www.gnu.org/licenses/
                     <h3>0800/022573</h3>
                     <small> Mo-Fr:  8-20 Uhr<br>
                         Sa:  11-17 Uhr</small>
-                    </div>
-                   
-                
-                   
-               
+                    </div>               
                 </div>
                 <div style="clear:both"></div>
                 <div class="header row">
@@ -282,6 +283,8 @@ Die Standardlieferung dauert bis 3 Arbeitstage."}</small></div>
         </section><!-- /.footer-container -->
 
     </div><!-- /.page -->
+    
+    <div class="sehrgut"><img src={image file='assets/dist/img/sehrgut.png'}></div>
 
     {block name="before-javascript-include"}{/block}
     <!-- JavaScript -->
