@@ -218,11 +218,11 @@
         			
 						{loop name="category.image" type="image" source="category" source_id={$ID}  resize_mode="borders"}
 						<li>
-							<a class="service_category"  href="#"  >
+							<a class="service_category"   >
 								<img itemprop="image" src="{$IMAGE_URL nofilter}" alt="{$subcategorie_title}" onClick="showSubcategoryServices({$subcategorie_id})">
 							</a>
-        					<div class="mini-title">{$subcategorie_title}</div>
-        					<div><br><button class="btn btn-1 btn-1a" onClick="showSubcategoryServices({$subcategorie_id})">SERVICES ANSEHEN</button></div>
+        					<h4>{$subcategorie_title}</h4>
+        					<!--div><br><button class="btn btn-1 btn-1a" onClick="showSubcategoryServices({$subcategorie_id})">SERVICES ANSEHEN</button></div-->
       	 				</li>
 						{/loop}
      

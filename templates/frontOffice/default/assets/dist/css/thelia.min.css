@@ -13206,9 +13206,10 @@ input[type=text]::-ms-clear {
 
 .og-grid li {
 	display: inline-block;
-	margin: 10px 5px 0 5px;
+	margin: 10px 35px 0 5px;
 	vertical-align: top;
-	height: 250px;
+	//height: 250px;
+    max-width:350px;
 }
 
 .og-grid li > a,
@@ -13230,23 +13231,24 @@ input[type=text]::-ms-clear {
 	border-bottom-color: #ddd;
 	border-width: 15px;
 	left: 50%;
-	margin: -20px 0 0 -15px;
+	margin: 20px 0 0 -15px;
 }
 
 .og-expander {
 	position: absolute;
-	background: #ddd;
+	//background: #ddd;
+    border:solid 10px #ddd;
 	top: auto;
 	left: 0;
 	width: 100%;
 	margin-top: 10px;
 	text-align: left;
-	height: 0;
+	height: auto!important;
 	//overflow: hidden;
 }
 
 .og-expander-inner {
-	padding: 50px 30px;
+	padding: 10px 20px;
 	height: 100%;
 }
 
@@ -13270,6 +13272,7 @@ input[type=text]::-ms-clear {
 	-webkit-transform: rotate(45deg);
 	-moz-transform: rotate(45deg);
 	transform: rotate(45deg);
+    z-index:1000000;
 }
 
 .og-close::after {
@@ -13359,7 +13362,7 @@ input[type=text]::-ms-clear {
 	animation: loader 0.5s infinite ease-in-out both;
 }
 
-<<<<<<< HEAD
+
 @-webkit-keyframes loader {
 	0% { background: #ddd; }
 	33% { background: #ccc; box-shadow: 0 0 1px #ccc, 15px 30px 1px #ccc, -15px 30px 1px #ddd; }
@@ -13394,7 +13397,7 @@ input[type=text]::-ms-clear {
 }
 
 
-=======
+
 .zertifikat-logos{
     padding-top:20px;
     text-align: right;
@@ -13410,4 +13413,10 @@ input[type=text]::-ms-clear {
   -moz-box-shadow:    3px 3px 5px 6px #ccc;  /* Firefox 3.5 - 3.6 */
   box-shadow:         3px 3px 5px 6px #ccc;  /* Opera 10.5, IE 9, Firefox 4+, Chrome 6+, iOS 5 */
 }
->>>>>>> origin/master
+.service_category img{
+    width:290px;
+   
+}
+.services-title{
+    
+}
