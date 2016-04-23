@@ -3,7 +3,7 @@
         <div class="mini-title">HEIZUNGS-</div>
         <div class="main-title">KONFIGURATOR</div>
         <div class="detailed-text">Rechnen Sie Ihr Angebot in 5 Min.</div>
-        <div><br><button class="btn btn-1 btn-1a">IHR ANGEBOT</button></div>
+        <div><br><a href="/konfigurator"><button class="btn btn-1 btn-1a">IHR ANGEBOT</button></a></div>
     </div>
     <div class="block-main col col-sm-4 aside-banner-shop">
         <div class="main-title">SHOP</div><br>
@@ -17,9 +17,10 @@
         <div class="main-title">HANDWERK</div>
         <br>
         <div class="detailed-text">Wir bieten folgende Handwerke an</div>
-        <div><br><button class="btn btn-1 btn-1a">SERVICES BESTELLEN</button></div>
+        <div><br><a href="/?view=category&lang=en_US&category_id=12"><button class="btn btn-1 btn-1a" >SERVICES BESTELLEN</button></a></div>
     </div>
 </div>
+ <div class="clearfix"></div>
 <div class="grid">
     <figure class="effect-oscar">
         <img src="{image file='assets/dist/img/aside-banners/set-badezimmer.jpg'}" alt="Badezimmer set"/>
@@ -39,6 +40,65 @@
     </figure>
 </div>
  <div class="clearfix"></div>
+
+
+
+<!--SLIDER-->
+<div class="heizung-slider">
+	<br><h2 class="title">HEIZUNG SETS</h2>
+			<div class="deco deco--title"></div>
+			<div id="slideshow-set" class="slideshow-set">
+				<div class="slide-set">
+					<h2 class="slide__title slide__title--preview"><strong>Gas-Brennwert-Heizung & Solarthermie</strong> zur Warmwasserbereitung
+inkl. <strong>Montage</strong> & 10-Jahresgarantie für <span class="slide__price">12.399  € </span></h2>
+					<div class="slide__item">
+						<div class="slide__inner">
+							<img class="slide__img slide__img--small" src="{image file='assets/dist/img/slider-sets/offer1.jpg'}" alt="Some image" />
+							
+						</div>
+					</div>
+					
+				</div>
+				<div class="slide-set">
+					<h2 class="slide__title slide__title--preview"><strong>Gas-Brennwertkessel</strong> (50kW) mit solarer Warmwasserbereitung
+inkl. <strong>Montage</strong> & 10-Jahresgarantie für<span class="slide__price">26.599  € </span></h2>
+					<div class="slide__item">
+						<div class="slide__inner">
+							<img class="slide__img slide__img--small" src="{image file='assets/dist/img/slider-sets/offer2.jpg'}" alt="Some image" />
+							
+						</div>
+					</div>
+					
+				</div>
+				<div class="slide-set">
+					<h2 class="slide__title slide__title--preview"><strong>Öl-Brennwertkessel</strong> mit <strong>Warmwasserbereiter</strong> und <strong>Solaranlage</strong>
+inkl. <strong>Montage</strong> & 10-Jahresgarantie für<span class="slide__price">14.199  € </span></h2>
+					<div class="slide__item">
+						<div class="slide__inner">
+							<img class="slide__img slide__img--small" src="{image file='assets/dist/img/slider-sets/offer3.jpg'}" alt="Some image" />
+							
+						</div>
+					</div>
+					
+				</div>
+
+
+				
+			
+		</div><!-- /homepage slider -->
+		<script src="{javascript file='assets/dist/js/vendors/classie.js'}"></script>
+		<script src="{javascript file='assets/dist/js/vendors/dynamics.min.js'}"></script>
+		<script src="{javascript file='assets/dist/js/vendors/main.js'}"></script>
+		<script>
+			(function() {
+				document.documentElement.className = 'js';
+				var slideshow = new CircleSlideshow(document.getElementById('slideshow-set'));
+			})();
+		</script>
+
+
+
+ <div class="clearfix"></div>
 <div class="so-funktionierst row">
     <h2 class="title">SO FUNKTIONIERT'S</h2>
         <div class="howitworks">
@@ -57,7 +117,7 @@
         </div>
 </div>
 <div class="partners ">
-    <h2 class="title">UNSERE PARTNERS</h2>
+    <br><h2 class="title">UNSERE PARTNERS</h2>
     <div class="col-sm-3"><img src="{image file='assets/dist/img/partners/junkers.png'}" class="img-responsive"></div>
     <div class="col-sm-3"><img src="{image file='assets/dist/img/partners/austria-email.png'}" class="img-responsive"></div>
     <div class="col-sm-3"><img src="{image file='assets/dist/img/partners/vaillant.png'}" class="img-responsive"></div>
