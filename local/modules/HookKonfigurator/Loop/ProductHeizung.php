@@ -339,7 +339,7 @@ class ProductHeizung extends BaseI18nLoop implements PropelSearchLoopInterface, 
 		
 		$hfproducts = $hfProductsQuerry->find ();
 		$i = 0;
-		$limit = 60;
+		$limit = 10000;
 		if ($hfproducts != null && count ( $hfproducts ) > 0)
 			foreach ( $hfproducts as $hfproduct ) {
 				$productQuerry->clear ();
@@ -497,7 +497,7 @@ class ProductHeizung extends BaseI18nLoop implements PropelSearchLoopInterface, 
 	}
 	
 	public function buildModelCriteria() {
-		// $this->import_product_heizung_from_hfproducts();
+		 $this->import_product_heizung_from_hfproducts();
 		//$this->import_montage_from_csv ();
 		//debug
 		

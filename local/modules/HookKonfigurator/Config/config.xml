@@ -58,5 +58,25 @@
 				 <description> describe service import format </description>
 			</import_descriptive>
 		</import>
+		
+		<import id="hookkonfigurator.import.products" class="HookKonfigurator\Import\ProductImport" category_id="thelia.import.products">
+			<import_descriptive locale="en_US">
+				<title>Import hausfabrik products </title>
+				 <description>
+				  <![CDATA[
+                    Importer.1 supports the following structure:</br>
+                    id, ref, name</br>
+                    Indications:
+                    <ul>
+                        <li></li>
+                    </ul>
+                    ]]>
+				 </description>
+			</import_descriptive>
+			<import_descriptive locale="fr_FR">
+				<title>Import hausfabrik products </title>
+				 <description> describe service import format </description>
+			</import_descriptive>
+		</import>
 	</imports>
 </config>
