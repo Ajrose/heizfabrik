@@ -86,7 +86,7 @@ GNU General Public License : http://www.gnu.org/licenses/
         <script>window.respond || document.write('<script src="{$asset_url}"><\/script>');</script>
     {/javascripts}
     <![endif]-->
-    <script src="{javascript file='assets/dist/js/vendors/modernizr.custom.js'}"></script>
+   <script src="{javascript file='assets/dist/js/vendors/modernizr.custom.js'}"></script>
 
     {hook name="main.head-bottom"}
 </head>

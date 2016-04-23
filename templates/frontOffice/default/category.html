@@ -3,7 +3,7 @@
 {block name="init"}
 {$category_id={category attr="id"}}
 {/block}
-
+<link rel="stylesheet" type="text/css" href="assets/dist/css/component.css" />
 
 {* Body Class *}
 {block name="body-class"}page-category{/block}
@@ -183,29 +183,81 @@
             </div><!-- /.toolbar toolbar-bottom -->
             {/ifloop}
             {elseloop rel="product_list"}
-  			            {if $category_id eq #services_category_id#}<!-- services_category_id is set in configs\variables.conf -->
+  				{if $category_id eq #services_category_id#}<!-- services_category_id is set in configs\variables.conf -->
+  				
+
+  				
+  				    			<div class="main">
+				<ul id="og-grid" class="og-grid">
+					<li>
+						<a href="#" data-largesrc="http://localhost/cache/images/1.jpg" data-title="Azuki bean" data-description="Swiss chard pumpkin bunya nuts maize plantain aubergine napa cabbage soko coriander sweet pepper water spinach winter purslane shallot tigernut lentil beetroot.">
+							<img src="http://localhost/cache/images/thumbs/1.jpg" alt="img01"/>
+						</a>
+					</li>
+					<li>
+						<a href="#" data-largesrc="http://localhost/cache/images/2.jpg" data-title="Veggies sunt bona vobis" data-description="Komatsuna prairie turnip wattle seed artichoke mustard horseradish taro rutabaga ricebean carrot black-eyed pea turnip greens beetroot yarrow watercress kombu.">
+							<img src="http://localhost/cache/images/thumbs/2.jpg" alt="img02"/>
+						</a>
+					</li>
+					<li>
+						<a href="#" data-largesrc="http://localhost/cache/images/3.jpg" data-title="Dandelion horseradish" data-description="Cabbage bamboo shoot broccoli rabe chickpea chard sea lettuce lettuce ricebean artichoke earthnut pea aubergine okra brussels sprout avocado tomato.">
+							<img src="http://localhost/cache/images/thumbs/3.jpg" alt="img03"/>
+						</a>
+					</li>
+
+					<li>
+						<a href="#" data-largesrc="http://localhost/cache/images/2.jpg" data-title="Veggies sunt bona vobis" data-description="Komatsuna prairie turnip wattle seed artichoke mustard horseradish taro rutabaga ricebean carrot black-eyed pea turnip greens beetroot yarrow watercress kombu.">
+							<img src="http://localhost/cache/images/thumbs/2.jpg" alt="img02"/>
+						</a>
+					</li>
+                    		<li>
+						<a href="#" data-largesrc="http://localhost/cache/images/3.jpg" data-title="Dandelion horseradish" data-description="Cabbage bamboo shoot broccoli rabe chickpea chard sea lettuce lettuce ricebean artichoke earthnut pea aubergine okra brussels sprout avocado tomato.">
+							<img src="http://localhost/cache/images/thumbs/3.jpg" alt="img03"/>
+						</a>
+					</li>
+
+					<li>
+						<a href="#" data-largesrc="http://localhost/cache/images/2.jpg" data-title="Veggies sunt bona vobis" data-description="Komatsuna prairie turnip wattle seed artichoke mustard horseradish taro rutabaga ricebean carrot black-eyed pea turnip greens beetroot yarrow watercress kombu.">
+							<img src="http://localhost/cache/images/thumbs/2.jpg" alt="img02"/>
+						</a>
+					</li>
+                    		<li>
+						<a href="#" data-largesrc="http://localhost/cache/images/3.jpg" data-title="Dandelion horseradish" data-description="Cabbage bamboo shoot broccoli rabe chickpea chard sea lettuce lettuce ricebean artichoke earthnut pea aubergine okra brussels sprout avocado tomato.">
+							<img src="http://localhost/cache/images/thumbs/3.jpg" alt="img03"/>
+						</a>
+					</li>
+
+					<li>
+						<a href="#" data-largesrc="http://localhost/cache/images/2.jpg" data-title="Veggies sunt bona vobis" data-description="Komatsuna prairie turnip wattle seed artichoke mustard horseradish taro rutabaga ricebean carrot black-eyed pea turnip greens beetroot yarrow watercress kombu.">
+							<img src="http://localhost/cache/images/thumbs/2.jpg" alt="img02"/>
+						</a>
+					</li>
+				</ul>
+
+			</div>
+  				
             {$counter=1}
 				{loop name="subcategories" type="category" parent=$category_id }
 				{assign var="subcategorie_title" value=$TITLE}
 				{assign var="subcategorie_id" value=$ID}	
             <div class="aside-banners">
     <div class="block-main col col-sm-6 ">
-        
-						{loop name="category.image" type="image" source="category" source_id={$ID}  resize_mode="borders"}
-        
     
+    
+        <ul id="og-grid" class="og-grid">
+						{loop name="category.image" type="image" source="category" source_id={$ID}  resize_mode="borders"}
+						<li>
 						<a class="service_category"  href="javascript:void(0);">
 							<img itemprop="image" src="{$IMAGE_URL nofilter}" alt="{$subcategorie_title}" onClick="showSubcategoryServices({$subcategorie_id})">
 						</a>
         <div class="mini-title">{$subcategorie_title}{$counter}</div>
         <div><br><button class="btn btn-1 btn-1a" onClick="showSubcategoryServices({$subcategorie_id})">SERVICES ANSEHEN</button></div>
-        
-        
-        
-        
+      	
+      	 </li>
 						{$counter=$counter+1}
 						{/loop}
-                </div>
+						</ul> 
+    </div>
                 
             </div>
              
@@ -237,10 +289,11 @@
     </div>
     {hook name="category.bottom" category="$category_id"}
     
-    <script>
 
     
-    function showSubcategoryServices(id) {
+    <script>
+
+ /*   function showSubcategoryServices(id) {
     	$subcategory = $('.service_category_products'+id);
     				if($($subcategory).is(':visible') == true)$($subcategory).hide();
     				else $($subcategory).show();
@@ -265,7 +318,7 @@
     						}
     					});
     				}
-    	}
+    	}*/
  	</script>
 {/block}
 
@@ -276,6 +329,12 @@
 {/block}
 
 {block name="after-javascript-include"}
+   <script src="{javascript file='assets/dist/js/vendors/grid.js'}"></script>
+   <script>
+	$(function() {
+		Grid.init();
+	});
+   </script>
 {hook name="category.after-javascript-include"}
 {/block}
 
