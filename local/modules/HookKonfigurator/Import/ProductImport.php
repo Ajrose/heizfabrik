@@ -25,9 +25,7 @@ class ProductImport extends ImportHandler
         $errors = [];
 
         while (null !== $row = $data->popRow()) {
-            /**
-             * Check for mandatory columns
-             */
+
             $this->checkMandatoryColumns($row);
 
             $obj = ProductSaleElementsQuery::create()->findPk($row["id"]);
