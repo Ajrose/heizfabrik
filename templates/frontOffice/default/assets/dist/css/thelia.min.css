@@ -270,6 +270,7 @@ td, th {
 		format('svg')
 }
 
+
 .glyphicon {
 	position: relative;
 	top: 1px;
@@ -13194,3 +13195,7 @@ input[type=text]::-ms-clear {
 		transform: translate3d(0,0,0);
 	}
 }
+
+
+
+

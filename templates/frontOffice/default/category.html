@@ -197,13 +197,13 @@
 						<a class="service_category"  href="javascript:void(0);">
 							<img itemprop="image" src="{$IMAGE_URL nofilter}" alt="{$subcategorie_title}" onClick="showSubcategoryServices({$subcategorie_id})">
 						</a>
-        <div class="mini-title">{$subcategorie_title}{$counter}</div>
+        <div class="mini-title">{$subcategorie_title}</div>
         <div><br><button class="btn btn-1 btn-1a" onClick="showSubcategoryServices({$subcategorie_id})">SERVICES ANSEHEN</button></div>
         
         
         
         
-						{$counter=$counter+1}
+						
 						{/loop}
                 </div>
                 
@@ -213,7 +213,7 @@
         <div class="clear:both"></div>
 
          <div class ="service_category_products{$subcategorie_id}" id="{$subcategorie_id}" style="display: none; ">
-							this is service_category_{$subcategorie_id}{$counter}
+							this is service_category_{$subcategorie_id}
 		</div>
        
             
