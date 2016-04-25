@@ -179,6 +179,22 @@
     </route>
 	
 	<!-- end konfigurator routes -->
+	
+	<!-- homepage routes -->
+	
+	<route id="homepage.badezimmer" path="/badezimmer">
+        <default key="_controller">Front\Controller\HomepageController::badezimmerAction</default>
+    </route>
+    
+    <route id="homepage.heizungset" path="/heizungset">
+        <default key="_controller">Front\Controller\HomepageController::heizungSetAction</default>
+    </route>
+    
+    <route id="homepage.sofunktionierts" path="/sofunktionierts">
+        <default key="_controller">Front\Controller\HomepageController::soFunktioniertsAction</default>
+    </route>
+	
+	<!-- end homepage routes -->
 
     <!-- order management process -->
     <route id="order.delivery.process" path="/order/delivery" methods="post">

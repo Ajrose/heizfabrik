@@ -38,7 +38,7 @@
 	<imports>
 		<import id="hookkonfigurator.import.services" class="HookKonfigurator\Import\ServicesImport" category_id="thelia.import.products">
 			<import_descriptive locale="en_US">
-				<title>Import hausfabrik services </title>
+				<title>Import services </title>
 				 <description>
 				  <![CDATA[
                     Importer.1 supports the following structure:</br>
@@ -53,15 +53,27 @@
                     ]]>
 				 </description>
 			</import_descriptive>
-			<import_descriptive locale="fr_FR">
-				<title>Import hausfabrik services </title>
-				 <description> describe service import format </description>
+			<import_descriptive locale="de_DE">
+				<title>Services importieren </title>
+				 <description>
+				  <![CDATA[
+                    Importer.1 supports the following structure:</br>
+                    id, ref, name, description, type, price, quantity,unit, extra_quantity_price, constraints_values, constraints_names, currency, duration</br>
+                    Indications:
+                    <ul>
+                        <li>Missing field values must be replaced with NULL : 2,green,NULL,A and not 2,green,,A </li>
+                        <li>Decimal numbers must use "," as separator : 12,34</li>
+                        <li>Values are always numbers(even constraint vales)</li>
+                        <li>"False" and "true" must be replaced with 0 and 1</li>
+                    </ul>
+                    ]]>
+				 </description>
 			</import_descriptive>
 		</import>
 		
-		<import id="hookkonfigurator.import.products" class="HookKonfigurator\Import\ProductImport" category_id="thelia.import.products">
+		<import id="hookkonfigurator.import.heating" class="HookKonfigurator\Import\HeatingImport" category_id="thelia.import.products">
 			<import_descriptive locale="en_US">
-				<title>Import hausfabrik products </title>
+				<title>Import heating products </title>
 				 <description>
 				  <![CDATA[
                     Importer.1 supports the following structure:</br>
@@ -73,9 +85,38 @@
                     ]]>
 				 </description>
 			</import_descriptive>
-			<import_descriptive locale="fr_FR">
-				<title>Import hausfabrik products </title>
+			<import_descriptive locale="de_DE">
+				<title>Heizungsprodukte importieren </title>
 				 <description> describe service import format </description>
+			</import_descriptive>
+		</import>
+		
+		<import id="hookkonfigurator.import.sanitary" class="HookKonfigurator\Import\SanitaryImport" category_id="thelia.import.products">
+			<import_descriptive locale="en_US">
+				<title>Import sanitary products </title>
+				 <description>
+				  <![CDATA[
+                    Importer.1 supports the following structure:</br>
+                    id, ref, name</br>
+                    Indications:
+                    <ul>
+                        <li></li>
+                    </ul>
+                    ]]>
+				 </description>
+			</import_descriptive>
+			<import_descriptive locale="de_DE">
+				<title>Sanitär produkte importieren </title>
+				 <description>
+				  <![CDATA[
+                    Importer.1 supports the following structure:</br>
+                    id, ref, name</br>
+                    Indications:
+                    <ul>
+                        <li></li>
+                    </ul>
+                    ]]>
+				 </description>
 			</import_descriptive>
 		</import>
 	</imports>

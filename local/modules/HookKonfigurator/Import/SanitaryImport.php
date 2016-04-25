@@ -16,11 +16,11 @@ use HookKonfigurator\Model\MontageConstraints;
 use HookKonfigurator\Model\Constraints;
 
 /**
- * Class ServiceImport
+ * Class SanitaryImport
  * @package HookKonfigurator\Import
  * @author Emanuel Plopu <emanuel.plopu@sepa.at>
  */
-class ServicesImport extends ImportHandler
+class SanitaryImport extends ImportHandler
 {
     /**
      * @param \Thelia\Core\FileFormat\Formatting\FormatterData

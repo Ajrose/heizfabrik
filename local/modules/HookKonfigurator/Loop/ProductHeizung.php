@@ -316,7 +316,7 @@ class ProductHeizung extends BaseI18nLoop implements PropelSearchLoopInterface, 
 	}
 	public function import_product_heizung_from_hfproducts() {
 		$log = Tlog::getInstance ();
-		$log->debug ( "-- heizung product import " . $this->getPower () );
+		$log->debug ( "-- heizung_product_import " );
 		
 		$hfProductsQuerry = HfproductsQuery::create ();
 		$brandI18nQuerry = BrandI18nQuery::create ();
