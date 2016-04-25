@@ -9749,9 +9749,9 @@ header .header .language-container .currency-switch .dropdown-label,
 }
 
 .price {
-	color: #86AC34;
+	color: #000;
 	font-size: 20px;
-	font-weight: 700;
+	font-weight: bold!important;
 	font-style: italic;
 	white-space: nowrap
 }
@@ -13210,6 +13210,7 @@ input[type=text]::-ms-clear {
 	vertical-align: top;
 	//height: 250px;
     max-width:350px;
+    cursor:pointer;
 }
 
 .og-grid li > a,

@@ -288,7 +288,7 @@
                 
               <div id="waermebedarf"></div>
                 
-				<h2>{intl l="Empfehlungen" d="hookkonfigurator.fo.default"} <a href="{url path="/view_all"  type="new"}" class="btn-all">{intl l="+ View All" d="hookkonfigurator.fo.default"}</a></h2>
+				<!--h2>{intl l="Empfehlungen" d="hookkonfigurator.fo.default"} <a href="{url path="/view_all"  type="new"}" class="btn-all">{intl l="+ View All" d="hookkonfigurator.fo.default"}</a></h2-->
 			</div>
 			<div id="category-products">
             </div><!-- /#category-products -->
@@ -333,7 +333,7 @@ $('body').on('submit', '.form-horizontal', function (e) {
     .done(function (data, textStatus, request) {
     	$waermebedarf = request.getResponseHeader('waermebedarf');
     	if($waermebedarf != null) 
-    		$('#waermebedarf').text("Wärmebedarf ist: "+$waermebedarf);
+    		$('#waermebedarf').text("Wärmebedarf ist: "+$waermebedarf+"KW");
        
     	$("#category-products").empty().append(data);
       /*  if (typeof data.message !== 'undefined') {

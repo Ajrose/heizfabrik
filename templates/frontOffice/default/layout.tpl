@@ -131,8 +131,8 @@ GNU General Public License : http://www.gnu.org/licenses/
                         </a>
                 </h1>
                 <div class="col-sm-4 zertifikat-logos">
-               <img src={image file='assets/dist/img/installateur_fachbetrieb-logo.png'}>
-                         <img src={image file='assets/dist/img/shk_innung.png'}>       
+               <img src={image file='assets/dist/img/installateur_fachbetrieb-logo.png'} style="width:80px">
+                <img src={image file='assets/dist/img/shk_innung.png'}  style="width:80px">       
                 </div>
                 
                 <div class="hotline">
@@ -264,7 +264,7 @@ Die Standardlieferung dauert bis 3 Arbeitstage."}</small></div>
                     <div class="container">
                         <div class="info row">
                             <nav class="nav-footer col-lg-9" role="navigation">
-                                <ul class="list-unstyled list-inline">
+                                <!--ul class="list-unstyled list-inline">
                                     {$folder_information={config key="information_folder_id"}}
                                     {if $folder_information}
                                         {loop name="footer_links" type="content" folder=$folder_information}
@@ -272,7 +272,7 @@ Die Standardlieferung dauert bis 3 Arbeitstage."}</small></div>
                                         {/loop}
                                     {/if}
                                     <li><a href="{url path="/contact"}">{intl l="Contact Us"}</a></li>
-                                </ul>
+                                </ul-->
                             </nav>
                             <section class="copyright col-lg-3">{intl l="Copyright"} &copy; <time datetime="{'Y-m-d'|date}">{'Y'|date}</time> <a href="http://thelia.net" rel="external">HEIZFABRIK</a></section>
                         </div>

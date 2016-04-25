@@ -13,8 +13,8 @@
 
 	{hook name="singleproduct.top" product="{$service_id}"} 
 	
-	<a href="{$SERVICE_URL nofilter}" itemprop="url" tabindex="-1" class="product-image{if $hasQuickView == true} product-quickview{/if} overlay col-sm-4">
-	{loop name="product_thumbnail" type="image" product=$service_id width="{$width}" height="{$height}" resize_mode="borders" limit="1"}
+	<a href="{$SERVICE_URL nofilter}" itemprop="url" tabindex="-1" class="product-image{if $hasQuickView == true} product-quickview{/if}  col-sm-4">
+	{loop name="product_thumbnail" type="image" product=$service_id  resize_mode="borders" limit="1"}
 		<img itemprop="image" src="{$IMAGE_URL nofilter}" class="img-responsive" alt="{$serviceTitle}">
 	{/loop}
 	{elseloop rel="product_thumbnail"} <img itemprop="image" src="{image file='assets/dist/img/218x146.png'}" class="img-responsive" alt="{$serviceTitle}">
