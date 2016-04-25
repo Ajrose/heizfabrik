@@ -12179,15 +12179,32 @@ figure.effect-oscar:hover img {
     font-size:1.8em;
     color:#FFF;
  } 
+
+.shop-dateneingabe-dark:before{ 
+    content: "\e906";
+    font-size:1.8em;
+    color:#000;
+ } 
 .shop-angebot:before{ 
     content: "\e905";
     font-size:1.8em;
     color:#FFF;
  } 
+
+.shop-angebot-dark:before{ 
+    content: "\e905";
+    font-size:1.8em;
+    color:#000;
+ } 
 .shop-montage:before{ 
     content: "\e907";
     font-size:2em;
     color:#FFF;
+ } 
+.shop-montage-dark:before{ 
+    content: "\e907";
+    font-size:2em;
+    color:#000;
  } 
 
 .howitworks{
@@ -12196,9 +12213,25 @@ figure.effect-oscar:hover img {
 text-align: center;
     padding-top:20px;
 }
+
+.howitworks-page{
+text-align: center;
+    padding-top:20px;
+}
 .howitworks .text{
    font-size: 2em;
     color:#FFF;
+}
+
+.sofunktionierts-details{
+    margin-top:50px;
+}
+.distance100{
+    padding-top:100px;
+}
+
+.checklist li{
+    font-size: 20px;
 }
 h2.title{
     position:relative;
