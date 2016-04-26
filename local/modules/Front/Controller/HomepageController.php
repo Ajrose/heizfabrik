@@ -20,5 +20,8 @@ class HomepageController extends BaseFrontController {
 	public function soFunktioniertsAction(Request $request) {
 		return $this->render("sofunktionierts");
 	}
+    public function klimaSetsAction(Request $request) {
+		return $this->render("klimasets");
+	}
 
 }

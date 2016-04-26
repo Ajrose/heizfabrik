@@ -1,20 +1,13 @@
 <!doctype html>
 <!--
- ______   __  __     ______     __         __     ______
-/\__  _\ /\ \_\ \   /\  ___\   /\ \       /\ \   /\  __ \
-\/_/\ \/ \ \  __ \  \ \  __\   \ \ \____  \ \ \  \ \  __ \
-   \ \_\  \ \_\ \_\  \ \_____\  \ \_____\  \ \_\  \ \_\ \_\
-    \/_/   \/_/\/_/   \/_____/   \/_____/   \/_/   \/_/\/_/
 
 
-Copyright (c) OpenStudio
-email : info@thelia.net
-web : http://www.thelia.net
 
-This program is free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation; either version 3 of the
-GNU General Public License : http://www.gnu.org/licenses/
+Copyright (c) SEPA
+email : office@sepa.at
+web : http://www.hausfabrik.at
+
+
 -->
 
 {* Declare assets directory, relative to template base directory *}
@@ -253,7 +246,7 @@ Die Standardlieferung dauert bis 3 Arbeitstage."}</small></div>
                                 {hook name="main.footer-bottom"}
                             </div>
                             <div class="col-lg-3">
-                                <section class="copyright">{intl l="Copyright"} &copy; <time datetime="{'Y-m-d'|date}">{'Y'|date}</time> <a href="http://thelia.net" rel="external">HEIZFABRIK</a></section>
+                                <section class="copyright">{intl l="Copyright"} &copy; <time datetime="{'Y-m-d'|date}">{'Y'|date}</time> <a href="http://www.hausfabrik.at" rel="external">HAUSFABRIK</a></section>
                             </div>
                         </div>
                     </div>
