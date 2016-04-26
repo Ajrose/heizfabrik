@@ -1,13 +1,14 @@
 
 .container {
   position: relative;
-  width: 900px;
+  
 }
 
 
 .largeimage{
   position: relative;
   z-index: 1000;
+    width:1130px;
 }
 
 img.info-icon{
@@ -17,13 +18,13 @@ img.info-icon{
 
 #container1 .info-icon1{
   position: absolute;
-  top: 210px;
+  top: 650px;
   left: 288px;
 }
 #container1 .info-icon2{
   position: absolute;
-  top: 265px;
-  left: 576px;
+  top: 340px;
+  left: 900px;
 }
 #container1 .info-icon3{
   position: absolute;
@@ -38,26 +39,26 @@ img.info-icon{
 
 #container2 .info-icon1{
   position: absolute;
-  top: 170px;
+  top: 650px;
   left: 223px;
 }
 
 #container2 .info-icon2{
   position: absolute;
   top: 340px;
-  left: 644px;
+  left: 900px;
 }
 
 #container2 .info-icon3{
   position: absolute;
-  top: 363px;
-  left: 370px;
+  top: 520px;
+  left: 700px;
 }
 
 #container2 .info-icon4{
   position: absolute;
-  top: 140px;
-  left: 530px;
+  top: 400px;
+  left: 1050px;
 }
 
 
@@ -112,7 +113,7 @@ img.info-icon{
 
 #pop5{
   position: absolute;
-  top: 30px;
+  top: 370px;
   left: 115px;
 }
 
