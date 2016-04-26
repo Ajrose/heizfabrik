@@ -29,6 +29,7 @@
     {$breadcrumbs = []}
     {loop type="product" name="product_breadcrumb" id=$product_id limit="1" with_prev_next_info="1"}
         {loop name="category_path" type="category-path" category="{$DEFAULT_CATEGORY}"}
+        
             {$breadcrumbs[] = ['title' => {$TITLE}, 'url'=> {$URL nofilter}]}
         {/loop}
         {$breadcrumbs[] = ['title' => {$TITLE}, 'url'=> {$URL nofilter}]}
@@ -39,6 +40,7 @@
 {block name="main-content"}
     {if $product_id}
     <div class="main">
+    
         {loop name="product.details" type="product" id=$product_id limit="1" with_prev_next_info="1" with_prev_next_visible="1"}
         <article id="product" class="col-main row" role="main" itemscope itemtype="http://schema.org/Product">
 
@@ -148,9 +150,10 @@
                         </span>
                     </div>
 
+
                     <div class="price-container">
                         {loop type="category" name="category_tag" id=$DEFAULT_CATEGORY}
-                            <meta itemprop="category" content="{$TITLE}">
+                            <meta itemprop="category" content="{$TITLE}"><!-- blabla -->
                         {/loop}
                         {* List of condition : NewCondition, DamagedCondition, UsedCondition, RefurbishedCondition *}
                         <meta itemprop="itemCondition" itemscope itemtype="http://schema.org/NewCondition">
@@ -158,9 +161,17 @@
                         <meta itemprop="priceCurrency" content="{currency attr="symbol"}">
 
                         <span id="pse-promo">
-                            <span class="special-price"><span itemprop="price" class="price-label">{intl l="Special Price:"} </span><span id="pse-price" class="price">{format_money number=$TAXED_PROMO_PRICE symbol={currency attr="symbol"}}</span></span>
+                            <span class="special-price">
+                            	<span itemprop="price" class="price-label">{intl l="Special Price:"} </span>
+                            	<span id="pse-price" style="display: none;" class="price">{format_money number=$TAXED_PROMO_PRICE symbol={currency attr="symbol"}}</span>
+                            	<div name="price_product_{$product_id}" style="font-size:30px; font-weight:bold;float:left" >{$BEST_TAXED_PRICE|string_format:"%d"}</div><div style="float:left;font-size:20px; padding:10px"> €</div><div class="clearfix"></div>
+                            </span>
                             {if $SHOW_ORIGINAL_PRICE}
-                                <span class="old-price"><span class="price-label">{intl l="Regular Price:"} </span><span id="pse-price-old" class="price">{format_money number=$TAXED_PRICE symbol={currency attr="symbol"}}</span></span>
+                                <span class="old-price">
+                                	<span class="price-label">{intl l="Regular Price:"} </span>
+                               		<span id="pse-price-old" class="price">{format_money number=$TAXED_PRICE symbol={currency attr="symbol"}}</span>
+                                    
+                                </span>
                             {/if}
                         </span>
                     </div>
@@ -170,9 +181,9 @@
                     </div>
 
                 </div>
-
+				
                 {form name="thelia.cart.add" }
-                <form id="form-product-details" action="{url path="/cart/add" }" method="post" class="form-product">
+                <form id="form-product-details" action="{url path="/konfigurator/add" }" method="post" class="form-product">
                     {form_hidden_fields}
                     <input type="hidden" name="view" value="product">
                     <input type="hidden" name="product_id" value="{$ID}">
@@ -212,6 +223,17 @@
 
 
                     {/if}
+                    
+                    {assign var="parent_category" value={category attr="parent"}}
+					{if $parent_category != #services_category_id#}
+						<div class="products-content">
+							<ul class="thumbnails image_picker_selector">
+								{loop type="service"  name="services_list" product_id=$product_id limit="8"}
+ 									{include file="includes/product-services.html"  hasServiceDescription=false hasQuickView=true width="200" height="100"}
+								{/loop}	
+ 							</ul>
+ 						</div>
+					{/if}
 
                     <fieldset class="product-cart form-inline">
                         {form_field field='quantity'}
@@ -384,6 +406,38 @@
 {/block}
 
 {block name="after-javascript-include"}
+<script>
+$('.products-content').on('click', '.thumbnail', function (event) {
+	if($(this).hasClass("selected")){
+   
+	$(this).removeClass("selected");
+    //now disable inputs
+     $(this).find($("[name^=service]")).prop('disabled',true);
+    //remove price
+	    $(this).find($("[name^=service]")).prop('disabled',false);
+	    //add service price to product
+	    $serviceObject = $(this).find($("[name=price_service_o]"));
+	    $productid = $serviceObject.attr('product');
+	    $productObject = $("[name=price_product_"+$productid+"]");
+	    $productObject.text(parseInt($productObject.text())-parseInt($serviceObject.text()) );
+	}
+	else  {
+		$(this).addClass("selected");
+	    $(this).find($("[name^=service]")).prop('disabled',false);
+	    //add service price to product
+	    $serviceObject = $(this).find($("[name=price_service_o]"));
+	    $productid = $serviceObject.attr('product');
+	    $productObject = $("[name=price_product_"+$productid+"]");
+	    $productObject.text(parseInt($productObject.text())+parseInt($serviceObject.text()) );
+	    
+	   // alert($("[name=price_product_"+$productid+"]").text());
+	 //   alert($(this).find($("[name=price_product_o]")).text()+"   "+$(this).find($("[name=price_service_o]")).attr('product'));
+	}
+	
+//	if($(this).hasClass("selected")){
+	
+});
+</script>
 {hook name="product.after-javascript-include"}
 {/block}
 
