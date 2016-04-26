@@ -16,9 +16,9 @@ use Thelia\Core\Hook\BaseHook;
 
 
 /**
- * Class CarouselHook
- * @package Carousel\Hook
- * @author manuel raynaud <mraynaud@openstudio.fr>
+ * Class HomepageContentHook
+ * @package HookHomepage\Hook
+ * @author Ani Jalavyan  <ani.jalavyan@sepa.at>
  */
 class HomepageContentHook extends BaseHook
 {
