@@ -113,26 +113,26 @@ img.info-icon{
 
 #pop5{
   position: absolute;
-  top: 370px;
-  left: 115px;
+  top: 180px;
+  left: 120px;
 }
 
 #pop6{
   position: absolute;
-  top: 284px;
-  left: 670px;
+  top: 140px;
+  left: 660px;
 }
 
 #pop7{
   position: absolute;
-  top: 306px;
-  left: 127px;
+  top: 420px;
+  left: 450px;
 }
 
 #pop8{
   position: absolute;
-  top: 166px;
-  left: 422px;
+  top: 195px;
+  left: 810px;
 }
 
 .popover.top {
@@ -727,4 +727,15 @@ img.info-icon{
   -moz-animation-name: cardOutRight;
   -o-animation-name: cardOutRight;
   animation-name: cardOutRight;
+}
+.set-info{
+    position:absolute;
+    bottom:20px;
+    right:100px;
+    z-index: 100000;
+    text-align:center;
+    color:#000;
+}
+.set-info h2 span{
+    font-size:20px;
 }
