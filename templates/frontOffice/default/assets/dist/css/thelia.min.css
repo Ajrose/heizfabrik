@@ -13476,7 +13476,7 @@ input[type=text]::-ms-clear {
 	right: 60px;
 	left: 60px;
 	height: 100vh;
-	background: url(../img/deco.svg) no-repeat center top;
+	//background: url(../img/deco.svg) no-repeat center top;
 	background-size: 100%;
 }
 

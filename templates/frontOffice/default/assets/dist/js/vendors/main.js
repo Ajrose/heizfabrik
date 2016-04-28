@@ -107,13 +107,15 @@
 
 		// opening items
 		this.items.forEach(function(item) {
-			item.querySelector('.action--open').addEventListener('click', function(ev) {
+			var itemOpen = item.querySelector('.action--open');
+			if(itemOpen)itemOpen.addEventListener('click', function(ev) {
 				self._openContent(item);
 				ev.target.blur();
 			});
 		});
 
 		// closing items
+		if(this.closeCtrl)
 		this.closeCtrl.addEventListener('click', function() { self._closeContent(); });
 
 		// keyboard navigation events
