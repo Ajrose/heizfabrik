@@ -2,6 +2,7 @@
 
 namespace Thelia\Model;
 
+use LogicException;
 use Propel\Runtime\Connection\ConnectionInterface;
 use Propel\Runtime\Exception\PropelException;
 use Propel\Runtime\Propel;
@@ -16,6 +17,42 @@ class Country extends BaseCountry
     use \Thelia\Model\Tools\ModelEventDispatcherTrait;
 
     protected static $defaultCountry = null;
+
+
+    /**
+     * get a regex pattern according to the zip code format field
+     * to match a zip code for this country.
+     *
+     * zip code format :
+     * - N : number
+     * - L : letter
+     * - C : iso of a state
+     *
+     * @return string|null will return a regex to match the zip code, otherwise null will be return
+     *                     if zip code format is not defined
+     */
+    public function getZipCodeRE()
+    {
+        $zipCodeFormat = $this->getZipCodeFormat();
+
+        if (empty($zipCodeFormat)) {
+            return null;
+        }
+
+
+        $zipCodeRE = preg_replace("/\\s+/", ' ', $zipCodeFormat);
+
+        $trans = [
+            "N" => "\\d",
+            "L" => "[a-zA-Z]",
+            "C" => ".+",
+            " " => " +"
+        ];
+
+        $zipCodeRE = "#^" . strtr($zipCodeRE, $trans) . "$#";
+
+        return $zipCodeRE;
+    }
 
     /**
      * This method ensure backward compatibility to Thelia 2.1, where a country belongs to one and
@@ -132,12 +169,18 @@ class Country extends BaseCountry
      */
     public static function getShopLocation()
     {
-        $dc = CountryQuery::create()->findOneByShopCountry(true);
+        $countryId = ConfigQuery::getStoreCountry();
 
-        if ($dc == null) {
+        // return the default country if no shop country defined
+        if (empty($countryId)) {
+            return self::getDefaultCountry();
+        }
+
+        $shopCountry = CountryQuery::create()->findPk($countryId);
+        if ($shopCountry === null) {
             throw new \LogicException(Translator::getInstance()->trans("Cannot find the shop country. Please select a shop country."));
         }
 
-        return $dc;
+        return $shopCountry;
     }
 }

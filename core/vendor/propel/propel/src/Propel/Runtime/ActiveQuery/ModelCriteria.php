@@ -34,7 +34,6 @@ use Propel\Runtime\ActiveQuery\Exception\UnknownColumnException;
 use Propel\Runtime\ActiveQuery\Exception\UnknownModelException;
 use Propel\Runtime\ActiveQuery\Exception\UnknownRelationException;
 use Propel\Runtime\DataFetcher\DataFetcherInterface;
-use Thelia\Log\Tlog;
 
 /**
  * This class extends the Criteria by adding runtime introspection abilities
@@ -613,8 +612,6 @@ class ModelCriteria extends BaseModelCriteria
      */
     public function joinWith($relation, $joinType = Criteria::INNER_JOIN)
     {
-    	$log = Tlog::getInstance();
-    	$log->debug("theliatables ".implode(' ', $this->joins));
         $this->join($relation, $joinType);
         $this->with(self::getRelationName($relation));
 

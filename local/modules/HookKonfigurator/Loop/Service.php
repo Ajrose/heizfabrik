@@ -2,7 +2,6 @@
 
 namespace HookKonfigurator\Loop;
 
-use Propel\Runtime\ActiveQuery\Criteria;
 use Thelia\Core\Template\Element\BaseI18nLoop;
 use Thelia\Core\Template\Element\LoopResult;
 use Thelia\Core\Template\Element\LoopResultRow;
@@ -12,30 +11,9 @@ use Thelia\Core\Template\Loop\Argument\Argument;
 use Thelia\Core\Template\Loop\Argument\ArgumentCollection;
 use Thelia\Log\Tlog;
 use Thelia\Model\ProductQuery;
-use HookKonfigurator\Model\HfproductsQuery;
 use Thelia\Model\Product;
-use Thelia\Model\ProductI18n;
-use Thelia\Model\ProductImage;
-use Thelia\Model\Brand;
-use HookKonfigurator\Model\VendorsQuery;
-use HookKonfigurator\Model\Vendors;
-use HookKonfigurator\Model\Hfproducts;
-use Thelia\Model\BrandI18nQuery;
-use Thelia\Model\ProductDocument;
-use Thelia\Model\ProductDocumentI18n;
-use HookKonfigurator\Model\ProductHeizung as ModelProductHeizung;
-use Propel\Runtime\ActiveQuery\Join;
-use HookKonfigurator\Model\Map\ProductHeizungTableMap;
 use Thelia\Model\Map\ProductTableMap;
-use HookKonfigurator\Model\Konfiguratoreinstellung;
-use HookKonfigurator\Model\Montage;
-use HookKonfigurator\Model\ConstraintsQuery;
-use HookKonfigurator\Model\MontageConstraints;
-use HookKonfigurator\Model\Constraints;
-use HookKonfigurator\Model\Map\ProductHeizungMontageTableMap;
-use HookKonfigurator\Model\MontageQuery;
 use HookKonfigurator\Model\ProductHeizungMontageQuery;
-use Propel\Runtime\Collection\ArrayCollection;
 
 /**
  *
@@ -92,6 +70,7 @@ class Service extends BaseI18nLoop implements PropelSearchLoopInterface, SearchL
 			}
 		}
 	}
+	
 	public function parseResults(LoopResult $loopResult) {
 		// $complex = $this->getComplex();
 		

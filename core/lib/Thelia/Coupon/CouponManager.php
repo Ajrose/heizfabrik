@@ -15,6 +15,7 @@ namespace Thelia\Coupon;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Thelia\Condition\Implementation\ConditionInterface;
 use Thelia\Coupon\Type\CouponInterface;
+use Thelia\Exception\UnmatchableConditionException;
 use Thelia\Log\Tlog;
 use Thelia\Model\AddressQuery;
 use Thelia\Model\CouponModule;
@@ -81,6 +82,15 @@ class CouponManager
         }
 
         return $discount;
+    }
+
+    /**
+     * @param $code
+     * @return mixed|void
+     */
+    public function pushCouponInSession($code)
+    {
+        $this->facade->pushCouponInSession($code);
     }
 
     /**
@@ -160,6 +170,14 @@ class CouponManager
     }
 
     /**
+     * @return array
+     */
+    public function getCouponsKept()
+    {
+        return $this->sortCoupons($this->facade->getCurrentCoupons());
+    }
+
+    /**
      * Sort Coupon to keep
      * Coupon not cumulative cancels previous
      *
@@ -201,8 +219,16 @@ class CouponManager
 
         /** @var CouponInterface $coupon */
         foreach ($coupons as $coupon) {
-            if ($coupon->isMatching($this->facade)) {
-                $couponsKept[] = $coupon;
+
+            try {
+
+                if ($coupon->isMatching()) {
+                    $couponsKept[] = $coupon;
+                }
+
+            } catch (UnmatchableConditionException $e) {
+                // ignore unmatchable coupon
+                continue;
             }
         }
 

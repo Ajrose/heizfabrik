@@ -38,8 +38,8 @@ class KonfiguratorController extends BaseFrontController {
 		if ($request->isXmlHttpRequest ()) {
 			$view = $request->get ( 'ajax-view', "includes/category-services" );
 			
-		//	$log = Tlog::getInstance ();
-		//	$log->debug("servicesaction ". $request->get('category'));
+			$log = Tlog::getInstance ();
+			$log->debug("servicesaction ". $request->get('category'));
 			$request->attributes->set ( 'category', $request->request->get('category') );
 			$request->attributes->set ( '_view', $view );
 		}

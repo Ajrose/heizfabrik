@@ -95,20 +95,20 @@
                             <span class="caret"></span>
                         </button>                        
                         <ul class="dropdown-menu dropdown-menu-right">
-                            <li><a class="profile" href="{url path='admin/configuration/administrators'}"><span class="glyphicon glyphicon-edit"></span> {intl l="Profil"}</a></li>
+                            <li><a class="profile" href="{url path='admin/configuration/administrators/view'}"><span class="glyphicon glyphicon-edit"></span> {intl l="Profil"}</a></li>
                             <li><a class="logout" href="{url path='admin/logout'}" title="{intl l='Close administation session'}"><span class="glyphicon glyphicon-off"></span> {intl l="Logout"}</a></li>
                         </ul>
                     </li>
                     <li class="dropdown">
-                        {loop type="lang" name="ui-lang" id="{lang attr='id'}"}
+                        {loop type="lang" name="ui-lang" id={lang attr='id'} backend_context="1"}
                         <button class="dropdown-toggle" data-toggle="dropdown">
-                            <img src="{image file="assets/img/flags/{$CODE}.png"}" alt="{$TITLE}" /> {$CODE|ucfirst}
+                            <imconfiguration/administrators/viewg src="{image file="assets/img/flags/{$CODE}.png"}" alt="{$TITLE}" /> {$CODE|ucfirst}
                             <span class="caret"></span>
                         </button>
                         {/loop}
 
                         <ul class="dropdown-menu">
-                            {loop type="lang" name="ui-lang"}
+                            {loop type="lang" name="ui-lang" backend_context="1"}
                                 <li><a href="{url path="{navigate to="current"}" lang={$CODE}}"><img src="{image file="assets/img/flags/{$CODE}.png"}" alt="{$TITLE}" /> {$CODE|ucfirst}</a></li>
                             {/loop}
                          </ul>

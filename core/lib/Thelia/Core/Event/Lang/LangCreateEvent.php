@@ -22,11 +22,16 @@ class LangCreateEvent extends LangEvent
     protected $title;
     protected $code;
     protected $locale;
+    protected $date_time_format;
     protected $date_format;
     protected $time_format;
     protected $decimal_separator;
     protected $thousands_separator;
     protected $decimals;
+    /** @var bool */
+    protected $active;
+    /** @var bool */
+    protected $visible;
 
     /**
      * @param mixed $code
@@ -47,6 +52,24 @@ class LangCreateEvent extends LangEvent
     {
         return $this->code;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getDateTimeFormat()
+    {
+        return $this->date_time_format;
+    }
+
+    /**
+     * @param mixed $date_time_format
+     */
+    public function setDateTimeFormat($date_time_format)
+    {
+        $this->date_time_format = $date_time_format;
+        return $this;
+    }
+
 
     /**
      * @param mixed $date_format
@@ -180,5 +203,43 @@ class LangCreateEvent extends LangEvent
     public function getThousandsSeparator()
     {
         return $this->thousands_separator;
+    }
+
+    /**
+     * @param bool $active
+     * @return $this
+     */
+    public function setActive($active)
+    {
+        $this->active = $active;
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getActive()
+    {
+        return $this->active;
+    }
+
+    /**
+     * @param bool $visible
+     * @return $this
+     */
+    public function setVisible($visible)
+    {
+        $this->visible = $visible;
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function getVisible()
+    {
+        return$this->visible;
     }
 }

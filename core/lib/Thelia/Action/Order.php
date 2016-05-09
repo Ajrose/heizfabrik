@@ -13,15 +13,17 @@
 namespace Thelia\Action;
 
 use Propel\Runtime\Propel;
+use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Thelia\Core\Event\Order\OrderAddressEvent;
 use Thelia\Core\Event\Order\OrderEvent;
 use Thelia\Core\Event\Order\OrderManualEvent;
 use Thelia\Core\Event\Order\OrderPaymentEvent;
+use Thelia\Core\Event\Payment\ManageStockOnCreationEvent;
 use Thelia\Core\Event\Product\VirtualProductOrderHandleEvent;
 use Thelia\Core\Event\TheliaEvents;
-use Thelia\Core\HttpFoundation\Request;
 use Thelia\Core\Security\SecurityContext;
 use Thelia\Core\Security\User\UserInterface;
 use Thelia\Exception\TheliaProcessException;
@@ -33,9 +35,10 @@ use Thelia\Model\Currency as CurrencyModel;
 use Thelia\Model\Lang as LangModel;
 use Thelia\Model\Map\OrderTableMap;
 use Thelia\Model\ModuleQuery;
-use Thelia\Model\Order as OrderModel;
 use Thelia\Model\Order as ModelOrder;
+use Thelia\Model\Order as OrderModel;
 use Thelia\Model\OrderAddress;
+use Thelia\Model\OrderAddressQuery;
 use Thelia\Model\OrderProduct;
 use Thelia\Model\OrderProductAttributeCombination;
 use Thelia\Model\OrderProductTax;
@@ -44,6 +47,7 @@ use Thelia\Model\ProductI18n;
 use Thelia\Model\ProductSaleElements;
 use Thelia\Model\ProductSaleElementsQuery;
 use Thelia\Model\TaxRuleI18n;
+use Thelia\Module\PaymentModuleInterface;
 use Thelia\Tools\I18n;
 
 /**
@@ -54,22 +58,18 @@ use Thelia\Tools\I18n;
  */
 class Order extends BaseAction implements EventSubscriberInterface
 {
-    /**
-     * @var \Thelia\Core\HttpFoundation\Request
-     */
-    protected $request;
-    /**
-     * @var MailerFactory
-     */
+    /** @var RequestStack */
+    protected $requestStack;
+
+    /** @var MailerFactory */
     protected $mailer;
-    /**
-     * @var SecurityContext
-     */
+
+    /** @var SecurityContext */
     protected $securityContext;
 
-    public function __construct(Request $request, MailerFactory $mailer, SecurityContext $securityContext)
+    public function __construct(RequestStack $requestStack, MailerFactory $mailer, SecurityContext $securityContext)
     {
-        $this->request = $request;
+        $this->requestStack = $requestStack;
         $this->mailer = $mailer;
         $this->securityContext = $securityContext;
     }
@@ -153,6 +153,7 @@ class Order extends BaseAction implements EventSubscriberInterface
      * @param CartModel $cart
      * @param UserInterface $customer
      * @param bool $manageStock decrement stock when order is created if true
+     * @param bool $useOrderDefinedAddresses if true, the delivery and invoice OrderAddresses will be used instead of creating new OrderAdresses using Order::getChoosenXXXAddress()
      * @return ModelOrder
      * @throws \Exception
      * @throws \Propel\Runtime\Exception\PropelException
@@ -164,7 +165,8 @@ class Order extends BaseAction implements EventSubscriberInterface
         LangModel $lang,
         CartModel $cart,
         UserInterface $customer,
-        $manageStock
+        $manageStock,
+        $useOrderDefinedAddresses = false
     ) {
         $con = Propel::getConnection(
             OrderTableMap::DATABASE_NAME
@@ -173,11 +175,18 @@ class Order extends BaseAction implements EventSubscriberInterface
         $con->beginTransaction();
 
         $placedOrder = $sessionOrder->copy();
+
+        // Be sure to create a brand new order, as copy raises the modified flag for all fields
+        // and will also copy order reference and id.
+        $placedOrder->setId(null)->setRef(null)->setNew(true);
+
+        // Dates should be marked as not updated so that Propel will update them.
+        $placedOrder->resetModified(OrderTableMap::CREATED_AT);
+        $placedOrder->resetModified(OrderTableMap::UPDATED_AT);
+        $placedOrder->resetModified(OrderTableMap::VERSION_CREATED_AT);
+
         $placedOrder->setDispatcher($dispatcher);
 
-        $deliveryAddress = AddressQuery::create()->findPk($sessionOrder->getChoosenDeliveryAddress());
-        $taxCountry = $deliveryAddress->getCountry();
-        $invoiceAddress = AddressQuery::create()->findPk($sessionOrder->getChoosenInvoiceAddress());
         $cartItems = $cart->getCartItems();
 
         /* fulfill order */
@@ -185,44 +194,57 @@ class Order extends BaseAction implements EventSubscriberInterface
         $placedOrder->setCurrencyId($currency->getId());
         $placedOrder->setCurrencyRate($currency->getRate());
         $placedOrder->setLangId($lang->getId());
+        
+        if ($useOrderDefinedAddresses) {
+            $taxCountry =
+                OrderAddressQuery::create()
+                    ->findPk($placedOrder->getDeliveryOrderAddressId())
+                    ->getCountry()
+            ;
+        } else {
+            $deliveryAddress = AddressQuery::create()->findPk($sessionOrder->getChoosenDeliveryAddress());
+            $invoiceAddress = AddressQuery::create()->findPk($sessionOrder->getChoosenInvoiceAddress());
 
-        /* hard save the delivery and invoice addresses */
-        $deliveryOrderAddress = new OrderAddress();
-        $deliveryOrderAddress
-            ->setCustomerTitleId($deliveryAddress->getTitleId())
-            ->setCompany($deliveryAddress->getCompany())
-            ->setFirstname($deliveryAddress->getFirstname())
-            ->setLastname($deliveryAddress->getLastname())
-            ->setAddress1($deliveryAddress->getAddress1())
-            ->setAddress2($deliveryAddress->getAddress2())
-            ->setAddress3($deliveryAddress->getAddress3())
-            ->setZipcode($deliveryAddress->getZipcode())
-            ->setCity($deliveryAddress->getCity())
-            ->setPhone($deliveryAddress->getPhone())
-            ->setCellphone($deliveryAddress->getCellphone())
-            ->setCountryId($deliveryAddress->getCountryId())
-            ->save($con)
-        ;
+            /* hard save the delivery and invoice addresses */
+            $deliveryOrderAddress = new OrderAddress();
+            $deliveryOrderAddress
+                ->setCustomerTitleId($deliveryAddress->getTitleId())
+                ->setCompany($deliveryAddress->getCompany())
+                ->setFirstname($deliveryAddress->getFirstname())
+                ->setLastname($deliveryAddress->getLastname())
+                ->setAddress1($deliveryAddress->getAddress1())
+                ->setAddress2($deliveryAddress->getAddress2())
+                ->setAddress3($deliveryAddress->getAddress3())
+                ->setZipcode($deliveryAddress->getZipcode())
+                ->setCity($deliveryAddress->getCity())
+                ->setPhone($deliveryAddress->getPhone())
+                ->setCellphone($deliveryAddress->getCellphone())
+                ->setCountryId($deliveryAddress->getCountryId())
+                ->setStateId($deliveryAddress->getStateId())
+                ->save($con);
 
-        $invoiceOrderAddress = new OrderAddress();
-        $invoiceOrderAddress
-            ->setCustomerTitleId($invoiceAddress->getTitleId())
-            ->setCompany($invoiceAddress->getCompany())
-            ->setFirstname($invoiceAddress->getFirstname())
-            ->setLastname($invoiceAddress->getLastname())
-            ->setAddress1($invoiceAddress->getAddress1())
-            ->setAddress2($invoiceAddress->getAddress2())
-            ->setAddress3($invoiceAddress->getAddress3())
-            ->setZipcode($invoiceAddress->getZipcode())
-            ->setCity($invoiceAddress->getCity())
-            ->setPhone($invoiceAddress->getPhone())
-            ->setCellphone($invoiceAddress->getCellphone())
-            ->setCountryId($invoiceAddress->getCountryId())
-            ->save($con)
-        ;
+            $invoiceOrderAddress = new OrderAddress();
+            $invoiceOrderAddress
+                ->setCustomerTitleId($invoiceAddress->getTitleId())
+                ->setCompany($invoiceAddress->getCompany())
+                ->setFirstname($invoiceAddress->getFirstname())
+                ->setLastname($invoiceAddress->getLastname())
+                ->setAddress1($invoiceAddress->getAddress1())
+                ->setAddress2($invoiceAddress->getAddress2())
+                ->setAddress3($invoiceAddress->getAddress3())
+                ->setZipcode($invoiceAddress->getZipcode())
+                ->setCity($invoiceAddress->getCity())
+                ->setPhone($invoiceAddress->getPhone())
+                ->setCellphone($invoiceAddress->getCellphone())
+                ->setCountryId($invoiceAddress->getCountryId())
+                ->setStateId($deliveryAddress->getStateId())
+                ->save($con);
 
-        $placedOrder->setDeliveryOrderAddressId($deliveryOrderAddress->getId());
-        $placedOrder->setInvoiceOrderAddressId($invoiceOrderAddress->getId());
+            $placedOrder->setDeliveryOrderAddressId($deliveryOrderAddress->getId());
+            $placedOrder->setInvoiceOrderAddressId($invoiceOrderAddress->getId());
+
+            $taxCountry = $deliveryAddress->getCountry();
+        }
 
         $placedOrder->setStatusId(
             OrderStatusQuery::getNotPaidStatus()->getId()
@@ -359,8 +381,11 @@ class Order extends BaseAction implements EventSubscriberInterface
 
     /**
      * Create an order outside of the front-office context, e.g. manually from the back-office.
+     * @param OrderManualEvent $event
+     * @param $eventName
+     * @param EventDispatcherInterface $dispatcher
      */
-    public function createManual(OrderManualEvent $event)
+    public function createManual(OrderManualEvent $event, $eventName, EventDispatcherInterface $dispatcher)
     {
         $paymentModule = ModuleQuery::create()->findPk($event->getOrder()->getPaymentModuleId());
 
@@ -369,13 +394,17 @@ class Order extends BaseAction implements EventSubscriberInterface
 
         $event->setPlacedOrder(
             $this->createOrder(
-                $event->getDispatcher(),
+                $dispatcher,
                 $event->getOrder(),
                 $event->getCurrency(),
                 $event->getLang(),
                 $event->getCart(),
                 $event->getCustomer(),
-                $paymentModuleInstance->manageStockOnCreation()
+                $this->isModuleManageStockOnCreation(
+                    $dispatcher,
+                    $paymentModuleInstance
+                ),
+                $event->getUseOrderDefinedAddresses()
             )
         );
 
@@ -386,12 +415,13 @@ class Order extends BaseAction implements EventSubscriberInterface
      * @param OrderEvent $event
      *
      * @throws \Thelia\Exception\TheliaProcessException
+     * @param $eventName
+     * @param EventDispatcherInterface $dispatcher
      */
-    public function create(OrderEvent $event)
+    public function create(OrderEvent $event, $eventName, EventDispatcherInterface $dispatcher)
     {
         $session = $this->getSession();
 
-        $dispatcher = $event->getDispatcher();
         $order = $event->getOrder();
         $paymentModule = ModuleQuery::create()->findPk($order->getPaymentModuleId());
 
@@ -399,16 +429,19 @@ class Order extends BaseAction implements EventSubscriberInterface
         $paymentModuleInstance = $paymentModule->createInstance();
 
         $placedOrder = $this->createOrder(
-            $event->getDispatcher(),
+            $dispatcher,
             $event->getOrder(),
             $session->getCurrency(),
             $session->getLang(),
             $session->getSessionCart($dispatcher),
             $this->securityContext->getCustomerUser(),
-            $paymentModuleInstance->manageStockOnCreation()
+            $this->isModuleManageStockOnCreation(
+                $dispatcher,
+                $paymentModuleInstance
+            )
         );
 
-        $event->getDispatcher()->dispatch(TheliaEvents::ORDER_BEFORE_PAYMENT, new OrderEvent($placedOrder));
+        $dispatcher->dispatch(TheliaEvents::ORDER_BEFORE_PAYMENT, new OrderEvent($placedOrder));
 
         /* but memorize placed order */
         $event->setOrder(new OrderModel());
@@ -426,12 +459,14 @@ class Order extends BaseAction implements EventSubscriberInterface
 
     /**
      * @param OrderEvent $event
+     * @param $eventName
+     * @param EventDispatcherInterface $dispatcher
      */
-    public function orderBeforePayment(OrderEvent $event)
+    public function orderBeforePayment(OrderEvent $event, $eventName, EventDispatcherInterface $dispatcher)
     {
-        $event->getDispatcher()->dispatch(TheliaEvents::ORDER_SEND_CONFIRMATION_EMAIL, clone $event);
+        $dispatcher ->dispatch(TheliaEvents::ORDER_SEND_CONFIRMATION_EMAIL, clone $event);
 
-        $event->getDispatcher()->dispatch(TheliaEvents::ORDER_SEND_NOTIFICATION_EMAIL, clone $event);
+        $dispatcher->dispatch(TheliaEvents::ORDER_SEND_NOTIFICATION_EMAIL, clone $event);
     }
 
     /**
@@ -439,13 +474,15 @@ class Order extends BaseAction implements EventSubscriberInterface
      * and the payment performed.
      *
      * @param OrderEvent $event
+     * @param $eventName
+     * @param EventDispatcherInterface $dispatcher
      */
-    public function orderCartClear(/** @noinspection PhpUnusedParameterInspection */ OrderEvent $event)
+    public function orderCartClear(/** @noinspection PhpUnusedParameterInspection */ OrderEvent $event, $eventName, EventDispatcherInterface $dispatcher)
     {
         // Empty cart and clear current order
         $session = $this->getSession();
 
-        $session->clearSessionCart($event->getDispatcher());
+        $session->clearSessionCart($dispatcher);
 
         $session->setOrder(new OrderModel());
     }
@@ -486,12 +523,20 @@ class Order extends BaseAction implements EventSubscriberInterface
     /**
      * @param OrderEvent $event
      */
-    public function updateStatus(OrderEvent $event)
+    public function updateStatus(OrderEvent $event, $eventName, EventDispatcherInterface $dispatcher)
     {
         $order = $event->getOrder();
         $newStatus = $event->getStatus();
+        $paymentModule = ModuleQuery::create()->findPk($order->getPaymentModuleId());
+        /** @var PaymentModuleInterface $paymentModuleInstance */
+        $paymentModuleInstance = $paymentModule->createInstance();
 
-        $this->updateQuantity($order, $newStatus);
+        $manageStockOnCreation = $this->isModuleManageStockOnCreation(
+            $dispatcher,
+            $paymentModuleInstance
+        );
+
+        $this->updateQuantity($order, $newStatus, $manageStockOnCreation);
 
         $order->setStatusId($newStatus);
         $order->save();
@@ -500,19 +545,18 @@ class Order extends BaseAction implements EventSubscriberInterface
     }
 
     /**
-     * @param  ModelOrder                               $order
-     * @param $newStatus
-     * @param $canceledStatus
+     * @param ModelOrder $order
+     * @param $newStatus $newStatus the new status ID
      * @throws \Thelia\Exception\TheliaProcessException
      */
-    public function updateQuantity(ModelOrder $order, $newStatus)
+    public function updateQuantity(ModelOrder $order, $newStatus, $manageStockOnCreation = true)
     {
         $canceledStatus = OrderStatusQuery::getCancelledStatus()->getId();
         $paidStatus = OrderStatusQuery::getPaidStatus()->getId();
         if ($newStatus == $canceledStatus || $order->isCancelled()) {
             $this->updateQuantityForCanceledOrder($order, $newStatus, $canceledStatus);
         } elseif ($paidStatus == $newStatus && $order->isNotPaid() && $order->getVersion() == 1) {
-            $this->updateQuantityForPaidOrder($order);
+            $this->updateQuantityForPaidOrder($order, $manageStockOnCreation);
         }
     }
 
@@ -521,14 +565,14 @@ class Order extends BaseAction implements EventSubscriberInterface
      * @throws \Exception
      * @throws \Propel\Runtime\Exception\PropelException
      */
-    protected function updateQuantityForPaidOrder(ModelOrder $order)
+    protected function updateQuantityForPaidOrder(ModelOrder $order, $manageStockOnCreation)
     {
         $paymentModule = ModuleQuery::create()->findPk($order->getPaymentModuleId());
 
         /** @var \Thelia\Module\PaymentModuleInterface $paymentModuleInstance */
         $paymentModuleInstance = $paymentModule->createInstance();
 
-        if (false === $paymentModuleInstance->manageStockOnCreation()) {
+        if (false === $manageStockOnCreation) {
             $orderProductList = $order->getOrderProducts();
 
             /** @var OrderProduct  $orderProduct */
@@ -616,6 +660,7 @@ class Order extends BaseAction implements EventSubscriberInterface
             ->setZipcode($event->getZipcode())
             ->setCity($event->getCity())
             ->setCountryId($event->getCountry())
+            ->setStateId($event->getState())
             ->setPhone($event->getPhone())
             ->setCellphone($event->getCellphone())
         ;
@@ -625,24 +670,30 @@ class Order extends BaseAction implements EventSubscriberInterface
     }
 
     /**
-     * Returns an array of event names this subscriber wants to listen to.
+     * Check if a payment module manage stock on creation
      *
-     * The array keys are event names and the value can be:
-     *
-     *  * The method name to call (priority defaults to 0)
-     *  * An array composed of the method name to call and the priority
-     *  * An array of arrays composed of the method names to call and respective
-     *    priorities, or 0 if unset
-     *
-     * For instance:
-     *
-     *  * array('eventName' => 'methodName')
-     *  * array('eventName' => array('methodName', $priority))
-     *  * array('eventName' => array(array('methodName1', $priority), array('methodName2'))
-     *
-     * @return array The event names to listen to
-     *
-     * @api
+     * @param EventDispatcher $dispatcher
+     * @param PaymentModuleInterface $module
+     * @return bool if the module manage stock on creation, false otherwise
+     */
+    protected function isModuleManageStockOnCreation(EventDispatcherInterface $dispatcher, PaymentModuleInterface $module)
+    {
+        $event = new ManageStockOnCreationEvent($module);
+
+        $dispatcher->dispatch(
+            TheliaEvents::getModuleEvent(
+                TheliaEvents::MODULE_PAYMENT_MANAGE_STOCK,
+                $module->getCode()
+            )
+        );
+
+        return (null !== $event->getManageStock())
+            ? $event->getManageStock()
+            : $module->manageStockOnCreation();
+    }
+
+    /**
+     * {@inheritdoc}
      */
     public static function getSubscribedEvents()
     {
@@ -671,6 +722,6 @@ class Order extends BaseAction implements EventSubscriberInterface
      */
     protected function getSession()
     {
-        return $this->request->getSession();
+        return $this->requestStack->getCurrentRequest()->getSession();
     }
 }

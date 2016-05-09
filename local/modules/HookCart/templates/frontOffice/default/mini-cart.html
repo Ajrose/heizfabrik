@@ -21,39 +21,41 @@
                             {/loop}
                         </td>
                         <td class="product">
-                            <h5 class="name" style="margin:0">
+                            <h6 class="name" style="margin:0">
                                 {$TITLE}
-                            </h5>
+                            </h6>
                             <a href="{token_url path="/cart/delete/$ITEM_ID"}" class="btn btn-remove" data-tip="tooltip" data-title="Delete" data-original-title=""><i class="fa fa-trash"></i> <span>{intl l="Remove" d="hookcart.fo.default"}</span></a>
                         </td>
                         <td class="unitprice text-center">
                             {if $IS_PROMO == 1}
                                 {assign "real_price" $PROMO_TAXED_PRICE}
+                                {assign "real_total_price" $TOTAL_PROMO_TAXED_PRICE}
                             {else}
                                 {assign "real_price" $TAXED_PRICE}
+                                {assign "real_total_price" $TOTAL_TAXED_PRICE}
                             {/if}
-                            <span class="qty">{$QUANTITY}</span> X <span class="price" style="font-size:1em;">{$real_price} {currency attr="symbol"}</span></div>
-        {assign "total_price" $total_price + ($QUANTITY * $real_price)}
-        </td>
-        </tr>
-        {/loop}
-        </tbody>
-        <tfoot>
-        <tr>
-            <td colspan="2" class="empty">
-                <a href="{url path="/cart"}" role="button" class="btn btn-default btn-sm"><i class="fa fa-eye"></i> {intl l="View Cart" d="hookcart.fo.default"}</a>
-                <a href="{url path="/order/delivery"}" role="button" class="btn btn-primary btn-sm"><i class="fa fa-chevron-right"></i> {intl l="Checkout" d="hookcart.fo.default"}</a>
-                {*<button type="submit" name="checkout" class="btn btn-primary btn-sm">{intl l="Checkout" d="hookcart.fo.default"}</button>*}
-            </td>
-            <td class="total">
-                <div class="total-price">
-                    <span class="price">{$total_price} {currency attr="symbol"}</span>
-                </div>
-            </td>
-        </tr>
-        </tfoot>
-        </table>
-        </form>
+                            <span class="qty">{$QUANTITY}</span> X <span class="price" style="font-size:1em;">{format_money number=$real_price}</span>
+                            {assign "total_price" $total_price + $real_total_price}
+                        </td>
+                    </tr>
+                    {/loop}
+                    </tbody>
+                    <tfoot>
+                    <tr>
+                        <td colspan="2" class="empty">
+                            <a href="{url path="/cart"}" role="button" class="btn btn-default btn-sm margin-bottom"><i class="fa fa-eye"></i> {intl l="View Cart" d="hookcart.fo.default"}</a>
+                            <a href="{url path="/order/delivery"}" role="button" class="btn btn-primary btn-sm margin-bottom"><i class="fa fa-chevron-right"></i> {intl l="Checkout" d="hookcart.fo.default"}</a>
+                            {*<button type="submit" name="checkout" class="btn btn-primary btn-sm">{intl l="Checkout" d="hookcart.fo.default"}</button>*}
+                        </td>
+                        <td class="total">
+                            <div class="total-price">
+                                <span class="price">{format_money number=$total_price}</span>
+                            </div>
+                        </td>
+                    </tr>
+                    </tfoot>
+                </table>
+            </form>
         </div>
     </li>
 {/ifloop}

@@ -3,7 +3,7 @@
 <routes xmlns="http://symfony.com/schema/routing"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://symfony.com/schema/routing http://symfony.com/schema/routing/routing-1.0.xsd">
-		
+
     <route id="ajax.mini-cart" path="/ajax/mini-cart">
         <default key="_controller">Thelia\Controller\Front\DefaultController::noAction</default>
         <default key="_view">includes/mini-cart</default>
@@ -164,7 +164,7 @@
     </route>
     <!-- end cart routes -->
 	
-	<!-- konfigurator routes -->
+		<!-- konfigurator routes -->
 	
 	<route id="konfigurator.suggestions" path="/konfigurator/suggestions">
         <default key="_controller">Front\Controller\KonfiguratorController::suggestionsAction</default>
@@ -266,6 +266,12 @@
         <default key="_controller">Front\Controller\NewsletterController::subscribeAction</default>
         <default key="_view">newsletter</default>
     </route>
+
+    <route id="newsletter.unsubscribe" path="/newsletter-unsubscribe" methods="post">
+        <default key="_controller">Front\Controller\NewsletterController::unsubscribeAction</default>
+        <default key="_view">newsletter-unsubscribe</default>
+    </route>
+
     <!-- end newsletter management -->
 
     <!-- sitemap generator -->

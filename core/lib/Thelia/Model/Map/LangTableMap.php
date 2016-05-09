@@ -58,7 +58,7 @@ class LangTableMap extends TableMap
     /**
      * The total number of columns
      */
-    const NUM_COLUMNS = 15;
+    const NUM_COLUMNS = 17;
 
     /**
      * The number of lazy-loaded columns
@@ -68,7 +68,7 @@ class LangTableMap extends TableMap
     /**
      * The number of columns to hydrate (NUM_COLUMNS - NUM_LAZY_LOAD_COLUMNS)
      */
-    const NUM_HYDRATE_COLUMNS = 15;
+    const NUM_HYDRATE_COLUMNS = 17;
 
     /**
      * the column name for the ID field
@@ -121,6 +121,16 @@ class LangTableMap extends TableMap
     const THOUSANDS_SEPARATOR = 'lang.THOUSANDS_SEPARATOR';
 
     /**
+     * the column name for the ACTIVE field
+     */
+    const ACTIVE = 'lang.ACTIVE';
+
+    /**
+     * the column name for the VISIBLE field
+     */
+    const VISIBLE = 'lang.VISIBLE';
+
+    /**
      * the column name for the DECIMALS field
      */
     const DECIMALS = 'lang.DECIMALS';
@@ -157,12 +167,12 @@ class LangTableMap extends TableMap
      * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
      */
     protected static $fieldNames = array (
-        self::TYPE_PHPNAME       => array('Id', 'Title', 'Code', 'Locale', 'Url', 'DateFormat', 'TimeFormat', 'DatetimeFormat', 'DecimalSeparator', 'ThousandsSeparator', 'Decimals', 'ByDefault', 'Position', 'CreatedAt', 'UpdatedAt', ),
-        self::TYPE_STUDLYPHPNAME => array('id', 'title', 'code', 'locale', 'url', 'dateFormat', 'timeFormat', 'datetimeFormat', 'decimalSeparator', 'thousandsSeparator', 'decimals', 'byDefault', 'position', 'createdAt', 'updatedAt', ),
-        self::TYPE_COLNAME       => array(LangTableMap::ID, LangTableMap::TITLE, LangTableMap::CODE, LangTableMap::LOCALE, LangTableMap::URL, LangTableMap::DATE_FORMAT, LangTableMap::TIME_FORMAT, LangTableMap::DATETIME_FORMAT, LangTableMap::DECIMAL_SEPARATOR, LangTableMap::THOUSANDS_SEPARATOR, LangTableMap::DECIMALS, LangTableMap::BY_DEFAULT, LangTableMap::POSITION, LangTableMap::CREATED_AT, LangTableMap::UPDATED_AT, ),
-        self::TYPE_RAW_COLNAME   => array('ID', 'TITLE', 'CODE', 'LOCALE', 'URL', 'DATE_FORMAT', 'TIME_FORMAT', 'DATETIME_FORMAT', 'DECIMAL_SEPARATOR', 'THOUSANDS_SEPARATOR', 'DECIMALS', 'BY_DEFAULT', 'POSITION', 'CREATED_AT', 'UPDATED_AT', ),
-        self::TYPE_FIELDNAME     => array('id', 'title', 'code', 'locale', 'url', 'date_format', 'time_format', 'datetime_format', 'decimal_separator', 'thousands_separator', 'decimals', 'by_default', 'position', 'created_at', 'updated_at', ),
-        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, )
+        self::TYPE_PHPNAME       => array('Id', 'Title', 'Code', 'Locale', 'Url', 'DateFormat', 'TimeFormat', 'DatetimeFormat', 'DecimalSeparator', 'ThousandsSeparator', 'Active', 'Visible', 'Decimals', 'ByDefault', 'Position', 'CreatedAt', 'UpdatedAt', ),
+        self::TYPE_STUDLYPHPNAME => array('id', 'title', 'code', 'locale', 'url', 'dateFormat', 'timeFormat', 'datetimeFormat', 'decimalSeparator', 'thousandsSeparator', 'active', 'visible', 'decimals', 'byDefault', 'position', 'createdAt', 'updatedAt', ),
+        self::TYPE_COLNAME       => array(LangTableMap::ID, LangTableMap::TITLE, LangTableMap::CODE, LangTableMap::LOCALE, LangTableMap::URL, LangTableMap::DATE_FORMAT, LangTableMap::TIME_FORMAT, LangTableMap::DATETIME_FORMAT, LangTableMap::DECIMAL_SEPARATOR, LangTableMap::THOUSANDS_SEPARATOR, LangTableMap::ACTIVE, LangTableMap::VISIBLE, LangTableMap::DECIMALS, LangTableMap::BY_DEFAULT, LangTableMap::POSITION, LangTableMap::CREATED_AT, LangTableMap::UPDATED_AT, ),
+        self::TYPE_RAW_COLNAME   => array('ID', 'TITLE', 'CODE', 'LOCALE', 'URL', 'DATE_FORMAT', 'TIME_FORMAT', 'DATETIME_FORMAT', 'DECIMAL_SEPARATOR', 'THOUSANDS_SEPARATOR', 'ACTIVE', 'VISIBLE', 'DECIMALS', 'BY_DEFAULT', 'POSITION', 'CREATED_AT', 'UPDATED_AT', ),
+        self::TYPE_FIELDNAME     => array('id', 'title', 'code', 'locale', 'url', 'date_format', 'time_format', 'datetime_format', 'decimal_separator', 'thousands_separator', 'active', 'visible', 'decimals', 'by_default', 'position', 'created_at', 'updated_at', ),
+        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, )
     );
 
     /**
@@ -172,12 +182,12 @@ class LangTableMap extends TableMap
      * e.g. self::$fieldKeys[self::TYPE_PHPNAME]['Id'] = 0
      */
     protected static $fieldKeys = array (
-        self::TYPE_PHPNAME       => array('Id' => 0, 'Title' => 1, 'Code' => 2, 'Locale' => 3, 'Url' => 4, 'DateFormat' => 5, 'TimeFormat' => 6, 'DatetimeFormat' => 7, 'DecimalSeparator' => 8, 'ThousandsSeparator' => 9, 'Decimals' => 10, 'ByDefault' => 11, 'Position' => 12, 'CreatedAt' => 13, 'UpdatedAt' => 14, ),
-        self::TYPE_STUDLYPHPNAME => array('id' => 0, 'title' => 1, 'code' => 2, 'locale' => 3, 'url' => 4, 'dateFormat' => 5, 'timeFormat' => 6, 'datetimeFormat' => 7, 'decimalSeparator' => 8, 'thousandsSeparator' => 9, 'decimals' => 10, 'byDefault' => 11, 'position' => 12, 'createdAt' => 13, 'updatedAt' => 14, ),
-        self::TYPE_COLNAME       => array(LangTableMap::ID => 0, LangTableMap::TITLE => 1, LangTableMap::CODE => 2, LangTableMap::LOCALE => 3, LangTableMap::URL => 4, LangTableMap::DATE_FORMAT => 5, LangTableMap::TIME_FORMAT => 6, LangTableMap::DATETIME_FORMAT => 7, LangTableMap::DECIMAL_SEPARATOR => 8, LangTableMap::THOUSANDS_SEPARATOR => 9, LangTableMap::DECIMALS => 10, LangTableMap::BY_DEFAULT => 11, LangTableMap::POSITION => 12, LangTableMap::CREATED_AT => 13, LangTableMap::UPDATED_AT => 14, ),
-        self::TYPE_RAW_COLNAME   => array('ID' => 0, 'TITLE' => 1, 'CODE' => 2, 'LOCALE' => 3, 'URL' => 4, 'DATE_FORMAT' => 5, 'TIME_FORMAT' => 6, 'DATETIME_FORMAT' => 7, 'DECIMAL_SEPARATOR' => 8, 'THOUSANDS_SEPARATOR' => 9, 'DECIMALS' => 10, 'BY_DEFAULT' => 11, 'POSITION' => 12, 'CREATED_AT' => 13, 'UPDATED_AT' => 14, ),
-        self::TYPE_FIELDNAME     => array('id' => 0, 'title' => 1, 'code' => 2, 'locale' => 3, 'url' => 4, 'date_format' => 5, 'time_format' => 6, 'datetime_format' => 7, 'decimal_separator' => 8, 'thousands_separator' => 9, 'decimals' => 10, 'by_default' => 11, 'position' => 12, 'created_at' => 13, 'updated_at' => 14, ),
-        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, )
+        self::TYPE_PHPNAME       => array('Id' => 0, 'Title' => 1, 'Code' => 2, 'Locale' => 3, 'Url' => 4, 'DateFormat' => 5, 'TimeFormat' => 6, 'DatetimeFormat' => 7, 'DecimalSeparator' => 8, 'ThousandsSeparator' => 9, 'Active' => 10, 'Visible' => 11, 'Decimals' => 12, 'ByDefault' => 13, 'Position' => 14, 'CreatedAt' => 15, 'UpdatedAt' => 16, ),
+        self::TYPE_STUDLYPHPNAME => array('id' => 0, 'title' => 1, 'code' => 2, 'locale' => 3, 'url' => 4, 'dateFormat' => 5, 'timeFormat' => 6, 'datetimeFormat' => 7, 'decimalSeparator' => 8, 'thousandsSeparator' => 9, 'active' => 10, 'visible' => 11, 'decimals' => 12, 'byDefault' => 13, 'position' => 14, 'createdAt' => 15, 'updatedAt' => 16, ),
+        self::TYPE_COLNAME       => array(LangTableMap::ID => 0, LangTableMap::TITLE => 1, LangTableMap::CODE => 2, LangTableMap::LOCALE => 3, LangTableMap::URL => 4, LangTableMap::DATE_FORMAT => 5, LangTableMap::TIME_FORMAT => 6, LangTableMap::DATETIME_FORMAT => 7, LangTableMap::DECIMAL_SEPARATOR => 8, LangTableMap::THOUSANDS_SEPARATOR => 9, LangTableMap::ACTIVE => 10, LangTableMap::VISIBLE => 11, LangTableMap::DECIMALS => 12, LangTableMap::BY_DEFAULT => 13, LangTableMap::POSITION => 14, LangTableMap::CREATED_AT => 15, LangTableMap::UPDATED_AT => 16, ),
+        self::TYPE_RAW_COLNAME   => array('ID' => 0, 'TITLE' => 1, 'CODE' => 2, 'LOCALE' => 3, 'URL' => 4, 'DATE_FORMAT' => 5, 'TIME_FORMAT' => 6, 'DATETIME_FORMAT' => 7, 'DECIMAL_SEPARATOR' => 8, 'THOUSANDS_SEPARATOR' => 9, 'ACTIVE' => 10, 'VISIBLE' => 11, 'DECIMALS' => 12, 'BY_DEFAULT' => 13, 'POSITION' => 14, 'CREATED_AT' => 15, 'UPDATED_AT' => 16, ),
+        self::TYPE_FIELDNAME     => array('id' => 0, 'title' => 1, 'code' => 2, 'locale' => 3, 'url' => 4, 'date_format' => 5, 'time_format' => 6, 'datetime_format' => 7, 'decimal_separator' => 8, 'thousands_separator' => 9, 'active' => 10, 'visible' => 11, 'decimals' => 12, 'by_default' => 13, 'position' => 14, 'created_at' => 15, 'updated_at' => 16, ),
+        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, )
     );
 
     /**
@@ -206,6 +216,8 @@ class LangTableMap extends TableMap
         $this->addColumn('DATETIME_FORMAT', 'DatetimeFormat', 'VARCHAR', false, 45, null);
         $this->addColumn('DECIMAL_SEPARATOR', 'DecimalSeparator', 'VARCHAR', false, 45, null);
         $this->addColumn('THOUSANDS_SEPARATOR', 'ThousandsSeparator', 'VARCHAR', false, 45, null);
+        $this->addColumn('ACTIVE', 'Active', 'BOOLEAN', false, 1, false);
+        $this->addColumn('VISIBLE', 'Visible', 'TINYINT', false, null, 0);
         $this->addColumn('DECIMALS', 'Decimals', 'VARCHAR', false, 45, null);
         $this->addColumn('BY_DEFAULT', 'ByDefault', 'TINYINT', false, null, null);
         $this->addColumn('POSITION', 'Position', 'INTEGER', false, null, null);
@@ -218,6 +230,7 @@ class LangTableMap extends TableMap
      */
     public function buildRelations()
     {
+        $this->addRelation('Customer', '\\Thelia\\Model\\Customer', RelationMap::ONE_TO_MANY, array('id' => 'lang_id', ), 'SET NULL', 'RESTRICT', 'Customers');
         $this->addRelation('Order', '\\Thelia\\Model\\Order', RelationMap::ONE_TO_MANY, array('id' => 'lang_id', ), 'RESTRICT', 'RESTRICT', 'Orders');
     } // buildRelations()
 
@@ -233,6 +246,15 @@ class LangTableMap extends TableMap
             'timestampable' => array('create_column' => 'created_at', 'update_column' => 'updated_at', ),
         );
     } // getBehaviors()
+    /**
+     * Method to invalidate the instance pool of all tables related to lang     * by a foreign key with ON DELETE CASCADE
+     */
+    public static function clearRelatedInstancePool()
+    {
+        // Invalidate objects in ".$this->getClassNameFromBuilder($joinedTableTableMapBuilder)." instance pool,
+        // since one or more of them may be deleted by ON DELETE CASCADE/SETNULL rule.
+                CustomerTableMap::clearInstancePool();
+            }
 
     /**
      * Retrieves a string version of the primary key from the DB resultset row that can be used to uniquely identify a row in this table.
@@ -382,6 +404,8 @@ class LangTableMap extends TableMap
             $criteria->addSelectColumn(LangTableMap::DATETIME_FORMAT);
             $criteria->addSelectColumn(LangTableMap::DECIMAL_SEPARATOR);
             $criteria->addSelectColumn(LangTableMap::THOUSANDS_SEPARATOR);
+            $criteria->addSelectColumn(LangTableMap::ACTIVE);
+            $criteria->addSelectColumn(LangTableMap::VISIBLE);
             $criteria->addSelectColumn(LangTableMap::DECIMALS);
             $criteria->addSelectColumn(LangTableMap::BY_DEFAULT);
             $criteria->addSelectColumn(LangTableMap::POSITION);
@@ -398,6 +422,8 @@ class LangTableMap extends TableMap
             $criteria->addSelectColumn($alias . '.DATETIME_FORMAT');
             $criteria->addSelectColumn($alias . '.DECIMAL_SEPARATOR');
             $criteria->addSelectColumn($alias . '.THOUSANDS_SEPARATOR');
+            $criteria->addSelectColumn($alias . '.ACTIVE');
+            $criteria->addSelectColumn($alias . '.VISIBLE');
             $criteria->addSelectColumn($alias . '.DECIMALS');
             $criteria->addSelectColumn($alias . '.BY_DEFAULT');
             $criteria->addSelectColumn($alias . '.POSITION');

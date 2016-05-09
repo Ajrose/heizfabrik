@@ -18,6 +18,7 @@ use Thelia\Core\Event\TheliaEvents;
 use Thelia\Core\Security\Resource\AdminResources;
 use Thelia\Exception\CustomerException;
 use Thelia\Form\Definition\AdminForm;
+use Thelia\Model\Customer;
 use Thelia\Model\CustomerQuery;
 use Thelia\Tools\Password;
 
@@ -86,6 +87,10 @@ class CustomerController extends AbstractCrudController
         return $event->hasCustomer();
     }
 
+    /**
+     * @param Customer $object
+     * @return \Thelia\Form\BaseForm
+     */
     protected function hydrateObjectForm($object)
     {
         // Get default adress of the customer
@@ -112,6 +117,7 @@ class CustomerController extends AbstractCrudController
             $data['zipcode']   = $address->getZipcode();
             $data['city']      = $address->getCity();
             $data['country']   = $address->getCountryId();
+            $data['state']     = $address->getStateId();
         }
 
         // A loop is used in the template
@@ -148,7 +154,8 @@ class CustomerController extends AbstractCrudController
             isset($data["sponsor"])?$data["sponsor"]:null,
             isset($data["discount"])?$data["discount"]:null,
             isset($data["company"])?$data["company"]:null,
-            null
+            null,
+            $data["state"]
         );
 
         return $customerCreateEvent;
@@ -159,11 +166,19 @@ class CustomerController extends AbstractCrudController
         return CustomerQuery::create()->findPk($this->getRequest()->get('customer_id', 0));
     }
 
+    /**
+     * @param Customer $object
+     * @return string
+     */
     protected function getObjectLabel($object)
     {
         return $object->getRef() . "(".$object->getLastname()." ".$object->getFirstname().")";
     }
 
+    /**
+     * @param Customer $object
+     * @return int
+     */
     protected function getObjectId($object)
     {
         return $object->getId();

@@ -17,6 +17,8 @@ use Propel\Runtime\Exception\PropelException;
 use Propel\Runtime\Map\TableMap;
 use Propel\Runtime\Parser\AbstractParser;
 use Propel\Runtime\Util\PropelDateTime;
+use Thelia\Model\Customer as ChildCustomer;
+use Thelia\Model\CustomerQuery as ChildCustomerQuery;
 use Thelia\Model\Lang as ChildLang;
 use Thelia\Model\LangQuery as ChildLangQuery;
 use Thelia\Model\Order as ChildOrder;
@@ -118,6 +120,20 @@ abstract class Lang implements ActiveRecordInterface
     protected $thousands_separator;
 
     /**
+     * The value for the active field.
+     * Note: this column has a database default value of: false
+     * @var        boolean
+     */
+    protected $active;
+
+    /**
+     * The value for the visible field.
+     * Note: this column has a database default value of: 0
+     * @var        int
+     */
+    protected $visible;
+
+    /**
      * The value for the decimals field.
      * @var        string
      */
@@ -148,6 +164,12 @@ abstract class Lang implements ActiveRecordInterface
     protected $updated_at;
 
     /**
+     * @var        ObjectCollection|ChildCustomer[] Collection to store aggregation of ChildCustomer objects.
+     */
+    protected $collCustomers;
+    protected $collCustomersPartial;
+
+    /**
      * @var        ObjectCollection|ChildOrder[] Collection to store aggregation of ChildOrder objects.
      */
     protected $collOrders;
@@ -165,13 +187,33 @@ abstract class Lang implements ActiveRecordInterface
      * An array of objects scheduled for deletion.
      * @var ObjectCollection
      */
+    protected $customersScheduledForDeletion = null;
+
+    /**
+     * An array of objects scheduled for deletion.
+     * @var ObjectCollection
+     */
     protected $ordersScheduledForDeletion = null;
 
     /**
+     * Applies default values to this object.
+     * This method should be called from the object's constructor (or
+     * equivalent initialization method).
+     * @see __construct()
+     */
+    public function applyDefaultValues()
+    {
+        $this->active = false;
+        $this->visible = 0;
+    }
+
+    /**
      * Initializes internal state of Thelia\Model\Base\Lang object.
+     * @see applyDefaults()
      */
     public function __construct()
     {
+        $this->applyDefaultValues();
     }
 
     /**
@@ -536,6 +578,28 @@ abstract class Lang implements ActiveRecordInterface
     }
 
     /**
+     * Get the [active] column value.
+     *
+     * @return   boolean
+     */
+    public function getActive()
+    {
+
+        return $this->active;
+    }
+
+    /**
+     * Get the [visible] column value.
+     *
+     * @return   int
+     */
+    public function getVisible()
+    {
+
+        return $this->visible;
+    }
+
+    /**
      * Get the [decimals] column value.
      *
      * @return   string
@@ -819,6 +883,56 @@ abstract class Lang implements ActiveRecordInterface
     } // setThousandsSeparator()
 
     /**
+     * Sets the value of the [active] column.
+     * Non-boolean arguments are converted using the following rules:
+     *   * 1, '1', 'true',  'on',  and 'yes' are converted to boolean true
+     *   * 0, '0', 'false', 'off', and 'no'  are converted to boolean false
+     * Check on string values is case insensitive (so 'FaLsE' is seen as 'false').
+     *
+     * @param      boolean|integer|string $v The new value
+     * @return   \Thelia\Model\Lang The current object (for fluent API support)
+     */
+    public function setActive($v)
+    {
+        if ($v !== null) {
+            if (is_string($v)) {
+                $v = in_array(strtolower($v), array('false', 'off', '-', 'no', 'n', '0', '')) ? false : true;
+            } else {
+                $v = (boolean) $v;
+            }
+        }
+
+        if ($this->active !== $v) {
+            $this->active = $v;
+            $this->modifiedColumns[LangTableMap::ACTIVE] = true;
+        }
+
+
+        return $this;
+    } // setActive()
+
+    /**
+     * Set the value of [visible] column.
+     *
+     * @param      int $v new value
+     * @return   \Thelia\Model\Lang The current object (for fluent API support)
+     */
+    public function setVisible($v)
+    {
+        if ($v !== null) {
+            $v = (int) $v;
+        }
+
+        if ($this->visible !== $v) {
+            $this->visible = $v;
+            $this->modifiedColumns[LangTableMap::VISIBLE] = true;
+        }
+
+
+        return $this;
+    } // setVisible()
+
+    /**
      * Set the value of [decimals] column.
      *
      * @param      string $v new value
@@ -933,6 +1047,14 @@ abstract class Lang implements ActiveRecordInterface
      */
     public function hasOnlyDefaultValues()
     {
+            if ($this->active !== false) {
+                return false;
+            }
+
+            if ($this->visible !== 0) {
+                return false;
+            }
+
         // otherwise, everything was equal, so return TRUE
         return true;
     } // hasOnlyDefaultValues()
@@ -990,22 +1112,28 @@ abstract class Lang implements ActiveRecordInterface
             $col = $row[TableMap::TYPE_NUM == $indexType ? 9 + $startcol : LangTableMap::translateFieldName('ThousandsSeparator', TableMap::TYPE_PHPNAME, $indexType)];
             $this->thousands_separator = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 10 + $startcol : LangTableMap::translateFieldName('Decimals', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 10 + $startcol : LangTableMap::translateFieldName('Active', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->active = (null !== $col) ? (boolean) $col : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 11 + $startcol : LangTableMap::translateFieldName('Visible', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->visible = (null !== $col) ? (int) $col : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 12 + $startcol : LangTableMap::translateFieldName('Decimals', TableMap::TYPE_PHPNAME, $indexType)];
             $this->decimals = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 11 + $startcol : LangTableMap::translateFieldName('ByDefault', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 13 + $startcol : LangTableMap::translateFieldName('ByDefault', TableMap::TYPE_PHPNAME, $indexType)];
             $this->by_default = (null !== $col) ? (int) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 12 + $startcol : LangTableMap::translateFieldName('Position', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 14 + $startcol : LangTableMap::translateFieldName('Position', TableMap::TYPE_PHPNAME, $indexType)];
             $this->position = (null !== $col) ? (int) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 13 + $startcol : LangTableMap::translateFieldName('CreatedAt', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 15 + $startcol : LangTableMap::translateFieldName('CreatedAt', TableMap::TYPE_PHPNAME, $indexType)];
             if ($col === '0000-00-00 00:00:00') {
                 $col = null;
             }
             $this->created_at = (null !== $col) ? PropelDateTime::newInstance($col, null, '\DateTime') : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 14 + $startcol : LangTableMap::translateFieldName('UpdatedAt', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 16 + $startcol : LangTableMap::translateFieldName('UpdatedAt', TableMap::TYPE_PHPNAME, $indexType)];
             if ($col === '0000-00-00 00:00:00') {
                 $col = null;
             }
@@ -1018,7 +1146,7 @@ abstract class Lang implements ActiveRecordInterface
                 $this->ensureConsistency();
             }
 
-            return $startcol + 15; // 15 = LangTableMap::NUM_HYDRATE_COLUMNS.
+            return $startcol + 17; // 17 = LangTableMap::NUM_HYDRATE_COLUMNS.
 
         } catch (Exception $e) {
             throw new PropelException("Error populating \Thelia\Model\Lang object", 0, $e);
@@ -1078,6 +1206,8 @@ abstract class Lang implements ActiveRecordInterface
         $this->hydrate($row, 0, true, $dataFetcher->getIndexType()); // rehydrate
 
         if ($deep) {  // also de-associate any related objects?
+
+            $this->collCustomers = null;
 
             $this->collOrders = null;
 
@@ -1214,6 +1344,24 @@ abstract class Lang implements ActiveRecordInterface
                 $this->resetModified();
             }
 
+            if ($this->customersScheduledForDeletion !== null) {
+                if (!$this->customersScheduledForDeletion->isEmpty()) {
+                    foreach ($this->customersScheduledForDeletion as $customer) {
+                        // need to save related object because we set the relation to null
+                        $customer->save($con);
+                    }
+                    $this->customersScheduledForDeletion = null;
+                }
+            }
+
+                if ($this->collCustomers !== null) {
+            foreach ($this->collCustomers as $referrerFK) {
+                    if (!$referrerFK->isDeleted() && ($referrerFK->isNew() || $referrerFK->isModified())) {
+                        $affectedRows += $referrerFK->save($con);
+                    }
+                }
+            }
+
             if ($this->ordersScheduledForDeletion !== null) {
                 if (!$this->ordersScheduledForDeletion->isEmpty()) {
                     \Thelia\Model\OrderQuery::create()
@@ -1287,6 +1435,12 @@ abstract class Lang implements ActiveRecordInterface
         if ($this->isColumnModified(LangTableMap::THOUSANDS_SEPARATOR)) {
             $modifiedColumns[':p' . $index++]  = '`THOUSANDS_SEPARATOR`';
         }
+        if ($this->isColumnModified(LangTableMap::ACTIVE)) {
+            $modifiedColumns[':p' . $index++]  = '`ACTIVE`';
+        }
+        if ($this->isColumnModified(LangTableMap::VISIBLE)) {
+            $modifiedColumns[':p' . $index++]  = '`VISIBLE`';
+        }
         if ($this->isColumnModified(LangTableMap::DECIMALS)) {
             $modifiedColumns[':p' . $index++]  = '`DECIMALS`';
         }
@@ -1342,6 +1496,12 @@ abstract class Lang implements ActiveRecordInterface
                         break;
                     case '`THOUSANDS_SEPARATOR`':
                         $stmt->bindValue($identifier, $this->thousands_separator, PDO::PARAM_STR);
+                        break;
+                    case '`ACTIVE`':
+                        $stmt->bindValue($identifier, (int) $this->active, PDO::PARAM_INT);
+                        break;
+                    case '`VISIBLE`':
+                        $stmt->bindValue($identifier, $this->visible, PDO::PARAM_INT);
                         break;
                     case '`DECIMALS`':
                         $stmt->bindValue($identifier, $this->decimals, PDO::PARAM_STR);
@@ -1451,18 +1611,24 @@ abstract class Lang implements ActiveRecordInterface
                 return $this->getThousandsSeparator();
                 break;
             case 10:
-                return $this->getDecimals();
+                return $this->getActive();
                 break;
             case 11:
-                return $this->getByDefault();
+                return $this->getVisible();
                 break;
             case 12:
-                return $this->getPosition();
+                return $this->getDecimals();
                 break;
             case 13:
-                return $this->getCreatedAt();
+                return $this->getByDefault();
                 break;
             case 14:
+                return $this->getPosition();
+                break;
+            case 15:
+                return $this->getCreatedAt();
+                break;
+            case 16:
                 return $this->getUpdatedAt();
                 break;
             default:
@@ -1504,11 +1670,13 @@ abstract class Lang implements ActiveRecordInterface
             $keys[7] => $this->getDatetimeFormat(),
             $keys[8] => $this->getDecimalSeparator(),
             $keys[9] => $this->getThousandsSeparator(),
-            $keys[10] => $this->getDecimals(),
-            $keys[11] => $this->getByDefault(),
-            $keys[12] => $this->getPosition(),
-            $keys[13] => $this->getCreatedAt(),
-            $keys[14] => $this->getUpdatedAt(),
+            $keys[10] => $this->getActive(),
+            $keys[11] => $this->getVisible(),
+            $keys[12] => $this->getDecimals(),
+            $keys[13] => $this->getByDefault(),
+            $keys[14] => $this->getPosition(),
+            $keys[15] => $this->getCreatedAt(),
+            $keys[16] => $this->getUpdatedAt(),
         );
         $virtualColumns = $this->virtualColumns;
         foreach ($virtualColumns as $key => $virtualColumn) {
@@ -1516,6 +1684,9 @@ abstract class Lang implements ActiveRecordInterface
         }
 
         if ($includeForeignObjects) {
+            if (null !== $this->collCustomers) {
+                $result['Customers'] = $this->collCustomers->toArray(null, true, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
+            }
             if (null !== $this->collOrders) {
                 $result['Orders'] = $this->collOrders->toArray(null, true, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
             }
@@ -1584,18 +1755,24 @@ abstract class Lang implements ActiveRecordInterface
                 $this->setThousandsSeparator($value);
                 break;
             case 10:
-                $this->setDecimals($value);
+                $this->setActive($value);
                 break;
             case 11:
-                $this->setByDefault($value);
+                $this->setVisible($value);
                 break;
             case 12:
-                $this->setPosition($value);
+                $this->setDecimals($value);
                 break;
             case 13:
-                $this->setCreatedAt($value);
+                $this->setByDefault($value);
                 break;
             case 14:
+                $this->setPosition($value);
+                break;
+            case 15:
+                $this->setCreatedAt($value);
+                break;
+            case 16:
                 $this->setUpdatedAt($value);
                 break;
         } // switch()
@@ -1632,11 +1809,13 @@ abstract class Lang implements ActiveRecordInterface
         if (array_key_exists($keys[7], $arr)) $this->setDatetimeFormat($arr[$keys[7]]);
         if (array_key_exists($keys[8], $arr)) $this->setDecimalSeparator($arr[$keys[8]]);
         if (array_key_exists($keys[9], $arr)) $this->setThousandsSeparator($arr[$keys[9]]);
-        if (array_key_exists($keys[10], $arr)) $this->setDecimals($arr[$keys[10]]);
-        if (array_key_exists($keys[11], $arr)) $this->setByDefault($arr[$keys[11]]);
-        if (array_key_exists($keys[12], $arr)) $this->setPosition($arr[$keys[12]]);
-        if (array_key_exists($keys[13], $arr)) $this->setCreatedAt($arr[$keys[13]]);
-        if (array_key_exists($keys[14], $arr)) $this->setUpdatedAt($arr[$keys[14]]);
+        if (array_key_exists($keys[10], $arr)) $this->setActive($arr[$keys[10]]);
+        if (array_key_exists($keys[11], $arr)) $this->setVisible($arr[$keys[11]]);
+        if (array_key_exists($keys[12], $arr)) $this->setDecimals($arr[$keys[12]]);
+        if (array_key_exists($keys[13], $arr)) $this->setByDefault($arr[$keys[13]]);
+        if (array_key_exists($keys[14], $arr)) $this->setPosition($arr[$keys[14]]);
+        if (array_key_exists($keys[15], $arr)) $this->setCreatedAt($arr[$keys[15]]);
+        if (array_key_exists($keys[16], $arr)) $this->setUpdatedAt($arr[$keys[16]]);
     }
 
     /**
@@ -1658,6 +1837,8 @@ abstract class Lang implements ActiveRecordInterface
         if ($this->isColumnModified(LangTableMap::DATETIME_FORMAT)) $criteria->add(LangTableMap::DATETIME_FORMAT, $this->datetime_format);
         if ($this->isColumnModified(LangTableMap::DECIMAL_SEPARATOR)) $criteria->add(LangTableMap::DECIMAL_SEPARATOR, $this->decimal_separator);
         if ($this->isColumnModified(LangTableMap::THOUSANDS_SEPARATOR)) $criteria->add(LangTableMap::THOUSANDS_SEPARATOR, $this->thousands_separator);
+        if ($this->isColumnModified(LangTableMap::ACTIVE)) $criteria->add(LangTableMap::ACTIVE, $this->active);
+        if ($this->isColumnModified(LangTableMap::VISIBLE)) $criteria->add(LangTableMap::VISIBLE, $this->visible);
         if ($this->isColumnModified(LangTableMap::DECIMALS)) $criteria->add(LangTableMap::DECIMALS, $this->decimals);
         if ($this->isColumnModified(LangTableMap::BY_DEFAULT)) $criteria->add(LangTableMap::BY_DEFAULT, $this->by_default);
         if ($this->isColumnModified(LangTableMap::POSITION)) $criteria->add(LangTableMap::POSITION, $this->position);
@@ -1735,6 +1916,8 @@ abstract class Lang implements ActiveRecordInterface
         $copyObj->setDatetimeFormat($this->getDatetimeFormat());
         $copyObj->setDecimalSeparator($this->getDecimalSeparator());
         $copyObj->setThousandsSeparator($this->getThousandsSeparator());
+        $copyObj->setActive($this->getActive());
+        $copyObj->setVisible($this->getVisible());
         $copyObj->setDecimals($this->getDecimals());
         $copyObj->setByDefault($this->getByDefault());
         $copyObj->setPosition($this->getPosition());
@@ -1745,6 +1928,12 @@ abstract class Lang implements ActiveRecordInterface
             // important: temporarily setNew(false) because this affects the behavior of
             // the getter/setter methods for fkey referrer objects.
             $copyObj->setNew(false);
+
+            foreach ($this->getCustomers() as $relObj) {
+                if ($relObj !== $this) {  // ensure that we don't try to copy a reference to ourselves
+                    $copyObj->addCustomer($relObj->copy($deepCopy));
+                }
+            }
 
             foreach ($this->getOrders() as $relObj) {
                 if ($relObj !== $this) {  // ensure that we don't try to copy a reference to ourselves
@@ -1793,9 +1982,255 @@ abstract class Lang implements ActiveRecordInterface
      */
     public function initRelation($relationName)
     {
+        if ('Customer' == $relationName) {
+            return $this->initCustomers();
+        }
         if ('Order' == $relationName) {
             return $this->initOrders();
         }
+    }
+
+    /**
+     * Clears out the collCustomers collection
+     *
+     * This does not modify the database; however, it will remove any associated objects, causing
+     * them to be refetched by subsequent calls to accessor method.
+     *
+     * @return void
+     * @see        addCustomers()
+     */
+    public function clearCustomers()
+    {
+        $this->collCustomers = null; // important to set this to NULL since that means it is uninitialized
+    }
+
+    /**
+     * Reset is the collCustomers collection loaded partially.
+     */
+    public function resetPartialCustomers($v = true)
+    {
+        $this->collCustomersPartial = $v;
+    }
+
+    /**
+     * Initializes the collCustomers collection.
+     *
+     * By default this just sets the collCustomers collection to an empty array (like clearcollCustomers());
+     * however, you may wish to override this method in your stub class to provide setting appropriate
+     * to your application -- for example, setting the initial array to the values stored in database.
+     *
+     * @param      boolean $overrideExisting If set to true, the method call initializes
+     *                                        the collection even if it is not empty
+     *
+     * @return void
+     */
+    public function initCustomers($overrideExisting = true)
+    {
+        if (null !== $this->collCustomers && !$overrideExisting) {
+            return;
+        }
+        $this->collCustomers = new ObjectCollection();
+        $this->collCustomers->setModel('\Thelia\Model\Customer');
+    }
+
+    /**
+     * Gets an array of ChildCustomer objects which contain a foreign key that references this object.
+     *
+     * If the $criteria is not null, it is used to always fetch the results from the database.
+     * Otherwise the results are fetched from the database the first time, then cached.
+     * Next time the same method is called without $criteria, the cached collection is returned.
+     * If this ChildLang is new, it will return
+     * an empty collection or the current collection; the criteria is ignored on a new object.
+     *
+     * @param      Criteria $criteria optional Criteria object to narrow the query
+     * @param      ConnectionInterface $con optional connection object
+     * @return Collection|ChildCustomer[] List of ChildCustomer objects
+     * @throws PropelException
+     */
+    public function getCustomers($criteria = null, ConnectionInterface $con = null)
+    {
+        $partial = $this->collCustomersPartial && !$this->isNew();
+        if (null === $this->collCustomers || null !== $criteria  || $partial) {
+            if ($this->isNew() && null === $this->collCustomers) {
+                // return empty collection
+                $this->initCustomers();
+            } else {
+                $collCustomers = ChildCustomerQuery::create(null, $criteria)
+                    ->filterByLangModel($this)
+                    ->find($con);
+
+                if (null !== $criteria) {
+                    if (false !== $this->collCustomersPartial && count($collCustomers)) {
+                        $this->initCustomers(false);
+
+                        foreach ($collCustomers as $obj) {
+                            if (false == $this->collCustomers->contains($obj)) {
+                                $this->collCustomers->append($obj);
+                            }
+                        }
+
+                        $this->collCustomersPartial = true;
+                    }
+
+                    reset($collCustomers);
+
+                    return $collCustomers;
+                }
+
+                if ($partial && $this->collCustomers) {
+                    foreach ($this->collCustomers as $obj) {
+                        if ($obj->isNew()) {
+                            $collCustomers[] = $obj;
+                        }
+                    }
+                }
+
+                $this->collCustomers = $collCustomers;
+                $this->collCustomersPartial = false;
+            }
+        }
+
+        return $this->collCustomers;
+    }
+
+    /**
+     * Sets a collection of Customer objects related by a one-to-many relationship
+     * to the current object.
+     * It will also schedule objects for deletion based on a diff between old objects (aka persisted)
+     * and new objects from the given Propel collection.
+     *
+     * @param      Collection $customers A Propel collection.
+     * @param      ConnectionInterface $con Optional connection object
+     * @return   ChildLang The current object (for fluent API support)
+     */
+    public function setCustomers(Collection $customers, ConnectionInterface $con = null)
+    {
+        $customersToDelete = $this->getCustomers(new Criteria(), $con)->diff($customers);
+
+
+        $this->customersScheduledForDeletion = $customersToDelete;
+
+        foreach ($customersToDelete as $customerRemoved) {
+            $customerRemoved->setLangModel(null);
+        }
+
+        $this->collCustomers = null;
+        foreach ($customers as $customer) {
+            $this->addCustomer($customer);
+        }
+
+        $this->collCustomers = $customers;
+        $this->collCustomersPartial = false;
+
+        return $this;
+    }
+
+    /**
+     * Returns the number of related Customer objects.
+     *
+     * @param      Criteria $criteria
+     * @param      boolean $distinct
+     * @param      ConnectionInterface $con
+     * @return int             Count of related Customer objects.
+     * @throws PropelException
+     */
+    public function countCustomers(Criteria $criteria = null, $distinct = false, ConnectionInterface $con = null)
+    {
+        $partial = $this->collCustomersPartial && !$this->isNew();
+        if (null === $this->collCustomers || null !== $criteria || $partial) {
+            if ($this->isNew() && null === $this->collCustomers) {
+                return 0;
+            }
+
+            if ($partial && !$criteria) {
+                return count($this->getCustomers());
+            }
+
+            $query = ChildCustomerQuery::create(null, $criteria);
+            if ($distinct) {
+                $query->distinct();
+            }
+
+            return $query
+                ->filterByLangModel($this)
+                ->count($con);
+        }
+
+        return count($this->collCustomers);
+    }
+
+    /**
+     * Method called to associate a ChildCustomer object to this object
+     * through the ChildCustomer foreign key attribute.
+     *
+     * @param    ChildCustomer $l ChildCustomer
+     * @return   \Thelia\Model\Lang The current object (for fluent API support)
+     */
+    public function addCustomer(ChildCustomer $l)
+    {
+        if ($this->collCustomers === null) {
+            $this->initCustomers();
+            $this->collCustomersPartial = true;
+        }
+
+        if (!in_array($l, $this->collCustomers->getArrayCopy(), true)) { // only add it if the **same** object is not already associated
+            $this->doAddCustomer($l);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param Customer $customer The customer object to add.
+     */
+    protected function doAddCustomer($customer)
+    {
+        $this->collCustomers[]= $customer;
+        $customer->setLangModel($this);
+    }
+
+    /**
+     * @param  Customer $customer The customer object to remove.
+     * @return ChildLang The current object (for fluent API support)
+     */
+    public function removeCustomer($customer)
+    {
+        if ($this->getCustomers()->contains($customer)) {
+            $this->collCustomers->remove($this->collCustomers->search($customer));
+            if (null === $this->customersScheduledForDeletion) {
+                $this->customersScheduledForDeletion = clone $this->collCustomers;
+                $this->customersScheduledForDeletion->clear();
+            }
+            $this->customersScheduledForDeletion[]= $customer;
+            $customer->setLangModel(null);
+        }
+
+        return $this;
+    }
+
+
+    /**
+     * If this collection has already been initialized with
+     * an identical criteria, it returns the collection.
+     * Otherwise if this Lang is new, it will return
+     * an empty collection; or if this Lang has previously
+     * been saved, it will retrieve related Customers from storage.
+     *
+     * This method is protected by default in order to keep the public
+     * api reasonable.  You can provide public methods for those you
+     * actually need in Lang.
+     *
+     * @param      Criteria $criteria optional Criteria object to narrow the query
+     * @param      ConnectionInterface $con optional connection object
+     * @param      string $joinBehavior optional join type to use (defaults to Criteria::LEFT_JOIN)
+     * @return Collection|ChildCustomer[] List of ChildCustomer objects
+     */
+    public function getCustomersJoinCustomerTitle($criteria = null, $con = null, $joinBehavior = Criteria::LEFT_JOIN)
+    {
+        $query = ChildCustomerQuery::create(null, $criteria);
+        $query->joinWith('CustomerTitle', $joinBehavior);
+
+        return $this->getCustomers($query, $con);
     }
 
     /**
@@ -2206,6 +2641,8 @@ abstract class Lang implements ActiveRecordInterface
         $this->datetime_format = null;
         $this->decimal_separator = null;
         $this->thousands_separator = null;
+        $this->active = null;
+        $this->visible = null;
         $this->decimals = null;
         $this->by_default = null;
         $this->position = null;
@@ -2213,6 +2650,7 @@ abstract class Lang implements ActiveRecordInterface
         $this->updated_at = null;
         $this->alreadyInSave = false;
         $this->clearAllReferences();
+        $this->applyDefaultValues();
         $this->resetModified();
         $this->setNew(true);
         $this->setDeleted(false);
@@ -2230,6 +2668,11 @@ abstract class Lang implements ActiveRecordInterface
     public function clearAllReferences($deep = false)
     {
         if ($deep) {
+            if ($this->collCustomers) {
+                foreach ($this->collCustomers as $o) {
+                    $o->clearAllReferences($deep);
+                }
+            }
             if ($this->collOrders) {
                 foreach ($this->collOrders as $o) {
                     $o->clearAllReferences($deep);
@@ -2237,6 +2680,7 @@ abstract class Lang implements ActiveRecordInterface
             }
         } // if ($deep)
 
+        $this->collCustomers = null;
         $this->collOrders = null;
     }
 

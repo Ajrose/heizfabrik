@@ -50,7 +50,7 @@ use Thelia\Model\ModuleQuery;
 
 class Thelia extends Kernel
 {
-    const THELIA_VERSION = '2.2.2';
+    const THELIA_VERSION = '2.3.0';
 
     public function __construct($environment, $debug)
     {
@@ -96,6 +96,45 @@ class Thelia extends Kernel
             $serviceContainer->setLogger('defaultLogger', Tlog::getInstance());
             $con->useDebug(true);
         }
+
+        // MySQL 5.6+ compatibility
+        $result = $con->query("SELECT VERSION() as version, @@GLOBAL.sql_mode as global_sql_mode, @@SESSION.sql_mode as session_sql_mode");
+
+        if ($result && $data = $result->fetch(\PDO::FETCH_ASSOC)) {
+            // MariaDB is not impacted by this problem
+            if (false === strpos($data['version'], 'MariaDB') && version_compare($data['version'], '5.6.0', '>=')) {
+                Tlog::getInstance()->addInfo("Setting global and session sql_mode to NO_ENGINE_SUBSTITUTION");
+
+                $setQuery = '';
+
+                if ($data['global_sql_mode'] != 'NO_ENGINE_SUBSTITUTION') {
+                    $setQuery .= "SET GLOBAL sql_mode='NO_ENGINE_SUBSTITUTION';";
+                }
+                if ($data['session_sql_mode'] != 'NO_ENGINE_SUBSTITUTION') {
+                    $setQuery .= "SET SESSION sql_mode='NO_ENGINE_SUBSTITUTION';";
+                }
+
+                if (! empty($setQuery)) {
+                    if (null === $con->query($setQuery)) {
+                        throw new \RuntimeException('Failed to set MySQL 5.6+ global sql_mode to NO_ENGINE_SUBSTITUTION');
+                    }
+                }
+            }
+        } else {
+            Tlog::getInstance()->addWarning("Failed to get MySQL version and sql_mode");
+        }
+    }
+
+    /**
+     * Gets the container's base class.
+     *
+     * All names except Container must be fully qualified.
+     *
+     * @return string
+     */
+    protected function getContainerBaseClass()
+    {
+        return '\Thelia\Core\DependencyInjection\TheliaContainer';
     }
 
     /**
@@ -119,7 +158,7 @@ class Thelia extends Kernel
 
             $definePropel = new DefinePropel(
                 new DatabaseConfiguration(),
-                Yaml::parse($file),
+                Yaml::parse(file_get_contents($file)),
                 $this->getEnvParameters()
             );
 

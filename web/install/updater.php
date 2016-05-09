@@ -37,6 +37,8 @@ $updateError = null;
 
         <?php
         $update = new \Thelia\Install\Update(false);
+        $update->setTranslator($trans);
+
         if ($update->isLatestVersion()) { ?>
 
             <div class="alert alert-warning">
@@ -85,6 +87,10 @@ $updateError = null;
                     $updateError = $ex;
                 }
 
+                foreach ($update->getMessages() as $message) {
+                    alertBootstrapFormatter($message[0], $message[1]);
+                }
+
                 if (null === $updateError) {
                     ?>
 
@@ -96,6 +102,17 @@ $updateError = null;
                             );
                             ?></p>
                     </div>
+
+                    <?php
+                    if ($update->hasPostInstructions()) {
+                    ?>
+                    <div class="alert alert-info">
+                        <h2><?php echo $trans->trans("Post update instructions"); ?></h2>
+                        <?php echo $update->getPostInstructions('html'); ?>
+                    </div>
+                    <?php
+                    }
+                    ?>
 
                     <p class="lead text-center">
                         <a href="<?php echo $website_url; ?>/index.php/admin"
@@ -232,3 +249,12 @@ $updateError = null;
                 }
             }
         }
+
+function alertBootstrapFormatter($message, $type = null)
+{
+    if (!in_array($type, ['success', 'info', 'error', 'warning'])) {
+        $type = 'info';
+    }
+
+    echo '<div class="alert alert-' . $type . '">' . $message . '</div>';
+}

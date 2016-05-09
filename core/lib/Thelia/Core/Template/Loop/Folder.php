@@ -31,6 +31,17 @@ use Thelia\Type\BooleanOrBothType;
  *
  * @package Thelia\Core\Template\Loop
  * @author Etienne Roudeix <eroudeix@openstudio.fr>
+ *
+ * {@inheritdoc}
+ * @method int[] getId()
+ * @method int getParent()
+ * @method int getContent()
+ * @method bool getCurrent()
+ * @method bool|string getVisible()
+ * @method int[] getExclude()
+ * @method string getTitle()
+ * @method string[] getOrder()
+ * @method bool getWithPrevNextInfo()
  */
 class Folder extends BaseI18nLoop implements PropelSearchLoopInterface, SearchLoopInterface
 {
@@ -53,21 +64,24 @@ class Folder extends BaseI18nLoop implements PropelSearchLoopInterface, SearchLo
             new Argument(
                 'order',
                 new TypeCollection(
-                    new Type\EnumListType([
-                        'alpha',
-                        'alpha_reverse',
-                        'manual',
-                        'manual_reverse',
-                        'random',
-                        'created',
-                        'created_reverse',
-                        'updated',
-                        'updated_reverse'
-                        ])
+                    new Type\EnumListType(
+                        [
+                            'alpha',
+                            'alpha_reverse',
+                            'manual',
+                            'manual_reverse',
+                            'random',
+                            'created',
+                            'created_reverse',
+                            'updated',
+                            'updated_reverse'
+                        ]
+                    )
                 ),
                 'manual'
             ),
-            Argument::createIntListTypeArgument('exclude')
+            Argument::createIntListTypeArgument('exclude'),
+            Argument::createBooleanTypeArgument('with_prev_next_info', false)
         );
     }
 
@@ -81,6 +95,12 @@ class Folder extends BaseI18nLoop implements PropelSearchLoopInterface, SearchLo
         ];
     }
 
+    /**
+     * @param FolderQuery $search
+     * @param string $searchTerm
+     * @param string $searchIn
+     * @param string $searchCriteria
+     */
     public function doSearch(&$search, $searchTerm, $searchIn, $searchCriteria)
     {
         $search->_and();
@@ -88,6 +108,11 @@ class Folder extends BaseI18nLoop implements PropelSearchLoopInterface, SearchLo
         $this->addTitleSearchWhereClause($search, $searchCriteria, $searchTerm);
     }
 
+    /**
+     * @param FolderQuery $search
+     * @param string $criteria
+     * @param string $value
+     */
     protected function addTitleSearchWhereClause($search, $criteria, $value)
     {
         $search->where(
@@ -122,9 +147,9 @@ class Folder extends BaseI18nLoop implements PropelSearchLoopInterface, SearchLo
         $current = $this->getCurrent();
 
         if ($current === true) {
-            $search->filterById($this->request->get("folder_id"));
+            $search->filterById($this->getCurrentRequest()->get("folder_id"));
         } elseif ($current === false) {
-            $search->filterById($this->request->get("folder_id"), Criteria::NOT_IN);
+            $search->filterById($this->getCurrentRequest()->get("folder_id"), Criteria::NOT_IN);
         }
 
         $exclude = $this->getExclude();
@@ -210,15 +235,50 @@ class Folder extends BaseI18nLoop implements PropelSearchLoopInterface, SearchLo
                 ->set("POSTSCRIPTUM", $folder->getVirtualColumn('i18n_POSTSCRIPTUM'))
                 ->set("PARENT", $folder->getParent())
                 ->set("ROOT", $folder->getRoot($folder->getId()))
-                ->set("URL", $folder->getUrl($this->locale))
+                ->set("URL", $this->getReturnUrl() ? $folder->getUrl($this->locale) : null)
                 ->set("META_TITLE", $folder->getVirtualColumn('i18n_META_TITLE'))
                 ->set("META_DESCRIPTION", $folder->getVirtualColumn('i18n_META_DESCRIPTION'))
                 ->set("META_KEYWORDS", $folder->getVirtualColumn('i18n_META_KEYWORDS'))
                 ->set("CHILD_COUNT", $folder->countChild())
                 ->set("CONTENT_COUNT", $folder->countAllContents())
                 ->set("VISIBLE", $folder->getVisible() ? "1" : "0")
-                ->set("POSITION", $folder->getPosition())
-            ;
+                ->set("POSITION", $folder->getPosition());
+
+            $isBackendContext = $this->getBackendContext();
+
+            if ($this->getWithPrevNextInfo()) {
+                // Find previous and next folder
+                $previousQuery = FolderQuery::create()
+                    ->filterByParent($folder->getParent())
+                    ->filterByPosition($folder->getPosition(), Criteria::LESS_THAN);
+
+                if (! $isBackendContext) {
+                    $previousQuery->filterByVisible(true);
+                }
+
+                $previous = $previousQuery
+                    ->orderByPosition(Criteria::DESC)
+                    ->findOne();
+
+                $nextQuery = FolderQuery::create()
+                    ->filterByParent($folder->getParent())
+                    ->filterByPosition($folder->getPosition(), Criteria::GREATER_THAN);
+
+                if (! $isBackendContext) {
+                    $nextQuery->filterByVisible(true);
+                }
+
+                $next = $nextQuery
+                    ->orderByPosition(Criteria::ASC)
+                    ->findOne();
+
+                $loopResultRow
+                    ->set("HAS_PREVIOUS", $previous != null ? 1 : 0)
+                    ->set("HAS_NEXT", $next != null ? 1 : 0)
+                    ->set("PREVIOUS", $previous != null ? $previous->getId() : -1)
+                    ->set("NEXT", $next != null ? $next->getId() : -1);
+            }
+
             $this->addOutputFields($loopResultRow, $folder);
 
             $loopResult->addRow($loopResultRow);

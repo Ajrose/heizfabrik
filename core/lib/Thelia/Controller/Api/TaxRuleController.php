@@ -20,6 +20,7 @@ use Thelia\Core\Event\TheliaEvents;
 use Thelia\Core\Security\Resource\AdminResources;
 use Thelia\Core\Template\Loop\TaxRule;
 use Thelia\Model\Map\TaxRuleCountryTableMap;
+use Thelia\Model\ProductQuery;
 use Thelia\Model\TaxRuleCountryQuery;
 use Thelia\Model\TaxRuleI18nQuery;
 use Thelia\Model\TaxRuleQuery;
@@ -230,13 +231,17 @@ class TaxRuleController extends AbstractCrudApiController
         return $data;
     }
 
+    /**
+     * @param int $taxRuleId
+     * @return array
+     */
     protected function getI18nPersistentData($taxRuleId)
     {
         $i18ns = TaxRuleI18NQuery::create()
             ->findById($taxRuleId)
         ;
 
-        $data["i18n"] = array();
+        $data = ['i18n' => []];
 
         /** @var \Thelia\Model\TaxRuleI18n $i18n */
         foreach ($i18ns as $i18n) {

@@ -14,10 +14,12 @@ namespace Thelia\Tests\Action;
 
 use Propel\Runtime\ActiveQuery\Criteria;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Session\Storage\MockArraySessionStorage;
 use Thelia\Action\Order;
 use Thelia\Core\Event\Order\OrderAddressEvent;
 use Thelia\Core\Event\Order\OrderEvent;
+use Thelia\Core\Event\Order\OrderManualEvent;
 use Thelia\Core\HttpFoundation\Request;
 use Thelia\Core\HttpFoundation\Session\Session;
 use Thelia\Core\Security\SecurityContext;
@@ -44,7 +46,7 @@ use Thelia\Module\BaseModule;
  * @package Thelia\Tests\Action
  * @author Etienne Roudeix <eroudeix@openstudio.fr>
  */
-class OrderTest extends \PHPUnit_Framework_TestCase
+class OrderTest extends BaseAction
 {
     /**
      * @var ContainerBuilder $container
@@ -81,36 +83,36 @@ class OrderTest extends \PHPUnit_Framework_TestCase
      */
     protected $securityContext;
 
-    protected $request;
+    /** @var RequestStack */
+    protected $requestStack;
 
     public function setUp()
     {
         $session = new Session(new MockArraySessionStorage());
 
-        $dispatcher = $this->getMock("Symfony\Component\EventDispatcher\EventDispatcherInterface");
-
-        $this->request = new Request();
-        $this->request->setSession($session);
-
-        $this->securityContext = new SecurityContext($this->request);
+        $request = new Request();
+        $request->setSession($session);
 
         $this->container = new ContainerBuilder();
 
-        $this->container->set("event_dispatcher", $dispatcher);
-        $this->container->set('request', $this->request);
+        $this->container->set("event_dispatcher", $this->getMockEventDispatcher());
+        $this->container->set('request', $request);
+
+        $this->requestStack = new RequestStack();
+        $this->requestStack->push($request);
+        $this->container->set('request_stack', $this->requestStack);
+
+        $this->securityContext = new SecurityContext($this->requestStack);
 
         $this->orderEvent = new OrderEvent(new OrderModel());
 
-        $this->orderEvent->setDispatcher($dispatcher);
-
-        $parser = $this->getMock("Thelia\\Core\\Template\\ParserInterface");
         $mailerFactory = new MailerFactory(
-            $dispatcher,
-            $parser
+            $this->getMockEventDispatcher(),
+            $this->getMockParserInterface()
         );
 
         $this->orderAction = new Order(
-            $this->request,
+            $this->requestStack,
             $mailerFactory,
             $this->securityContext
         );
@@ -181,7 +183,7 @@ class OrderTest extends \PHPUnit_Framework_TestCase
             $this->cartItems[] = $cartItem;
         }
 
-        $this->request->getSession()->set("thelia.cart_id", $cart->getId());
+        $this->requestStack->getCurrentRequest()->getSession()->set("thelia.cart_id", $cart->getId());
 
         return $cart;
     }
@@ -280,7 +282,7 @@ class OrderTest extends \PHPUnit_Framework_TestCase
             $itemsStock[$index] = $cartItem->getProductSaleElements()->getQuantity();
         }
 
-        $this->orderAction->create($this->orderEvent);
+        $this->orderAction->create($this->orderEvent, null, $this->getMockEventDispatcher());
 
         $placedOrder = $this->orderEvent->getPlacedOrder();
 
@@ -333,7 +335,7 @@ class OrderTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(OrderStatus::CODE_NOT_PAID, $placedOrder->getOrderStatus()->getCode(), 'status does not  match');
 
         /* check lang */
-        $this->assertEquals($this->request->getSession()->getLang()->getId(), $placedOrder->getLangId(), 'lang does not  match');
+        $this->assertEquals($this->requestStack->getCurrentRequest()->getSession()->getLang()->getId(), $placedOrder->getLangId(), 'lang does not  match');
 
         /* check ordered product */
         foreach ($this->cartItems as $index => $cartItem) {
@@ -394,6 +396,116 @@ class OrderTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @depends testCreate
+     * @param OrderModel $order
+     * @return OrderModel
+     */
+    public function testCreateManual(OrderModel $order)
+    {
+        $orderCopy = $order->copy();
+
+        $validDeliveryAddress = AddressQuery::create()->findOneByCustomerId($this->customer->getId());
+        $validInvoiceAddress = AddressQuery::create()->filterById($validDeliveryAddress->getId(), Criteria::NOT_EQUAL)->findOneByCustomerId($this->customer->getId());
+
+        $orderManuelEvent = new OrderManualEvent(
+            $orderCopy,
+            $this->cart->getCurrency(),
+            $this->requestStack->getCurrentRequest()->getSession()->getLang(),
+            $this->cart,
+            $this->customer
+        );
+
+        $orderManuelEvent->getOrder()->setChoosenDeliveryAddress($validDeliveryAddress->getId());
+        $orderManuelEvent->getOrder()->setChoosenInvoiceAddress($validInvoiceAddress->getId());
+
+        $deliveryModuleId = $orderCopy->getDeliveryModuleId();
+        $paymentModuleId = $orderCopy->getPaymentModuleId();
+
+        $this->orderAction->createManual($orderManuelEvent, null, $this->getMockEventDispatcher());
+
+        $placedOrder = $orderManuelEvent->getPlacedOrder();
+
+        $this->assertNotNull($placedOrder);
+        $this->assertNotNull($placedOrder->getId());
+
+        /* check customer */
+        $this->assertEquals($this->customer->getId(), $placedOrder->getCustomerId(), 'customer i does not  match');
+
+        /* check delivery address */
+        $deliveryOrderAddress = $placedOrder->getOrderAddressRelatedByDeliveryOrderAddressId();
+        $this->assertEquals($validDeliveryAddress->getCustomerTitle()->getId(), $deliveryOrderAddress->getCustomerTitleId(), 'delivery address title does not match');
+        $this->assertEquals($validDeliveryAddress->getCompany(), $deliveryOrderAddress->getCompany(), 'delivery address company does not match');
+        $this->assertEquals($validDeliveryAddress->getFirstname(), $deliveryOrderAddress->getFirstname(), 'delivery address fistname does not match');
+        $this->assertEquals($validDeliveryAddress->getLastname(), $deliveryOrderAddress->getLastname(), 'delivery address lastname does not match');
+        $this->assertEquals($validDeliveryAddress->getAddress1(), $deliveryOrderAddress->getAddress1(), 'delivery address address1 does not match');
+        $this->assertEquals($validDeliveryAddress->getAddress2(), $deliveryOrderAddress->getAddress2(), 'delivery address address2 does not match');
+        $this->assertEquals($validDeliveryAddress->getAddress3(), $deliveryOrderAddress->getAddress3(), 'delivery address address3 does not match');
+        $this->assertEquals($validDeliveryAddress->getZipcode(), $deliveryOrderAddress->getZipcode(), 'delivery address zipcode does not match');
+        $this->assertEquals($validDeliveryAddress->getCity(), $deliveryOrderAddress->getCity(), 'delivery address city does not match');
+        $this->assertEquals($validDeliveryAddress->getPhone(), $deliveryOrderAddress->getPhone(), 'delivery address phone does not match');
+        $this->assertEquals($validDeliveryAddress->getCountryId(), $deliveryOrderAddress->getCountryId(), 'delivery address country does not match');
+
+        /* check invoice address */
+        $invoiceOrderAddress = $placedOrder->getOrderAddressRelatedByInvoiceOrderAddressId();
+        $this->assertEquals($validInvoiceAddress->getCustomerTitle()->getId(), $invoiceOrderAddress->getCustomerTitleId(), 'invoice address title does not match');
+        $this->assertEquals($validInvoiceAddress->getCompany(), $invoiceOrderAddress->getCompany(), 'invoice address company does not match');
+        $this->assertEquals($validInvoiceAddress->getFirstname(), $invoiceOrderAddress->getFirstname(), 'invoice address fistname does not match');
+        $this->assertEquals($validInvoiceAddress->getLastname(), $invoiceOrderAddress->getLastname(), 'invoice address lastname does not match');
+        $this->assertEquals($validInvoiceAddress->getAddress1(), $invoiceOrderAddress->getAddress1(), 'invoice address address1 does not match');
+        $this->assertEquals($validInvoiceAddress->getAddress2(), $invoiceOrderAddress->getAddress2(), 'invoice address address2 does not match');
+        $this->assertEquals($validInvoiceAddress->getAddress3(), $invoiceOrderAddress->getAddress3(), 'invoice address address3 does not match');
+        $this->assertEquals($validInvoiceAddress->getZipcode(), $invoiceOrderAddress->getZipcode(), 'invoice address zipcode does not match');
+        $this->assertEquals($validInvoiceAddress->getCity(), $invoiceOrderAddress->getCity(), 'invoice address city does not match');
+        $this->assertEquals($validInvoiceAddress->getPhone(), $invoiceOrderAddress->getPhone(), 'invoice address phone does not match');
+        $this->assertEquals($validInvoiceAddress->getCountryId(), $invoiceOrderAddress->getCountryId(), 'invoice address country does not match');
+
+        /* check currency */
+        $this->assertEquals($this->cart->getCurrencyId(), $placedOrder->getCurrencyId(), 'currency id does not  match');
+        $this->assertEquals($this->cart->getCurrency()->getRate(), $placedOrder->getCurrencyRate(), 'currency rate does not  match');
+
+        /* check delivery module */
+        $this->assertEquals(20, $placedOrder->getPostage(), 'postage does not  match');
+        $this->assertEquals($deliveryModuleId, $placedOrder->getDeliveryModuleId(), 'delivery module does not  match');
+
+        /* check payment module */
+        $this->assertEquals($paymentModuleId, $placedOrder->getPaymentModuleId(), 'payment module does not  match');
+
+        /* check status */
+        $this->assertEquals(OrderStatus::CODE_NOT_PAID, $placedOrder->getOrderStatus()->getCode(), 'status does not  match');
+
+        /* check lang */
+        $this->assertEquals($this->requestStack->getCurrentRequest()->getSession()->getLang()->getId(), $placedOrder->getLangId(), 'lang does not  match');
+
+
+        // without address duplication
+        $copyOrder = $order->copy();
+
+        $orderManuelEvent
+            ->setOrder($copyOrder)
+            ->setUseOrderDefinedAddresses(true);
+
+        $validDeliveryAddressId = $orderCopy->getDeliveryOrderAddressId();
+        $validInvoiceAddressId = $orderCopy->getInvoiceOrderAddressId();
+
+        $this->orderAction->createManual($orderManuelEvent, null, $this->getMockEventDispatcher());
+
+        $placedOrder = $orderManuelEvent->getPlacedOrder();
+
+        $this->assertNotNull($placedOrder);
+        $this->assertNotNull($placedOrder->getId());
+
+        /* check delivery address */
+        $deliveryOrderAddress = $placedOrder->getOrderAddressRelatedByDeliveryOrderAddressId();
+        $this->assertEquals($validDeliveryAddressId, $deliveryOrderAddress->getId(), 'delivery address title does not match');
+
+        /* check invoice address */
+        $invoiceOrderAddress = $placedOrder->getOrderAddressRelatedByInvoiceOrderAddressId();
+        $this->assertEquals($validInvoiceAddressId, $invoiceOrderAddress->getId(), 'invoice address title does not match');
+
+        return $placedOrder;
+    }
+
+    /**
+     * @depends testCreate
      *
      * @param OrderModel $order
      */
@@ -403,7 +515,7 @@ class OrderTest extends \PHPUnit_Framework_TestCase
         $this->orderEvent->setStatus($newStatus);
         $this->orderEvent->setOrder($order);
 
-        $this->orderAction->updateStatus($this->orderEvent);
+        $this->orderAction->updateStatus($this->orderEvent, null, $this->getMockEventDispatcher());
 
         $this->assertEquals(
             $newStatus,
@@ -540,7 +652,6 @@ class OrderTest extends \PHPUnit_Framework_TestCase
      */
     public function testUpdateAddress(OrderModel $order)
     {
-        $deliveryRef = uniqid('DELREF');
         $orderAddress = OrderAddressQuery::create()->findPk($order->getDeliveryOrderAddressId());
         $title = $orderAddress->getCustomerTitleId() == 3 ? 1 : 3;
         $country = $orderAddress->getCountryId() == 64 ? 1 : 64;

@@ -33,6 +33,16 @@ use Thelia\Type\TypeCollection;
  * Class Brand
  * @package Thelia\Core\Template\Loop
  * @author Franck Allimant <franck@cqfdev.fr>
+ *
+ * {@inheritdoc}
+ * @method int[] getId()
+ * @method int getProduct()
+ * @method bool|string getVisible()
+ * @method string getTitle()
+ * @method bool getCurrent()
+ * @method int[] getExclude()
+ * @method string[] getOrder()
+ * @method bool getWithPrevNextInfo()
  */
 class Brand extends BaseI18nLoop implements PropelSearchLoopInterface, SearchLoopInterface
 {
@@ -49,6 +59,7 @@ class Brand extends BaseI18nLoop implements PropelSearchLoopInterface, SearchLoo
             Argument::createBooleanOrBothTypeArgument('visible', 1),
             Argument::createAnyTypeArgument('title'),
             Argument::createBooleanTypeArgument('current'),
+            Argument::createBooleanTypeArgument('with_prev_next_info', false),
             new Argument(
                 'order',
                 new TypeCollection(
@@ -84,11 +95,23 @@ class Brand extends BaseI18nLoop implements PropelSearchLoopInterface, SearchLoo
         ];
     }
 
+    /**
+     * @param BrandQuery $search
+     * @param string $searchTerm
+     * @param string $searchIn
+     * @param string $searchCriteria
+     */
     public function doSearch(&$search, $searchTerm, $searchIn, $searchCriteria)
     {
         $search->_and();
 
-        $search->where("CASE WHEN NOT ISNULL(`requested_locale_i18n`.ID) THEN `requested_locale_i18n`.`TITLE` ELSE `default_locale_i18n`.`TITLE` END ".$searchCriteria." ?", $searchTerm, \PDO::PARAM_STR);
+        $search->where(
+            "CASE WHEN NOT ISNULL(`requested_locale_i18n`.ID)
+            THEN `requested_locale_i18n`.`TITLE`ELSE `default_locale_i18n`.`TITLE`
+            END ".$searchCriteria." ?",
+            $searchTerm,
+            \PDO::PARAM_STR
+        );
     }
 
     public function buildModelCriteria()
@@ -96,7 +119,18 @@ class Brand extends BaseI18nLoop implements PropelSearchLoopInterface, SearchLoo
         $search = BrandQuery::create();
 
         /* manage translations */
-        $this->configureI18nProcessing($search, array('TITLE', 'CHAPO', 'DESCRIPTION', 'POSTSCRIPTUM', 'META_TITLE', 'META_DESCRIPTION', 'META_KEYWORDS'));
+        $this->configureI18nProcessing(
+            $search,
+            array(
+                'TITLE',
+                'CHAPO',
+                'DESCRIPTION',
+                'POSTSCRIPTUM',
+                'META_TITLE',
+                'META_DESCRIPTION',
+                'META_KEYWORDS'
+            )
+        );
 
         $id = $this->getId();
 
@@ -119,15 +153,22 @@ class Brand extends BaseI18nLoop implements PropelSearchLoopInterface, SearchLoo
         $title = $this->getTitle();
 
         if (!is_null($title)) {
-            $search->where("CASE WHEN NOT ISNULL(`requested_locale_i18n`.ID) THEN `requested_locale_i18n`.`TITLE` ELSE `default_locale_i18n`.`TITLE` END ".Criteria::LIKE." ?", "%".$title."%", \PDO::PARAM_STR);
+            $search->where(
+                "CASE WHEN NOT ISNULL(`requested_locale_i18n`.ID)
+                THEN `requested_locale_i18n`.`TITLE`
+                ELSE `default_locale_i18n`.`TITLE`
+                END ".Criteria::LIKE." ?",
+                "%".$title."%",
+                \PDO::PARAM_STR
+            );
         }
 
         $current = $this->getCurrent();
 
         if ($current === true) {
-            $search->filterById($this->request->get("brand_id"));
+            $search->filterById($this->getCurrentRequest()->get("brand_id"));
         } elseif ($current === false) {
-            $search->filterById($this->request->get("brand_id"), Criteria::NOT_IN);
+            $search->filterById($this->getCurrentRequest()->get("brand_id"), Criteria::NOT_IN);
         }
 
         $orders  = $this->getOrder();
@@ -193,14 +234,47 @@ class Brand extends BaseI18nLoop implements PropelSearchLoopInterface, SearchLoo
                 ->set("CHAPO", $brand->getVirtualColumn('i18n_CHAPO'))
                 ->set("DESCRIPTION", $brand->getVirtualColumn('i18n_DESCRIPTION'))
                 ->set("POSTSCRIPTUM", $brand->getVirtualColumn('i18n_POSTSCRIPTUM'))
-                ->set("URL", $brand->getUrl($this->locale))
+                ->set("URL", $this->getReturnUrl() ? $brand->getUrl($this->locale) : null)
                 ->set("META_TITLE", $brand->getVirtualColumn('i18n_META_TITLE'))
                 ->set("META_DESCRIPTION", $brand->getVirtualColumn('i18n_META_DESCRIPTION'))
                 ->set("META_KEYWORDS", $brand->getVirtualColumn('i18n_META_KEYWORDS'))
                 ->set("POSITION", $brand->getPosition())
                 ->set("VISIBLE", $brand->getVisible())
-                ->set("LOGO_IMAGE_ID", $brand->getLogoImageId() ?: 0)
-            ;
+                ->set("LOGO_IMAGE_ID", $brand->getLogoImageId() ?: 0);
+
+            $isBackendContext = $this->getBackendContext();
+
+            if ($this->getWithPrevNextInfo()) {
+                // Find previous and next category
+                $previousQuery = BrandQuery::create()
+                    ->filterByPosition($brand->getPosition(), Criteria::LESS_THAN);
+
+                if (! $isBackendContext) {
+                    $previousQuery->filterByVisible(true);
+                }
+
+                $previous = $previousQuery
+                    ->orderByPosition(Criteria::DESC)
+                    ->findOne();
+
+                $nextQuery = BrandQuery::create()
+                    ->filterByPosition($brand->getPosition(), Criteria::GREATER_THAN);
+
+                if (! $isBackendContext) {
+                    $nextQuery->filterByVisible(true);
+                }
+
+                $next = $nextQuery
+                    ->orderByPosition(Criteria::ASC)
+                    ->findOne();
+
+                $loopResultRow
+                    ->set("HAS_PREVIOUS", $previous != null ? 1 : 0)
+                    ->set("HAS_NEXT", $next != null ? 1 : 0)
+                    ->set("PREVIOUS", $previous != null ? $previous->getId() : -1)
+                    ->set("NEXT", $next != null ? $next->getId() : -1);
+            }
+
             $this->addOutputFields($loopResultRow, $brand);
 
             $loopResult->addRow($loopResultRow);

@@ -9,6 +9,7 @@ use Thelia\Coupon\FacadeInterface;
 use Thelia\Condition\ConditionCollection;
 use Thelia\Coupon\Type\RemoveXAmount;
 use Thelia\Coupon\Type\RemoveXPercent;
+use Thelia\Model\CountryQuery;
 use Thelia\Model\ModuleQuery;
 use Thelia\Model\OrderAddress;
 use Thelia\Model;
@@ -26,6 +27,7 @@ $realTextMode = true;
 $localeList = array('fr_FR', 'en_US', 'es_ES', 'it_IT', 'de_DE');
 $numberCategories = 20;
 $numberProducts = 20;
+$countryStateList = [];
 
 $options = getopt("b:c:p:r:l:h");
 
@@ -154,9 +156,20 @@ try {
 
     $stmt->execute();
 
-    echo "Creating customers\n";
+    // default country (France)
+    $defaultCountry = [64, null];
 
-    //API
+    // Store info
+
+    echo "Creating Store information \n";
+
+    Model\ConfigQuery::write('store_name', 'Thelia V2');
+    Model\ConfigQuery::write('store_email', 'test@thelia.net');
+    Model\ConfigQuery::write('store_notification_emails', 'test@thelia.net');
+    Model\ConfigQuery::write('store_address1', "5 rue Rochon");
+    Model\ConfigQuery::write('store_zipcode', "63000");
+    Model\ConfigQuery::write('store_city', "Clermont-Ferrand");
+    Model\ConfigQuery::write('store_country', $defaultCountry[0]);
 
     $api = new Thelia\Model\Api();
 
@@ -166,8 +179,21 @@ try {
         ->setLabel("test")
         ->save();
 
-    //customer
+    // API
+    echo "Creating API key\n";
+
+    $api = new Thelia\Model\Api();
+
+    $api
+        ->setProfileId(null)
+        ->setApiKey('79E95BD784CADA0C9A578282E')
+        ->setLabel("test")
+        ->save();
+
+    // Customer
+    echo "Creating customers\n";
     $customer = new Thelia\Model\Customer();
+
     $customer->createOrUpdate(
         1,
         "thelia",
@@ -179,12 +205,21 @@ try {
         "0601020304",
         "63000",
         "clermont-ferrand",
-        64,
+        $defaultCountry[0],
         "test@thelia.net",
-        "azerty"
+        "azerty",
+        null,
+        0,
+        null,
+        0,
+        null,
+        null,
+        false,
+        $defaultCountry[1]
     );
     for ($j = 0; $j <= 3; $j++) {
         $address = new Thelia\Model\Address();
+        $country = getRandomCountry();
         $address->setLabel(getRealText(20))
             ->setTitleId(rand(1, 3))
             ->setFirstname($faker->firstname)
@@ -196,11 +231,22 @@ try {
             ->setPhone($faker->phoneNumber)
             ->setZipcode($faker->postcode)
             ->setCity($faker->city)
-            ->setCountryId(64)
+            ->setCountryId($country[0])
+            ->setStateId($country[1])
             ->setCustomer($customer)
             ->save()
         ;
     }
+
+    $admin = new Thelia\Model\Admin();
+    $admin
+        ->setFirstname($faker->firstname)
+        ->setLastname($faker->lastname)
+        ->setLogin('thelia')
+        ->setPassword('thelia')
+        ->setLocale('en_US')
+        ->setEmail('')
+        ->save();
 
     for ($i=0; $i<3; $i++) {
         $admin = new Thelia\Model\Admin();
@@ -210,11 +256,13 @@ try {
             ->setLogin($faker->firstname)
             ->setPassword('azerty')
             ->setLocale('en_US')
+            ->setEmail($faker->email)
             ->save();
     }
 
     for ($i = 0; $i < 50; $i++) {
         $customer = new Thelia\Model\Customer();
+        $country = getRandomCountry();
         $customer->createOrUpdate(
             rand(1, 3),
             $faker->firstname,
@@ -226,9 +274,17 @@ try {
             $faker->phoneNumber,
             $faker->postcode,
             $faker->city,
-            64,
+            $country[0],
             $faker->email,
-            "azerty".$i
+            "azerty".$i,
+            null,
+            0,
+            null,
+            0,
+            null,
+            null,
+            false,
+            $country[1]
         );
 
         for ($j = 0; $j <= 3; $j++) {
@@ -244,7 +300,8 @@ try {
                 ->setPhone($faker->phoneNumber)
                 ->setZipcode($faker->postcode)
                 ->setCity($faker->city)
-                ->setCountryId(64)
+                ->setCountryId($country[0])
+                ->setStateId($country[1])
                 ->setCustomer($customer)
                 ->save()
             ;
@@ -390,7 +447,6 @@ try {
                 $document = new \Thelia\Model\ContentDocument();
                 $document->setContentId($contentId);
                 generate_document($document, 'content', $contentId);
-
             }
         }
     }
@@ -573,6 +629,7 @@ try {
 
     for ($i=0; $i < 50; ++$i) {
         $placedOrder = new \Thelia\Model\Order();
+        $country = getRandomCountry();
 
         $deliveryOrderAddress = new OrderAddress();
         $deliveryOrderAddress
@@ -586,7 +643,8 @@ try {
             ->setPhone($faker->phoneNumber)
             ->setZipcode($faker->postcode)
             ->setCity($faker->city)
-            ->setCountryId(64)
+            ->setCountryId($country[0])
+            ->setStateId($country[1])
             ->save($con)
         ;
 
@@ -602,7 +660,8 @@ try {
             ->setPhone($faker->phoneNumber)
             ->setZipcode($faker->postcode)
             ->setCity($faker->city)
-            ->setCountryId(64)
+            ->setCountryId($country[0])
+            ->setStateId($country[1])
             ->save($con)
         ;
 
@@ -1083,6 +1142,32 @@ Sed facilisis pellentesque nisl, eu tincidunt erat scelerisque a. Nullam malesua
     $coupon3->save();
 }
 
+/**
+ * get a random country and state
+ *
+ * @return array first row is the country id, second row is the state id or null
+ */
+function getRandomCountry()
+{
+    global $countryStateList;
+
+    if (count($countryStateList) === 0) {
+        $countryStateList = CountryQuery::create()
+            ->joinState('State', \Propel\Runtime\ActiveQuery\Criteria::LEFT_JOIN)
+            ->select(['Id', 'State.Id'])
+            ->find()
+            ->toArray()
+        ;
+        $countryStateList = array_map(
+            function ($item) {
+                return [$item['Id'], $item['State.Id']];
+            },
+            $countryStateList
+        );
+    }
+
+    return $countryStateList[mt_rand(0, count($countryStateList) - 1)];
+}
 
 function usage()
 {

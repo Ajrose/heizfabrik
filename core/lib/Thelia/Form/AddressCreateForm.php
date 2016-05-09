@@ -23,6 +23,8 @@ use Thelia\Core\Translation\Translator;
  */
 class AddressCreateForm extends FirewallForm
 {
+    use AddressCountryValidationTrait;
+
     /**
      *
      * in this function you add all the fields you need for your Form.
@@ -124,6 +126,11 @@ class AddressCreateForm extends FirewallForm
             ->add("zipcode", "text", array(
                     "constraints" => array(
                         new Constraints\NotBlank(),
+                        new Constraints\Callback(array(
+                            "methods" => array(
+                                array($this, "verifyZipCode")
+                            ),
+                        )),
                     ),
                     "label" => Translator::getInstance()->trans("Zip code"),
                     "label_attr" => array(
@@ -139,6 +146,20 @@ class AddressCreateForm extends FirewallForm
                         "for" => "country",
                     ),
                 ))
+            ->add("state", "text", array(
+                "constraints" => array(
+                    new Constraints\Callback(array(
+                        "methods" => array(
+                            array($this, "verifyState")
+                        ),
+                    )),
+                ),
+
+                "label" => Translator::getInstance()->trans("State"),
+                "label_attr" => array(
+                    "for" => "state",
+                ),
+            ))
             // Phone
             ->add("phone", "text", array(
                     "label" => Translator::getInstance()->trans("Phone"),
@@ -164,6 +185,7 @@ class AddressCreateForm extends FirewallForm
                 ))
         ;
     }
+
 
     /**
      * @return string the name of you form. This name must be unique

@@ -16,7 +16,7 @@
 {block name="main-content"}
     <div class="brand edit-brand">
         <div id="wrapper" class="container">
-            {loop name="brand_edit" type="brand" visible="*" id="{$brand_id}" backend_context="1" lang="$edit_language_id"}
+            {loop name="brand_edit" type="brand" visible="*" id="{$brand_id}" backend_context="1" lang="$edit_language_id" with_prev_next_info="true"}
 
             <nav>
                 <ul class="breadcrumb">
@@ -35,6 +35,24 @@
                         <div class="col-md-7 title">
                             {intl l='Edit brand %title' title={$TITLE}}
                         </div>
+
+                        <div class="col-md-5 actions">
+
+                            {if $HAS_PREVIOUS != 0}
+                                <a href="{url path="/admin/brand/update/%previous" previous=$PREVIOUS}" class="btn btn-default" title="{intl l='Edit previous brand'}"><span class="glyphicon glyphicon-arrow-left"></span></a>
+                            {else}
+                                <a href="#" disabled="disabled" class="btn btn-default"><span class="glyphicon glyphicon-arrow-left"></span></a>
+                            {/if}
+
+                            <a href="{$URL nofilter}" target="_blank" class="btn btn-default" title="{intl l='Preview brand page'}"><span class="glyphicon glyphicon-eye-open"></span></a>
+
+                            {if $HAS_NEXT != 0}
+                                <a href="{url path="/admin/brand/update/%next" next=$NEXT}" class="btn btn-default" title="{intl l='Edit next brand'}"><span class="glyphicon glyphicon-arrow-right"></span></a>
+                            {else}
+                                <a href="#" disabled="disabled" class="btn btn-default"><span class="glyphicon glyphicon-arrow-right"></span></a>
+                            {/if}
+                        </div>
+
                     </div>
 
                     <div class="row">
@@ -110,6 +128,8 @@
                                                     </div>
 
                                                     <div class="col-md-4">
+                                                        {hook name="brand.modification.form-right.top" brand_id=$brand_id}
+
                                                         {render_form_field field="visible"}
 
                                                         {custom_render_form_field field='logo_image_id'}
@@ -121,6 +141,8 @@
                                                                 {/loop}
                                                             </select>
                                                         {/custom_render_form_field}
+
+                                                        {hook name="brand.modification.form-right.bottom" brand_id=$brand_id}
                                                     </div>
                                                 </div>
 
@@ -142,12 +164,13 @@
 
                                 <div class="tab-pane fade" id="seo">
                                     {include file = "includes/seo-tab.html"
-                                        formAction = {url path='/admin/brand/seo/save'}
-                                        pageUrl    = "{url path='/admin/brand/update'}/$brand_id"
-                                        closeUrl   = {url path='/admin/brand'}
-                                        current_id = $brand_id
-                                        seoType    = 'brand'
-                                        parentId   = $brand_id
+                                        formAction  = {url path='/admin/brand/seo/save'}
+                                        pageUrl     = "{url path='/admin/brand/update'}/$brand_id"
+                                        closeUrl    = {url path='/admin/brand'}
+                                        success_url = {url path='/admin/brand'}
+                                        current_id  = $brand_id
+                                        seoType     = 'brand'
+                                        parentId    = $brand_id
                                     }
                                 </div>
 

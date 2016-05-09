@@ -20,6 +20,7 @@ use Thelia\Core\Template\Element\PropelSearchLoopInterface;
 use Thelia\Core\Template\Loop\Argument\ArgumentCollection;
 use Thelia\Core\Template\Loop\Argument\Argument;
 use Thelia\Model\OrderAddressQuery;
+use Thelia\Model\OrderAddress as OrderAddressModel;
 
 /**
  *
@@ -29,6 +30,9 @@ use Thelia\Model\OrderAddressQuery;
  * Class OrderAddress
  * @package Thelia\Core\Template\Loop
  * @author Etienne Roudeix <eroudeix@openstudio.fr>
+ *
+ * {@inheritdoc}
+ * @method int getId()
  */
 class OrderAddress extends BaseLoop implements PropelSearchLoopInterface
 {
@@ -57,6 +61,7 @@ class OrderAddress extends BaseLoop implements PropelSearchLoopInterface
 
     public function parseResults(LoopResult $loopResult)
     {
+        /** @var OrderAddressModel $orderAddress */
         foreach ($loopResult->getResultDataCollection() as $orderAddress) {
             $loopResultRow = new LoopResultRow($orderAddress);
             $loopResultRow
@@ -71,6 +76,7 @@ class OrderAddress extends BaseLoop implements PropelSearchLoopInterface
                 ->set("ZIPCODE", $orderAddress->getZipcode())
                 ->set("CITY", $orderAddress->getCity())
                 ->set("COUNTRY", $orderAddress->getCountryId())
+                ->set("STATE", $orderAddress->getStateId())
                 ->set("PHONE", $orderAddress->getPhone())
                 ->set("CELLPHONE", $orderAddress->getCellphone())
             ;

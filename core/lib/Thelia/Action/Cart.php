@@ -14,13 +14,14 @@ namespace Thelia\Action;
 
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Thelia\Core\Event\Cart\CartCreateEvent;
+use Thelia\Core\Event\Cart\CartDuplicationEvent;
+use Thelia\Core\Event\Cart\CartPersistEvent;
 use Thelia\Core\Event\Cart\CartRestoreEvent;
 use Thelia\Core\Event\Cart\CartEvent;
 use Thelia\Core\Event\Currency\CurrencyChangeEvent;
 use Thelia\Core\Event\TheliaEvents;
-use Thelia\Core\HttpFoundation\Request;
-use Thelia\Core\HttpFoundation\Session\Session;
 use Thelia\Model\Base\CustomerQuery;
 use Thelia\Model\Base\ProductSaleElementsQuery;
 use Thelia\Model\Currency as CurrencyModel;
@@ -44,30 +45,39 @@ use Thelia\Tools\TokenProvider;
  */
 class Cart extends BaseAction implements EventSubscriberInterface
 {
-    /** @var Request  */
-    protected $request;
-
-    /** @var Session  */
-    protected $session;
+    /** @var RequestStack */
+    protected $requestStack;
 
     /** @var  TokenProvider */
     protected $tokenProvider;
 
-    public function __construct(Request $request, TokenProvider $tokenProvider)
+    public function __construct(RequestStack $requestStack, TokenProvider $tokenProvider)
     {
-        $this->request = $request;
-
-        $this->session = $request->getSession();
+        $this->requestStack = $requestStack;
 
         $this->tokenProvider = $tokenProvider;
     }
 
+    public function persistCart(CartPersistEvent $event)
+    {
+        $cart = $event->getCart();
+
+        if ($cart->isNew()) {
+            $cart
+                ->setToken($this->generateCartCookieIdentifier())
+                ->save();
+            $this->getSession()->setSessionCart($cart);
+        }
+    }
+
     /**
-     *
      * add an article in the current cart
+     *
      * @param \Thelia\Core\Event\Cart\CartEvent $event
+     * @param $eventName
+     * @param EventDispatcherInterface $dispatcher
      */
-    public function addItem(CartEvent $event)
+    public function addItem(CartEvent $event, $eventName, EventDispatcherInterface $dispatcher)
     {
         $cart = $event->getCart();
         $newness = $event->getNewness();
@@ -77,6 +87,11 @@ class Cart extends BaseAction implements EventSubscriberInterface
         $customer = $cart->getCustomer();
         $discount = 0;
 
+        if ($cart->isNew()) {
+            $persistEvent = new CartPersistEvent($cart);
+            $dispatcher->dispatch(TheliaEvents::CART_PERSIST, $persistEvent);
+        }
+
         if (null !== $customer && $customer->getDiscount() > 0) {
             $discount = $customer->getDiscount();
         }
@@ -85,7 +100,7 @@ class Cart extends BaseAction implements EventSubscriberInterface
         $productId = $event->getProduct();
 
         // Search for an identical item in the cart
-        $event->getDispatcher()->dispatch(TheliaEvents::CART_FINDITEM, $event);
+        $dispatcher->dispatch(TheliaEvents::CART_FINDITEM, $event);
 
         $cartItem = $event->getCartItem();
 
@@ -95,7 +110,7 @@ class Cart extends BaseAction implements EventSubscriberInterface
             if (null !== $productSaleElements) {
                 $productPrices = $productSaleElements->getPricesByCurrency($currency, $discount);
 
-                $cartItem = $this->doAddItem($event->getDispatcher(), $cart, $productId, $productSaleElements, $quantity, $productPrices);
+                $cartItem = $this->doAddItem($dispatcher, $cart, $productId, $productSaleElements, $quantity, $productPrices);
             }
         } elseif ($append && $cartItem !== null) {
             $cartItem->addQuantity($quantity)->save();
@@ -139,8 +154,10 @@ class Cart extends BaseAction implements EventSubscriberInterface
      * don't use Form here just test the Request.
      *
      * @param \Thelia\Core\Event\Cart\CartEvent $event
+     * @param $eventName
+     * @param EventDispatcherInterface $dispatcher
      */
-    public function changeItem(CartEvent $event)
+    public function changeItem(CartEvent $event, $eventName, EventDispatcherInterface $dispatcher)
     {
         if ((null !== $cartItemId = $event->getCartItemId()) && (null !== $quantity = $event->getQuantity())) {
             $cart = $event->getCart();
@@ -152,15 +169,15 @@ class Cart extends BaseAction implements EventSubscriberInterface
 
             if ($cartItem) {
                 $event->setCartItem(
-                    $this->updateQuantity($event->getDispatcher(), $cartItem, $quantity)
+                    $this->updateQuantity($dispatcher, $cartItem, $quantity)
                 );
             }
         }
     }
 
-    public function updateCart(CurrencyChangeEvent $event)
+    public function updateCart(CurrencyChangeEvent $event, $eventName, EventDispatcherInterface $dispatcher)
     {
-        $cart = $this->session->getSessionCart($event->getDispatcher());
+        $cart = $event->getRequest()->getSession()->getSessionCart($dispatcher);
 
         if (null !== $cart) {
             $this->updateCartPrices($cart, $event->getCurrency());
@@ -233,8 +250,14 @@ class Cart extends BaseAction implements EventSubscriberInterface
      *
      * @return CartItem
      */
-    protected function doAddItem(EventDispatcherInterface $dispatcher, CartModel $cart, $productId, ProductSaleElements $productSaleElements, $quantity, ProductPriceTools $productPrices)
-    {
+    protected function doAddItem(
+        EventDispatcherInterface $dispatcher,
+        CartModel $cart,
+        $productId,
+        ProductSaleElements $productSaleElements,
+        $quantity,
+        ProductPriceTools $productPrices
+    ) {
         $cartItem = new CartItem();
         $cartItem->setDisptacher($dispatcher);
         $cartItem
@@ -292,23 +315,25 @@ class Cart extends BaseAction implements EventSubscriberInterface
      * or duplicate an old one.
      *
      * @param CartRestoreEvent $cartRestoreEvent
+     * @param $eventName
+     * @param EventDispatcherInterface $dispatcher
      */
-    public function restoreCurrentCart(CartRestoreEvent $cartRestoreEvent)
+    public function restoreCurrentCart(CartRestoreEvent $cartRestoreEvent, $eventName, EventDispatcherInterface $dispatcher)
     {
         $cookieName = ConfigQuery::read("cart.cookie_name", 'thelia_cart');
         $persistentCookie = ConfigQuery::read("cart.use_persistent_cookie", 1);
 
         $cart = null;
 
-        if ($this->request->cookies->has($cookieName) && $persistentCookie) {
-            $cart = $this->managePersistentCart($cartRestoreEvent, $cookieName);
+        if ($this->requestStack->getCurrentRequest()->cookies->has($cookieName) && $persistentCookie) {
+            $cart = $this->managePersistentCart($cartRestoreEvent, $cookieName, $dispatcher);
         } elseif (!$persistentCookie) {
-            $cart = $this->manageNonPersistentCookie($cartRestoreEvent);
+            $cart = $this->manageNonPersistentCookie($cartRestoreEvent, $dispatcher);
         }
 
         // Still no cart ? Create a new one.
         if (null === $cart) {
-            $cart = $this->dispatchNewCart($cartRestoreEvent->getDispatcher());
+            $cart = $this->dispatchNewCart($dispatcher);
         }
 
         $cartRestoreEvent->setCart($cart);
@@ -320,35 +345,19 @@ class Cart extends BaseAction implements EventSubscriberInterface
      * the cart.
      *
      * @param CartRestoreEvent $cartRestoreEvent
+     * @param EventDispatcherInterface $dispatcher
      * @return CartModel
      * @throws \Exception
      * @throws \Propel\Runtime\Exception\PropelException
      */
-    private function manageNonPersistentCookie(CartRestoreEvent $cartRestoreEvent)
+    protected function manageNonPersistentCookie(CartRestoreEvent $cartRestoreEvent, EventDispatcherInterface $dispatcher)
     {
         $cart = $cartRestoreEvent->getCart();
 
         if (null === $cart) {
-            $cart = $cart = $this->dispatchNewCart($cartRestoreEvent->getDispatcher());
+            $cart = $this->dispatchNewCart($dispatcher);
         } else {
-            if (null !== $customer = $this->session->getCustomerUser()) {
-                // A customer is logged in.
-                if (null === $cart->getCustomerId()) {
-                    // The cart created by the customer when it was not yet logged in
-                    // is assigned to it after login.
-                    $cart->setCustomerId($customer->getId())->save();
-                } elseif ($cart->getCustomerId() != $customer->getId()) {
-                    // The cart does not belongs to the current customer
-                    // -> clone it to create a new cart.
-                    $cart = $this->duplicateCart(
-                        $cartRestoreEvent->getDispatcher(),
-                        $cart,
-                        CustomerQuery::create()->findPk($customer->getId())
-                    );
-                }
-            } else {
-                $cart->setCustomerId(null)->save();
-            }
+            $cart = $this->manageCartDuplicationAtCustomerLogin($cart, $dispatcher);
         }
 
         return $cart;
@@ -360,35 +369,58 @@ class Cart extends BaseAction implements EventSubscriberInterface
      *
      * @param CartRestoreEvent $cartRestoreEvent
      * @param $cookieName
+     * @param EventDispatcherInterface $dispatcher
      * @return CartModel
      * @throws \Exception
      * @throws \Propel\Runtime\Exception\PropelException
      */
-    private function managePersistentCart(CartRestoreEvent $cartRestoreEvent, $cookieName)
+    protected function managePersistentCart(CartRestoreEvent $cartRestoreEvent, $cookieName, EventDispatcherInterface $dispatcher)
     {
         // The cart cookie exists -> get the cart token
-        $token = $this->request->cookies->get($cookieName);
+        $token = $this->requestStack->getCurrentRequest()->cookies->get($cookieName);
 
         // Check if a cart exists for this token
         if (null !== $cart = CartQuery::create()->findOneByToken($token)) {
-            if (null !== $customer = $this->session->getCustomerUser()) {
-                // A customer is logged in.
-                if (null === $cart->getCustomerId()) {
-                    // The cart created by the customer when it was not yet logged in
-                    // is assigned to it after login.
-                    $cart->setCustomerId($customer->getId())->save();
-                } elseif ($cart->getCustomerId() != $customer->getId()) {
-                    // The cart does not belongs to the current customer
-                    // -> clone it to create a new cart.
-                    $cart = $this->duplicateCart(
-                        $cartRestoreEvent->getDispatcher(),
-                        $cart,
-                        CustomerQuery::create()->findPk($customer->getId())
-                    );
+            $cart = $this->manageCartDuplicationAtCustomerLogin($cart, $dispatcher);
+        }
+
+        return $cart;
+    }
+
+    protected function manageCartDuplicationAtCustomerLogin(CartModel $cart, EventDispatcherInterface $dispatcher)
+    {
+        /** @var CustomerModel $customer */
+        if (null !== $customer = $this->getSession()->getCustomerUser()) {
+            // Check if we have to duplicate the existing cart.
+
+            $duplicateCart = true;
+
+            // A customer is logged in.
+            if (null === $cart->getCustomerId()) {
+                // If the customer has a discount, whe have to duplicate the cart,
+                // so that the discount will be applied to the products in cart.
+
+                if (0 === $customer->getDiscount() || 0 === $cart->countCartItems()) {
+                    // If no discount, or an empty cart, there's no need to duplicate.
+                    $duplicateCart = false;
                 }
-            } elseif ($cart->getCustomerId() != null) {
-                // Just duplicate the current cart, without assigning a customer ID.
-                $cart = $this->duplicateCart($cartRestoreEvent->getDispatcher(), $cart);
+            }
+
+            if ($duplicateCart) {
+                // Duplicate the cart
+                $cart = $this->duplicateCart($dispatcher, $cart, $customer);
+            } else {
+                // No duplication required, just assign the cart to the customer
+                $cart->setCustomerId($customer->getId())->save();
+            }
+        } elseif ($cart->getCustomerId() != null) {
+            // The cart belongs to another user
+            if (0 === $cart->countCartItems()) {
+                // No items in cart, assign it to nobody.
+                $cart->setCustomerId(null)->save();
+            } else {
+                // Some itemls in cart, duplicate it without assigning a customer ID.
+                $cart = $this->duplicateCart($dispatcher, $cart);
             }
         }
 
@@ -417,16 +449,20 @@ class Cart extends BaseAction implements EventSubscriberInterface
     {
         $cart = new CartModel();
 
-        $cart
-            ->setToken($this->generateCartCookieIdentifier())
-            ->setCurrency($this->session->getCurrency(true))
-        ;
+        $cart->setCurrency($this->getSession()->getCurrency(true));
 
-        if (null !== $customer = $this->session->getCustomerUser()) {
+        /** @var CustomerModel $customer */
+        if (null !== $customer = $this->getSession()->getCustomerUser()) {
             $cart->setCustomer(CustomerQuery::create()->findPk($customer->getId()));
         }
 
-        $cart->save();
+        $this->getSession()->setSessionCart($cart);
+
+        if (ConfigQuery::read("cart.use_persistent_cookie", 1) == 1) {
+            // set cart_use_cookie to "" to remove the cart cookie
+            // see Thelia\Core\EventListener\ResponseListener
+            $this->getSession()->set("cart_use_cookie", "");
+        }
 
         $cartCreateEvent->setCart($cart);
     }
@@ -444,15 +480,14 @@ class Cart extends BaseAction implements EventSubscriberInterface
         $newCart = $cart->duplicate(
             $this->generateCartCookieIdentifier(),
             $customer,
-            $this->session->getCurrency(),
+            $this->getSession()->getCurrency(),
             $dispatcher
         );
 
-        $cartEvent = new CartEvent($newCart);
-
+        $cartEvent = new CartDuplicationEvent($newCart, $cart);
         $dispatcher->dispatch(TheliaEvents::CART_DUPLICATE, $cartEvent);
 
-        return $cartEvent->getCart();
+        return $cartEvent->getDuplicatedCart();
     }
 
     /**
@@ -467,19 +502,19 @@ class Cart extends BaseAction implements EventSubscriberInterface
 
         if (ConfigQuery::read("cart.use_persistent_cookie", 1) == 1) {
             $id = $this->tokenProvider->getToken();
-            $this->session->set('cart_use_cookie', $id);
+            $this->getSession()->set('cart_use_cookie', $id);
         }
 
         return $id;
     }
 
-
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public static function getSubscribedEvents()
     {
         return array(
+            TheliaEvents::CART_PERSIST => array("persistCart", 128),
             TheliaEvents::CART_RESTORE_CURRENT => array("restoreCurrentCart", 128),
             TheliaEvents::CART_CREATE_NEW => array("createEmptyCart", 128),
             TheliaEvents::CART_ADDITEM => array("addItem", 128),
@@ -489,5 +524,15 @@ class Cart extends BaseAction implements EventSubscriberInterface
             TheliaEvents::CART_CLEAR => array("clear", 128),
             TheliaEvents::CHANGE_DEFAULT_CURRENCY => array("updateCart", 128),
         );
+    }
+
+    /**
+     * Returns the session from the current request
+     *
+     * @return \Thelia\Core\HttpFoundation\Session\Session
+     */
+    protected function getSession()
+    {
+        return $this->requestStack->getCurrentRequest()->getSession();
     }
 }

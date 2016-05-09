@@ -18,7 +18,7 @@
         {hook name="folder-edit.top" folder_id=$folder_id}
 
         <div class="row">
-            {loop name="folder_edit" type="folder" visible="*" id="{$folder_id}" backend_context="1" lang="$edit_language_id"}
+            {loop name="folder_edit" type="folder" visible="*" id="{$folder_id}" backend_context="1" lang="$edit_language_id" with_prev_next_info="true"}
 
             {* Define close url *}
             {assign var='close_url' value="{url path='/admin/folders' folder_id=$ID}"}
@@ -110,8 +110,9 @@
                                             </div>
 
                                             <div class="col-md-4">
+                                                {hook name="folder.modification.form-right.top" folder_id=$folder_id}
 
-  		                                        {form_field field='parent'}
+                                                {form_field field='parent'}
 		                                            <div class="form-group {if $error}has-error{/if}">
 
 		                                                <label for="{$label_attr.for}" class="control-label">
@@ -120,12 +121,14 @@
 
 		                                                <select id="{$label_attr.for}" required="required" name="{$name}" class="form-control">
 		                                                      <option value="0">{intl l="Top level"}</option>
-
+                                                              {$excludeFolders = []}
+                                                              {loop name="exclude-folders" type="folder" parent=$folder_id}
+                                                                {$excludeFolders[] = $ID}
+                                                              {/loop}
                                                               {$myparent=$PARENT}
-		                                                      {loop name="fold-parent" type="folder-tree" visible="*" folder="0"}
+		                                                      {loop name="fold-parent" type="folder-tree" visible="*" folder="0" exclude={','|implode:$excludeFolders}}
 		                                                           <option value="{$ID}" style="padding-left: {3 + $LEVEL * 20}px" {if $myparent == $ID}selected="selected"{/if} {if $folder_id == $ID}disabled="disabled"{/if}>{$TITLE}</option>
 		                                                      {/loop}
-
 		                                                </select>
 		                                             </div>
 		                                        {/form_field}
@@ -141,6 +144,8 @@
 									                    </div>
 									                </div>
 									            {/form_field}
+
+                                                {hook name="folder.modification.form-right.bottom" folder_id=$folder_id}
                                             </div>
 						                </div>
 

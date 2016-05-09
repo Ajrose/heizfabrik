@@ -4,6 +4,7 @@ namespace Thelia\Model;
 
 use Propel\Runtime\Connection\ConnectionInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Thelia\Core\Event\Cart\CartItemEvent;
 use Thelia\Core\Event\TheliaEvents;
 use Thelia\Model\Base\CartItem as BaseCartItem;
 use Thelia\Core\Event\Cart\CartEvent;
@@ -11,11 +12,33 @@ use Thelia\TaxEngine\Calculator;
 
 class CartItem extends BaseCartItem
 {
+    /** @var EventDispatcherInterface */
     protected $dispatcher;
 
+    /**
+     * @param EventDispatcherInterface $dispatcher
+     */
     public function setDisptacher(EventDispatcherInterface $dispatcher)
     {
         $this->dispatcher = $dispatcher;
+    }
+
+    public function preInsert(ConnectionInterface $con = null)
+    {
+        if ($this->dispatcher) {
+            $cartItemEvent = new CartItemEvent($this);
+            $this->dispatcher->dispatch(TheliaEvents::CART_ITEM_CREATE_BEFORE, $cartItemEvent);
+        }
+        return true;
+    }
+
+    public function preUpdate(ConnectionInterface $con = null)
+    {
+        if ($this->dispatcher) {
+            $cartItemEvent = new CartItemEvent($this);
+            $this->dispatcher->dispatch(TheliaEvents::CART_ITEM_UPDATE_BEFORE, $cartItemEvent);
+        }
+        return true;
     }
 
     public function postInsert(ConnectionInterface $con = null)
@@ -107,22 +130,73 @@ class CartItem extends BaseCartItem
         return $product;
     }
 
-    public function getRealTaxedPrice(Country $country)
+    /**
+     * @param Country $country
+     * @return float
+     */
+    public function getRealTaxedPrice(Country $country, State $state = null)
     {
-        return $this->getPromo() == 1 ? $this->getTaxedPromoPrice($country) : $this->getTaxedPrice($country);
+        return $this->getPromo() == 1 ? $this->getTaxedPromoPrice($country, $state) : $this->getTaxedPrice($country, $state);
     }
 
-    public function getTaxedPrice(Country $country)
+    /**
+     * @param Country $country
+     * @param State|null $state
+     * @return float
+     */
+    public function getTaxedPrice(Country $country, State $state = null)
     {
         $taxCalculator = new Calculator();
 
-        return round($taxCalculator->load($this->getProduct(), $country)->getTaxedPrice($this->getPrice()), 2);
+        return $taxCalculator->load($this->getProduct(), $country, $state)->getTaxedPrice($this->getPrice());
     }
 
-    public function getTaxedPromoPrice(Country $country)
+    /**
+     * @param Country $country
+     * @param State|null $state
+     * @return float
+     */
+    public function getTaxedPromoPrice(Country $country, State $state = null)
     {
         $taxCalculator = new Calculator();
 
-        return round($taxCalculator->load($this->getProduct(), $country)->getTaxedPrice($this->getPromoPrice()), 2);
+        return $taxCalculator->load($this->getProduct(), $country, $state)->getTaxedPrice($this->getPromoPrice());
+    }
+
+    /**
+     * @since Version 2.3
+     * @param Country $country
+     * @param State|null $state
+     * @return float
+     */
+    public function getTotalRealTaxedPrice(Country $country, State $state = null)
+    {
+        return $this->getPromo() == 1 ? $this->getTotalTaxedPromoPrice($country, $state) : $this->getTotalTaxedPrice($country, $state);
+    }
+
+    /**
+     * @since Version 2.3
+     * @param Country $country
+     * @param State|null $state
+     * @return float
+     */
+    public function getTotalTaxedPrice(Country $country, State $state = null)
+    {
+        $taxCalculator = new Calculator();
+
+        return $taxCalculator->load($this->getProduct(), $country, $state)->getTaxedPrice($this->getPrice()*$this->getQuantity());
+    }
+
+    /**
+     * @since Version 2.3
+     * @param Country $country
+     * @param State|null $state
+     * @return float
+     */
+    public function getTotalTaxedPromoPrice(Country $country, State $state = null)
+    {
+        $taxCalculator = new Calculator();
+
+        return $taxCalculator->load($this->getProduct(), $country, $state)->getTaxedPrice($this->getPromoPrice()*$this->getQuantity());
     }
 }

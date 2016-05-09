@@ -25,15 +25,8 @@ use Thelia\Model\CountryQuery;
  * @package Thelia\Tests\Action
  * @author Manuel Raynaud <manu@raynaud.io>
  */
-class CountryTest extends \PHPUnit_Framework_TestCase
+class CountryTest extends BaseAction
 {
-    protected $dispatcher;
-
-    public function setUp()
-    {
-        $this->dispatcher = $this->getMock("Symfony\Component\EventDispatcher\EventDispatcherInterface");
-    }
-
     public function testCreate()
     {
         $event = new CountryCreateEvent();
@@ -42,13 +35,14 @@ class CountryTest extends \PHPUnit_Framework_TestCase
             ->setIsocode('001')
             ->setIsoAlpha2('AA')
             ->setIsoAlpha3('AAA')
+            ->setVisible(1)
+            ->setHasStates(0)
             ->setLocale('en_US')
             ->setTitle('Test')
-            ->setDispatcher($this->dispatcher)
         ;
 
         $action = new Country();
-        $action->create($event);
+        $action->create($event, null, $this->getMockEventDispatcher());
 
         $createdCountry = $event->getCountry();
 
@@ -57,6 +51,9 @@ class CountryTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals('001', $createdCountry->getIsocode());
         $this->assertEquals('AA', $createdCountry->getIsoalpha2());
+        $this->assertEquals('AAA', $createdCountry->getIsoalpha3());
+        $this->assertEquals(1, $createdCountry->getVisible());
+        $this->assertEquals(0, $createdCountry->getHasStates());
         $this->assertEquals('AAA', $createdCountry->getIsoalpha3());
         $this->assertEquals('en_US', $createdCountry->getLocale());
         $this->assertEquals('Test', $createdCountry->getTitle());
@@ -67,6 +64,7 @@ class CountryTest extends \PHPUnit_Framework_TestCase
     /**
      * @param CountryModel $country
      * @depends testCreate
+     * @return CountryModel
      */
     public function testUpdate(CountryModel $country)
     {
@@ -76,13 +74,14 @@ class CountryTest extends \PHPUnit_Framework_TestCase
             ->setIsocode('002')
             ->setIsoAlpha2('BB')
             ->setIsoAlpha3('BBB')
+            ->setVisible(1)
+            ->setHasStates(0)
             ->setLocale('en_US')
             ->setTitle('Test')
-            ->setDispatcher($this->dispatcher)
         ;
 
         $action = new Country();
-        $action->update($event);
+        $action->update($event, null, $this->getMockEventDispatcher());
 
         $updatedCountry = $event->getCountry();
 
@@ -91,6 +90,8 @@ class CountryTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('002', $updatedCountry->getIsocode());
         $this->assertEquals('BB', $updatedCountry->getIsoalpha2());
         $this->assertEquals('BBB', $updatedCountry->getIsoalpha3());
+        $this->assertEquals(1, $updatedCountry->getVisible());
+        $this->assertEquals(0, $updatedCountry->getHasStates());
         $this->assertEquals('en_US', $updatedCountry->getLocale());
         $this->assertEquals('Test', $updatedCountry->getTitle());
 
@@ -104,10 +105,9 @@ class CountryTest extends \PHPUnit_Framework_TestCase
     public function testDelete(CountryModel $country)
     {
         $event = new CountryDeleteEvent($country->getId());
-        $event->setDispatcher($this->dispatcher);
 
         $action = new Country();
-        $action->delete($event);
+        $action->delete($event, null, $this->getMockEventDispatcher());
 
         $deletedCountry = $event->getCountry();
 
@@ -117,16 +117,16 @@ class CountryTest extends \PHPUnit_Framework_TestCase
 
     public function testToggleDefault()
     {
+        /** @var CountryModel $country */
         $country = CountryQuery::create()
             ->filterByByDefault(0)
             ->addAscendingOrderByColumn('RAND()')
             ->findOne();
 
         $event = new CountryToggleDefaultEvent($country->getId());
-        $event->setDispatcher($this->dispatcher);
 
-        $action = new Country();
-        $action->toggleDefault($event);
+        $action = new Country($this->getMockEventDispatcher());
+        $action->toggleDefault($event, null, $this->getMockEventDispatcher());
 
         $updatedCountry = $event->getCountry();
 

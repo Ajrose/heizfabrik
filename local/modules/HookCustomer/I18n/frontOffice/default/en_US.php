@@ -3,7 +3,7 @@
 return array(
     'Email address' => 'Email address',
     'Forgot your Password?' => 'Forgot your Password?',
-    'Log In!' => 'Log in!',
+    'Log In!' => 'Log In!',
     'Log out!' => 'Log out!',
     'My Account' => 'My Account',
     'Password' => 'Password',

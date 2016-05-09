@@ -15,7 +15,7 @@
         <language>en_US</language>
         <language>fr_FR</language>
     </languages>
-    <version>2.2.2</version>
+    <version>2.3.0</version>
     <author>
         <name>Franck Allimant</name>
         <company>CQFDev</company>
@@ -23,5 +23,5 @@
     </author>
     <type>payment</type>
     <thelia>2.2.0</thelia>
-    <stability>prod</stability>
+    <stability>alpha</stability>
 </module>

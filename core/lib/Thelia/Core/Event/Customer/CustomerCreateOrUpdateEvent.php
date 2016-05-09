@@ -31,9 +31,10 @@ class CustomerCreateOrUpdateEvent extends CustomerEvent
     protected $zipcode;
     protected $city;
     protected $country;
+    protected $state;
     protected $email;
     protected $password;
-    protected $lang;
+    protected $langId;
     protected $reseller;
     protected $sponsor;
     protected $discount;
@@ -56,22 +57,43 @@ class CustomerCreateOrUpdateEvent extends CustomerEvent
      * @param int    $country   the country id
      * @param string $email
      * @param string $password  plain password, don't put hash password, it will hashes again
-     * @param $lang
+     * @param $langId
      * @param int    $reseller  if customer is a reseller
      * @param int    $sponsor   customer's id sponsor
      * @param float  $discount
      * @param string $company
      * @param string $ref
      */
-    public function __construct($title, $firstname, $lastname, $address1, $address2, $address3, $phone, $cellphone, $zipcode, $city, $country, $email, $password, $lang, $reseller, $sponsor, $discount, $company, $ref)
-    {
+    public function __construct(
+        $title,
+        $firstname,
+        $lastname,
+        $address1,
+        $address2,
+        $address3,
+        $phone,
+        $cellphone,
+        $zipcode,
+        $city,
+        $country,
+        $email,
+        $password,
+        $langId,
+        $reseller,
+        $sponsor,
+        $discount,
+        $company,
+        $ref,
+        $state = null
+    ) {
         $this->address1 = $address1;
         $this->address2 = $address2;
         $this->address3 = $address3;
         $this->country = $country;
+        $this->state = $state;
         $this->email = $email;
         $this->firstname = $firstname;
-        $this->lang = $lang;
+        $this->langId = $langId;
         $this->lastname = $lastname;
         $this->password = $password;
         $this->phone = $phone;
@@ -85,6 +107,7 @@ class CustomerCreateOrUpdateEvent extends CustomerEvent
         $this->company = $company;
         $this->ref = $ref;
     }
+
     /**
      * @return mixed
      */
@@ -126,6 +149,14 @@ class CustomerCreateOrUpdateEvent extends CustomerEvent
     }
 
     /**
+     * @return int|null
+     */
+    public function getState()
+    {
+        return $this->state;
+    }
+
+    /**
      * @return string
      */
     public function getEmail()
@@ -144,9 +175,9 @@ class CustomerCreateOrUpdateEvent extends CustomerEvent
     /**
      * @return mixed
      */
-    public function getLang()
+    public function getLangId()
     {
-        return $this->lang;
+        return $this->langId;
     }
 
     /**

@@ -22,7 +22,7 @@
     "autoload": {
         "files": [ "bootstrap.php" ]
     },
-    "suggest": {
+    "suggests": {
         "ext-intl": "For best performance"
     },
     "minimum-stability": "dev",

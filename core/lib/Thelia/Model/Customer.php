@@ -51,6 +51,7 @@ class Customer extends BaseCustomer implements UserInterface
      * @param  null                                      $company
      * @param  null                                      $ref
      * @param  bool                                      $forceEmailUpdate true if the email address could be updated.
+     * @param  int                                       $stateId          customer state id (from State table)
      * @throws \Exception
      * @throws \Propel\Runtime\Exception\PropelException
      */
@@ -74,7 +75,8 @@ class Customer extends BaseCustomer implements UserInterface
         $discount = 0,
         $company = null,
         $ref = null,
-        $forceEmailUpdate = false
+        $forceEmailUpdate = false,
+        $stateId = null
     ) {
         $this
             ->setTitleId($titleId)
@@ -89,7 +91,7 @@ class Customer extends BaseCustomer implements UserInterface
         ;
 
         if (!is_null($lang)) {
-            $this->setLang($lang);
+            $this->setLangId($lang);
         }
 
         $con = Propel::getWriteConnection(CustomerTableMap::DATABASE_NAME);
@@ -112,6 +114,7 @@ class Customer extends BaseCustomer implements UserInterface
                     ->setZipcode($zipcode)
                     ->setCity($city)
                     ->setCountryId($countryId)
+                    ->setStateId($stateId)
                     ->setIsDefault(1)
                     ;
 
@@ -132,6 +135,7 @@ class Customer extends BaseCustomer implements UserInterface
                     ->setZipcode($zipcode)
                     ->setCity($city)
                     ->setCountryId($countryId)
+                    ->setStateId($stateId)
                     ->save($con)
                 ;
             }
@@ -147,20 +151,52 @@ class Customer extends BaseCustomer implements UserInterface
     /**
      * Return the customer lang, or the default one if none is defined.
      *
-     * @return Lang the customer lang
+     * @return \Thelia\Model\Lang Lang model
      */
     public function getCustomerLang()
     {
-        if ($this->getLang() !== null) {
-            $lang = LangQuery::create()
-                ->findPk($this->getLang());
-        } else {
-            $lang = LangQuery::create()
+        $lang = $this->getLangModel();
+
+        if ($lang === null) {
+            $lang = (new LangQuery)
                 ->filterByByDefault(1)
-                ->findOne();
+                ->findOne()
+            ;
         }
 
         return $lang;
+    }
+
+    /**
+     * Get lang identifier
+     *
+     * @return integer Lang id
+     *
+     * @deprecated 2.3.0 It's not the good way to get lang identifier
+     *
+     * @see \Thelia\Model\Customer::getLangId()
+     * @see \Thelia\Model\Customer::getLangModel()
+     */
+    public function getLang()
+    {
+        return $this->getLangId();
+    }
+
+    /**
+     * Set lang identifier
+     *
+     * @param integer $langId Lang identifier
+     *
+     * @return $this Return $this, allow chaining
+     *
+     * @deprecated 2.3.0 It's not the good way to set lang identifier
+     *
+     * @see \Thelia\Model\Customer::setLangId()
+     * @see \Thelia\Model\Customer::setLangModel()
+     */
+    public function setLang($langId)
+    {
+        return $this->setLangId($langId);
     }
 
     protected function generateRef()

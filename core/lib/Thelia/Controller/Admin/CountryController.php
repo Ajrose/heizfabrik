@@ -15,13 +15,19 @@ namespace Thelia\Controller\Admin;
 use Thelia\Core\Event\Country\CountryCreateEvent;
 use Thelia\Core\Event\Country\CountryDeleteEvent;
 use Thelia\Core\Event\Country\CountryToggleDefaultEvent;
+use Thelia\Core\Event\Country\CountryToggleVisibilityEvent;
 use Thelia\Core\Event\Country\CountryUpdateEvent;
 use Thelia\Core\Event\TheliaEvents;
+use Thelia\Core\HttpFoundation\Response;
 use Thelia\Core\Security\AccessManager;
 use Thelia\Core\Security\Resource\AdminResources;
+use Thelia\Form\BaseForm;
 use Thelia\Form\Definition\AdminForm;
 use Thelia\Log\Tlog;
+use Thelia\Model\Country;
 use Thelia\Model\CountryQuery;
+use Thelia\Model\State;
+use Thelia\Model\StateQuery;
 
 /**
  * Class CustomerController
@@ -39,7 +45,8 @@ class CountryController extends AbstractCrudController
             AdminResources::COUNTRY,
             TheliaEvents::COUNTRY_CREATE,
             TheliaEvents::COUNTRY_UPDATE,
-            TheliaEvents::COUNTRY_DELETE
+            TheliaEvents::COUNTRY_DELETE,
+            TheliaEvents::COUNTRY_TOGGLE_VISIBILITY
         );
     }
 
@@ -63,16 +70,24 @@ class CountryController extends AbstractCrudController
      * Hydrate the update form for this object, before passing it to the update template
      *
      * @param \Thelia\Model\Country $object
+     * @return BaseForm
      */
     protected function hydrateObjectForm($object)
     {
         $data = array(
             'id' => $object->getId(),
             'locale' => $object->getLocale(),
+            'visible' => $object->getVisible() ? true : false,
             'title' => $object->getTitle(),
+            'chapo' => $object->getChapo(),
+            'description' => $object->getDescription(),
+            'postscriptum' => $object->getPostscriptum(),
             'isocode' => $object->getIsocode(),
             'isoalpha2' => $object->getIsoalpha2(),
             'isoalpha3' => $object->getIsoalpha3(),
+            'has_states' => $object->getHasStates() ? true : false,
+            'need_zip_code' => $object->getNeedZipCode() ? true : false,
+            'zip_code_format' => $object->getZipCodeFormat(),
         );
 
         return $this->createForm(AdminForm::COUNTRY_MODIFICATION, 'form', $data);
@@ -81,7 +96,8 @@ class CountryController extends AbstractCrudController
     /**
      * Creates the creation event with the provided form data
      *
-     * @param unknown $formData
+     * @param array $formData
+     * @return CountryCreateEvent
      */
     protected function getCreationEvent($formData)
     {
@@ -93,23 +109,37 @@ class CountryController extends AbstractCrudController
     /**
      * Creates the update event with the provided form data
      *
-     * @param unknown $formData
+     * @param array $formData
+     * @return CountryUpdateEvent
      */
     protected function getUpdateEvent($formData)
     {
         $event = new CountryUpdateEvent($formData['id']);
 
-        return $this->hydrateEvent($event, $formData);
+        $event = $this->hydrateEvent($event, $formData);
+
+        $event
+            ->setChapo($formData['chapo'])
+            ->setDescription($formData['description'])
+            ->setPostscriptum($formData['postscriptum'])
+            ->setNeedZipCode($formData['need_zip_code'])
+            ->setZipCodeFormat($formData['zip_code_format'])
+        ;
+
+        return $event;
+
     }
 
     protected function hydrateEvent($event, $formData)
     {
         $event
             ->setLocale($formData['locale'])
+            ->setVisible($formData['visible'])
             ->setTitle($formData['title'])
             ->setIsocode($formData['isocode'])
             ->setIsoAlpha2($formData['isoalpha2'])
             ->setIsoAlpha3($formData['isoalpha3'])
+            ->setHasStates($formData['has_states'])
         ;
 
         return $event;
@@ -137,6 +167,7 @@ class CountryController extends AbstractCrudController
      * Get the created object from an event.
      *
      * @param unknown $createEvent
+     * @return Country
      */
     protected function getObjectFromEvent($event)
     {
@@ -162,6 +193,7 @@ class CountryController extends AbstractCrudController
      * Returns the object label form the object event (name, title, etc.)
      *
      * @param \Thelia\Model\Country $object
+     * @return string
      */
     protected function getObjectLabel($object)
     {
@@ -172,6 +204,7 @@ class CountryController extends AbstractCrudController
      * Returns the object ID from the object
      *
      * @param \Thelia\Model\Country $object
+     * @return int
      */
     protected function getObjectId($object)
     {
@@ -182,6 +215,7 @@ class CountryController extends AbstractCrudController
      * Render the main list template
      *
      * @param unknown $currentOrder, if any, null otherwise.
+     * @return Response
      */
     protected function renderListTemplate($currentOrder)
     {
@@ -245,5 +279,67 @@ class CountryController extends AbstractCrudController
         }
 
         return $this->nullResponse(500);
+    }
+
+    /**
+     * @return CountryToggleVisibilityEvent|void
+     */
+    protected function createToggleVisibilityEvent()
+    {
+        return new CountryToggleVisibilityEvent($this->getExistingObject());
+    }
+
+    public function getDataAction($visible = true, $locale = null)
+    {
+        $response = $this->checkAuth($this->resourceCode, array(), AccessManager::VIEW);
+        if (null !== $response) {
+            return $response;
+        }
+
+        if (null === $locale) {
+            $locale = $this->getCurrentEditionLocale();
+        }
+
+        $responseData = [];
+
+        /** @var CountryQuery $search */
+        $countries = CountryQuery::create()
+            ->_if($visible)
+                ->filterByVisible(true)
+            ->_endif()
+            ->joinWithI18n($locale)
+        ;
+
+        /** @var Country $country */
+        foreach ($countries as $country) {
+            $currentCountry = [
+                'id' => $country->getId(),
+                'title' => $country->getTitle(),
+                'hasStates' => $country->getHasStates(),
+                'states' => []
+            ];
+
+            if ($country->getHasStates()) {
+                $states = StateQuery::create()
+                    ->filterByCountryId($country->getId())
+                    ->_if($visible)
+                        ->filterByVisible(true)
+                    ->_endif()
+                    ->joinWithI18n($locale)
+                ;
+
+                /** @var State $state */
+                foreach ($states as $state) {
+                    $currentCountry['states'][] = [
+                        'id' => $state->getId(),
+                        'title' => $state->getTitle(),
+                    ];
+                }
+            }
+
+            $responseData[] = $currentCountry;
+        }
+
+        return $this->jsonResponse(json_encode($responseData));
     }
 }

@@ -31,6 +31,14 @@ use Thelia\Type\BooleanOrBothType;
  * Class Sale
  * @package Thelia\Core\Template\Loop
  * @author Franck Allimant <thelia@cqfdev.fr>
+ *
+ * {@inheritdoc}
+ * @method int[] getId()
+ * @method int[] getExclude()
+ * @method bool|string getActive()
+ * @method int[] getProduct()
+ * @method int getCurrency()
+ * @method string[] getOrder()
  */
 class Sale extends BaseI18nLoop implements PropelSearchLoopInterface, SearchLoopInterface
 {
@@ -46,7 +54,7 @@ class Sale extends BaseI18nLoop implements PropelSearchLoopInterface, SearchLoop
             Argument::createIntListTypeArgument('exclude'),
             Argument::createBooleanOrBothTypeArgument('active', 1),
             Argument::createIntListTypeArgument('product'),
-            Argument::createIntTypeArgument('currency', $this->request->getSession()->getCurrency()->getId()),
+            Argument::createIntTypeArgument('currency', $this->getCurrentRequest()->getSession()->getCurrency()->getId()),
             new Argument(
                 'order',
                 new TypeCollection(
@@ -88,6 +96,7 @@ class Sale extends BaseI18nLoop implements PropelSearchLoopInterface, SearchLoop
 
     public function doSearch(&$search, $searchTerm, $searchIn, $searchCriteria)
     {
+        /** @var SaleQuery $search */
         $search->_and();
 
         $search->where("CASE WHEN NOT ISNULL(`requested_locale_i18n`.ID) THEN `requested_locale_i18n`.`TITLE` ELSE `default_locale_i18n`.`TITLE` END ".$searchCriteria." ?", $searchTerm, \PDO::PARAM_STR);
@@ -203,7 +212,7 @@ class Sale extends BaseI18nLoop implements PropelSearchLoopInterface, SearchLoop
             switch ($sale->getPriceOffsetType()) {
                 case \Thelia\Model\Sale::OFFSET_TYPE_AMOUNT:
                     $priceOffsetType = 'A';
-                    $priceOffsetSymbol = $this->request->getSession()->getCurrency()->getSymbol();
+                    $priceOffsetSymbol = $this->getCurrentRequest()->getSession()->getCurrency()->getSymbol();
                     break;
 
                 case \Thelia\Model\Sale::OFFSET_TYPE_PERCENTAGE:
@@ -234,6 +243,7 @@ class Sale extends BaseI18nLoop implements PropelSearchLoopInterface, SearchLoop
                 ->set("PRICE_OFFSET_VALUE", $sale->getVirtualColumn('price_offset_value'))
             ;
 
+            $this->addOutputFields($loopResultRow, $sale);
             $loopResult->addRow($loopResultRow);
         }
 

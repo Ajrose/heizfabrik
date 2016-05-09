@@ -13,16 +13,20 @@
 namespace TheliaSmarty\Template\Plugins;
 
 use Propel\Runtime\ActiveQuery\ModelCriteria;
-use Symfony\Component\EventDispatcher\ContainerAwareEventDispatcher;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Thelia\Core\HttpFoundation\Request;
+use Thelia\Core\HttpFoundation\Session\Session;
 use Thelia\Core\Security\SecurityContext;
 use Thelia\Core\Template\ParserContext;
 use Thelia\Log\Tlog;
 use Thelia\Model\Base\BrandQuery;
+use Thelia\Model\Cart;
 use Thelia\Model\CategoryQuery;
 use Thelia\Model\ConfigQuery;
 use Thelia\Model\ContentQuery;
+use Thelia\Model\Country;
 use Thelia\Model\CountryQuery;
 use Thelia\Model\CurrencyQuery;
 use Thelia\Model\FolderQuery;
@@ -45,24 +49,33 @@ use TheliaSmarty\Template\SmartyPluginDescriptor;
  */
 class DataAccessFunctions extends AbstractSmartyPlugin
 {
+    /** @var SecurityContext */
     private $securityContext;
+
+    /** @var ParserContext */
     protected $parserContext;
-    protected $request;
+
+    /** @var RequestStack */
+    protected $requestStack;
+
+    /** @var EventDispatcherInterface */
     protected $dispatcher;
+
+    /** @var TaxEngine */
     protected $taxEngine;
 
     private static $dataAccessCache = array();
 
     public function __construct(
-        Request $request,
+        RequestStack $requestStack,
         SecurityContext $securityContext,
         TaxEngine $taxEngine,
         ParserContext $parserContext,
-        ContainerAwareEventDispatcher $dispatcher
+        EventDispatcherInterface $dispatcher
     ) {
         $this->securityContext = $securityContext;
         $this->parserContext = $parserContext;
-        $this->request = $request;
+        $this->requestStack = $requestStack;
         $this->dispatcher = $dispatcher;
         $this->taxEngine = $taxEngine;
     }
@@ -100,7 +113,7 @@ class DataAccessFunctions extends AbstractSmartyPlugin
      */
     public function productDataAccess($params, &$smarty)
     {
-        $productId = $this->request->get('product_id');
+        $productId = $this->getRequest()->get('product_id');
 
         if ($productId !== null) {
             return $this->dataAccessWithI18n(
@@ -122,10 +135,10 @@ class DataAccessFunctions extends AbstractSmartyPlugin
      */
     public function categoryDataAccess($params, &$smarty)
     {
-        $categoryId = $this->request->get('category_id');
+        $categoryId = $this->getRequest()->get('category_id');
 
         if ($categoryId === null) {
-            $productId = $this->request->get('product_id');
+            $productId = $this->getRequest()->get('product_id');
 
             if ($productId !== null) {
                 if (null !== $product = ProductQuery::create()->findPk($productId)) {
@@ -154,7 +167,7 @@ class DataAccessFunctions extends AbstractSmartyPlugin
      */
     public function contentDataAccess($params, &$smarty)
     {
-        $contentId = $this->request->get('content_id');
+        $contentId = $this->getRequest()->get('content_id');
 
         if ($contentId !== null) {
             return $this->dataAccessWithI18n(
@@ -176,10 +189,10 @@ class DataAccessFunctions extends AbstractSmartyPlugin
      */
     public function folderDataAccess($params, &$smarty)
     {
-        $folderId = $this->request->get('folder_id');
+        $folderId = $this->getRequest()->get('folder_id');
 
         if ($folderId === null) {
-            $contentId = $this->request->get('content_id');
+            $contentId = $this->getRequest()->get('content_id');
 
             if ($contentId !== null) {
                 if (null !== $content = ContentQuery::create()->findPk($contentId)) {
@@ -208,10 +221,10 @@ class DataAccessFunctions extends AbstractSmartyPlugin
      */
     public function brandDataAccess($params, &$smarty)
     {
-        $brandId = $this->request->get('brand_id');
+        $brandId = $this->getRequest()->get('brand_id');
 
         if ($brandId === null) {
-            $productId = $this->request->get('product_id');
+            $productId = $this->getRequest()->get('product_id');
 
             if ($productId !== null) {
                 if (null !== $product = ProductQuery::create()->findPk($productId)) {
@@ -241,7 +254,7 @@ class DataAccessFunctions extends AbstractSmartyPlugin
      */
     public function currencyDataAccess($params, $smarty)
     {
-        $currency = $this->request->getSession()->getCurrency();
+        $currency = $this->getSession()->getCurrency();
 
         if ($currency) {
             return $this->dataAccessWithI18n(
@@ -285,6 +298,7 @@ class DataAccessFunctions extends AbstractSmartyPlugin
      */
     public function cartDataAccess($params, $smarty)
     {
+        /** @var Country $taxCountry */
         if (array_key_exists('currentCountry', self::$dataAccessCache)) {
             $taxCountry = self::$dataAccessCache['currentCountry'];
         } else {
@@ -292,14 +306,17 @@ class DataAccessFunctions extends AbstractSmartyPlugin
             self::$dataAccessCache['currentCountry'] = $taxCountry;
         }
 
-        $cart = $this->request->getSession()->getSessionCart($this->dispatcher);
+        /** @var Cart $cart */
+        $cart = $this->getSession()->getSessionCart($this->dispatcher);
 
         $result = "";
         switch ($params["attr"]) {
             case "count_product":
+            case "product_count":
                 $result = $cart->getCartItems()->count();
                 break;
             case "count_item":
+            case "item_count":
                 $count_allitem = 0;
                 foreach ($cart->getCartItems() as $cartItem) {
                     $count_allitem += $cartItem->getQuantity();
@@ -307,19 +324,29 @@ class DataAccessFunctions extends AbstractSmartyPlugin
                 $result = $count_allitem;
                 break;
             case "total_price":
+            case "total_price_with_discount":
                 $result = $cart->getTotalAmount();
                 break;
+            case "total_price_without_discount":
+                $result = $cart->getTotalAmount(false);
+                break;
             case "total_taxed_price":
+            case "total_taxed_price_with_discount":
                 $result = $cart->getTaxedAmount($taxCountry);
                 break;
             case "total_taxed_price_without_discount":
                 $result = $cart->getTaxedAmount($taxCountry, false);
                 break;
             case "is_virtual":
+            case "contains_virtual_product":
                 $result = $cart->isVirtual();
                 break;
             case "total_vat":
+            case 'total_tax_amount':
                 $result = $cart->getTotalVAT($taxCountry);
+                break;
+            case "weight":
+                $result = $cart->getWeight();
                 break;
         }
 
@@ -335,7 +362,7 @@ class DataAccessFunctions extends AbstractSmartyPlugin
      */
     public function orderDataAccess($params, &$smarty)
     {
-        $order = $this->request->getSession()->getOrder();
+        $order = $this->getSession()->getOrder();
         $attribute = $this->getNormalizedParam($params, array('attribute', 'attrib', 'attr'));
         switch ($attribute) {
             case 'untaxed_postage':
@@ -372,7 +399,7 @@ class DataAccessFunctions extends AbstractSmartyPlugin
 
     public function langDataAccess($params, $smarty)
     {
-        return $this->dataAccess("Lang", $params, $this->request->getSession()->getLang());
+        return $this->dataAccess("Lang", $params, $this->getSession()->getLang());
     }
 
     public function configDataAccess($params, $smarty)
@@ -400,6 +427,11 @@ class DataAccessFunctions extends AbstractSmartyPlugin
     {
         $key = $this->getParam($params, 'key', false);
         $moduleCode = $this->getParam($params, 'module', false);
+        $locale = $this->getParam($params, 'locale');
+
+        if (null === $locale) {
+            $locale = $this->getSession()->getLang()->getLocale();
+        }
 
         if ($key === false || $moduleCode === false) {
             return null;
@@ -413,7 +445,7 @@ class DataAccessFunctions extends AbstractSmartyPlugin
                     $module->getId(),
                     $key,
                     $default,
-                    $this->request->getSession()->getLang()->getLocale()
+                    $locale
                 );
         } else {
             Tlog::getInstance()->addWarning(
@@ -476,7 +508,7 @@ class DataAccessFunctions extends AbstractSmartyPlugin
             $startDate->setTime(0, 0, 0);
         } elseif ($params['startDate'] == 'last_year') {
             $startDate = new \DateTime();
-            $startDate->modify('first day of December last year');
+            $startDate->modify('first day of January last year');
             $startDate->setTime(0, 0, 0);
         } else {
             try {
@@ -509,7 +541,7 @@ class DataAccessFunctions extends AbstractSmartyPlugin
             $endDate->setTime(0, 0, 0);
         } elseif ($params['endDate'] == 'last_year') {
             $endDate = new \DateTime();
-            $endDate->modify('last day of January last year');
+            $endDate->modify('last day of December last year');
             $endDate->setTime(0, 0, 0);
         } else {
             try {
@@ -612,14 +644,14 @@ class DataAccessFunctions extends AbstractSmartyPlugin
         } else {
             $lang = $this->getNormalizedParam($params, array('lang'));
             if ($lang === null) {
-                $lang = $this->request->getSession()->getLang()->getId();
+                $lang = $this->getSession()->getLang()->getId();
             }
 
             ModelCriteriaTools::getI18n(
                 false,
                 $lang,
                 $search,
-                $this->request->getSession()->getLang()->getLocale(),
+                $this->getSession()->getLang()->getLocale(),
                 $columns,
                 $foreignTable,
                 $foreignKey,
@@ -672,7 +704,7 @@ class DataAccessFunctions extends AbstractSmartyPlugin
                         if (array_key_exists("format", $params)) {
                             $format = $params["format"];
                         } else {
-                            $format = DateTimeFormat::getInstance($this->request)->getFormat(
+                            $format = DateTimeFormat::getInstance($this->getRequest())->getFormat(
                                 array_key_exists("output", $params) ? $params["output"] : null
                             );
                         }
@@ -734,5 +766,21 @@ class DataAccessFunctions extends AbstractSmartyPlugin
             new SmartyPluginDescriptor('function', 'meta', $this, 'metaAccess'),
             new SmartyPluginDescriptor('function', 'module_config', $this, 'moduleConfigDataAccess'),
         );
+    }
+
+    /**
+     * @return Request
+     */
+    protected function getRequest()
+    {
+        return $this->requestStack->getCurrentRequest();
+    }
+
+    /**
+     * @return Session
+     */
+    protected function getSession()
+    {
+        return $this->getRequest()->getSession();
     }
 }

@@ -6,7 +6,7 @@ Readme
 
 Thelia
 ------
-[![Build Status](https://travis-ci.org/thelia/thelia.png?branch=2.2)](https://travis-ci.org/thelia/thelia) [![License](https://poser.pugx.org/thelia/thelia/license.png)](https://packagist.org/packages/thelia/thelia) [![Scrutinizer Quality Score](https://scrutinizer-ci.com/g/thelia/thelia/badges/quality-score.png?s=61e3e04a69bffd71c29b08e5392080317a546716)](https://scrutinizer-ci.com/g/thelia/thelia/)
+[![Build Status](https://travis-ci.org/thelia/thelia.png?branch=master)](https://travis-ci.org/thelia/thelia) [![License](https://poser.pugx.org/thelia/thelia/license.png)](https://packagist.org/packages/thelia/thelia) [![Scrutinizer Quality Score](https://scrutinizer-ci.com/g/thelia/thelia/badges/quality-score.png?s=61e3e04a69bffd71c29b08e5392080317a546716)](https://scrutinizer-ci.com/g/thelia/thelia/)
 
 [Thelia](http://thelia.net/) is an open source tool for creating e-business websites and managing online content. This software is published under LGPL.
 
@@ -17,7 +17,7 @@ A repository containing all thelia modules is available at this address : https:
 Requirements
 ------------
 
-* php 5.4
+* PHP 5.4
     * Required extensions :
         * PDO_Mysql
         * mcrypt
@@ -26,10 +26,11 @@ Requirements
         * curl
     * safe_mode off
     * memory_limit at least 128M, preferably 256.
-    * post_max_size 20M
-    * upload_max_filesize 2M
-* apache 2
-* mysql 5
+    * post\_max\_size 20M
+    * upload\_max\_filesize 2M
+    * date.timezone must be defined
+* Web Server Apache 2 or Nginx
+* MySQL 5
 
 
 ### MySQL 5.6

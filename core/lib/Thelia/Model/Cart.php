@@ -78,7 +78,12 @@ class Cart extends BaseCart
                 $dispatcher->dispatch(TheliaEvents::CART_ITEM_DUPLICATE, new CartItemDuplicationItem($item, $cartItem));
             }
         }
-        $this->delete();
+
+        try {
+            $this->delete();
+        } catch (\Exception $e) {
+            // just fail silently in some cases
+        }
 
         return $cart;
     }
@@ -109,12 +114,12 @@ class Cart extends BaseCart
      * @param  bool      $discount
      * @return float|int
      */
-    public function getTaxedAmount(Country $country, $discount = true)
+    public function getTaxedAmount(Country $country, $discount = true, State $state = null)
     {
         $total = 0;
 
         foreach ($this->getCartItems() as $cartItem) {
-            $total += $cartItem->getRealTaxedPrice($country) * $cartItem->getQuantity();
+            $total += $cartItem->getTotalRealTaxedPrice($country, $state);
         }
 
         if ($discount) {
@@ -155,7 +160,7 @@ class Cart extends BaseCart
      * Return the VAT of all items
      * @return float|int
      */
-    public function getTotalVAT($taxCountry)
+    public function getTotalVAT($taxCountry, $taxState = null)
     {
         return ($this->getTaxedAmount($taxCountry) - $this->getTotalAmount());
     }

@@ -13,6 +13,7 @@
 namespace Thelia\Action;
 
 use Propel\Runtime\ActiveQuery\Criteria;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Thelia\Core\Event\Tax\TaxRuleEvent;
 use Thelia\Core\Event\TheliaEvents;
@@ -26,16 +27,16 @@ class TaxRule extends BaseAction implements EventSubscriberInterface
     /**
      * @param TaxRuleEvent $event
      */
-    public function create(TaxRuleEvent $event)
+    public function create(TaxRuleEvent $event, $eventName, EventDispatcherInterface $dispatcher)
     {
         $taxRule = new TaxRuleModel();
 
         $taxRule
-            ->setDispatcher($event->getDispatcher())
+            ->setDispatcher($dispatcher)
             ->setLocale($event->getLocale())
             ->setTitle($event->getTitle())
             ->setDescription($event->getDescription())
-         ;
+        ;
 
         $taxRule->save();
 
@@ -45,11 +46,11 @@ class TaxRule extends BaseAction implements EventSubscriberInterface
     /**
      * @param TaxRuleEvent $event
      */
-    public function update(TaxRuleEvent $event)
+    public function update(TaxRuleEvent $event, $eventName, EventDispatcherInterface $dispatcher)
     {
         if (null !== $taxRule = TaxRuleQuery::create()->findPk($event->getId())) {
             $taxRule
-                ->setDispatcher($event->getDispatcher())
+                ->setDispatcher($dispatcher)
                 ->setLocale($event->getLocale())
                 ->setTitle($event->getTitle())
                 ->setDescription($event->getDescription())
@@ -66,26 +67,34 @@ class TaxRule extends BaseAction implements EventSubscriberInterface
     public function updateTaxes(TaxRuleEvent $event)
     {
         if (null !== $taxRule = TaxRuleQuery::create()->findPk($event->getId())) {
-            if (!is_array($taxList = $event->getTaxList())) {
-                $taxList = json_decode($taxList, true);
+            $taxList = $this->getArrayFromJson($event->getTaxList());
+            $countryList = $this->getArrayFromJson22Compat($event->getCountryList());
+            $countryDeletedList = $this->getArrayFromJson22Compat($event->getCountryDeletedList());
+
+            /* clean the current tax rule for the countries/states */
+            $deletes = array_merge($countryList, $countryDeletedList);
+            foreach ($deletes as $item) {
+                TaxRuleCountryQuery::create()
+                    ->filterByTaxRule($taxRule)
+                    ->filterByCountryId(intval($item[0]), Criteria::EQUAL)
+                    ->filterByStateId(intval($item[1]) !== 0 ? $item[1] : null, Criteria::EQUAL)
+                    ->delete();
             }
 
-            /* clean the current tax rule for the countries */
-            TaxRuleCountryQuery::create()
-                ->filterByTaxRule($taxRule)
-                ->filterByCountryId($event->getCountryList(), Criteria::IN)
-                ->delete();
-
             /* for each country */
-            foreach ($event->getCountryList() as $country) {
+            foreach ($countryList as $item) {
                 $position = 1;
+                $countryId = intval($item[0]);
+                $stateId = intval($item[1]);
+
                 /* on applique les nouvelles regles */
                 foreach ($taxList as $tax) {
                     if (is_array($tax)) {
                         foreach ($tax as $samePositionTax) {
                             $taxModel = new TaxRuleCountry();
                             $taxModel->setTaxRule($taxRule)
-                                ->setCountryId($country)
+                                ->setCountryId($countryId)
+                                ->setStateId($stateId ?: null)
                                 ->setTaxId($samePositionTax)
                                 ->setPosition($position);
                             $taxModel->save();
@@ -93,7 +102,8 @@ class TaxRule extends BaseAction implements EventSubscriberInterface
                     } else {
                         $taxModel = new TaxRuleCountry();
                         $taxModel->setTaxRule($taxRule)
-                            ->setCountryId($country)
+                            ->setCountryId($countryId)
+                            ->setStateId($stateId ?: null)
                             ->setTaxId($tax)
                             ->setPosition($position);
                         $taxModel->save();
@@ -104,6 +114,49 @@ class TaxRule extends BaseAction implements EventSubscriberInterface
 
             $event->setTaxRule($taxRule);
         }
+    }
+
+    protected function getArrayFromJson($obj)
+    {
+        if (is_null($obj)) {
+            $obj = [];
+        } else {
+            $obj = is_array($obj)
+                ? $obj
+                : json_decode($obj, true);
+        }
+
+        return $obj;
+    }
+
+    /**
+     * This method ensures compatibility with the 2.2.x country arrays passed throught the TaxRuleEvent
+     *
+     * In 2.2.x, the TaxRuleEvent::getXXXCountryList() methods returned an array of country IDs. [ country ID, country ID ...].
+     * From 2.3.0-alpha1, these functions are expected to return an array of arrays, each one containing a country ID and
+     * a state ID. [ [ country ID, state ID], [ country ID, state ID], ...].
+     *
+     * This method checks the $obj parameter, and create a 2.3.0-alpha1 compatible return value if $obj is expressed using
+     * the 2.2.x form.
+     *
+     * @param array $obj
+     *
+     * @return array
+     */
+    protected function getArrayFromJson22Compat($obj)
+    {
+        $obj = $this->getArrayFromJson($obj);
+
+        if (isset($obj[0]) && ! is_array($obj[0])) {
+            $objEx = [];
+            foreach ($obj as $item) {
+                $objEx[] = [$item, 0];
+            }
+
+            return $objEx;
+        }
+
+        return $obj;
     }
 
     /**

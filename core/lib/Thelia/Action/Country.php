@@ -12,10 +12,12 @@
 
 namespace Thelia\Action;
 
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Thelia\Core\Event\Country\CountryCreateEvent;
 use Thelia\Core\Event\Country\CountryDeleteEvent;
 use Thelia\Core\Event\Country\CountryToggleDefaultEvent;
+use Thelia\Core\Event\Country\CountryToggleVisibilityEvent;
 use Thelia\Core\Event\Country\CountryUpdateEvent;
 use Thelia\Core\Event\TheliaEvents;
 use Thelia\Model\Country as CountryModel;
@@ -33,9 +35,11 @@ class Country extends BaseAction implements EventSubscriberInterface
         $country = new CountryModel();
 
         $country
+            ->setVisible($event->isVisible())
             ->setIsocode($event->getIsocode())
             ->setIsoalpha2($event->getIsoAlpha2())
             ->setIsoalpha3($event->getIsoAlpha3())
+            ->setHasStates($event->isHasStates())
             ->setLocale($event->getLocale())
             ->setTitle($event->getTitle())
             ->save();
@@ -47,9 +51,13 @@ class Country extends BaseAction implements EventSubscriberInterface
     {
         if (null !== $country = CountryQuery::create()->findPk($event->getCountryId())) {
             $country
+                ->setVisible($event->isVisible())
                 ->setIsocode($event->getIsocode())
                 ->setIsoalpha2($event->getIsoAlpha2())
                 ->setIsoalpha3($event->getIsoAlpha3())
+                ->setHasStates($event->isHasStates())
+                ->setNeedZipCode($event->isNeedZipCode())
+                ->setZipCodeFormat($event->getZipCodeFormat())
                 ->setLocale($event->getLocale())
                 ->setTitle($event->getTitle())
                 ->setChapo($event->getChapo())
@@ -79,24 +87,26 @@ class Country extends BaseAction implements EventSubscriberInterface
     }
 
     /**
-     * Returns an array of event names this subscriber wants to listen to.
+     * Toggle Country visibility
      *
-     * The array keys are event names and the value can be:
-     *
-     *  * The method name to call (priority defaults to 0)
-     *  * An array composed of the method name to call and the priority
-     *  * An array of arrays composed of the method names to call and respective
-     *    priorities, or 0 if unset
-     *
-     * For instance:
-     *
-     *  * array('eventName' => 'methodName')
-     *  * array('eventName' => array('methodName', $priority))
-     *  * array('eventName' => array(array('methodName1', $priority), array('methodName2'))
-     *
-     * @return array The event names to listen to
-     *
-     * @api
+     * @param CountryToggleVisibilityEvent $event
+     * @param $eventName
+     * @param EventDispatcherInterface $dispatcher
+     */
+    public function toggleVisibility(CountryToggleVisibilityEvent $event, $eventName, EventDispatcherInterface $dispatcher)
+    {
+        $country = $event->getCountry();
+
+        $country
+            ->setDispatcher($dispatcher)
+            ->setVisible(!$country->getVisible())
+            ->save();
+
+        $event->setCountry($country);
+    }
+
+    /**
+     * {@inheritdoc}
      */
     public static function getSubscribedEvents()
     {
@@ -104,7 +114,8 @@ class Country extends BaseAction implements EventSubscriberInterface
             TheliaEvents::COUNTRY_CREATE            => array('create', 128),
             TheliaEvents::COUNTRY_UPDATE            => array('update', 128),
             TheliaEvents::COUNTRY_DELETE            => array('delete', 128),
-            TheliaEvents::COUNTRY_TOGGLE_DEFAULT    => array('toggleDefault', 128)
+            TheliaEvents::COUNTRY_TOGGLE_DEFAULT    => array('toggleDefault', 128),
+            TheliaEvents::COUNTRY_TOGGLE_VISIBILITY => array('toggleVisibility', 128)
         );
     }
 }

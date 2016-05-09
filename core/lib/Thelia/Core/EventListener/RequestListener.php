@@ -12,13 +12,15 @@
 
 namespace Thelia\Core\EventListener;
 
+use Propel\Runtime\ActiveQuery\Criteria;
 use Propel\Runtime\ActiveQuery\ModelCriteria;
-use Symfony\Component\EventDispatcher\EventDispatcher;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\ParameterBag;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\HttpKernel\Event\PostResponseEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
+use Thelia\Core\Event\Currency\CurrencyChangeEvent;
 use Thelia\Core\Event\Customer\CustomerLoginEvent;
 use Thelia\Core\Event\TheliaEvents;
 use Thelia\Core\HttpFoundation\JsonResponse;
@@ -31,6 +33,8 @@ use Thelia\Core\Security\User\UserInterface;
 use Thelia\Core\Translation\Translator;
 use Thelia\Model\AdminLog;
 use Thelia\Model\ConfigQuery;
+use Thelia\Model\Currency;
+use Thelia\Model\CurrencyQuery;
 use Thelia\Model\Lang;
 use Thelia\Model\LangQuery;
 use Thelia\Tools\RememberMeTrait;
@@ -44,19 +48,16 @@ class RequestListener implements EventSubscriberInterface
 {
     use RememberMeTrait;
 
-    /**
-     * @var \Thelia\Core\Translation\Translator
-     */
+    /** @var EventDispatcherInterface */
+    protected $eventDispatcher;
+
+    /** @var \Thelia\Core\Translation\Translator */
     private $translator;
 
-    /**
-     *
-     * @param Translator $translator
-     *
-     */
-    public function __construct(Translator $translator)
+    public function __construct(Translator $translator, EventDispatcherInterface $eventDispatcher)
     {
         $this->translator = $translator;
+        $this->eventDispatcher = $eventDispatcher;
     }
 
     public function registerValidatorTranslator(GetResponseEvent $event)
@@ -93,7 +94,7 @@ class RequestListener implements EventSubscriberInterface
 
         if (null === $session->getCustomerUser()) {
             // Check customer remember me token
-            $this->getRememberMeCustomer($request, $session, $event->getDispatcher());
+            $this->getRememberMeCustomer($request, $session, $this->eventDispatcher);
         }
 
         // Check admin remember me token
@@ -131,12 +132,13 @@ class RequestListener implements EventSubscriberInterface
     }
 
     /**
-     * @param $request
-     * @param $session
+     * @param Request $request
+     * @param Session $session
+     * @param EventDispatcherInterface $dispatcher
      *
      * @return array
      */
-    protected function getRememberMeCustomer(Request $request, Session $session, EventDispatcher $dispatcher)
+    protected function getRememberMeCustomer(Request $request, Session $session, EventDispatcherInterface $dispatcher)
     {
         // try to get the remember me cookie
         $cookieCustomerName = ConfigQuery::read('customer_remember_me_cookie_name', 'crmcn');
@@ -261,13 +263,34 @@ class RequestListener implements EventSubscriberInterface
         }
     }
 
+    public function checkCurrency(GetResponseEvent $event)
+    {
+        /** @var Request $request */
+        $request = $event->getRequest();
+
+        if ($request->query->has("currency")) {
+            if (null !== $find = CurrencyQuery::create()
+                    ->filterById($request->getSession()->getCurrency(true)->getId(), Criteria::NOT_EQUAL)
+                    ->filterByCode($request->query->get("currency"))
+                    ->findOne()
+            ) {
+                $request->getSession()->setCurrency($find);
+                $this->eventDispatcher->dispatch(TheliaEvents::CHANGE_DEFAULT_CURRENCY, new CurrencyChangeEvent($find, $request));
+            }
+        } else {
+            $request->getSession()->setCurrency(Currency::getDefaultCurrency());
+        }
+    }
+
     /**
-     * @inheritdoc
+     * {@inheritdoc}
+     * api
      */
     public static function getSubscribedEvents()
     {
         return [
             KernelEvents::REQUEST => [
+                ['checkCurrency', 256],
                 ["registerValidatorTranslator", 128],
                 ["rememberMeLoader", 128],
                 ['jsonBody', 128]

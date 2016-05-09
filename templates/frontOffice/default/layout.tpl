@@ -52,6 +52,19 @@ web : http://www.hausfabrik.at
     {stylesheets file='assets/dist/css/thelia.min.css'}
         <link rel="stylesheet" href="{$asset_url}">
     {/stylesheets}
+    {*
+     If you want to generate the CSS assets on the fly, just replace the stylesheet inclusion above by the following.
+     Then, in your back-office, go to Configuration -> System Variables and set process_assets to 1.
+     Now, when you're accessing the front office in developpement mode (index_dev.php)  the CSS is recompiled when a
+     change in the source files is detected.
+
+     See http://doc.thelia.net/en/documentation/templates/assets.html#activate-automatic-assets-generation for details.
+
+    {stylesheets file='assets/src/less/thelia.less' filters='less'}
+        <link rel="stylesheet" href="{$asset_url}">
+    {/stylesheets}
+
+    *}
 
     {hook name="main.stylesheet"}
 
@@ -69,7 +82,7 @@ web : http://www.hausfabrik.at
 
     {* HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries *}
     <!--[if lt IE 9]>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7/html5shiv.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.js"></script>
     {javascripts file="assets/dist/js/vendors/html5shiv.min.js"}
         <script>window.html5 || document.write('<script src="{$asset_url}"><\/script>');</script>
     {/javascripts}
@@ -80,10 +93,10 @@ web : http://www.hausfabrik.at
     {/javascripts}
     <![endif]-->
    <script src="{javascript file='assets/dist/js/vendors/modernizr.custom.js'}"></script>
-
+   
     {hook name="main.head-bottom"}
 </head>
-<body class="{block name='body-class'}{/block}" itemscope itemtype="http://schema.org/WebPage">
+<body class="{block name="body-class"}{/block}" itemscope itemtype="http://schema.org/WebPage">
     {hook name="main.body-top"}
 
     <!-- Accessibility -->
@@ -93,7 +106,7 @@ web : http://www.hausfabrik.at
 
         <div class="header-container" itemscope itemtype="http://schema.org/WPHeader">
             {hook name="main.header-top"}
-            <div class="navbar  navbar-default navbar-secondary" itemscope itemtype="http://schema.org/SiteNavigationElement">
+            <div class="navbar navbar-default navbar-secondary" itemscope itemtype="http://schema.org/SiteNavigationElement">
                 <div class="container">
 
                     <div class="navbar-header">
@@ -115,9 +128,8 @@ web : http://www.hausfabrik.at
                     {/ifhook}
                 </div>
             </div>
-
-
-            <header class="container" role="banner">
+			
+			<header class="container" role="banner">
                 <h1 class="logo  hidden-xs col-sm-4" >
                         <a href="{navigate to="index"}" title="{$store_name}">
                             <img src="{image file='assets/dist/img/logo.png'}" alt="{$store_name}">
@@ -139,13 +151,13 @@ web : http://www.hausfabrik.at
                 </div>
                 <div style="clear:both"></div>
                 <div class="header row">
-                   
-                    
-                   
+
                     
                     {hook name="main.navbar-primary"}
                 </div>
             </header><!-- /.header -->
+			
+			
 
             {hook name="main.header-bottom"}
         </div><!-- /.header-container -->
@@ -154,19 +166,7 @@ web : http://www.hausfabrik.at
             <div class="container">
                 {hook name="main.content-top"}
                 {block name="breadcrumb"}{include file="misc/breadcrumb.tpl"}{/block}
-                <div id="content">{block name="main-content"}{/block}
-                    
-                    
-                    
-              
- 
-                   
-
-      
-		
-                    
-                    
-                </div>
+                <div id="content">{block name="main-content"}{/block}</div>
                 {hook name="main.content-bottom"}
             </div><!-- /.container -->
         </main><!-- /.main-container -->
@@ -217,27 +217,8 @@ Die Standardlieferung dauert bis 3 Arbeitstage."}</small></div>
                 </section><!-- /.footer-banner -->
             {/elsehook}
 
-            {*ifhook rel="main.footer-body"}
-                <section class="footer-block">
-                    <div class="container">
-                        <div class="blocks row">
-                            {hookblock name="main.footer-body"  fields="id,class,title,content"}
-                            {forhook rel="main.footer-body"}
-                                <div class="col col-sm-3">
-                                    <section {if $id} id="{$id}"{/if} class="block {if $class} block-{$class}{/if}">
-                                        <div class="block-heading"><h3 class="block-title">{$title}</h3></div>
-                                        <div class="block-content">
-                                            {$content nofilter}
-                                        </div>
-                                    </section>
-                                </div>
-                            {/forhook}
-                            {/hookblock}
-                        </div>
-                    </div>
-                </section>
-            {/ifhook*}
 
+            
             {ifhook rel="main.footer-bottom"}
                 <footer class="footer-info" role="contentinfo">
                     <div class="container">
@@ -276,15 +257,15 @@ Die Standardlieferung dauert bis 3 Arbeitstage."}</small></div>
         </section><!-- /.footer-container -->
 
     </div><!-- /.page -->
-    
-    <div class="sehrgut"><img src={image file='assets/dist/img/sehrgut.png'}></div>
+	
+	<div class="sehrgut"><img src={image file='assets/dist/img/sehrgut.png'}></div>
 
     {block name="before-javascript-include"}{/block}
     <!-- JavaScript -->
 
     <!-- Jquery -->
     <!--[if lt IE 9]><script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script> <![endif]-->
-    <!--[if (gte IE 9)|!(IE)]><!--><script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script><!--<![endif]-->
+    <!--[if (gte IE 9)|!(IE)]><!--><script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script><!--<![endif]-->
     {javascripts file="assets/dist/js/vendors/jquery.min.js"}
         <script>window.jQuery || document.write('<script src="{$asset_url}"><\/script>');</script>
     {/javascripts}
@@ -295,7 +276,7 @@ Die Standardlieferung dauert bis 3 Arbeitstage."}</small></div>
         <script src="//ajax.aspnetcdn.com/ajax/jquery.validate/1.13.1/localization/messages_{$lang_code}.js"></script>
     {/if}
 
-    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
     {javascripts file="assets/dist/js/vendors/bootstrap.min.js"}
         <script>if(typeof($.fn.modal) === 'undefined') { document.write('<script src="{$asset_url}"><\/script>'); }</script>
     {/javascripts}
@@ -319,7 +300,6 @@ Die Standardlieferung dauert bis 3 Arbeitstage."}</small></div>
 
     <!-- Custom scripts -->
     <script src="{javascript file='assets/dist/js/thelia.min.js'}"></script>
-  
 
     {hook name="main.body-bottom"}
 </body>

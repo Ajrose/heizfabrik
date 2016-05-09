@@ -21,6 +21,9 @@ namespace Thelia\Form\Definition;
 final class AdminForm
 {
     const ADMIN_LOGIN = 'thelia.admin.login';
+    const ADMIN_LOST_PASSWORD = 'thelia.admin.lostpassword';
+    const ADMIN_CREATE_PASSWORD = 'thelia.admin.createpassword';
+
     const SEO = 'thelia.admin.seo';
 
     const CUSTOMER_CREATE = 'thelia.admin.customer.create';
@@ -114,6 +117,9 @@ final class AdminForm
 
     const COUNTRY_CREATION = 'thelia.admin.country.creation';
     const COUNTRY_MODIFICATION = 'thelia.admin.country.modification';
+
+    const STATE_CREATION = 'thelia.admin.state.creation';
+    const STATE_MODIFICATION = 'thelia.admin.state.modification';
 
     const AREA_CREATE = 'thelia.admin.area.create';
     const AREA_MODIFICATION = 'thelia.admin.area.modification';
