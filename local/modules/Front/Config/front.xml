@@ -164,7 +164,7 @@
     </route>
     <!-- end cart routes -->
 	
-		<!-- konfigurator routes -->
+	<!-- konfigurator routes -->
 	
 	<route id="konfigurator.suggestions" path="/konfigurator/suggestions">
         <default key="_controller">Front\Controller\KonfiguratorController::suggestionsAction</default>
@@ -179,6 +179,12 @@
     </route>
 	
 	<!-- end konfigurator routes -->
+	
+	<!-- klimakonfigurator routes -->
+	
+	
+	
+	<!-- end klimakonfigurator routes -->
 	
 	<!-- homepage routes -->
 	

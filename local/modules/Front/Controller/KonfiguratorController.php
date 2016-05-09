@@ -26,7 +26,6 @@ class KonfiguratorController extends BaseFrontController {
 		if ($request->isXmlHttpRequest ()) {
 			$view = $request->get ( 'ajax-view', "includes/konfigurator-suggestions" );
 			$request->attributes->set ( '_view', $view );
-			//$request->attributes->set ( 'category_id', 13 );
 		}
 		else 
 		{	

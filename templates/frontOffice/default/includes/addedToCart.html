@@ -29,9 +29,8 @@
                         <div class="special-price"><span class="price">{format_money number=$TAXED_PROMO_PRICE}</span></div>
                         <small class="old-price"> <span class="price">{format_money number=$TAXED_PRICE}</span></small>
                     {else}
-                    {assign "services_price" {$smarty.get.price}}
-                    {if isset($services_price)}
-                    	{assign "real_price" $services_price}
+                    {if $smarty.get.price}
+                    	{assign "real_price" $smarty.get.price}
                     {else}
                         {assign "real_price" $TAXED_PRICE}
                     {/if}

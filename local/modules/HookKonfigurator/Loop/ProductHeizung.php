@@ -606,6 +606,14 @@ class ProductHeizung extends BaseI18nLoop implements PropelSearchLoopInterface, 
 		->condition ( 'power_larger_then', 'power >= ?', $waermebedarf - 1, \PDO::PARAM_INT )
 		->condition ( 'power_smaller_then', 'power <= ?', $waermebedarf + 1, \PDO::PARAM_INT )
 		->where ( array ('power_larger_then','power_smaller_then' ), Criteria::LOGICAL_AND ); // power_condition
+		
+		//$visible = $this->getVisible();
+		
+		//if ($visible !== Type\BooleanOrBothType::ANY) {
+			$search->filterByVisible(1);
+		//}
+		
+		
 /*
 		$servicesJoin = new Join();
 		$servicesJoin->addExplicitCondition ( ProductTableMap::TABLE_NAME, 'ID', null, ProductHeizungMontageTableMap::TABLE_NAME, 'PRODUCT_HEIZUNG_ID', 'hzm' );

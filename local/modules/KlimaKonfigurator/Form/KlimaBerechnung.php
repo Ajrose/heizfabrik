@@ -10,15 +10,15 @@
 /*      file that was distributed with this source code.                             */
 /*************************************************************************************/
 
-namespace HookKonfigurator\Form;
+namespace KlimaKonfigurator\Form;
 
-use HookKonfigurator\HookKonfigurator;
+use KlimaKonfigurator\KlimaKonfigurator;
 use Symfony\Component\Validator\Constraints;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Thelia\Core\Translation\Translator;
 use Thelia\Form\BaseForm;
 
-class HeizlastBerechnung extends BaseForm
+class KlimaBerechnung extends BaseForm
 {
     protected function buildForm()
     {
@@ -26,7 +26,7 @@ class HeizlastBerechnung extends BaseForm
          ->add("brennstoff_momentan", "choice", array(
          		"choices" => array (
          				1 => Translator::getInstance()->trans("Erdgas"),
-         				2 => Translator::getInstance()->trans("Erdoel"),
+         				2 => Translator::getInstance()->trans("Erdöl"),
          				3 => Translator::getInstance()->trans("Flussiggas"),
          				4 => Translator::getInstance()->trans("Sonstiges")
          		),
@@ -39,7 +39,7 @@ class HeizlastBerechnung extends BaseForm
          ->add("brennstoff_zukunft", "choice", array(
          		"choices" => array (
          				1 => Translator::getInstance()->trans("Erdgas"),
-         				2 => Translator::getInstance()->trans("Erdoel"),
+         				2 => Translator::getInstance()->trans("Erdöl"),
          				3 => Translator::getInstance()->trans("Flussiggas"),
          				4 => Translator::getInstance()->trans("Sonstiges")
          		),
@@ -92,7 +92,7 @@ class HeizlastBerechnung extends BaseForm
 						1 => Translator::getInstance()->trans("Frei"),
 						2 => Translator::getInstance()->trans("Normal")
 				),
-				"label" => Translator::getInstance()->trans("Lage des gebaeudes"),
+				"label" => Translator::getInstance()->trans("Lage des gebÃ¤udes"),
 				"label_attr" => array(
                     "for" => "lage_des_gebaeudes",
                 ),
@@ -103,7 +103,7 @@ class HeizlastBerechnung extends BaseForm
 						1 => Translator::getInstance()->trans("Windstark"),
 						2 => Translator::getInstance()->trans("Windschwach")
 				),
-				"label" => Translator::getInstance()->trans("Windlage des Gebaudes"),
+				"label" => Translator::getInstance()->trans("Windlage des GebÃ¤udes"),
 				"label_attr" => array(
                     "for" => "windlage_des_gebaudes",
                 ),
@@ -216,6 +216,6 @@ class HeizlastBerechnung extends BaseForm
 
     public function getName()
     {
-        return "konfigurator";
+        return "klimakonfigurator";
     }
 }

@@ -1,11 +1,11 @@
 {extends file="layout.tpl"}
 
 {* Body Class *}
-{block name="body-class"}page-konfigurator{/block}
+{block name="body-class"}page-klimakonfigurator{/block}
 
 {* Breadcrumb *}
 {block name='no-return-functions' append}
-    {$breadcrumbs = [['title' => {intl l="Configurator" d="hookkonfigurator.fo.default"}, 'url'=>{url path="/konfigurator"}]]}
+    {$breadcrumbs = [['title' => {intl l="Klima Konfigurator" d="klimakonfigurator.fo.default"}, 'url'=>{url path="/klimakonfigurator"}]]}
 {/block}
 
 {block name="main-content"}
@@ -31,7 +31,7 @@
                 {hook name="konfigurator.form-top"}
 					<ol class="fs-fields">
 						<li>
-							<h3>Brennstoff w√§hlen</h3>
+							<h3>Brennstoff w‰hlen</h3>
                             <div><label class="fs-field-label fs-anim-upper" for="q1">Womit heizen Sie momentan?</label></div>
 							<!--input class="fs-anim-lower" id="q1" name="q1" type="text" placeholder="Dean Moriarty" required/-->
                             <div class="fs-radio-group fs-radio-custom clearfix fs-anim-lower">
@@ -76,11 +76,11 @@
 						</li>
                         
 						<li>
-                            <h3 class="fs-anim-upper">Geb√§ude und Bewohner</h3>
+                            <h3 class="fs-anim-upper">Geb‰ude und Bewohner</h3>
 							<div class="row">
 								<div class="col-md-6">
                             		<div> 
-                           				<label class="fs-field-label-sm fs-anim-upper" for="q3" >Um was f√ºr ein Objekt handelt es sich?</label><br>
+                           				<label class="fs-field-label-sm fs-anim-upper" for="q3" >Um was f¸r ein Objekt handelt es sich?</label><br>
                                  
                            				{form_field field="gebaeudeart"} 
 											<select name="{$name}" id="{$label_attr.for}{$choice->value}" class="fs-anim-lower">
@@ -111,7 +111,7 @@
                                 	</div>
                                 	
                             		<div>
-                                		<label class="fs-field-label-sm fs-anim-upper" for="q6">Wie gro√ü ist die Heizfl√§che?</label>
+                                		<label class="fs-field-label-sm fs-anim-upper" for="q6">Wie groﬂ ist die Heizfl‰che?</label>
                             			{form_field field="flaeche"}
                                     		<span class="help-block">{$message}</span>
                                     		<input type="text" style="width:30%;" placeholder="110" class="fs-anim-upper" name="{$name}" id="{$label_attr.for}" value="{$value}" class="form-control input-sm" maxlength="50" {$attr} {if $required}aria-required="true" required{/if}{if !$value || $error} autofocus{/if}>
@@ -130,8 +130,8 @@
                         
                         
 						<li>
-                            <h3 class="fs-anim-upper">Aktueller W√§rmeschutz</h3>
-								<label class="fs-field-label-sm fs-anim-upper" for="q7" >Ist eine W√§rmed√§mmung vorhanden?</label>
+                            <h3 class="fs-anim-upper">Aktueller W‰rmeschutz</h3>
+								<label class="fs-field-label-sm fs-anim-upper" for="q7" >Ist eine W‰rmed‰mmung vorhanden?</label>
                             	{form_field field="waermedaemmung"}
 									<div class="fs-radio-group fs-radio-normal clearfix fs-anim-lower">
                                 	{foreach $choices as $choice}
@@ -149,7 +149,7 @@
 									</div>
                             	{/form_field}
                             
-                            <label class="fs-field-label-sm fs-anim-upper" for="q9" >Wie gro√ü sind die Fenster Fl√§che?</label>
+                            <label class="fs-field-label-sm fs-anim-upper" for="q9" >Wie groﬂ sind die Fenster Fl‰che?</label>
                            	{form_field field="verglaste_flaeche"}
 							<div class="fs-radio-group fs-radio-normal clearfix fs-anim-lower">
                                 {foreach $choices as $choice}
@@ -158,7 +158,7 @@
 							</div>
                             {/form_field}
                             
-                            <label class="fs-field-label-sm fs-anim-upper" for="q9" >Ist das Dach gedaÃàmmt?</label>
+                            <label class="fs-field-label-sm fs-anim-upper" for="q9" >Ist das Dach geda®mmt?</label>
 							<div class="fs-radio-group fs-radio-normal clearfix fs-anim-lower">
 								<span><input id="q9b" name="q9" type="radio" value="conversion"/><label for="q9b" class="radio-conversion fs-field-label-sm">Ja</label></span>
 								<span><input id="q9c" name="q9" type="radio" value="social"/><label for="q9c" class="radio-social fs-field-label-sm">Nein</label></span>
@@ -167,7 +167,7 @@
                         
                         <li>
                             <h3 class="fs-anim-upper">LAGE</h3>
-							<label class="fs-field-label-sm fs-anim-upper" for="q10" >Lage des Geb√§udes</label>
+							<label class="fs-field-label-sm fs-anim-upper" for="q10" >Lage des Geb‰udes</label>
                             {form_field field="lage_des_gebaeudes"}
 							<div class="fs-radio-group fs-radio-normal clearfix fs-anim-lower">
                                 {foreach $choices as $choice}
@@ -176,7 +176,7 @@
                             </div>
                             {/form_field}
                                 
-                            <label class="fs-field-label-sm fs-anim-upper" for="q11" >Windlage des Geb√§udes?</label>
+                            <label class="fs-field-label-sm fs-anim-upper" for="q11" >Windlage des Geb‰udes?</label>
                             {form_field field="windlage_des_gebaudes"}
 							<div class="fs-radio-group fs-radio-normal clearfix fs-anim-lower">
                                 {foreach $choices as $choice}
@@ -185,7 +185,7 @@
 							</div>
                             {/form_field}
                             
-                            <label class="fs-field-label-sm fs-anim-upper" for="q12" >Lage des R√§umes?</label>
+                            <label class="fs-field-label-sm fs-anim-upper" for="q12" >Lage des R‰umes?</label>
                            	{form_field field="lage_des_raumes"}
 							<div class="fs-radio-group fs-radio-normal clearfix fs-anim-lower">
                                 {foreach $choices as $choice}
@@ -194,7 +194,7 @@
 							</div>
                             {/form_field}
                             
-                            <label class="fs-field-label-sm fs-anim-upper" for="q12" >Wie viel ist die Anzahl der Au√üenw√§nde</label>
+                            <label class="fs-field-label-sm fs-anim-upper" for="q12" >Wie viel ist die Anzahl der Auﬂenw‰nde</label>
                            {form_field field="anzahl_aussenwaende"}
 							<div class="fs-radio-group fs-radio-normal clearfix fs-anim-lower">
                                 {foreach $choices as $choice}
@@ -215,7 +215,7 @@
 							</div>
                             {/form_field}
                                 
-                            <label class="fs-field-label-sm fs-anim-upper" for="q14" >Wie viel ist die Au√üentemperatur?</label>
+                            <label class="fs-field-label-sm fs-anim-upper" for="q14" >Wie viel ist die Auﬂentemperatur?</label>
 							{form_field field="aussentemperatur"}
 							<div class="fs-radio-group fs-radio-normal clearfix fs-anim-lower">
                                 {foreach $choices as $choice}
@@ -277,7 +277,7 @@ $('body').on('submit', '.form-horizontal', function (e) {
 	.done(function (data, textStatus, request) {
 		$waermebedarf = request.getResponseHeader('waermebedarf');
 		if($waermebedarf != null) 
-			$('#waermebedarf').text("W√§rmebedarf ist: "+$waermebedarf+"KW");
+			$('#waermebedarf').text("W‰rmebedarf ist: "+$waermebedarf+"KW");
 	   
 		$("#category-products").empty().append(data);
 	})
