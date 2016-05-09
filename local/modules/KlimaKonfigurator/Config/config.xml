@@ -29,13 +29,13 @@
     <hooks>
         <hook id="klimakonfigurator.hook.front" class="KlimaKonfigurator\Hook\Front" scope="request">
 			<tag name="hook.event_listener" event="main.head-bottom" />
-            <tag name="hook.event_listener" event="main.navbar-primary" />
+            
         </hook>
     </hooks>
 
     <!--
     <exports>
-
+<tag name="hook.event_listener" event="main.navbar-primary" />
     </exports>
     -->
 
