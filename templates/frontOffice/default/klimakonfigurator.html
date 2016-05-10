@@ -35,13 +35,13 @@
                             <div><label class="fs-field-label-sm fs-anim-upper" for="q6">Grundfläche des Räumes</label></div>
                             
                             {form_field field="grundflaeche"}
-							<input class="fs-anim-lower" id="q4" name="q4" type="number" placeholder="30" step="1" min="1" max="60" style="width:80%; float:left"/>
+							<input class="fs-anim-lower"  name="{$name}" id="{$label_attr.for}" value="{$value}" type="number" placeholder="30" step="1" min="1" max="60" style="width:80%; float:left"/>
                             {/form_field}
                             <div style="float:left; padding:10px" class="fs-anim-lower">m2</div>
                             <div style="clear:both"></div>
                             <div><label class="fs-field-label-sm fs-anim-upper" for="q6">Raumhöhe</label></div>
                             {form_field field="raumhoehe"}
-							<input class="fs-anim-lower" id="q4" name="q4" type="number" placeholder="3" step="1" min="1" max="60" style="width:80%; float:left"/>
+							<input class="fs-anim-lower"  name="{$name}" id="{$label_attr.for}" value="{$value}" type="number" placeholder="3" step="1" min="1" max="60" style="width:80%; float:left"/>
                             {/form_field}
                             <div style="float:left; padding:10px" class="fs-anim-lower">m</div>
                             
@@ -50,7 +50,7 @@
                         <li>
 							<h3 class="fs-anim-upper">Fenster (mit Innenjalousie) der Sonne ausgesetzt</h3>
                             {form_field field="fenster"}
-                            <input class="fs-anim-lower" id="q4" name="q4" type="number" placeholder="3" step="1" min="1" max="60" style="width:80%; float:left"/>
+                            <input class="fs-anim-lower"  name="{$name}" id="{$label_attr.for}" value="{$value}" type="number" placeholder="3" step="1" min="1" max="60" style="width:80%; float:left"/>
                             {/form_field}
                             <div style="float:left; padding:10px"  class="fs-anim-lower">m</div>
 						</li>
@@ -75,7 +75,7 @@
 								<label class="fs-field-label-sm fs-anim-upper" for="q7" >Wie viele Personen halten sich dauerhaft im Raum auf</label>
                             	{form_field field="personen"}
                             
-				                <input class="fs-anim-lower" id="q4" name="q4" type="number" placeholder="1" step="1" min="1" max="8" />
+				                <input class="fs-anim-lower"  name="{$name}" id="{$label_attr.for}" value="{$value}" type="number" placeholder="1" step="1" min="1" max="8" />
                             	{/form_field}
                         
 						</li>
@@ -86,7 +86,7 @@
                             {form_field field="lage_des_gebaeudes"}
 							<div class="fs-radio-group fs-radio-normal clearfix fs-anim-lower">
                                 {form_field field="zusaetzliche-waerme"}
-                                <input class="fs-anim-lower" id="q4" name="q4" type="number"  />
+                                <input class="fs-anim-lower"  name="{$name}" id="{$label_attr.for}" value="{$value}" type="number"  />
                                 {/form_field}
                             </div>
                             {/form_field}
@@ -99,7 +99,7 @@
                            
 							<div><label class="fs-field-label-sm fs-anim-upper" for="q6">Innenteil für Raum:	</label></div>
                             {form_field field="wegstrecke"}
-							<input class="fs-anim-lower" id="q4" name="q4" type="number" placeholder="3" step="1" min="1" max="60" style="width:30%; float:left"/>
+							<input class="fs-anim-lower"  name="{$name}" id="{$label_attr.for}" value="{$value}" type="number" placeholder="3" step="1" min="1" max="60" style="width:30%; float:left"/>
                             
                              {/form_field}
                             <div style="float:left; padding:10px" class="fs-anim-lower">m2</div>
