@@ -20,9 +20,9 @@
 			</div>
               
           
-        {hook name="konfigurator.top"}
-            {form name="konfigurator.heizlast.berechnung"}
-				<form id="form-konfigurator" class="form-horizontal fs-form fs-form-full " action="{url path="/konfigurator/suggestions"}" method="post" autocomplete="off">
+        
+            {form name="konfigurator.klima.berechnung"}
+				<form id="form-konfigurator" class="form-horizontal fs-form fs-form-full " action="{url path="/konfigurator/suggestions"}" method="post" autocomplete="off" style="height:auto">
                 {form_field field='error_message'}
                 	<input type="hidden" name="{$name}" value="{intl l="missing or invalid data"}" />
                 {/form_field} 
@@ -31,202 +31,125 @@
                 {hook name="konfigurator.form-top"}
 					<ol class="fs-fields">
 						<li>
-							<h3>Brennstoff w√§hlen</h3>
-                            <div><label class="fs-field-label fs-anim-upper" for="q1">Womit heizen Sie momentan?</label></div>
-							<!--input class="fs-anim-lower" id="q1" name="q1" type="text" placeholder="Dean Moriarty" required/-->
-                            <div class="fs-radio-group fs-radio-custom clearfix fs-anim-lower">
+							<h3 class="fs-anim-upper">Grundfl√§che und Raumh√∂he</h3>
+                            <div><label class="fs-field-label-sm fs-anim-upper" for="q6">Grundfl√§che des R√§umes</label></div>
                             
-								<span><input id="q1b" name="q1" type="radio" value="1"/><label for="q1b" class="radio-conversion">Erdgas</label></span>
-								<span><input id="q1c" name="q1" type="radio" value="2"/><label for="q1c" class="radio-social">Erd√∂l</label></span>
-								<span><input id="q1a" name="q1" type="radio" value="3"/><label for="q1a" class="radio-mobile">Fl√ºssiggas</label></span>
-                                <span><input id="q1d" name="q1" type="radio" value="4"/><label for="q1d" class="radio-sonstiges">Sonstiges</label></span>
-							
-							            {form_field field="brennstoff_momentan"} 
-											<select name="{$name}" id="{$label_attr.for}{$choice->value}" class="fs-anim-lower">
-
-                              					{foreach $choices as $choice}
-                            						<option value="{$choice->value}"{if $value === {$choice->value}} checked{/if}>{$choice->label}</option>
-							 					{/foreach}
-	
-                            				</select>
-                                  		{/form_field}
-							
-							</div>
+                            {form_field field="grundflaeche"}
+							<input class="fs-anim-lower" id="q4" name="q4" type="number" placeholder="30" step="1" min="1" max="60" style="width:80%; float:left"/>
+                            {/form_field}
+                            <div style="float:left; padding:10px" class="fs-anim-lower">m2</div>
+                            <div style="clear:both"></div>
+                            <div><label class="fs-field-label-sm fs-anim-upper" for="q6">Raumh√∂he</label></div>
+                            {form_field field="raumhoehe"}
+							<input class="fs-anim-lower" id="q4" name="q4" type="number" placeholder="3" step="1" min="1" max="60" style="width:80%; float:left"/>
+                            {/form_field}
+                            <div style="float:left; padding:10px" class="fs-anim-lower">m</div>
+                            
 						</li>
                         
                         <li>
-							<h3>Brennstoff w√§hlen</h3>
-                            <div><label class="fs-field-label fs-anim-upper" for="q2">Womit werden Sie in der Zukunft heizen?</label></div>
-                            <div class="fs-radio-group fs-radio-custom clearfix fs-anim-lower">
-								<span><input id="q2b" name="q2" type="radio" value="conversion"/><label for="q2b" class="radio-conversion">Erdgas</label></span>
-								<span><input id="q2c" name="q2" type="radio" value="social"/><label for="q2c" class="radio-social">Erd√∂l</label></span>
-								<span><input id="q1a" name="q1" type="radio" value="mobile"/><label for="q2a" class="radio-mobile">Fl√ºssiggas</label></span>
-                                <span><input id="q1d" name="q1" type="radio" value="sonstiges"/><label for="q2d" class="radio-sonstiges">Sonstiges</label></span>
-                                
-                             			{form_field field="brennstoff_zukunft"} 
-											<select name="{$name}" id="{$label_attr.for}{$choice->value}" class="fs-anim-lower">
-
-                              					{foreach $choices as $choice}
-                            						<option value="{$choice->value}"{if $value === {$choice->value}} checked{/if}>{$choice->label}</option>
-							 					{/foreach}
-	
-                            				</select>
-                                  		{/form_field}
-							</div>  
+							<h3 class="fs-anim-upper">Fenster (mit Innenjalousie) der Sonne ausgesetzt</h3>
+                            {form_field field="fenster"}
+                            <input class="fs-anim-lower" id="q4" name="q4" type="number" placeholder="3" step="1" min="1" max="60" style="width:80%; float:left"/>
+                            {/form_field}
+                            <div style="float:left; padding:10px"  class="fs-anim-lower">m</div>
 						</li>
                         
 						<li>
-                            <h3 class="fs-anim-upper">Geb‰ude und Bewohner</h3>
-							<div class="row">
-								<div class="col-md-6">
-                            		<div> 
-                           				<label class="fs-field-label-sm fs-anim-upper" for="q3" >Um was f¸r ein Objekt handelt es sich?</label><br>
-                                 
-                           				{form_field field="gebaeudeart"} 
-											<select name="{$name}" id="{$label_attr.for}{$choice->value}" class="fs-anim-lower">
-                              					{foreach $choices as $choice}
-                            						<option value="{$choice->value}"{if $value === {$choice->value}} checked{/if}>{$choice->label}</option>
-							 					{/foreach}
-                            				</select>
-                                  		{/form_field}
-                               		</div> 
-									
-									<div>
-										<label class="fs-field-label-sm fs-anim-upper" for="q4" >Wie viele Personen leben in Ihrem Objekt?</label>
-                          					<input class="fs-anim-lower" id="q4" name="q4" type="number" placeholder="3" step="1" min="1" style="width:20%"/>
-                            		</div>
-                            	</div>
-                            	
-                            	<div class="col-md-6">
-                                	<div>
-                            			<label class="fs-field-label-sm fs-anim-upper" for="q5" >Wann wurde das Haus gebaut?</label>
-                                		<br>
-                            			{form_field field="baujahr"}
+                            <h3 class="fs-anim-upper">Lage der Zimmer - Decke</h3>
+							<div class="fs-radio-group fs-radio-normal clearfix fs-anim-lower">
+								
+								
+                                    {form_field field="decke"}
+                                    {foreach $choices as $choice}
+										<span><input id="{$label_attr.for}{$choice->value}" name="{$name}" type="radio" value="{$choice->value}"{if $value === {$choice->value}} checked{/if}><label for="q8b" class="radio-conversion fs-field-label-sm">{$choice->label}</label></span>
+								 	{/foreach}
+                                     {/form_field}
+                                    
+							</div> 
+						</li>
+                        
+                        
+						<li>
+                            <h3 class="fs-anim-upper">Anzahl der Personen</h3>
+								<label class="fs-field-label-sm fs-anim-upper" for="q7" >Wie viele Personen halten sich dauerhaft im Raum auf</label>
+                            	{form_field field="personen"}
+                            
+				                <input class="fs-anim-lower" id="q4" name="q4" type="number" placeholder="1" step="1" min="1" max="8" />
+                            	{/form_field}
+                        
+						</li>
+                        
+                        <li>
+                            <h3 class="fs-anim-upper">Zus√§tzliche W√§rme-Verursacher im Raum</h3>
+							<label class="fs-field-label-sm fs-anim-upper" for="q10" >Anschlusswert in Watt von elektrischen Ger√§ten und der Beleuchtung (TV, PC, K√ºhlschrank, Lampen etc.)</label>
+                            {form_field field="lage_des_gebaeudes"}
+							<div class="fs-radio-group fs-radio-normal clearfix fs-anim-lower">
+                                {form_field field="zusaetzliche-waerme"}
+                                <input class="fs-anim-lower" id="q4" name="q4" type="number"  />
+                                {/form_field}
+                            </div>
+                            {/form_field}
+  
+						</li>
+                        
+						<li>
+							<h3 class="fs-anim-upper">Wegstrecke vom Innenteil zum Au√üenteil</h3>
+							<label class="fs-field-label-sm fs-anim-upper" for="q13" >Bitte geben Sie die Wegstrecke vom Innenteil zum m√∂glichen Standort des Au√üenteils in Meter an.</label>
+                           
+							<div><label class="fs-field-label-sm fs-anim-upper" for="q6">Innenteil f√ºr Raum:	</label></div>
+                            {form_field field="wegstrecke"}
+							<input class="fs-anim-lower" id="q4" name="q4" type="number" placeholder="3" step="1" min="1" max="60" style="width:30%; float:left"/>
+                            
+                             {/form_field}
+                            <div style="float:left; padding:10px" class="fs-anim-lower">m2</div>
+                           
+                            
+                            <div style="float:right">
+                            <label class="fs-field-label-sm fs-anim-upper" for="q14" > Kondensatablauf mit</label>
+							{form_field field="kondensatablauf"}
+							<div class="fs-radio-group fs-radio-normal clearfix fs-anim-lower">
+                               
+								{foreach $choices as $choice}
+										<span><input id="{$label_attr.for}{$choice->value}" name="{$name}" type="radio" value="{$choice->value}"{if $value === {$choice->value}} checked{/if}><label for="q8b" class="radio-conversion fs-field-label-sm">{$choice->label}</label></span>
+								{/foreach}
+								
+							</div>
+                                
+                            {/form_field}
+                            </div>
+                            <div style="clear:both"></div>
+                            <label class="fs-field-label-sm fs-anim-upper" for="q14" > Montage des Au√üenteils:</label>
+				           <div class="fs-radio-group fs-radio-normal clearfix fs-anim-lower">
+							{form_field field="montage-aussenteil"}
 											<select name="{$name}" id="{$label_attr.for}{$choice->value}" class="fs-anim-lower">
                             				{foreach $choices as $choice}
                              					<option value="{$choice->value}"{if $value === {$choice->value}} checked{/if}>{$choice->label}</option>
                            					{/foreach}
                             				</select>
-                            			{/form_field}
-                                	</div>
-                                	
-                            		<div>
-                                		<label class="fs-field-label-sm fs-anim-upper" for="q6">Wie groﬂ ist die Heizfl‰che?</label>
-                            			{form_field field="flaeche"}
-                                    		<span class="help-block">{$message}</span>
-                                    		<input type="text" style="width:30%;" placeholder="110" class="fs-anim-upper" name="{$name}" id="{$label_attr.for}" value="{$value}" class="form-control input-sm" maxlength="50" {$attr} {if $required}aria-required="true" required{/if}{if !$value || $error} autofocus{/if}>
-											{if $error}
-												{assign var="error_focus" value="true"}
-											{elseif !$value}
-												{assign var="error_focus" value="true"}
-											{/if} 
-                            			{/form_field}    
-                            		</div>
-                            	</div>
                             
-							</div>
-                            
-						</li>
-                        
-                        
-						<li>
-                            <h3 class="fs-anim-upper">Aktueller W‰rmeschutz</h3>
-								<label class="fs-field-label-sm fs-anim-upper" for="q7" >Ist eine W‰rmed‰mmung vorhanden?</label>
-                            	{form_field field="waermedaemmung"}
-									<div class="fs-radio-group fs-radio-normal clearfix fs-anim-lower">
-                                	{foreach $choices as $choice}
-                                		<span><input id="{$label_attr.for}{$choice->value}" name="{$name}" type="radio" value="{$choice->value}"{if $value === {$choice->value}} checked{/if}><label for="q7b" class="radio-conversion fs-field-label-sm">{$choice->label}</label></span>
-                                	{/foreach}
-                            		</div>
-                            	{/form_field}
-                                
-                                <label class="fs-field-label-sm fs-anim-upper" for="q8" >Wie sind die Fenster verglast?</label>
-                            	{form_field field="fenster"}
-									<div class="fs-radio-group fs-radio-normal clearfix fs-anim-lower">
-                                	{foreach $choices as $choice}
-										<span><input id="{$label_attr.for}{$choice->value}" name="{$name}" type="radio" value="{$choice->value}"{if $value === {$choice->value}} checked{/if}><label for="q8b" class="radio-conversion fs-field-label-sm">{$choice->label}</label></span>
-								 	{/foreach}
-									</div>
-                            	{/form_field}
-                            
-                            <label class="fs-field-label-sm fs-anim-upper" for="q9" >Wie groﬂ sind die Fenster Fl‰che?</label>
-                           	{form_field field="verglaste_flaeche"}
-							<div class="fs-radio-group fs-radio-normal clearfix fs-anim-lower">
-                                {foreach $choices as $choice}
-									<span><input id="{$label_attr.for}{$choice->value}" name="{$name}" type="radio" value="{$choice->value}"{if $value === {$choice->value}} checked{/if}><label for="q9b" class="radio-conversion fs-field-label-sm">{$choice->label}</label></span>
-								{/foreach}	
-							</div>
                             {/form_field}
-                            
-                            <label class="fs-field-label-sm fs-anim-upper" for="q9" >Ist das Dach geda®mmt?</label>
-							<div class="fs-radio-group fs-radio-normal clearfix fs-anim-lower">
-								<span><input id="q9b" name="q9" type="radio" value="conversion"/><label for="q9b" class="radio-conversion fs-field-label-sm">Ja</label></span>
-								<span><input id="q9c" name="q9" type="radio" value="social"/><label for="q9c" class="radio-social fs-field-label-sm">Nein</label></span>
-							</div> 
-						</li>
-                        
-                        <li>
-                            <h3 class="fs-anim-upper">LAGE</h3>
-							<label class="fs-field-label-sm fs-anim-upper" for="q10" >Lage des Geb‰udes</label>
-                            {form_field field="lage_des_gebaeudes"}
-							<div class="fs-radio-group fs-radio-normal clearfix fs-anim-lower">
-                                {foreach $choices as $choice}
-                                	<span><input id="{$label_attr.for}{$choice->value}" name="{$name}" type="radio" value="{$choice->value}"{if $value === {$choice->value}} checked{/if}><label for="q10b" class="radio-conversion fs-field-label-sm">{$choice->label}</label></span>
-                                {/foreach}
                             </div>
-                            {/form_field}
-                                
-                            <label class="fs-field-label-sm fs-anim-upper" for="q11" >Windlage des Geb‰udes?</label>
-                            {form_field field="windlage_des_gebaudes"}
+                            
+                                                      
+                            <label class="fs-field-label-sm fs-anim-upper" for="q14" > Stromanschluss Au√üenteil:</label>
+							{form_field field="stromanschluss"}
 							<div class="fs-radio-group fs-radio-normal clearfix fs-anim-lower">
-                                {foreach $choices as $choice}
-									<span><input id="{$label_attr.for}{$choice->value}" name="{$name}" type="radio" value="{$choice->value}"{if $value === {$choice->value}} checked{/if}><label for="q11b" class="radio-conversion fs-field-label-sm">{$choice->label}</label></span>
-								{/foreach}
+                               
+								<select name="{$name}" id="{$label_attr.for}{$choice->value}" class="fs-anim-lower">
+                            				{foreach $choices as $choice}
+                             					<option value="{$choice->value}"{if $value === {$choice->value}} checked{/if}>{$choice->label}</option>
+                           					{/foreach}
+                            				</select>
+                               
+								
 							</div>
                             {/form_field}
                             
-                            <label class="fs-field-label-sm fs-anim-upper" for="q12" >Lage des R‰umes?</label>
-                           	{form_field field="lage_des_raumes"}
-							<div class="fs-radio-group fs-radio-normal clearfix fs-anim-lower">
-                                {foreach $choices as $choice}
-								<span><input id="{$label_attr.for}{$choice->value}" name="{$name}" type="radio" value="{$choice->value}"{if $value === {$choice->value}} checked{/if}><label for="q11b" class="radio-conversion fs-field-label-sm">{$choice->label}</label></span>
-								{/foreach}
-							</div>
-                            {/form_field}
-                            
-                            <label class="fs-field-label-sm fs-anim-upper" for="q12" >Wie viel ist die Anzahl der Auﬂenw‰nde</label>
-                           {form_field field="anzahl_aussenwaende"}
-							<div class="fs-radio-group fs-radio-normal clearfix fs-anim-lower">
-                                {foreach $choices as $choice}
-								<span><input id="{$label_attr.for}{$choice->value}" name="{$name}" type="radio" value="{$choice->value}"{if $value === {$choice->value}} checked{/if}><label for="q12b" class="radio-conversion fs-field-label-sm">{$choice->label}</label></span>
-								 {/foreach}
-							</div>
-                            {/form_field} 
-						</li>
-                        
-						<li>
-							<h3 class="fs-anim-upper">Temperatur</h3>
-							<label class="fs-field-label-sm fs-anim-upper" for="q13" >Wie viel ist die Wohnraum Temperatur?</label>
-                            {form_field field="wohnraumtemperatur"}
-							<div class="fs-radio-group fs-radio-normal clearfix fs-anim-lower">
-                                {foreach $choices as $choice}
-								<span><input id="{$label_attr.for}{$choice->value}" name="{$name}" type="radio" value="{$choice->value}"{if $value === {$choice->value}} checked{/if}><label for="q13b" class="radio-conversion fs-field-label-sm">{$choice->label}</label></span>
-								{/foreach}
-							</div>
-                            {/form_field}
-                                
-                            <label class="fs-field-label-sm fs-anim-upper" for="q14" >Wie viel ist die Auﬂentemperatur?</label>
-							{form_field field="aussentemperatur"}
-							<div class="fs-radio-group fs-radio-normal clearfix fs-anim-lower">
-                                {foreach $choices as $choice}
-									<span><input id="{$label_attr.for}{$choice->value}" name="{$name}" type="radio" value="{$choice->value}"{if $value === {$choice->value}} checked{/if}><label for="q14b" class="radio-conversion fs-field-label-sm">{$choice->label}</label></span>
-								{/foreach}
-							</div>
-                            {/form_field}
 						</li>
 				
                        	<li>
-							<label class="fs-field-label fs-anim-upper" for="q15">Anmerkungen zu Ihrer Heizung</label>
+							<label class="fs-field-label fs-anim-upper" for="q15">Anmerkungen </label>
 							<textarea class="fs-anim-lower" id="q15" name="q15" placeholder="Describe here"></textarea>
 						</li>
 						
@@ -277,7 +200,7 @@ $('body').on('submit', '.form-horizontal', function (e) {
 	.done(function (data, textStatus, request) {
 		$waermebedarf = request.getResponseHeader('waermebedarf');
 		if($waermebedarf != null) 
-			$('#waermebedarf').text("W‰rmebedarf ist: "+$waermebedarf+"KW");
+			$('#waermebedarf').text("W√§rmebedarf ist: "+$waermebedarf+"KW");
 	   
 		$("#category-products").empty().append(data);
 	})

@@ -11,7 +11,7 @@
     </loops>
 
     <forms>
-        <form name="konfigurator.klima.berechnung" class="klimaKonfigurator\Form\KlimaBerechnung" />
+        <form name="konfigurator.klima.berechnung" class="KlimaKonfigurator\Form\KlimaBerechnung" />
     </forms>
 
     <commands>

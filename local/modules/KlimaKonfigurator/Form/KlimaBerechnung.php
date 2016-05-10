@@ -23,37 +23,83 @@ class KlimaBerechnung extends BaseForm
     protected function buildForm()
     {
          $formBuilder = $this->formBuilder
-         ->add("brennstoff_momentan", "choice", array(
-         		"choices" => array (
-         				1 => Translator::getInstance()->trans("Erdgas"),
-         				2 => Translator::getInstance()->trans("Erd�l"),
-         				3 => Translator::getInstance()->trans("Flussiggas"),
-         				4 => Translator::getInstance()->trans("Sonstiges")
-         		),
-         		"label" => Translator::getInstance()->trans("brennstoff_momentan"),
-         		"label_attr" => array(
-         				"for" => "brennstoff_momentan",
-         		),
-         		"data" => 1
-         ))
-         ->add("brennstoff_zukunft", "choice", array(
-         		"choices" => array (
-         				1 => Translator::getInstance()->trans("Erdgas"),
-         				2 => Translator::getInstance()->trans("Erd�l"),
-         				3 => Translator::getInstance()->trans("Flussiggas"),
-         				4 => Translator::getInstance()->trans("Sonstiges")
-         		),
-         		"label" => Translator::getInstance()->trans("brennstoff_zukunft"),
-         		"label_attr" => array(
-         				"for" => "brennstoff_zukunft",
-         		),
-         		"data" => 1
-         ))
-		->add("gebaeudeart", "choice", array(
+             
+     		->add("grundflaeche", "integer", array(
+				"label" => Translator::getInstance()->trans("FlÃ¤che"),
+				"label_attr" => array(
+						"for" => "flaeche"
+				),
+				"data" => 110
+		))
+             
+            ->add("raumhoehe", "integer", array(
+				"label" => Translator::getInstance()->trans("FlÃ¤che"),
+				"label_attr" => array(
+						"for" => "flaeche"
+				),
+				"data" => 110
+		))
+            ->add("fenster", "integer", array(
+				"label" => Translator::getInstance()->trans("FlÃ¤che"),
+				"label_attr" => array(
+						"for" => "flaeche"
+				),
+				"data" => 110
+		))
+             
+        ->add("decke", "choice", array(
 				"choices" => array (
-						1 => Translator::getInstance()->trans("Einzelhaus"),
-						2 => Translator::getInstance()->trans("Reihenhaus"),
-						3 => Translator::getInstance()->trans("Mehrfamilienhaus")
+						1 => Translator::getInstance()->trans("Nicht klimatisierter Raum"),
+						2 => Translator::getInstance()->trans("Dachboden"),
+                        3 => Translator::getInstance()->trans("Isoliertes Flachdach")
+				),
+				"label" => Translator::getInstance()->trans("dach_daemmung"),
+				"label_attr" => array(
+						"for" => "dach_daemmung",
+				),
+				"data" => 1
+		))
+             
+         ->add("personen", "integer", array(
+				"label" => Translator::getInstance()->trans("FlÃ¤che"),
+				"label_attr" => array(
+						"for" => "flaeche"
+				),
+				"data" => 110
+		))
+             
+        ->add("zusaetzliche-waerme", "integer", array(
+				"label" => Translator::getInstance()->trans("FlÃ¤che"),
+				"label_attr" => array(
+						"for" => "flaeche"
+				),
+				"data" => 110
+		))
+         ->add("wegstrecke", "integer", array(
+				"label" => Translator::getInstance()->trans("FlÃ¤che"),
+				"label_attr" => array(
+						"for" => "flaeche"
+				),
+				"data" => 110
+		))
+         ->add("kondensatablauf", "choice", array(
+				"choices" => array (
+						1 => Translator::getInstance()->trans("Gefälle"),
+						2 => Translator::getInstance()->trans("Pumpe")
+				),
+				"label" => Translator::getInstance()->trans("dach_daemmung"),
+				"label_attr" => array(
+						"for" => "dach_daemmung",
+				),
+				"data" => 1
+		))      
+ 
+		->add("montage-aussenteil", "choice", array(
+				"choices" => array (
+						1 => Translator::getInstance()->trans("Wandmontage mittels Konsole"),
+						2 => Translator::getInstance()->trans("Bodenmontage mittels Standfuß"),
+						3 => Translator::getInstance()->trans("Bodenmontagekonsole aus Gummi kurz"),
+                        4 => Translator::getInstance()->trans("Bodenmontagekonsole aus Gummi lang"),
 				),
 				"label" => Translator::getInstance()->trans("gebaeudeart"),
 				"label_attr" => array(
@@ -61,11 +107,11 @@ class KlimaBerechnung extends BaseForm
                 ),
 				"data" => 1
 		))
-		->add("baujahr", "choice", array(
+		->add("stromanschluss", "choice", array(
 				"choices" => array (
-						1 => Translator::getInstance()->trans("Bis 1960"),
-						2 => Translator::getInstance()->trans("1966-1977"),
-						3 => Translator::getInstance()->trans("Ab 1978")
+						1 => Translator::getInstance()->trans("Stromanschluss ist Bauseits vorhanden"),
+						2 => Translator::getInstance()->trans("Stromanschluss ist herzustellen")
+						
 				),
 				"label" => Translator::getInstance()->trans("Baujahr"),
 				"label_attr" => array(
@@ -80,19 +126,13 @@ class KlimaBerechnung extends BaseForm
 				),
 				"data" => 3
 		))
-		->add("flaeche", "integer", array(
-				"label" => Translator::getInstance()->trans("Fläche"),
-				"label_attr" => array(
-						"for" => "flaeche"
-				),
-				"data" => 110
-		))
+
 		->add("lage_des_gebaeudes", "choice", array(
 				"choices" => array (
 						1 => Translator::getInstance()->trans("Frei"),
 						2 => Translator::getInstance()->trans("Normal")
 				),
-				"label" => Translator::getInstance()->trans("Lage des gebäudes"),
+				"label" => Translator::getInstance()->trans("Lage des gebÃ¤udes"),
 				"label_attr" => array(
                     "for" => "lage_des_gebaeudes",
                 ),
@@ -103,7 +143,7 @@ class KlimaBerechnung extends BaseForm
 						1 => Translator::getInstance()->trans("Windstark"),
 						2 => Translator::getInstance()->trans("Windschwach")
 				),
-				"label" => Translator::getInstance()->trans("Windlage des Gebäudes"),
+				"label" => Translator::getInstance()->trans("Windlage des GebÃ¤udes"),
 				"label_attr" => array(
                     "for" => "windlage_des_gebaudes",
                 ),
@@ -115,7 +155,7 @@ class KlimaBerechnung extends BaseForm
 						2 => Translator::getInstance()->trans("2 Etagen"),
 						3 => Translator::getInstance()->trans("3-4 Etagen")
 				),
-				"label" => Translator::getInstance()->trans("Lage des Räumes"),
+				"label" => Translator::getInstance()->trans("Lage des RÃ¤umes"),
 				"label_attr" => array(
                     "for" => "lage_des_raumes",
                 ),
@@ -127,7 +167,7 @@ class KlimaBerechnung extends BaseForm
 						2 => Translator::getInstance()->trans("2 Waende"),
 						3 => Translator::getInstance()->trans("1 Wand")
 				),
-				"label" => Translator::getInstance()->trans("Anzahl Außenwände"),
+				"label" => Translator::getInstance()->trans("Anzahl AuÃŸenwÃ¤nde"),
 				"label_attr" => array(
                     "for" => "anzahl_aussenwaende",
                 ),
@@ -151,23 +191,13 @@ class KlimaBerechnung extends BaseForm
 						2 => Translator::getInstance()->trans("Mittel"),
 						3 => Translator::getInstance()->trans("Klein")
 				),
-				"label" => Translator::getInstance()->trans("Verglaste Fläche"),
+				"label" => Translator::getInstance()->trans("Verglaste FlÃ¤che"),
 				"label_attr" => array(
                     "for" => "verglaste_flaeche",
                 ),
 				"data" => 1
 		))
-		->add("dach_daemmung", "choice", array(
-				"choices" => array (
-						1 => Translator::getInstance()->trans("Ja"),
-						2 => Translator::getInstance()->trans("Nein")
-				),
-				"label" => Translator::getInstance()->trans("dach_daemmung"),
-				"label_attr" => array(
-						"for" => "dach_daemmung",
-				),
-				"data" => 1
-		))
+	
 		->add("wohnraumtemperatur", "choice", array(
 				"choices" => array (
 						1 => Translator::getInstance()->trans("22"),
@@ -186,7 +216,7 @@ class KlimaBerechnung extends BaseForm
 						2 => Translator::getInstance()->trans("-14C/-12C"),
 						3 => Translator::getInstance()->trans("-10C")
 				),
-				"label" => Translator::getInstance()->trans("Außentemperatur"),
+				"label" => Translator::getInstance()->trans("AuÃŸentemperatur"),
 				"label_attr" => array(
                     "for" => "aussentemperatur"
                 ),
@@ -198,7 +228,7 @@ class KlimaBerechnung extends BaseForm
 						2 => Translator::getInstance()->trans("Teilweise"),
 						3 => Translator::getInstance()->trans("Erhoeht")
 				),
-				"label" => Translator::getInstance()->trans("Wärmedämung"),
+				"label" => Translator::getInstance()->trans("WÃ¤rmedÃ¤mung"),
 				"label_attr" => array(
                     "for" => "waermedaemmung"
                 ),
