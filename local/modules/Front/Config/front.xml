@@ -182,7 +182,9 @@
 	
 	<!-- klimakonfigurator routes -->
 	
-	
+	<route id="klimakonfigurator.suggestions" path="/klimakonfigurator/suggestions">
+        <default key="_controller">Front\Controller\KlimaKonfiguratorController::suggestionsAction</default>
+    </route>	
 	
 	<!-- end klimakonfigurator routes -->
 	

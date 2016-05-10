@@ -13,6 +13,12 @@ class Front extends BaseHook{
         $event->add($content);
 		}
 
+	public function onKlimaKonfiguratorSuggestions(HookRenderEvent $event)
+	{
+		$content = $this->render('klimakonfigurator-suggestions.html');
+		$event->add($content);
+	}
+
     public function onMainNavbarPrimary(HookRenderEvent $event)
     {
     	$content = $this->render('main-navbar-primary.html');

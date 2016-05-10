@@ -29,6 +29,7 @@
     <hooks>
         <hook id="klimakonfigurator.hook.front" class="KlimaKonfigurator\Hook\Front" scope="request">
 			<tag name="hook.event_listener" event="main.head-bottom" />
+
             
         </hook>
     </hooks>
