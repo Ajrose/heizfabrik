@@ -27,7 +27,7 @@ class KlimaBerechnung extends BaseForm
      		->add("grundflaeche", "integer", array(
 				"label" => Translator::getInstance()->trans("FlÃ¤che"),
 				"label_attr" => array(
-						"for" => "flaeche"
+						"for" => "grundflaeche"
 				),
 				"data" => 110
 		))
@@ -35,14 +35,14 @@ class KlimaBerechnung extends BaseForm
             ->add("raumhoehe", "integer", array(
 				"label" => Translator::getInstance()->trans("FlÃ¤che"),
 				"label_attr" => array(
-						"for" => "flaeche"
+						"for" => "raumhoehe"
 				),
 				"data" => 3
 		))
             ->add("fenster", "integer", array(
 				"label" => Translator::getInstance()->trans("FlÃ¤che"),
 				"label_attr" => array(
-						"for" => "flaeche"
+						"for" => "fenster"
 				),
 				"data" => 2
 		))

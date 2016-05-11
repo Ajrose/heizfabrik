@@ -22,7 +22,7 @@
           
         
             {form name="konfigurator.klima.berechnung"}
-				<form id="form-konfigurator" class="form-horizontal fs-form fs-form-full " action="{url path="/konfigurator/suggestions"}" method="post" autocomplete="off" style="height:auto">
+				<form id="form-konfigurator" class="form-horizontal fs-form fs-form-full " action="{url path="/konfigurator/suggestions"}" method="post" autocomplete="off" style="height:auto" >
                 {form_field field='error_message'}
                 	<input type="hidden" name="{$name}" value="{intl l="missing or invalid data"}" />
                 {/form_field} 
@@ -35,8 +35,8 @@
                             <div><label class="fs-field-label-sm fs-anim-upper" for="q6">Grundfläche des Räumes</label></div>
                             
                             {form_field field="grundflaeche"}
-							<input class="fs-anim-lower"  name="{$name}" id="{$label_attr.for}" value="{$value}" type="number" placeholder="30" step="1" min="1" max="60" style="width:80%; float:left"/>
-                            {/form_field}
+							<input class="fs-anim-lower"   name="{$name}" id="{$label_attr.for}" value="{$value}" type="number"  placeholder="30" step="1" min="1"  style="width:80%; float:left"/>
+                             {/form_field}
                             <div style="float:left; padding:10px" class="fs-anim-lower">m2</div>
                             <div style="clear:both"></div>
                             <div><label class="fs-field-label-sm fs-anim-upper" for="q6">Raumhöhe</label></div>
@@ -83,13 +83,13 @@
                         <li>
                             <h3 class="fs-anim-upper">Zusätzliche Wärme-Verursacher im Raum</h3>
 							<label class="fs-field-label-sm fs-anim-upper" for="q10" >Anschlusswert in Watt von elektrischen Geräten und der Beleuchtung (TV, PC, Kühlschrank, Lampen etc.)</label>
-                            {form_field field="lage_des_gebaeudes"}
+                           
 							<div class="fs-radio-group fs-radio-normal clearfix fs-anim-lower">
                                 {form_field field="zusaetzliche-waerme"}
                                 <input class="fs-anim-lower"  name="{$name}" id="{$label_attr.for}" value="{$value}" type="number"  />
                                 {/form_field}
                             </div>
-                            {/form_field}
+                            
   
 						</li>
                         
@@ -190,7 +190,9 @@
  <script src="{javascript file='assets/dist/js/vendors/fullscreenForm.js'}"></script>
  
 <script>
-$('body').on('submit', '.form-horizontal', function (e) {
+
+    $( ".form-horizontal" ).submit(function( e ) {
+    alert("ani");
 	e.preventDefault();
 	$.ajax({
 		type: $(this).attr('method'),
