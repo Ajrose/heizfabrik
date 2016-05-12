@@ -13,8 +13,8 @@
 namespace KlimaKonfigurator\Form;
 
 use KlimaKonfigurator\KlimaKonfigurator;
-use Symfony\Component\Validator\Constraints;
-use Symfony\Component\Validator\Constraints\NotBlank;
+//use Symfony\Component\Validator\Constraints;
+//use Symfony\Component\Validator\Constraints\NotBlank;
 use Thelia\Core\Translation\Translator;
 use Thelia\Form\BaseForm;
 
@@ -33,14 +33,14 @@ class KlimaBerechnung extends BaseForm
 		))
              
             ->add("raumhoehe", "integer", array(
-				"label" => Translator::getInstance()->trans("FlÃ¤che"),
+				"label" => Translator::getInstance()->trans("Raumhoehe"),
 				"label_attr" => array(
 						"for" => "raumhoehe"
 				),
 				"data" => 3
 		))
             ->add("fenster", "integer", array(
-				"label" => Translator::getInstance()->trans("FlÃ¤che"),
+				"label" => Translator::getInstance()->trans("Fenster"),
 				"label_attr" => array(
 						"for" => "fenster"
 				),
@@ -53,9 +53,9 @@ class KlimaBerechnung extends BaseForm
 						2 => Translator::getInstance()->trans("Dachboden"),
                         3 => Translator::getInstance()->trans("Isoliertes Flachdach")
 				),
-				"label" => Translator::getInstance()->trans("dach_daemmung"),
+				"label" => Translator::getInstance()->trans("Decke"),
 				"label_attr" => array(
-						"for" => "dach_daemmung",
+						"for" => "decke",
 				),
 				"data" => 1
 		))
@@ -63,22 +63,22 @@ class KlimaBerechnung extends BaseForm
          ->add("personen", "integer", array(
 				"label" => Translator::getInstance()->trans("FlÃ¤che"),
 				"label_attr" => array(
-						"for" => "flaeche"
+						"for" => "personen"
 				),
 				"data" => 1
 		))
              
-        ->add("zusaetzliche-waerme", "integer", array(
+        ->add("zusaetzliche_waerme", "integer", array(
 				"label" => Translator::getInstance()->trans("FlÃ¤che"),
 				"label_attr" => array(
-						"for" => "flaeche"
+						"for" => "zusaetzliche_waerme"
 				),
 				"data" => 200
 		))
          ->add("wegstrecke", "integer", array(
 				"label" => Translator::getInstance()->trans("FlÃ¤che"),
 				"label_attr" => array(
-						"for" => "flaeche"
+						"for" => "wegstrecke"
 				),
 				"data" => 2
 		))
@@ -120,23 +120,6 @@ class KlimaBerechnung extends BaseForm
 				"data" => 1
 		))
 
-
-		->add("lage_des_gebaeudes", "choice", array(
-				"choices" => array (
-						1 => Translator::getInstance()->trans("Frei"),
-						2 => Translator::getInstance()->trans("Normal")
-				),
-				"label" => Translator::getInstance()->trans("Lage des gebÃ¤udes"),
-				"label_attr" => array(
-                    "for" => "lage_des_gebaeudes",
-                ),
-				"data" => 1
-		))
-
-	
-
-
-		
 		->add("anmerkungen", "text", array(
 		"label" => Translator::getInstance()->trans("anmerkungen"),
 		"label_attr" => array(

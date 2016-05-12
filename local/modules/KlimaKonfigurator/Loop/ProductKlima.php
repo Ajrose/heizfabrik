@@ -12,7 +12,7 @@
 /**
  * **********************************************************************************
  */
-namespace HookKonfigurator\Loop;
+namespace KlimaKonfigurator\Loop;
 
 use Propel\Runtime\ActiveQuery\Criteria;
 use Thelia\Core\Template\Element\BaseI18nLoop;
@@ -35,7 +35,6 @@ use HookKonfigurator\Model\Hfproducts;
 use Thelia\Model\BrandI18nQuery;
 use Thelia\Model\ProductDocument;
 use Thelia\Model\ProductDocumentI18n;
-use HookKonfigurator\Model\ProductHeizung as ModelProductHeizung;
 use Propel\Runtime\ActiveQuery\Join;
 use HookKonfigurator\Model\Map\ProductHeizungTableMap;
 use Thelia\Model\Map\ProductTableMap;
@@ -50,6 +49,7 @@ use Thelia\Model\Map\SaleTableMap;
 use Thelia\Model\Map\ProductSaleElementsTableMap;
 use Thelia\Model\Map\ProductPriceTableMap;
 use Thelia\Model\CurrencyQuery;
+use KlimaKonfigurator\Model\KlimaKonfiguratorEinstellungen;
 
 /**
  *
@@ -60,7 +60,7 @@ use Thelia\Model\CurrencyQuery;
  * @package HookKonfigurator\Loop
  * @author Emanuel Plopu <emanuel.plopu@sepa.at>
  */
-class ProductHeizung extends BaseI18nLoop implements PropelSearchLoopInterface, SearchLoopInterface {
+class ProductKlima extends BaseI18nLoop implements PropelSearchLoopInterface, SearchLoopInterface {
 	protected $timestampable = true;
 	protected $versionable = true;
 	
@@ -548,28 +548,19 @@ class ProductHeizung extends BaseI18nLoop implements PropelSearchLoopInterface, 
 		//debug
 		
 		// there has to be some better way to convert request parameters into an entity
+		
 		$request = $this->request;
-		$konfigurator = new Konfiguratoreinstellung ();
+		$konfigurator = new KlimaKonfiguratorEinstellungen();
 		$konfigurator->populateKonfiguratorFromRequest ( $request );
-		//$konfigurator->calculateWaermebedarf ();
-		$waermebedarf = $konfigurator->calculateWaermebedarf () / 1000;
-		header ( 'waermebedarf:' . $waermebedarf );
+		$klimabedarf = $konfigurator->calculateKlimaBedarf ()/1000;
+		header ( 'klimabedarf:' . $klimabedarf );
+		
 		
 		$log = Tlog::getInstance ();
-		$log->debug(" building modelCriteria for ".ProductHeizungTableMap::TABLE_NAME." ".$this->request->attributes->get('category_id'));
+		$log->debug(" building modelCriteria for Klima products ".$this->request->attributes->get('category_id'));
 		//$this->request->attributes->get('category_id')
 		$search = ProductQuery::create ();
-		/*
-		//product sale element
-		$currencyId = $this->getCurrency();
-		if (null !== $currencyId) {
-			$currency = CurrencyQuery::create()->findOneById($currencyId);
-			if (null === $currency) {
-				throw new \InvalidArgumentException('Cannot find currency id: `' . $currency . '` in product_sale_elements loop');
-			}
-		} else {
-			$currency = $this->request->getSession()->getCurrency();
-		}*/
+
 		
 		$search->innerJoinProductSaleElements('pse');
 		$search->addJoinCondition('pse', '`pse`.IS_DEFAULT=1');
@@ -581,8 +572,6 @@ class ProductHeizung extends BaseI18nLoop implements PropelSearchLoopInterface, 
 		$search->withColumn('COUNT(`pse_count`.ID)', 'pse_count');
 		
 		$search->groupBy(ProductTableMap::ID);
-		
-		// $log->debug("productsuggestionpower ".$waermebedarf." request ".$request->__toString()." waermebedarf ".$waermebedarf);
 		
 		$heizungJoin = new Join ();
 		$heizungJoin->addExplicitCondition ( ProductTableMap::TABLE_NAME, 'ID', null, ProductHeizungTableMap::TABLE_NAME, 'PRODUCT_ID', 'hz' );
@@ -603,58 +592,8 @@ class ProductHeizung extends BaseI18nLoop implements PropelSearchLoopInterface, 
 		->condition ( 'power_smaller_then', 'power <= ?', $waermebedarf + 1, \PDO::PARAM_INT )
 		->where ( array ('power_larger_then','power_smaller_then' ), Criteria::LOGICAL_AND ); // power_condition
 		
-		//$visible = $this->getVisible();
-		
-		//if ($visible !== Type\BooleanOrBothType::ANY) {
 			$search->filterByVisible(1);
-		//}
-		
-		
-/*
-		$servicesJoin = new Join();
-		$servicesJoin->addExplicitCondition ( ProductTableMap::TABLE_NAME, 'ID', null, ProductHeizungMontageTableMap::TABLE_NAME, 'PRODUCT_HEIZUNG_ID', 'hzm' );
-		$servicesJoin->setJoinType ( Criteria::LEFT_JOIN );
-		
-		$search
-		->addJoinObject ( $servicesJoin, 'HeizungProductMontage' )
-		->withColumn ( '`hzm`.montage_id', 'montage_id' )
-		->condition ( 'same_heizung_id', 'product.id = `hzm`.product_heizung_id' )
-		->setJoinCondition ( 'HeizungProductMontage', 'same_heizung_id' );
-*/
-		/*
-		$priceJoin = new Join();
-		$priceJoin->addExplicitCondition(ProductSaleElementsTableMap::TABLE_NAME, 'ID', 'pse', ProductPriceTableMap::TABLE_NAME, 'PRODUCT_SALE_ELEMENTS_ID', 'price');
-		$priceJoin->setJoinType(Criteria::LEFT_JOIN);
-		
-		$search->addJoinObject($priceJoin, 'price_join')
-		->addJoinCondition('price_join', '`price`.`currency_id` = ?', $currency->getId(), null, \PDO::PARAM_INT);
-		*/
-		
 
-		/*
-		// First join sale_product table...
-		$search
-		->leftJoinSaleProduct('SaleProductPriceDisplay')
-		;
-		
-		// ... then the sale table...
-		$salesJoin = new Join();
-		$salesJoin->addExplicitCondition(
-				'SaleProductPriceDisplay',
-				'SALE_ID',
-				null,
-				SaleTableMap::TABLE_NAME,
-				'ID',
-				'SalePriceDisplay'
-				);
-		$salesJoin->setJoinType(Criteria::LEFT_JOIN);
-		
-		$search
-		->addJoinObject($salesJoin, 'SalePriceDisplay')
-		->addJoinCondition('SalePriceDisplay', '`SalePriceDisplay`.`active` = 1');*/
-		
-		                            // $search->condition('power_interval', '`a`.power >= (?-1) AND `a`.power <= (?+1)',$waermebedarf);
-		                            // $search->setJoinCondition('HeizungProductPower','power_interval');
 		
 		return $search;
 	}

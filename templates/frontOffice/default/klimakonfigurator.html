@@ -22,7 +22,7 @@
           
         
             {form name="konfigurator.klima.berechnung"}
-				<form id="form-konfigurator" class="form-horizontal fs-form fs-form-full " action="{url path="/konfigurator/suggestions"}" method="post" autocomplete="off" style="height:auto" >
+				<form id="form-konfigurator" class="form-horizontal fs-form fs-form-full " action="{url path="/klimakonfigurator/suggestions"}" method="post" autocomplete="off" style="height:auto" >
                 {form_field field='error_message'}
                 	<input type="hidden" name="{$name}" value="{intl l="missing or invalid data"}" />
                 {/form_field} 
@@ -85,7 +85,7 @@
 							<label class="fs-field-label-sm fs-anim-upper" for="q10" >Anschlusswert in Watt von elektrischen Geräten und der Beleuchtung (TV, PC, Kühlschrank, Lampen etc.)</label>
                            
 							<div class="fs-radio-group fs-radio-normal clearfix fs-anim-lower">
-                                {form_field field="zusaetzliche-waerme"}
+                                {form_field field="zusaetzliche_waerme"}
                                 <input class="fs-anim-lower"  name="{$name}" id="{$label_attr.for}" value="{$value}" type="number"  />
                                 {/form_field}
                             </div>
@@ -167,7 +167,7 @@
             
 		<section id="products-new">	
 			<div class="products-heading">  
-            	<div id="waermebedarf"></div>        
+            	<div id="klimabedarf"></div>        
 			</div>
 			<div id="category-products">
             </div><!-- /#category-products -->
@@ -192,7 +192,6 @@
 <script>
 
     $( ".form-horizontal" ).submit(function( e ) {
-    alert("ani");
 	e.preventDefault();
 	$.ajax({
 		type: $(this).attr('method'),
@@ -200,10 +199,9 @@
 		data: $(this).serialize()
 	})
 	.done(function (data, textStatus, request) {
-		$waermebedarf = request.getResponseHeader('waermebedarf');
-		if($waermebedarf != null) 
-			$('#waermebedarf').text("Wärmebedarf ist: "+$waermebedarf+"KW");
-	   
+		$klimabedarf = request.getResponseHeader('klimabedarf');
+		if($klimabedarf != null) 
+			$('#klimabedarf').text("Klimabedarf ist: "+$klimabedarf+"KW");
 		$("#category-products").empty().append(data);
 	})
 	.fail(function (jqXHR, textStatus, errorThrown) {

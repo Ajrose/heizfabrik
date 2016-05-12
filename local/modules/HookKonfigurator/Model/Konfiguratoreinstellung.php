@@ -2,7 +2,7 @@
 namespace  HookKonfigurator\Model;
 
 /**
- * @author eplopu
+ * @author Emanuel Plopu
  *
  */
 class Konfiguratoreinstellung
