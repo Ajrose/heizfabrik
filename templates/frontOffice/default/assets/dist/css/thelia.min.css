@@ -11333,10 +11333,11 @@ button.fs-continue,
 	padding: 0;
 	top: 0;
 	list-style: none;
+
 }
 
 .fs-form-overview ol {
-	max-width: ;
+	
 }
 
 .fs-fields > li {
@@ -11345,6 +11346,7 @@ button.fs-continue,
 	margin: 0;
 	padding: 0;
 	border: none;
+
 }
 
 .fs-fields > li:hover {
@@ -11366,7 +11368,7 @@ button.fs-continue,
 /* Labels & info */
 .fs-fields > li label {
 	position: relative;
-    font-size:1.5em;
+    font-size:1.2em;
 }
 
 .fs-fields > li label.fs-field-label {
@@ -11377,6 +11379,9 @@ button.fs-continue,
 }
 
 .fs-fields > li label.fs-field-label-sm {
+	font-size: 0.7em;
+}
+.fs-fields > li select,.fs-fields > li input {
 	font-size: 0.7em;
 }
 
@@ -11444,7 +11449,7 @@ button.fs-continue,
 	color: #000;
 	text-overflow: ellipsis;
 	font-weight: bold;
-	font-size: 1.5em;
+	//font-size: 1.5em;
 	border-radius: 0;
 }
 

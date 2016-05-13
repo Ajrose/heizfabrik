@@ -1,0 +1,6 @@
+1: ERROR [CustomServicesController.php:sendAction()] {49} 2016-05-13 18:57:55: message : Email test from : 
+1: ERROR [CustomServicesController.php:sendAction()] {49} 2016-05-13 19:01:42: message : Lieber Emanuel, bist du glücklich? :P
+1: ERROR [CustomServicesController.php:sendAction()] {49} 2016-05-13 19:02:40: message : Lieber Emanuel, bist du glücklich? :P
+1: ERROR [CustomServicesController.php:sendAction()] {49} 2016-05-13 19:02:57: message : Lieber Emanuel, bist du glücklich? :P
+1: ERROR [CustomServicesController.php:sendAction()] {49} 2016-05-13 19:03:04: message : Lieber Emanuel, bist du glücklich? :P
+1: ERROR [CustomServicesController.php:sendAction()] {49} 2016-05-13 19:04:33: message : Lieber Emanuel, bist du glücklich? :P

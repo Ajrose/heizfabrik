@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+﻿<?xml version="1.0" encoding="UTF-8" ?>
 
 <routes xmlns="http://symfony.com/schema/routing"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -163,10 +163,6 @@
         <default key="_view">cart</default>
     </route>
     <!-- end cart routes -->
-    
-    <!-- konfigurator routes -->
-    
-    <!-- end cart routes -->
 	
 	<!-- konfigurator routes -->
 	
@@ -265,10 +261,6 @@
     <route id="contact.send" path="/contact" methods="post">
         <default key="_controller">Front\Controller\ContactController::sendAction</default>
         <default key="_view">contact</default>
-    </route>
-     <route id="contact.send" path="/custom-services/sendmail" methods="post">
-        <default key="_controller">Front\Controller\CustomServicesController::sendAction</default>
-        <default key="_view">custom-services</default>
     </route>
 
     <route id="contact.success" path="/contact/success">
