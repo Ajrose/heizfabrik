@@ -29,7 +29,7 @@ use Thelia\Form\Definition\FrontForm;
 use Thelia\Form\Exception\FormValidationException;
 use Thelia\Log\Tlog;
 use Thelia\Model\ConfigQuery;
-
+use Symfony\Component\HttpFoundation\JsonResponse;
 /**
  * Class ContactController
  * @package Thelia\Controller\Front
@@ -43,19 +43,30 @@ class CustomServicesController extends BaseFrontController
     public function sendAction()
     {
         $log = Tlog::getInstance();
-         $contactForm = $this->createForm("custom.services");
-$form = $this->validateForm($contactForm);
+        $contactForm = $this->createForm("custom.services");
+        $form = $this->validateForm($contactForm);
+        $subject = "Individuelle Services Anfrage";
+        $emailTest = "ani.jalavyan@sepa.at";
+        $project_art = $this->getRequest()->get('customservices')['projekt-art'];
+        $marke =  $this->getRequest()->get('customservices')['marke'];
+        $oel_gas =  $this->getRequest()->get('customservices')['oel-gas'];
+        $arbeit_art =  $this->getRequest()->get('customservices')['arbeit-art'];
+        $zugaenglichkeit =  $this->getRequest()->get('customservices')['zugaenglichkeit'];
+        $zeit =  $this->getRequest()->get('customservices')['zeit'];
+        $anmerkungen =  $this->getRequest()->get('customservices')['anmerkungen'];
+     //   $image_upload =  $this->getRequest()->get('customservices')['image_upload'];
 
-       $emailTest = "ani.jalavyan@sepa.at";
-            $message =  $this->request->get('projekt-art');
+        $message = "Welche Art von Projekt haben Sie?:".$project_art."<br>Welche Marke und / oder Modell?:".$marke."<br>Ist Ihr System von Öl oder Gas?".$oel_gas."<br>Welche Art von Arbeit brauchen Sie?".$arbeit_art."<br>Ist Ihr Gerät gut zugänglich?".$zugaenglichkeit."<br>Wann benötigen Sie den Service?".$zeit."<br>Anmerkungen?".$anmerkungen."<br>Bilder?";//.$image_upload;
+      
+        
 $log->error(sprintf('message : %s', $message));
             $htmlMessage = "<p>$message</p>";
-$storeName="Emanuelsstore";
+$storeName="Hausfabrik";
 $contactEmail="ani.jalavyan@sepa.at";
             $instance = \Swift_Message::newInstance()
                 ->addTo($emailTest, $storeName)
                 ->addFrom($contactEmail, $storeName)
-                ->setSubject($message)
+                ->setSubject($subject)
                 ->setBody($message, 'text/plain')
                 ->setBody($htmlMessage, 'text/html')
             ;
@@ -69,7 +80,7 @@ $contactEmail="ani.jalavyan@sepa.at";
             }
 
 
-            return $this->generateRedirectFromRoute('contact.success');
+            return new JsonResponse ();
 
 
 

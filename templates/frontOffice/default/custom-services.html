@@ -13,53 +13,58 @@
             <!--h1 id="main-label" class="page-header">{intl l="Dein Angebot" d="hookkonfigurator.fo.default"}</h1-->
 
 	<div class="container1">
-
+ <form enctype="multipart/form-data" action="{url path="/custom-services/sendmail"}" >
+                <input type="file">
+                <button value="submit">submit</button>
+            </form>
 		<div class="fs-form-wrap" id="fs-form-wrap" style="height:700px">
 			<div class="fs-title">
 				<h1>Individuelle Services</h1>
 			</div>
-              
-
+           
+                    
             {form name="custom.services"}
-				<form id="form-konfigurator" class="form-horizontal fs-form fs-form-full " action="{url path="/custom-services/sendmail"}" method="post" autocomplete="off">
+				<form id="form-customservice" class="form-horizontal fs-form fs-form-full dropzone" id="images-dropzone" action="{url path="/custom-services/sendmail"}" method="post" autocomplete="off" enctype="multipart/form-data">
                 {form_field field='error_message'}
                 	<input type="hidden" name="{$name}" value="{intl l="missing or invalid data"}" />
                 {/form_field} 
                 {form_hidden_fields}
                 {if $form_error}<div class="alert alert-danger">{$form_error_message}</div>{/if}
-                
 					<ol class="fs-fields">
-
-                        
 						<li>
                             <h3 class="fs-anim-upper">Schritt 1</h3>
 							<div class="row">
 
-                                    <div>
+                                <div>
                            				<label class="fs-field-label-sm fs-anim-upper" for="q3">Welche Art von Projekt haben Sie?</label><br>
                                         {form_field field="projekt-art"}
                                          
-											<select class="fs-anim-lower" name="projekt-art" id="projekt-art">
+											<select class="fs-anim-lower" name="{$name}" id="{$label_attr.for}" value="{$value}">
                                                	{foreach $choices as $choice}
                             						<option value="{$choice->value}"{if $value === {$choice->value}} checked{/if}>{$choice->label}</option>
 							 					{/foreach}
                             				</select>
                                         {/form_field}
                                 </div>
+                                
+                            			
+                                
                                 <div id="marke" style="display:none;">
                                 <label class="fs-field-label-sm fs-anim-upper" for="q3">Welche Marke und / oder Modell?</label>
-                                {form_field field="arbeit-art"}
-                                <input type="text">
+                                {form_field field="marke"}
+                                <input type="text" class="fs-anim-upper" name="{$name}" id="{$label_attr.for}" value="{$value}" class="form-control input-sm">
                                 {/form_field} 
                                 </div>
+                                
+                                	
                                 
                                 <div id="oel-gas" style="display:none;">
                                 <label class="fs-field-label-sm fs-anim-upper" for="q7" >Ist Ihr System von Öl oder Gas?</label>
                             	{form_field field="oel-gas"}
-									<div class="fs-radio-group fs-radio-normal clearfix fs-anim-lower">
-                                {foreach $choices as $choice}
-                                	<span><input id="{$label_attr.for}{$choice->value}" name="{$name}" type="radio" value="{$choice->value}"{if $value === {$choice->value}} checked{/if}><label for="q10b" class="radio-conversion fs-field-label-sm">{$choice->label}</label></span>
-                                {/foreach}
+									<div class="fs-radio-group fs-radio-normal clearfix fs-anim-lower">           
+                                    {foreach $choices as $choice}
+                                	   <span><input id="{$label_attr.for}{$choice->value}" name="{$name}" type="radio" value="{$choice->value}"{if $value === {$choice->value}} checked{/if}><label for="q7" class="radio-conversion fs-field-label-sm">{$choice->label}</label></span>
+                                    {/foreach}  
                                     </div>
                             	{/form_field}
                             
@@ -71,9 +76,9 @@
                                 		<br>
                             		      {form_field field="arbeit-art"}
                                          
-											<select class="fs-anim-lower">
+											<select class="fs-anim-lower" name="{$name}" id="{$label_attr.for}" value="{$value}">
                                                	{foreach $choices as $choice}
-                            						<option value="{$choice->value}"{if $value === {$choice->value}} checked{/if}>{$choice->label}</option>
+                            						<option value="{$choice->value}"{if $value === {$choice->value}} selected{/if}>{$choice->label}</option>
 							 					{/foreach}
                             				</select>
                                         {/form_field}
@@ -94,9 +99,9 @@
                             			<label class="fs-field-label-sm fs-anim-upper" for="q5" >Wann benötigen Sie den Service?</label>
                                 <div>
                             			{form_field field="zeit"}
-											<select class="fs-anim-lower">
+											<select class="fs-anim-lower" name="{$name}" id="{$label_attr.for}" value="{$value}">
                                                	{foreach $choices as $choice}
-                            						<option value="{$choice->value}"{if $value === {$choice->value}} checked{/if}>{$choice->label}</option>
+                            						<option value="{$choice->value}"{if $value === {$choice->value}} selected{/if}>{$choice->label}</option>
 							 					{/foreach}
                             				</select>
 	
@@ -111,12 +116,17 @@
 						<li>
                         <h3 class="fs-anim-upper">Schritt 2</h3>
                             <div>
+                                {form_field field="anmerkungen"}
 							<label class="fs-field-label fs-anim-upper" for="q15">Bitte beschreiben Sie Ihr Projekt </label>
-							<textarea class="fs-anim-lower" id="q15" name="q15" placeholder="Describe here"></textarea>
+							<textarea class="fs-anim-lower" name="{$name}" id="{$label_attr.for}" placeholder="Anmerkungen"></textarea>
+                                {/form_field}
                             </div>
                             <div class="fs-anim-upper">
-                              <input type="file" name="img">  
+                            {form_field field="image_upload"}
+                              <input type="file" name="{$name}" id="{$label_attr.for}">  
+                            {/form_field}
                             </div>
+                            
 						</li>
                             
 				
@@ -165,16 +175,16 @@
     $( "#projekt-art" ).change(function() {
     var selection = $(this).val();
     switch(selection){
-    case "2":
-    case "3":
-    case "4":
+    case "Klimaanlage":
+    case "Kessel oder Boiler":
+    case "Elektrische Wandheizung":
     $("#marke").show()
     break;
     default:
     $("#marke").hide() 
     
     break;
-    case "3":
+    case "Kessel oder Boiler":
     $("#oel-gas").show()     
 
 
@@ -182,31 +192,7 @@
     }
 });
     
-$('body').on('submit', '.form-horizontal', function (e) {
-	e.preventDefault();
-	$.ajax({
-		type: $(this).attr('method'),
-		url: $(this).attr('action'),
-		data: $(this).serialize()
-	})
-	.done(function (data, textStatus, request) {
-		$waermebedarf = request.getResponseHeader('waermebedarf');
-		if($waermebedarf != null) 
-			$('#waermebedarf').text("Ihre Anftage ist gesendet");
-	   
-		$("#category-products").empty().append(data);
-	})
-	.fail(function (jqXHR, textStatus, errorThrown) {
-		if (typeof jqXHR.responseJSON !== 'undefined') {
-			if (jqXHR.responseJSON.hasOwnProperty('form')) {
-				$('#form_body').html(jqXHR.responseJSON.form);
-			}
-			$('.form_error').html(jqXHR.responseJSON.message);
-		} else {
-			alert(errorThrown);
-		}
-	});
-});
+
 (function() {
 	var formWrap = document.getElementById( 'fs-form-wrap' );
 
