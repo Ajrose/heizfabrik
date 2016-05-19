@@ -1,0 +1,258 @@
+<li class="item {$colClass|default:col-md} ">
+{if $PSE_COUNT > 1}
+	{assign var="hasSubmit" value = false} 
+{else} 
+	{assign var="hasSubmit" value = true} 
+{/if} 
+{assign var="productTitle" value="{$TITLE}"} 
+{if	not $product_id} 
+	{assign var="product_id" value=$ID} 
+{/if}
+	<article class="row" style="padding-left:15px; margin-bottom:35px;" itemscope itemtype="http://schema.org/Product">
+
+			{hook name="klimaproduct.top" product="{$product_id}"} 
+			
+			
+			<table border="0" cellpadding="1" celspacing="0">	
+				<tbody><tr>
+					<td style="text-align:right;">
+						<a href="{$URL nofilter}" itemprop="url" tabindex="-1" class="product-image{if $hasQuickView == true} product-quickview{/if} overlay col-sm-8">
+							{loop name="product_thumbnail" type="image" product=$product_id width="{$width}" height="{$height}" resize_mode="borders" limit="1"}
+								<img itemprop="image" src="{$IMAGE_URL nofilter}" class="img-responsive" alt="{$productTitle}"> 
+							{/loop}
+							{elseloop rel="product_thumbnail"} 
+								<img itemprop="image" src="{image file='assets/dist/img/218x146.png'}" class="img-responsive" alt="{$productTitle}"> 
+							{/elseloop}
+						</a>
+					</td>
+					<td style="text-align:left;">
+						<div class="product-info col-sm-8">
+							<h2 class="name">
+								<a href="{$URL nofilter}"><span itemprop="name">{$productTitle}</span></a>
+							</h2>
+						</div>
+					</td>
+					<td>Innenteil passend zur Raumgröße</td>
+					<td style="text-align:right;">
+						<div class="product-price col-sm-3">
+							<div class="price-container row" itemprop="offers" itemscope itemtype="http://schema.org/Offer">
+								<meta itemprop="category" content="{category attr="title"}">
+								{* List of condition : NewCondition, DamagedCondition, UsedCondition, RefurbishedCondition *}
+								<meta itemprop="itemCondition" itemscope itemtype="http://schema.org/NewCondition">
+								{* List of currency : The currency used to describe the product price, in three-letter ISO format. *}
+								<meta itemprop="priceCurrency" content="{currency attr="symbol"}">
+								<link itemprop="availability" href="{$current_stock_href}" content="{$current_stock_content}" />
+								{if $IS_PROMO } 
+									{assign var="combination_count" value={count type="product_sale_elements" promo="1" product=$ID}} 
+									<span class="special-price col-xs-6">
+										<span itemprop="price" class="price-label">{intl l="Special Price:"} </span>
+										<span class="price"> 
+										{if $combination_count > 1} 
+											{intl l="From %price" price={format_money number=$BEST_TAXED_PRICE symbol={currency attr="symbol"}}} 
+										{else} 
+											{format_money number=$BEST_TAXED_PRICE symbol={currency attr="symbol"}} {/if} </span></span>
+										{if $SHOW_ORIGINAL_PRICE} 
+											<span class="old-price col-xs-6">
+											<span class="price-label">{intl l="Regular Price:"} </span>
+											<span class="price" >{format_money number=$TAXED_PRICE symbol={currency attr="symbol"}}</span>
+											</span> 
+										{/if} 
+										{else} 
+											<span class="regular-price">
+											<span itemprop="price" style="display: none;" class="price" name="price_product">{format_money number=$BEST_TAXED_PRICE symbol={currency attr="symbol"}}</span>
+											<div name="price_product_{$product_id}" style="font-size:30px; font-weight:bold;float:left" >{$BEST_TAXED_PRICE|string_format:"%d"}</div>
+											</span> 
+										{/if}
+							</div>
+			        </div>				
+					</td>
+					<td style="font-size:20px;font-weight:bold;text-align:left;">€</td>
+				</tr>
+
+					<td style="text-align:right;">
+						<a href="{$URL nofilter}" itemprop="url" tabindex="-1" class="product-image{if $hasQuickView == true} product-quickview{/if} overlay col-sm-8">
+							{loop name="product_thumbnail" type="image" product=$product_id width="{$width}" height="{$height}" resize_mode="borders" limit="1"}
+								<img itemprop="image" src="{$IMAGE_URL nofilter}" class="img-responsive" alt="{$productTitle}"> 
+							{/loop}
+							{elseloop rel="product_thumbnail"} 
+								<img itemprop="image" src="{image file='assets/dist/img/218x146.png'}" class="img-responsive" alt="{$productTitle}"> 
+							{/elseloop}
+						</a>
+					</td>
+					<td style="text-align:left;">
+						<div class="product-info col-sm-8">
+							<h2 class="name">
+								<a href="{$URL nofilter}"><span itemprop="name">{$productTitle}</span></a>
+							</h2>
+						</div>
+					</td>
+					<td>Außeneinheit für einen Innenteil</td>
+					<td style="text-align:right;">
+						<div class="product-price col-sm-3">
+							<div class="price-container row" itemprop="offers" itemscope itemtype="http://schema.org/Offer">
+								<meta itemprop="category" content="{category attr="title"}">
+								{* List of condition : NewCondition, DamagedCondition, UsedCondition, RefurbishedCondition *}
+								<meta itemprop="itemCondition" itemscope itemtype="http://schema.org/NewCondition">
+								{* List of currency : The currency used to describe the product price, in three-letter ISO format. *}
+								<meta itemprop="priceCurrency" content="{currency attr="symbol"}">
+								<link itemprop="availability" href="{$current_stock_href}" content="{$current_stock_content}" />
+								{if $IS_PROMO } 
+									{assign var="combination_count" value={count type="product_sale_elements" promo="1" product=$ID}} 
+									<span class="special-price col-xs-6">
+										<span itemprop="price" class="price-label">{intl l="Special Price:"} </span>
+										<span class="price"> 
+										{if $combination_count > 1} 
+											{intl l="From %price" price={format_money number=$BEST_TAXED_PRICE symbol={currency attr="symbol"}}} 
+										{else} 
+											{format_money number=$BEST_TAXED_PRICE symbol={currency attr="symbol"}} {/if} </span></span>
+										{if $SHOW_ORIGINAL_PRICE} 
+											<span class="old-price col-xs-6">
+											<span class="price-label">{intl l="Regular Price:"} </span>
+											<span class="price" >{format_money number=$TAXED_PRICE symbol={currency attr="symbol"}}</span>
+											</span> 
+										{/if} 
+										{else} 
+											<span class="regular-price">
+											<span itemprop="price" style="display: none;" class="price" name="price_product">{format_money number=$BEST_TAXED_PRICE symbol={currency attr="symbol"}}</span>
+											<div name="price_product_{$product_id}" style="font-size:30px; font-weight:bold;float:left" >{$BEST_TAXED_PRICE|string_format:"%d"}</div>
+											</span> 
+										{/if}
+							</div>
+			        </div>				
+					</td>
+					<td style="font-size:20px;font-weight:bold;text-align:left;">€</td>
+				</tr>
+			
+				<tr>
+					<td style="text-align:right;">1,00</td>
+					<td style="text-align:left;">Stk</td>
+					<td style="text-align:left;">Wandkonsole f�r die Montage der Au�eneinheit</td>
+					<td style="text-align:right;">102,00</td>
+				</tr>
+			
+				<tr>
+					<td style="text-align:right;">1,00</td>
+					<td style="text-align:left;">m</td>
+					<td style="text-align:left;">K�ltemittelleitungen inkl. Kondensat- und Steuerleitung</td>
+					<td style="text-align:right;">32,00</td>
+				</tr>
+			
+				<tr>
+					<td style="text-align:right;">1,00</td>
+					<td style="text-align:left;">PA</td>
+					<td style="text-align:left;">diverses Montage- und Kleinmaterial</td>
+					<td style="text-align:right;">49,92</td>
+				</tr>
+			
+				<tr>
+					<td style="text-align:right;">1,00</td>
+					<td style="text-align:left;">PA</td>
+					<td style="text-align:left;">Montage der Anlage</td>
+					<td style="text-align:right;">640,00</td>
+				</tr>
+			
+			<tr>
+				<td style="text-align:right;border-top:1px solid black;"></td>
+				<td style="text-align:left;border-top:1px solid black;"></td>
+				<td style="text-align:left;border-top:1px solid black;">SUMME exkl. Mwst.</td>
+				<td style="text-align:right;border-top:1px solid black;">1.815,80</td>
+			</tr>
+		
+			<tr>
+				<td style="text-align:right;"></td>
+				<td style="text-align:left;"></td>
+				<td style="text-align:left;">zzgl. 20% Mwst.</td>
+				<td style="text-align:right;">363,16</td>
+			</tr>
+			<tr>
+				<td style="text-align:right;border-top:1px solid black;border-bottom:2px solid black;"></td>
+				<td style="text-align:left;border-top:1px solid black;border-bottom:2px solid black;"></td>
+				<td style="text-align:left;border-top:1px solid black;border-bottom:2px solid black;">SUMME inkl. Mwst.</td>
+				<td style="text-align:right;border-top:1px solid black;border-bottom:2px solid black;">2.178,96</td>
+			</tr>
+		
+			</tbody>
+			</table>
+			
+
+
+
+
+			{* Stock *} {assign var="current_stock_content" value = "in_stock"}
+			{assign var="current_stock_href" value = "http://schema.org/InStock"}
+			{if {config key="check-available-stock"} != 0} 
+				{if $VIRTUAL == 0 &&$QUANTITY <= 0} 
+					{assign var="current_stock_content" value ="out_stock"} 
+					{assign var="current_stock_href" value ="http://schema.org/OutOfStock"} 
+				{/if} 
+			{/if}
+
+				{if $hasBtn == true} 
+					{if $hasSubmit == true && $current_stock_content == "in_stock"} 
+						{form name="thelia.cart.add" }
+						<form id="form-product-details{$product_id}" action="{url path="/konfigurator/add" }" method="post" class="form-product">
+						{form_hidden_fields} 
+							<input type="hidden" name="view" value="product"> 
+							<input type="hidden" name="product_id" value="{$product_id}"> 
+							{form_field field="append"} 
+								<input type="hidden" name="{$name}" value="1"> 
+							{/form_field} 
+							{if $form_error}
+								<div class="alert alert-error">{$form_error_message}</div>
+							{/if} 
+							{form_field field='product_sale_elements_id'} 
+								<input type="hidden" class="pse-id" name="{$name}" value="{$PRODUCT_SALE_ELEMENT}"{$attr}> 
+							{/form_field}
+							{form_field field="product"} 
+								<input id="{$label_attr.for}" type="hidden" name="{$name}" value="{$product_id}"{$attr} >
+							{/form_field}
+
+						<fieldset class="product-cart form-inline col-sm-3">
+							{form_field field='quantity'}
+							<div
+								class="form-group group-qty hide {if $error}has-error{elseif $value != "" && !$error}has-success{/if}">
+								<label for="{$label_attr.for}">{$label}</label> 
+								<input	type="number" name="{$name}" id="{$label_attr.for}"	class="form-control" value="{$value|default:1}" min="0" required>
+								{if $error } 
+									<span class="help-block">
+										<i class="fa fa-remove"></i> {$message}
+									</span> 
+								{elseif $value != "" && !$error} 
+									<span class="help-block">
+										<i class="fa fa"></i>
+									</span>
+								{/if}
+							</div>
+
+							{/form_field}
+							<!-- <ul class="thumbnails image_picker_selector">
+								{loop type="service"  name="services_list" product_id=$product_id limit="8"}
+ 									{include file="includes/product-services.html"  hasServiceDescription=false hasQuickView=true width="200" height="100"}
+								{/loop}	
+ 							</ul> -->
+							<div>
+								<div class="product-btn">
+									<button type="submit" class="btn btn-primary btn-block">
+										<i class="fa fa-shopping-cart"></i> {intl l="Add to cart"}
+									</button>
+								</div>
+							</div>
+						</fieldset>
+						</form>
+						{/form}
+				 		{else}
+							<div>
+								<div class="product-btn">
+									<a href="{$URL nofilter}" class="btn btn-primary btn-block">
+									<i class="fa fa-eye"></i> {intl l="View product"}
+									</a>
+								</div>
+							</div>
+						{/if} 
+				{/if}
+	
+
+
+			{hook name="klimaproduct.bottom" product="{$product_id}"}
+	</article> <!-- /product -->
+</li>

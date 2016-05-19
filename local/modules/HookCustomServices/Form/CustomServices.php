@@ -111,10 +111,7 @@ class CustomServices extends BaseForm
             
             /*,
 		"disabled" => true*/
-		))
-             
-        ->setAttribute("enctype", "multipart/form-data")
-             
+		))         
 		;
     }
 

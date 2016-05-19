@@ -30,6 +30,8 @@ use Thelia\Form\Exception\FormValidationException;
 use Thelia\Log\Tlog;
 use Thelia\Model\ConfigQuery;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\HttpFoundation\FileBag;
 /**
  * Class ContactController
  * @package Thelia\Controller\Front
@@ -54,22 +56,48 @@ class CustomServicesController extends BaseFrontController
         $zugaenglichkeit =  $this->getRequest()->get('customservices')['zugaenglichkeit'];
         $zeit =  $this->getRequest()->get('customservices')['zeit'];
         $anmerkungen =  $this->getRequest()->get('customservices')['anmerkungen'];
+        
+        $headers  = 'MIME-Version: 1.0' . "\r\n";
+        $headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
+        
      //   $image_upload =  $this->getRequest()->get('customservices')['image_upload'];
-
-        $message = "Welche Art von Projekt haben Sie?:".$project_art."<br>Welche Marke und / oder Modell?:".$marke."<br>Ist Ihr System von Öl oder Gas?".$oel_gas."<br>Welche Art von Arbeit brauchen Sie?".$arbeit_art."<br>Ist Ihr Gerät gut zugänglich?".$zugaenglichkeit."<br>Wann benötigen Sie den Service?".$zeit."<br>Anmerkungen?".$anmerkungen."<br>Bilder?";//.$image_upload;
-      
+        // $image_upload = new UploadedFile();
+       //  $image_upload->getClientOriginalName()
+        // $image_upload->
+        $files = new FileBag();
+        $files = $this->getRequest()->files;
+        
+       // $image_upload_name = implode(" ",$files->keys());
+        //$image_upload = new UploadedFile();
+        $image_upload = $files->get("customservices")["image_upload"];
+        //$image_upload->move($directory)
+        $new_image_path = THELIA_ROOT .ConfigQuery::read('images_library_path')."/imani";
+        if($image_upload != null){
+        $new_image_name = $image_upload->getClientOriginalName();
+        $image_upload->move($new_image_path ,$new_image_name);
+        $image_full_path = $new_image_path."/".$new_image_name;
+        }else {
+        	$image_upload = "no_image";
+        	$image_full_path = "no_image";
+        }
+        $message = "Welche Art von Projekt haben Sie?:".$project_art."<br>Welche Marke und / oder Modell?:".$marke."<br>Ist Ihr System von Öl oder Gas?".$oel_gas."<br>Welche Art von Arbeit brauchen Sie?".$arbeit_art."<br>Ist Ihr Gerät gut zugänglich?".$zugaenglichkeit."<br>Wann benötigen Sie den Service?".$zeit."<br>Anmerkungen?".$anmerkungen."<br>Bilder<img src=".$image_upload.">";
+        
+        
         
 $log->error(sprintf('message : %s', $message));
             $htmlMessage = "<p>$message</p>";
 $storeName="Hausfabrik";
 $contactEmail="ani.jalavyan@sepa.at";
             $instance = \Swift_Message::newInstance()
+            
                 ->addTo($emailTest, $storeName)
                 ->addFrom($contactEmail, $storeName)
                 ->setSubject($subject)
                 ->setBody($message, 'text/plain')
                 ->setBody($htmlMessage, 'text/html')
+                ->setContentType("text/html")
             ;
+            if($image_full_path != "no_image")$instance->attach(\Swift_Attachment::fromPath($new_image_path."/".$new_image_name));
 
             try {
                 $this->getMailer()->send($instance);
@@ -80,7 +108,7 @@ $contactEmail="ani.jalavyan@sepa.at";
             }
 
 
-            return new JsonResponse ();
+            return new JsonResponse ($image_full_path);
 
 
 

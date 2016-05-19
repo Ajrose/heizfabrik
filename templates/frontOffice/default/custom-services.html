@@ -13,10 +13,7 @@
             <!--h1 id="main-label" class="page-header">{intl l="Dein Angebot" d="hookkonfigurator.fo.default"}</h1-->
 
 	<div class="container1">
- <form enctype="multipart/form-data" action="{url path="/custom-services/sendmail"}" >
-                <input type="file">
-                <button value="submit">submit</button>
-            </form>
+	
 		<div class="fs-form-wrap" id="fs-form-wrap" style="height:700px">
 			<div class="fs-title">
 				<h1>Individuelle Services</h1>
@@ -24,12 +21,20 @@
            
                     
             {form name="custom.services"}
-				<form id="form-customservice" class="form-horizontal fs-form fs-form-full dropzone" id="images-dropzone" action="{url path="/custom-services/sendmail"}" method="post" autocomplete="off" enctype="multipart/form-data">
+				<form id="form-customservice"   
+     class="form-horizontal fs-form fs-form-full" action="{url path="/custom-services/sendmail"}" method="post" autocomplete="off" enctype="multipart/form-data">
+             <!--     <div class="dropzone" id="my-awesome-dropzone" style="background:#666;" class="" style="height:150px; border:dotted 2px #CCC">
+                </div>
+                <div class="fallback">
+    <input name="file" type="file" multiple />
+  </div>
+                -->
                 {form_field field='error_message'}
                 	<input type="hidden" name="{$name}" value="{intl l="missing or invalid data"}" />
                 {/form_field} 
                 {form_hidden_fields}
                 {if $form_error}<div class="alert alert-danger">{$form_error_message}</div>{/if}
+                 
 					<ol class="fs-fields">
 						<li>
                             <h3 class="fs-anim-upper">Schritt 1</h3>
@@ -144,7 +149,8 @@
 			</div><!-- /fs-form-wrap -->
 		</div><!-- /container -->
             
-            
+            <form 
+     ></form>
             
 		<section id="products-new">	
 			<div class="products-heading">  
@@ -169,7 +175,8 @@
  <script src="{javascript file='assets/dist/js/vendors/classie.js'}"></script>
  <script src="{javascript file='assets/dist/js/vendors/selectFx.js'}"></script>
  <script src="{javascript file='assets/dist/js/vendors/fullscreenForm.js'}"></script>
- 
+  <script src="{javascript file='assets/dist/js/vendors/dropzone.js'}"></script>
+  
 <script>
     
     $( "#projekt-art" ).change(function() {

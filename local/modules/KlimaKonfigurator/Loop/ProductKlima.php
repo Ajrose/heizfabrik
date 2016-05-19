@@ -588,8 +588,8 @@ class ProductKlima extends BaseI18nLoop implements PropelSearchLoopInterface, Se
 		->withColumn ( '`hz`.storage_capacity', 'storage_capacity' )
 		->condition ( 'same_product_id', 'product.id = `hz`.product_id' )
 		->setJoinCondition ( 'HeizungProduct', 'same_product_id' )
-		->condition ( 'power_larger_then', 'power >= ?', $waermebedarf - 1, \PDO::PARAM_INT )
-		->condition ( 'power_smaller_then', 'power <= ?', $waermebedarf + 1, \PDO::PARAM_INT )
+		->condition ( 'power_larger_then', 'power >= ?', $klimabedarf - 1, \PDO::PARAM_INT )
+		->condition ( 'power_smaller_then', 'power <= ?', $klimabedarf + 1, \PDO::PARAM_INT )
 		->where ( array ('power_larger_then','power_smaller_then' ), Criteria::LOGICAL_AND ); // power_condition
 		
 			$search->filterByVisible(1);
