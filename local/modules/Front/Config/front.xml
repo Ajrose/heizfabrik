@@ -266,16 +266,24 @@
         <default key="_controller">Front\Controller\ContactController::sendAction</default>
         <default key="_view">contact</default>
     </route>
-     <route id="contact.send" path="/custom-services/sendmail" methods="post">
+     <route id="custom.services.send" path="/custom-services/sendmail" methods="post">
         <default key="_controller">Front\Controller\CustomServicesController::sendAction</default>
         <default key="_view">custom-services</default>
     </route>
+    
+    <route id="custom.services.success" path="/custom-services/success">
+        <default key="_controller">Thelia\Controller\Front\DefaultController::noAction</default>
+        <default key="_view">custom-services-success</default>
+    </route>
+    <!-- end contact management -->
 
     <route id="contact.success" path="/contact/success">
         <default key="_controller">Thelia\Controller\Front\DefaultController::noAction</default>
         <default key="_view">contact-success</default>
     </route>
     <!-- end contact management -->
+    
+    
 
     <!-- newsletter management -->
     <route id="newsletter.process" path="/newsletter" methods="post">

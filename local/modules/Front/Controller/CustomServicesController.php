@@ -108,7 +108,8 @@ $contactEmail="ani.jalavyan@sepa.at";
             }
 
 
-            return new JsonResponse ($image_full_path);
+           return $this->generateRedirectFromRoute('custom.services.success');
+
 
 
 
