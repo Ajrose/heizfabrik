@@ -48,17 +48,17 @@ class SetProductsTableMap extends TableMap
     /**
      * The related Propel class for this table
      */
-    const OM_CLASS = '\\HookKonfigurator\\Model\\SetProducts';
+    const OM_CLASS = '\\SetProducts';
 
     /**
      * A class that can be returned by this tableMap
      */
-    const CLASS_DEFAULT = 'HookKonfigurator.Model.SetProducts';
+    const CLASS_DEFAULT = 'SetProducts';
 
     /**
      * The total number of columns
      */
-    const NUM_COLUMNS = 4;
+    const NUM_COLUMNS = 5;
 
     /**
      * The number of lazy-loaded columns
@@ -68,7 +68,7 @@ class SetProductsTableMap extends TableMap
     /**
      * The number of columns to hydrate (NUM_COLUMNS - NUM_LAZY_LOAD_COLUMNS)
      */
-    const NUM_HYDRATE_COLUMNS = 4;
+    const NUM_HYDRATE_COLUMNS = 5;
 
     /**
      * the column name for the ID field
@@ -91,6 +91,11 @@ class SetProductsTableMap extends TableMap
     const NUMBER_OF_PRODUCTS = 'set_products.NUMBER_OF_PRODUCTS';
 
     /**
+     * the column name for the PRODUCT_POSITION field
+     */
+    const PRODUCT_POSITION = 'set_products.PRODUCT_POSITION';
+
+    /**
      * The default string format for model objects of the related table
      */
     const DEFAULT_STRING_FORMAT = 'YAML';
@@ -102,12 +107,12 @@ class SetProductsTableMap extends TableMap
      * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
      */
     protected static $fieldNames = array (
-        self::TYPE_PHPNAME       => array('Id', 'SetId', 'ProductId', 'NumberOfProducts', ),
-        self::TYPE_STUDLYPHPNAME => array('id', 'setId', 'productId', 'numberOfProducts', ),
-        self::TYPE_COLNAME       => array(SetProductsTableMap::ID, SetProductsTableMap::SET_ID, SetProductsTableMap::PRODUCT_ID, SetProductsTableMap::NUMBER_OF_PRODUCTS, ),
-        self::TYPE_RAW_COLNAME   => array('ID', 'SET_ID', 'PRODUCT_ID', 'NUMBER_OF_PRODUCTS', ),
-        self::TYPE_FIELDNAME     => array('id', 'set_id', 'product_id', 'number_of_products', ),
-        self::TYPE_NUM           => array(0, 1, 2, 3, )
+        self::TYPE_PHPNAME       => array('Id', 'SetId', 'ProductId', 'NumberOfProducts', 'ProductPosition', ),
+        self::TYPE_STUDLYPHPNAME => array('id', 'setId', 'productId', 'numberOfProducts', 'productPosition', ),
+        self::TYPE_COLNAME       => array(SetProductsTableMap::ID, SetProductsTableMap::SET_ID, SetProductsTableMap::PRODUCT_ID, SetProductsTableMap::NUMBER_OF_PRODUCTS, SetProductsTableMap::PRODUCT_POSITION, ),
+        self::TYPE_RAW_COLNAME   => array('ID', 'SET_ID', 'PRODUCT_ID', 'NUMBER_OF_PRODUCTS', 'PRODUCT_POSITION', ),
+        self::TYPE_FIELDNAME     => array('id', 'set_id', 'product_id', 'number_of_products', 'product_position', ),
+        self::TYPE_NUM           => array(0, 1, 2, 3, 4, )
     );
 
     /**
@@ -117,12 +122,12 @@ class SetProductsTableMap extends TableMap
      * e.g. self::$fieldKeys[self::TYPE_PHPNAME]['Id'] = 0
      */
     protected static $fieldKeys = array (
-        self::TYPE_PHPNAME       => array('Id' => 0, 'SetId' => 1, 'ProductId' => 2, 'NumberOfProducts' => 3, ),
-        self::TYPE_STUDLYPHPNAME => array('id' => 0, 'setId' => 1, 'productId' => 2, 'numberOfProducts' => 3, ),
-        self::TYPE_COLNAME       => array(SetProductsTableMap::ID => 0, SetProductsTableMap::SET_ID => 1, SetProductsTableMap::PRODUCT_ID => 2, SetProductsTableMap::NUMBER_OF_PRODUCTS => 3, ),
-        self::TYPE_RAW_COLNAME   => array('ID' => 0, 'SET_ID' => 1, 'PRODUCT_ID' => 2, 'NUMBER_OF_PRODUCTS' => 3, ),
-        self::TYPE_FIELDNAME     => array('id' => 0, 'set_id' => 1, 'product_id' => 2, 'number_of_products' => 3, ),
-        self::TYPE_NUM           => array(0, 1, 2, 3, )
+        self::TYPE_PHPNAME       => array('Id' => 0, 'SetId' => 1, 'ProductId' => 2, 'NumberOfProducts' => 3, 'ProductPosition' => 4, ),
+        self::TYPE_STUDLYPHPNAME => array('id' => 0, 'setId' => 1, 'productId' => 2, 'numberOfProducts' => 3, 'productPosition' => 4, ),
+        self::TYPE_COLNAME       => array(SetProductsTableMap::ID => 0, SetProductsTableMap::SET_ID => 1, SetProductsTableMap::PRODUCT_ID => 2, SetProductsTableMap::NUMBER_OF_PRODUCTS => 3, SetProductsTableMap::PRODUCT_POSITION => 4, ),
+        self::TYPE_RAW_COLNAME   => array('ID' => 0, 'SET_ID' => 1, 'PRODUCT_ID' => 2, 'NUMBER_OF_PRODUCTS' => 3, 'PRODUCT_POSITION' => 4, ),
+        self::TYPE_FIELDNAME     => array('id' => 0, 'set_id' => 1, 'product_id' => 2, 'number_of_products' => 3, 'product_position' => 4, ),
+        self::TYPE_NUM           => array(0, 1, 2, 3, 4, )
     );
 
     /**
@@ -137,14 +142,15 @@ class SetProductsTableMap extends TableMap
         // attributes
         $this->setName('set_products');
         $this->setPhpName('SetProducts');
-        $this->setClassName('\\HookKonfigurator\\Model\\SetProducts');
-        $this->setPackage('HookKonfigurator.Model');
+        $this->setClassName('\\SetProducts');
+        $this->setPackage('');
         $this->setUseIdGenerator(true);
         // columns
         $this->addPrimaryKey('ID', 'Id', 'INTEGER', true, null, null);
         $this->addForeignKey('SET_ID', 'SetId', 'INTEGER', 'sets', 'PRODUCT_ID', true, null, null);
-        $this->addForeignKey('PRODUCT_ID', 'ProductId', 'INTEGER', 'product_heizung', 'PRODUCT_ID', true, null, null);
+        $this->addForeignKey('PRODUCT_ID', 'ProductId', 'INTEGER', 'product', 'ID', true, null, null);
         $this->addColumn('NUMBER_OF_PRODUCTS', 'NumberOfProducts', 'INTEGER', false, null, null);
+        $this->addColumn('PRODUCT_POSITION', 'ProductPosition', 'INTEGER', false, null, 0);
     } // initialize()
 
     /**
@@ -152,8 +158,8 @@ class SetProductsTableMap extends TableMap
      */
     public function buildRelations()
     {
-        $this->addRelation('ProductHeizung', '\\HookKonfigurator\\Model\\ProductHeizung', RelationMap::MANY_TO_ONE, array('product_id' => 'product_id', ), 'CASCADE', null);
-        $this->addRelation('Sets', '\\HookKonfigurator\\Model\\Sets', RelationMap::MANY_TO_ONE, array('set_id' => 'product_id', ), 'CASCADE', null);
+        $this->addRelation('Product', '\\Product', RelationMap::MANY_TO_ONE, array('product_id' => 'id', ), 'CASCADE', null);
+        $this->addRelation('Sets', '\\Sets', RelationMap::MANY_TO_ONE, array('set_id' => 'product_id', ), 'CASCADE', null);
     } // buildRelations()
 
     /**
@@ -198,7 +204,7 @@ class SetProductsTableMap extends TableMap
                             : self::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)
                         ];
     }
-    
+
     /**
      * The class that the tableMap will make instances of.
      *
@@ -258,7 +264,7 @@ class SetProductsTableMap extends TableMap
     public static function populateObjects(DataFetcherInterface $dataFetcher)
     {
         $results = array();
-    
+
         // set the class once to avoid overhead in the loop
         $cls = static::getOMClass(false);
         // populate the object(s)
@@ -298,11 +304,13 @@ class SetProductsTableMap extends TableMap
             $criteria->addSelectColumn(SetProductsTableMap::SET_ID);
             $criteria->addSelectColumn(SetProductsTableMap::PRODUCT_ID);
             $criteria->addSelectColumn(SetProductsTableMap::NUMBER_OF_PRODUCTS);
+            $criteria->addSelectColumn(SetProductsTableMap::PRODUCT_POSITION);
         } else {
             $criteria->addSelectColumn($alias . '.ID');
             $criteria->addSelectColumn($alias . '.SET_ID');
             $criteria->addSelectColumn($alias . '.PRODUCT_ID');
             $criteria->addSelectColumn($alias . '.NUMBER_OF_PRODUCTS');
+            $criteria->addSelectColumn($alias . '.PRODUCT_POSITION');
         }
     }
 
@@ -349,7 +357,7 @@ class SetProductsTableMap extends TableMap
         if ($values instanceof Criteria) {
             // rename for clarity
             $criteria = $values;
-        } elseif ($values instanceof \HookKonfigurator\Model\SetProducts) { // it's a model object
+        } elseif ($values instanceof \SetProducts) { // it's a model object
             // create criteria based on pk values
             $criteria = $values->buildPkeyCriteria();
         } else { // it's a primary key, or an array of pks

@@ -18,4 +18,4 @@ use HookKonfigurator\Model\Base\ProductHeizungQuery as BaseProductHeizungQuery;
 class ProductHeizungQuery extends BaseProductHeizungQuery
 {
 
-} // ProductHeizungQuery
+}

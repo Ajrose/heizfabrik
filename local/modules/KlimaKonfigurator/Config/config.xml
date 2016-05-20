@@ -5,7 +5,8 @@
         xsi:schemaLocation="http://thelia.net/schema/dic/config http://thelia.net/schema/dic/config/thelia-1.0.xsd">
 
     <loops>
-        <loop name="product_klima" class="KlimaKonfigurator\Loop\ProductKlima" />
+        <loop name="klima_products" class="KlimaKonfigurator\Loop\KlimaProducts" />
+        <loop name="klima_sets" class="KlimaKonfigurator\Loop\KlimaSets" />
     </loops>
 
     <forms>

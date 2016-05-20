@@ -1,10 +1,11 @@
 <div class="products-content">
 	<ul class="list-unstyled">
-		{loop type="product_klima" name="product_list" category=$category_id limit="8" }
-			{include file="includes/klima-suggestion.html" product_id=$ID hasBtn=true hasDescription=true hasQuickView=true width="300" height="230"}
+		<!-- "klima_products" -->
+		{loop type="klima_sets" name="set_list" category="26" limit="8" }
+			{include file="includes/klima_set-suggestion.html" product_id=$ID hasBtn=true hasDescription=true hasQuickView=true width="300" height="230"}
 		{/loop}
 	</ul>
-</div>    
+</div>
 
 {block name="after-javascript-include"}
 <script>
@@ -30,13 +31,8 @@ $('.products-content').on('click', '.thumbnail', function (event) {
 	    $productid = $serviceObject.attr('product');
 	    $productObject = $("[name=price_product_"+$productid+"]");
 	    $productObject.text(parseInt($productObject.text())+parseInt($serviceObject.text()) );
-	    
-	   // alert($("[name=price_product_"+$productid+"]").text());
-	 //   alert($(this).find($("[name=price_product_o]")).text()+"   "+$(this).find($("[name=price_service_o]")).attr('product'));
 	}
-	
-//	if($(this).hasClass("selected")){
-	
+
 });
 </script>
 

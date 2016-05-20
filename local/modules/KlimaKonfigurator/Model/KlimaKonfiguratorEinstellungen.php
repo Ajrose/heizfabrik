@@ -82,9 +82,6 @@ class KlimaKonfiguratorEinstellungen {
 		$pro_meter2 = $this->raum_hoehe*$this->hoehe_basis + $lage_der_zimmer_bedarf;
 		$klima_bedarf = $this->raum_flaeche*$pro_meter2+$this->fenster_anzahl*$this->fenster_basis+
 		                $this->personen*$this->person_basis+$this->anschlusswert_in_watt*$this->anschlusswert_anteil;
-		
-		                $log = Tlog::getInstance ();
-		                $log->debug(" klimabed ".$lage_der_zimmer_bedarf." ".$pro_meter2." ".$klima_bedarf);
 		                
 		return $klima_bedarf;
 	}

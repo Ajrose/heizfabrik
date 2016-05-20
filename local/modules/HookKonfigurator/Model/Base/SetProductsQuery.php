@@ -1,12 +1,12 @@
 <?php
 
-namespace HookKonfigurator\Model\Base;
+namespace Base;
 
+use \SetProducts as ChildSetProducts;
+use \SetProductsQuery as ChildSetProductsQuery;
 use \Exception;
 use \PDO;
-use HookKonfigurator\Model\SetProducts as ChildSetProducts;
-use HookKonfigurator\Model\SetProductsQuery as ChildSetProductsQuery;
-use HookKonfigurator\Model\Map\SetProductsTableMap;
+use Map\SetProductsTableMap;
 use Propel\Runtime\Propel;
 use Propel\Runtime\ActiveQuery\Criteria;
 use Propel\Runtime\ActiveQuery\ModelCriteria;
@@ -19,25 +19,27 @@ use Propel\Runtime\Exception\PropelException;
 /**
  * Base class that represents a query for the 'set_products' table.
  *
- * 
+ *
  *
  * @method     ChildSetProductsQuery orderById($order = Criteria::ASC) Order by the id column
  * @method     ChildSetProductsQuery orderBySetId($order = Criteria::ASC) Order by the set_id column
  * @method     ChildSetProductsQuery orderByProductId($order = Criteria::ASC) Order by the product_id column
  * @method     ChildSetProductsQuery orderByNumberOfProducts($order = Criteria::ASC) Order by the number_of_products column
+ * @method     ChildSetProductsQuery orderByProductPosition($order = Criteria::ASC) Order by the product_position column
  *
  * @method     ChildSetProductsQuery groupById() Group by the id column
  * @method     ChildSetProductsQuery groupBySetId() Group by the set_id column
  * @method     ChildSetProductsQuery groupByProductId() Group by the product_id column
  * @method     ChildSetProductsQuery groupByNumberOfProducts() Group by the number_of_products column
+ * @method     ChildSetProductsQuery groupByProductPosition() Group by the product_position column
  *
  * @method     ChildSetProductsQuery leftJoin($relation) Adds a LEFT JOIN clause to the query
  * @method     ChildSetProductsQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
  * @method     ChildSetProductsQuery innerJoin($relation) Adds a INNER JOIN clause to the query
  *
- * @method     ChildSetProductsQuery leftJoinProductHeizung($relationAlias = null) Adds a LEFT JOIN clause to the query using the ProductHeizung relation
- * @method     ChildSetProductsQuery rightJoinProductHeizung($relationAlias = null) Adds a RIGHT JOIN clause to the query using the ProductHeizung relation
- * @method     ChildSetProductsQuery innerJoinProductHeizung($relationAlias = null) Adds a INNER JOIN clause to the query using the ProductHeizung relation
+ * @method     ChildSetProductsQuery leftJoinProduct($relationAlias = null) Adds a LEFT JOIN clause to the query using the Product relation
+ * @method     ChildSetProductsQuery rightJoinProduct($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Product relation
+ * @method     ChildSetProductsQuery innerJoinProduct($relationAlias = null) Adds a INNER JOIN clause to the query using the Product relation
  *
  * @method     ChildSetProductsQuery leftJoinSets($relationAlias = null) Adds a LEFT JOIN clause to the query using the Sets relation
  * @method     ChildSetProductsQuery rightJoinSets($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Sets relation
@@ -50,24 +52,26 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildSetProducts findOneBySetId(int $set_id) Return the first ChildSetProducts filtered by the set_id column
  * @method     ChildSetProducts findOneByProductId(int $product_id) Return the first ChildSetProducts filtered by the product_id column
  * @method     ChildSetProducts findOneByNumberOfProducts(int $number_of_products) Return the first ChildSetProducts filtered by the number_of_products column
+ * @method     ChildSetProducts findOneByProductPosition(int $product_position) Return the first ChildSetProducts filtered by the product_position column
  *
  * @method     array findById(int $id) Return ChildSetProducts objects filtered by the id column
  * @method     array findBySetId(int $set_id) Return ChildSetProducts objects filtered by the set_id column
  * @method     array findByProductId(int $product_id) Return ChildSetProducts objects filtered by the product_id column
  * @method     array findByNumberOfProducts(int $number_of_products) Return ChildSetProducts objects filtered by the number_of_products column
+ * @method     array findByProductPosition(int $product_position) Return ChildSetProducts objects filtered by the product_position column
  *
  */
 abstract class SetProductsQuery extends ModelCriteria
 {
-    
+
     /**
-     * Initializes internal state of \HookKonfigurator\Model\Base\SetProductsQuery object.
+     * Initializes internal state of \Base\SetProductsQuery object.
      *
      * @param     string $dbName The database name
      * @param     string $modelName The phpName of a model, e.g. 'Book'
      * @param     string $modelAlias The alias for the model in this query, e.g. 'b'
      */
-    public function __construct($dbName = 'thelia', $modelName = '\\HookKonfigurator\\Model\\SetProducts', $modelAlias = null)
+    public function __construct($dbName = 'thelia', $modelName = '\\SetProducts', $modelAlias = null)
     {
         parent::__construct($dbName, $modelName, $modelAlias);
     }
@@ -82,10 +86,10 @@ abstract class SetProductsQuery extends ModelCriteria
      */
     public static function create($modelAlias = null, $criteria = null)
     {
-        if ($criteria instanceof \HookKonfigurator\Model\SetProductsQuery) {
+        if ($criteria instanceof \SetProductsQuery) {
             return $criteria;
         }
-        $query = new \HookKonfigurator\Model\SetProductsQuery();
+        $query = new \SetProductsQuery();
         if (null !== $modelAlias) {
             $query->setModelAlias($modelAlias);
         }
@@ -143,9 +147,9 @@ abstract class SetProductsQuery extends ModelCriteria
      */
     protected function findPkSimple($key, $con)
     {
-        $sql = 'SELECT ID, SET_ID, PRODUCT_ID, NUMBER_OF_PRODUCTS FROM set_products WHERE ID = :p0';
+        $sql = 'SELECT ID, SET_ID, PRODUCT_ID, NUMBER_OF_PRODUCTS, PRODUCT_POSITION FROM set_products WHERE ID = :p0';
         try {
-            $stmt = $con->prepare($sql);            
+            $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
             $stmt->execute();
         } catch (Exception $e) {
@@ -326,7 +330,7 @@ abstract class SetProductsQuery extends ModelCriteria
      * $query->filterByProductId(array('min' => 12)); // WHERE product_id > 12
      * </code>
      *
-     * @see       filterByProductHeizung()
+     * @see       filterByProduct()
      *
      * @param     mixed $productId The value to use as filter.
      *              Use scalar values for equality.
@@ -401,42 +405,83 @@ abstract class SetProductsQuery extends ModelCriteria
     }
 
     /**
-     * Filter the query by a related \HookKonfigurator\Model\ProductHeizung object
+     * Filter the query on the product_position column
      *
-     * @param \HookKonfigurator\Model\ProductHeizung|ObjectCollection $productHeizung The related object(s) to use as filter
+     * Example usage:
+     * <code>
+     * $query->filterByProductPosition(1234); // WHERE product_position = 1234
+     * $query->filterByProductPosition(array(12, 34)); // WHERE product_position IN (12, 34)
+     * $query->filterByProductPosition(array('min' => 12)); // WHERE product_position > 12
+     * </code>
+     *
+     * @param     mixed $productPosition The value to use as filter.
+     *              Use scalar values for equality.
+     *              Use array values for in_array() equivalent.
+     *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return ChildSetProductsQuery The current query, for fluid interface
+     */
+    public function filterByProductPosition($productPosition = null, $comparison = null)
+    {
+        if (is_array($productPosition)) {
+            $useMinMax = false;
+            if (isset($productPosition['min'])) {
+                $this->addUsingAlias(SetProductsTableMap::PRODUCT_POSITION, $productPosition['min'], Criteria::GREATER_EQUAL);
+                $useMinMax = true;
+            }
+            if (isset($productPosition['max'])) {
+                $this->addUsingAlias(SetProductsTableMap::PRODUCT_POSITION, $productPosition['max'], Criteria::LESS_EQUAL);
+                $useMinMax = true;
+            }
+            if ($useMinMax) {
+                return $this;
+            }
+            if (null === $comparison) {
+                $comparison = Criteria::IN;
+            }
+        }
+
+        return $this->addUsingAlias(SetProductsTableMap::PRODUCT_POSITION, $productPosition, $comparison);
+    }
+
+    /**
+     * Filter the query by a related \Product object
+     *
+     * @param \Product|ObjectCollection $product The related object(s) to use as filter
      * @param string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return ChildSetProductsQuery The current query, for fluid interface
      */
-    public function filterByProductHeizung($productHeizung, $comparison = null)
+    public function filterByProduct($product, $comparison = null)
     {
-        if ($productHeizung instanceof \HookKonfigurator\Model\ProductHeizung) {
+        if ($product instanceof \Product) {
             return $this
-                ->addUsingAlias(SetProductsTableMap::PRODUCT_ID, $productHeizung->getProductId(), $comparison);
-        } elseif ($productHeizung instanceof ObjectCollection) {
+                ->addUsingAlias(SetProductsTableMap::PRODUCT_ID, $product->getId(), $comparison);
+        } elseif ($product instanceof ObjectCollection) {
             if (null === $comparison) {
                 $comparison = Criteria::IN;
             }
 
             return $this
-                ->addUsingAlias(SetProductsTableMap::PRODUCT_ID, $productHeizung->toKeyValue('PrimaryKey', 'ProductId'), $comparison);
+                ->addUsingAlias(SetProductsTableMap::PRODUCT_ID, $product->toKeyValue('PrimaryKey', 'Id'), $comparison);
         } else {
-            throw new PropelException('filterByProductHeizung() only accepts arguments of type \HookKonfigurator\Model\ProductHeizung or Collection');
+            throw new PropelException('filterByProduct() only accepts arguments of type \Product or Collection');
         }
     }
 
     /**
-     * Adds a JOIN clause to the query using the ProductHeizung relation
+     * Adds a JOIN clause to the query using the Product relation
      *
      * @param     string $relationAlias optional alias for the relation
      * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
      *
      * @return ChildSetProductsQuery The current query, for fluid interface
      */
-    public function joinProductHeizung($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+    public function joinProduct($relationAlias = null, $joinType = Criteria::INNER_JOIN)
     {
         $tableMap = $this->getTableMap();
-        $relationMap = $tableMap->getRelation('ProductHeizung');
+        $relationMap = $tableMap->getRelation('Product');
 
         // create a ModelJoin object for this join
         $join = new ModelJoin();
@@ -451,14 +496,14 @@ abstract class SetProductsQuery extends ModelCriteria
             $this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
             $this->addJoinObject($join, $relationAlias);
         } else {
-            $this->addJoinObject($join, 'ProductHeizung');
+            $this->addJoinObject($join, 'Product');
         }
 
         return $this;
     }
 
     /**
-     * Use the ProductHeizung relation ProductHeizung object
+     * Use the Product relation Product object
      *
      * @see useQuery()
      *
@@ -466,26 +511,26 @@ abstract class SetProductsQuery extends ModelCriteria
      *                                   to be used as main alias in the secondary query
      * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
      *
-     * @return   \HookKonfigurator\Model\ProductHeizungQuery A secondary query class using the current class as primary query
+     * @return   \ProductQuery A secondary query class using the current class as primary query
      */
-    public function useProductHeizungQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+    public function useProductQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN)
     {
         return $this
-            ->joinProductHeizung($relationAlias, $joinType)
-            ->useQuery($relationAlias ? $relationAlias : 'ProductHeizung', '\HookKonfigurator\Model\ProductHeizungQuery');
+            ->joinProduct($relationAlias, $joinType)
+            ->useQuery($relationAlias ? $relationAlias : 'Product', '\ProductQuery');
     }
 
     /**
-     * Filter the query by a related \HookKonfigurator\Model\Sets object
+     * Filter the query by a related \Sets object
      *
-     * @param \HookKonfigurator\Model\Sets|ObjectCollection $sets The related object(s) to use as filter
+     * @param \Sets|ObjectCollection $sets The related object(s) to use as filter
      * @param string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return ChildSetProductsQuery The current query, for fluid interface
      */
     public function filterBySets($sets, $comparison = null)
     {
-        if ($sets instanceof \HookKonfigurator\Model\Sets) {
+        if ($sets instanceof \Sets) {
             return $this
                 ->addUsingAlias(SetProductsTableMap::SET_ID, $sets->getProductId(), $comparison);
         } elseif ($sets instanceof ObjectCollection) {
@@ -496,7 +541,7 @@ abstract class SetProductsQuery extends ModelCriteria
             return $this
                 ->addUsingAlias(SetProductsTableMap::SET_ID, $sets->toKeyValue('PrimaryKey', 'ProductId'), $comparison);
         } else {
-            throw new PropelException('filterBySets() only accepts arguments of type \HookKonfigurator\Model\Sets or Collection');
+            throw new PropelException('filterBySets() only accepts arguments of type \Sets or Collection');
         }
     }
 
@@ -541,13 +586,13 @@ abstract class SetProductsQuery extends ModelCriteria
      *                                   to be used as main alias in the secondary query
      * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
      *
-     * @return   \HookKonfigurator\Model\SetsQuery A secondary query class using the current class as primary query
+     * @return   \SetsQuery A secondary query class using the current class as primary query
      */
     public function useSetsQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN)
     {
         return $this
             ->joinSets($relationAlias, $joinType)
-            ->useQuery($relationAlias ? $relationAlias : 'Sets', '\HookKonfigurator\Model\SetsQuery');
+            ->useQuery($relationAlias ? $relationAlias : 'Sets', '\SetsQuery');
     }
 
     /**
@@ -626,10 +671,10 @@ abstract class SetProductsQuery extends ModelCriteria
             // use transaction because $criteria could contain info
             // for more than one table or we could emulating ON DELETE CASCADE, etc.
             $con->beginTransaction();
-            
+
 
         SetProductsTableMap::removeInstanceFromPool($criteria);
-        
+
             $affectedRows += ModelCriteria::delete($con);
             SetProductsTableMap::clearRelatedInstancePool();
             $con->commit();
