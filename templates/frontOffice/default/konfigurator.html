@@ -36,19 +36,14 @@
 							<!--input class="fs-anim-lower" id="q1" name="q1" type="text" placeholder="Dean Moriarty" required/-->
                             <div class="fs-radio-group fs-radio-custom clearfix fs-anim-lower">
                             
-								<span><input id="q1b" name="q1" type="radio" value="1"/><label for="q1b" class="radio-conversion">Erdgas</label></span>
-								<span><input id="q1c" name="q1" type="radio" value="2"/><label for="q1c" class="radio-social">Erdöl</label></span>
-								<span><input id="q1a" name="q1" type="radio" value="3"/><label for="q1a" class="radio-mobile">Flüssiggas</label></span>
-                                <span><input id="q1d" name="q1" type="radio" value="4"/><label for="q1d" class="radio-sonstiges">Sonstiges</label></span>
-							
-							            {form_field field="brennstoff_momentan"} 
-											<select name="{$name}" id="{$label_attr.for}{$choice->value}" class="fs-anim-lower">
 
-                              					{foreach $choices as $choice}
-                            						<option value="{$choice->value}"{if $value === {$choice->value}} checked{/if}>{$choice->label}</option>
-							 					{/foreach}
-	
-                            				</select>
+							
+                                {form_field field="brennstoff_momentan"} 
+											<div class="fs-radio-group fs-radio-normal clearfix fs-anim-lower">
+                                	{foreach $choices as $choice}
+										<span><input id="{$label_attr.for}{$choice->value}" name="{$name}" type="radio" value="{$choice->value}"{if $value === {$choice->value}} checked{/if}><label for="{$label_attr.for}{$choice->value}" class="radio{$choice->value} fs-field-label-sm">{$choice->label}</label></span>
+								 	{/foreach}
+									</div>
                                   		{/form_field}
 							
 							</div>
@@ -58,19 +53,14 @@
 							<h3>Brennstoff wählen</h3>
                             <div><label class="fs-field-label fs-anim-upper" for="q2">Womit werden Sie in der Zukunft heizen?</label></div>
                             <div class="fs-radio-group fs-radio-custom clearfix fs-anim-lower">
-								<span><input id="q2b" name="q2" type="radio" value="conversion"/><label for="q2b" class="radio-conversion">Erdgas</label></span>
-								<span><input id="q2c" name="q2" type="radio" value="social"/><label for="q2c" class="radio-social">Erdöl</label></span>
-								<span><input id="q1a" name="q1" type="radio" value="mobile"/><label for="q2a" class="radio-mobile">Flüssiggas</label></span>
-                                <span><input id="q1d" name="q1" type="radio" value="sonstiges"/><label for="q2d" class="radio-sonstiges">Sonstiges</label></span>
+								
                                 
                              			{form_field field="brennstoff_zukunft"} 
-											<select name="{$name}" id="{$label_attr.for}{$choice->value}" class="fs-anim-lower">
-
-                              					{foreach $choices as $choice}
-                            						<option value="{$choice->value}"{if $value === {$choice->value}} checked{/if}>{$choice->label}</option>
-							 					{/foreach}
-	
-                            				</select>
+											<div class="fs-radio-group fs-radio-normal clearfix fs-anim-lower">
+                                	{foreach $choices as $choice}
+										<span><input id="{$label_attr.for}{$choice->value}" name="{$name}" type="radio" value="{$choice->value}"{if $value === {$choice->value}} checked{/if}><label for="{$label_attr.for}{$choice->value}" class="radio{$choice->value} fs-field-label-sm">{$choice->label}</label></span>
+								 	{/foreach}
+									</div>
                                   		{/form_field}
 							</div>  
 						</li>

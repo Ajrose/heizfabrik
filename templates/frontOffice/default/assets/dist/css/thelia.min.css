@@ -11379,7 +11379,7 @@ button.fs-continue,
 }
 
 .fs-fields > li label.fs-field-label-sm {
-	font-size: 0.8em;
+	//font-size: 0.8em;
 }
 .fs-fields > li select,.fs-fields > li input {
 	font-size: 0.8em;
@@ -11550,18 +11550,18 @@ button.fs-continue,
 	transform: translate(-50%,-50%);
 }
 
-.fs-fields .fs-radio-custom label.radio-mobile::after {
+.fs-fields .fs-radio-custom label.radio1::after {
 	background-image: url(../img/mobile.svg);
 }
 
-.fs-fields .fs-radio-custom label.radio-social::after {
+.fs-fields .fs-radio-custom label.radio2::after {
 	background-image: url(../img/social.svg);
 }
 
-.fs-fields .fs-radio-custom label.radio-conversion::after {
+.fs-fields .fs-radio-custom label.radio3::after {
 	background-image: url(../img/conversion.svg);
 }
-.fs-fields .fs-radio-custom label.radio-sonstiges::after {
+.fs-fields .fs-radio-custom label.radio4::after {
 	background-image: url(../img/sonstiges.svg);
 }
 
