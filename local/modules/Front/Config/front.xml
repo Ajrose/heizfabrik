@@ -271,9 +271,18 @@
         <default key="_view">custom-services</default>
     </route>
     
+    
     <route id="custom.services.success" path="/custom-services/success">
         <default key="_controller">Thelia\Controller\Front\DefaultController::noAction</default>
         <default key="_view">custom-services-success</default>
+    </route>
+     <route id="klima.angebot.success" path="/klimakonfigurator-angebot/success">
+        <default key="_controller">Thelia\Controller\Front\DefaultController::noAction</default>
+        <default key="_view">klima-angebot-success</default>
+    </route>
+     <route id="klima.angebot.send" path="/klimakonfigurator-angebot/sendmail" methods="post">
+        <default key="_controller">Front\Controller\KlimaAngebotController::sendAction</default>
+        <default key="_view">klima-angebot</default>
     </route>
     <!-- end contact management -->
 

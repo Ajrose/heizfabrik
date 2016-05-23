@@ -56,18 +56,65 @@ class KlimaAngebot extends BaseForm
          		)
          ))
              
-        ->add("building-etage", "text", array(
-         		"label" => Translator::getInstance()->trans("building-etage"),
+        ->add("building_etage", "text", array(
+         		"label" => Translator::getInstance()->trans("Wie viele Stöcke hat das Gebäude?"),
          		"label_attr" => array(
-         				"for" => "building-etage",
+         				"for" => "building_etage",
          		)
          ))
-          ->add("etage", "text", array(
-         		"label" => Translator::getInstance()->trans("etage"),
+             
+        ->add("etage", "text", array(
+         		"label" => Translator::getInstance()->trans("In welchem Stock befindet sich die Wohnung"),
          		"label_attr" => array(
          				"for" => "etage",
          		)
          ))
+        ->add("gebaeudeart", "choice", array(
+				"choices" => array (
+						1 => Translator::getInstance()->trans("Einzelhaus"),
+						2 => Translator::getInstance()->trans("Panel"),
+						3 => Translator::getInstance()->trans("Stein")
+				),
+				"label" => Translator::getInstance()->trans("Art des Gebäudes"),
+				"label_attr" => array(
+                    "for" => "gebaeudeart",
+                ),
+				"data" => 1
+		))
+        ->add("marke", "text", array(
+         		"label" => Translator::getInstance()->trans("Welche Marke hat Ihr Gerät"),
+         		"label_attr" => array(
+         				"for" => "etage",
+         		)
+         ))
+             
+        ->add("geraetetyp", "choice", array(
+				"choices" => array (
+						1 => Translator::getInstance()->trans("An der Wand befestigt"),
+						2 => Translator::getInstance()->trans("Bodenschrank"),
+						3 => Translator::getInstance()->trans("Decke"),
+                        4 => Translator::getInstance()->trans("Normal R410")
+				),
+				"label" => Translator::getInstance()->trans("Gerätetyp"),
+				"label_attr" => array(
+                    "for" => "gebaeudeart",
+                ),
+				"data" => 1
+		))
+             
+         ->add("distance", "choice", array(
+				"choices" => array (
+						1 => Translator::getInstance()->trans("bis 3 meter"),
+						2 => Translator::getInstance()->trans("von 3 bis 6 meter"),
+						3 => Translator::getInstance()->trans("Sonstige")
+				),
+				"label" => Translator::getInstance()->trans("Wegstrecke vom Innenteil zum Außenteil"),
+				"label_attr" => array(
+                    "for" => "gebaeudeart",
+                ),
+				"data" => 1
+		))
+
 
 		 ->add("image_upload", "file", array(
 		"label" => Translator::getInstance()->trans("upload"),
