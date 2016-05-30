@@ -551,9 +551,10 @@ class ProductHeizung extends BaseI18nLoop implements PropelSearchLoopInterface, 
 		$request = $this->request;
 		$konfigurator = new Konfiguratoreinstellung ();
 		$konfigurator->populateKonfiguratorFromRequest ( $request );
-		//$konfigurator->calculateWaermebedarf ();
 		$waermebedarf = $konfigurator->calculateWaermebedarf () / 1000;
 		header ( 'waermebedarf:' . $waermebedarf );
+		$brennstoff = $konfigurator->getBrennstoffZukunft();
+		
 		
 		$log = Tlog::getInstance ();
 		$log->debug(" building modelCriteria for ".ProductHeizungTableMap::TABLE_NAME." ".$this->request->attributes->get('category_id'));
@@ -597,19 +598,31 @@ class ProductHeizung extends BaseI18nLoop implements PropelSearchLoopInterface, 
 		->withColumn ( '`hz`.warm_water', 'warm_water' )
 		->withColumn ( '`hz`.energy_carrier', 'energy_carrier' )
 		->withColumn ( '`hz`.storage_capacity', 'storage_capacity' )
-		->condition ( 'same_product_id', 'product.id = `hz`.product_id' )
+		->condition  ( 'same_product_id', 'product.id = `hz`.product_id' )
 		->setJoinCondition ( 'HeizungProduct', 'same_product_id' )
 		->condition ( 'power_larger_then', 'power >= ?', $waermebedarf - 1, \PDO::PARAM_INT )
-		->condition ( 'power_smaller_then', 'power <= ?', $waermebedarf + 1, \PDO::PARAM_INT )
-		->where ( array ('power_larger_then','power_smaller_then' ), Criteria::LOGICAL_AND ); // power_condition
+		->condition ( 'power_smaller_then', 'power <= ?', $waermebedarf + 1, \PDO::PARAM_INT );
 		
-		//$visible = $this->getVisible();
-		
+		$brennstoff_name = "";
+		$brennstoff_filter_aktiv = true;
+		switch($brennstoff){
+			case 1: $brennstoff_name="Gas";break;
+			case 2: $brennstoff_name="Öl";break;
+			case 3: $brennstoff_name="Flussiggas";break;
+			case 4: $brennstoff_filter_aktiv = false;break;
+		}
+
+		if($brennstoff_filter_aktiv)
+			$search
+			->condition('brennstoff_zukunft', 'energy_carrier = ?',$brennstoff_name,\PDO::PARAM_STR)
+			->where ( array ('power_larger_then','power_smaller_then','brennstoff_zukunft' ), Criteria::LOGICAL_AND ); // power_condition
+		else 
+			$search
+			->where ( array ('power_larger_then','power_smaller_then' ), Criteria::LOGICAL_AND );			
+
 		//if ($visible !== Type\BooleanOrBothType::ANY) {
 			$search->filterByVisible(1);
 		//}
-		
-		
 /*
 		$servicesJoin = new Join();
 		$servicesJoin->addExplicitCondition ( ProductTableMap::TABLE_NAME, 'ID', null, ProductHeizungMontageTableMap::TABLE_NAME, 'PRODUCT_HEIZUNG_ID', 'hzm' );
@@ -620,7 +633,8 @@ class ProductHeizung extends BaseI18nLoop implements PropelSearchLoopInterface, 
 		->withColumn ( '`hzm`.montage_id', 'montage_id' )
 		->condition ( 'same_heizung_id', 'product.id = `hzm`.product_heizung_id' )
 		->setJoinCondition ( 'HeizungProductMontage', 'same_heizung_id' );
-*/
+		*/
+			
 		/*
 		$priceJoin = new Join();
 		$priceJoin->addExplicitCondition(ProductSaleElementsTableMap::TABLE_NAME, 'ID', 'pse', ProductPriceTableMap::TABLE_NAME, 'PRODUCT_SALE_ELEMENTS_ID', 'price');
@@ -629,32 +643,6 @@ class ProductHeizung extends BaseI18nLoop implements PropelSearchLoopInterface, 
 		$search->addJoinObject($priceJoin, 'price_join')
 		->addJoinCondition('price_join', '`price`.`currency_id` = ?', $currency->getId(), null, \PDO::PARAM_INT);
 		*/
-		
-
-		/*
-		// First join sale_product table...
-		$search
-		->leftJoinSaleProduct('SaleProductPriceDisplay')
-		;
-		
-		// ... then the sale table...
-		$salesJoin = new Join();
-		$salesJoin->addExplicitCondition(
-				'SaleProductPriceDisplay',
-				'SALE_ID',
-				null,
-				SaleTableMap::TABLE_NAME,
-				'ID',
-				'SalePriceDisplay'
-				);
-		$salesJoin->setJoinType(Criteria::LEFT_JOIN);
-		
-		$search
-		->addJoinObject($salesJoin, 'SalePriceDisplay')
-		->addJoinCondition('SalePriceDisplay', '`SalePriceDisplay`.`active` = 1');*/
-		
-		                            // $search->condition('power_interval', '`a`.power >= (?-1) AND `a`.power <= (?+1)',$waermebedarf);
-		                            // $search->setJoinCondition('HeizungProductPower','power_interval');
 		
 		return $search;
 	}

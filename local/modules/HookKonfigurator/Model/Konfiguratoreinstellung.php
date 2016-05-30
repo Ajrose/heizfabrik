@@ -7,6 +7,8 @@ namespace  HookKonfigurator\Model;
  */
 class Konfiguratoreinstellung
 {
+	private $brennstoff_momentan;
+	private $brennstoff_zukunft;
 	private $gebaeudeart;
 	private $baujahr;
 	private $lage_des_gebaeudes;
@@ -21,6 +23,21 @@ class Konfiguratoreinstellung
 	private $flaeche;
 	private $waermebedarf;
 	
+	
+	public function getBrennstoffMomentan() {
+		return $this->brennstoff_momentan;
+	}
+	public function setBrennstoffMomentan($brennstoff_momentan) {
+		$this->brennstoff_momentan = $brennstoff_momentan;
+		return $this;
+	}
+	public function getBrennstoffZukunft() {
+		return $this->brennstoff_zukunft;
+	}
+	public function setBrennstoffZukunft($brennstoff_zukunft) {
+		$this->brennstoff_zukunft = $brennstoff_zukunft;
+		return $this;
+	}
 	public function getGebaeudeart() {
 		return $this->gebaeudeart;
 	}
@@ -114,6 +131,8 @@ class Konfiguratoreinstellung
 	}
 	
 	public function populateKonfiguratorFromRequest($request){
+		$this->setBrennstoffMomentan($request->request->get('konfigurator')['brennstoff_momentan']);
+		$this->setBrennstoffZukunft($request->request->get('konfigurator')['brennstoff_zukunft']);
 		$this->setGebaeudeart($request->request->get('konfigurator')['gebaeudeart']);
 		$this->setBaujahr($request->request->get('konfigurator')['baujahr']);
 		$this->setLageDesGebaeudes($request->request->get('konfigurator')['lage_des_gebaeudes']);
@@ -189,4 +208,5 @@ class Konfiguratoreinstellung
 	$this->waermebedarf = $this->flaeche*$faktor;
 	return $this->waermebedarf;
 	}
+	
 }

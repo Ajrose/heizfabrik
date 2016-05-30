@@ -17,36 +17,46 @@ use Symfony\Component\Validator\Constraints;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Thelia\Core\Translation\Translator;
 use Thelia\Form\BaseForm;
+use Thelia\Log\Tlog;
 
 class CustomServices extends BaseForm
 {
     protected function buildForm()
     {
+    	
+    	
+     $translator = Translator::getInstance();
+     $project_art = array (
+         				1 => $translator->trans("Klimaanlage"),
+         				2 => $translator->trans("Kessel oder Boiler"),
+         				3 => $translator->trans("Elektrische Wandheizung"),
+         				4 => $translator->trans("Andere Heizung, Lüftung oder Klimaanlage"));
+     
+     $oel_gas = array (
+						1 => $translator->trans("Öl"),
+						2 => $translator->trans("Gas"));
+     
          $formBuilder = $this->formBuilder
          ->add("projekt-art", "choice", array(
-         		"choices" => array (
-                       
-         				"Klimaanlage" => Translator::getInstance()->trans("Klimaanlage"),
-         				"Kessel oder Boiler" => Translator::getInstance()->trans("Kessel oder Boiler"),
-         				"Elektrische Wandheizung" => Translator::getInstance()->trans("Elektrische Wandheizung"),
-         				"Andere Heizung, Lüftung oder Klimaanlage" => Translator::getInstance()->trans("Andere Heizung, Lüftung oder Klimaanlage")
-         		),
-         		"label" => Translator::getInstance()->trans("projekt-art"),
+         		"choices" => $project_art,
+         		"choice_label" => function ($value, $key, $index) {
+         		$log = Tlog::getInstance();
+         			$log->debug("choicelog2 ".$key." ".$value." ".$index);
+        return strtoupper($key);
+    },
+         		"label" => $translator->trans("projekt-art"),
          		"label_attr" => array(
          				"for" => "projekt-art",
          		),
          		"data" => 1
          ))
              ->add("oel-gas", "choice", array(
-				"choices" => array (
-						"Öl" => Translator::getInstance()->trans("Öl"),
-						"Gas" => Translator::getInstance()->trans("Gas")
-				),
-				"label" => Translator::getInstance()->trans("oel-gas"),
+				"choices" => $oel_gas,
+				"label" => $translator->trans("oel-gas"),
 				"label_attr" => array(
                     "for" => "oel-gas",
                 ),
-				"data" => "Gas"
+				"data" => "2"
 		))
         ->add("marke", "text", array(
          		"label" => Translator::getInstance()->trans("marke"),
@@ -81,7 +91,7 @@ class CustomServices extends BaseForm
 		))
 		->add("zeit", "choice", array(
 				"choices" => array (
-						"So früh wie möglich" => Translator::getInstance()->trans("So früh wie möglich"),
+						"So frÃ¼h wie mÃ¶glich" => Translator::getInstance()->trans("So frÃ¼h wie mÃ¶glich"),
 						"Vor einem bestimmten Datum" => Translator::getInstance()->trans("Vor einem bestimmten Datum"),
 						"Ich bin flexibel" => Translator::getInstance()->trans("Ich bin flexibel")
 				),

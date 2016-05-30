@@ -32,6 +32,7 @@ use Thelia\Model\ConfigQuery;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\FileBag;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 /**
  * Class ContactController
  * @package Thelia\Controller\Front
@@ -47,6 +48,7 @@ class CustomServicesController extends BaseFrontController
         $log = Tlog::getInstance();
         $contactForm = $this->createForm("custom.services");
         $form = $this->validateForm($contactForm);
+        
         $subject = "Individuelle Services Anfrage";
         $emailTest = "ani.jalavyan@sepa.at";
         $project_art = $this->getRequest()->get('customservices')['projekt-art'];
@@ -95,6 +97,7 @@ $contactEmail="ani.jalavyan@sepa.at";
                 ->setSubject($subject)
                 ->setBody($message, 'text/plain')
                 ->setBody($htmlMessage, 'text/html')
+                
                 ->setContentType("text/html")
             ;
             if($image_full_path != "no_image")$instance->attach(\Swift_Attachment::fromPath($new_image_path."/".$new_image_name));
@@ -106,9 +109,10 @@ $contactEmail="ani.jalavyan@sepa.at";
                
                 $log->error(sprintf('message : %s', $ex->getMessage()));
             }
+//;
 
-
-           return $this->generateRedirectFromRoute('custom.services.success');
+return new JsonResponse($form->get('projekt-art')->getConfig()->getOption("label"));
+          // return $this->generateRedirectFromRoute('custom.services.success');
 
 
 
