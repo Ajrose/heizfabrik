@@ -26,7 +26,14 @@
                     <li><a href="{$URL}">{$TITLE}</a></li>
                 {/if}
                 {/loop}
-					<li><a href="{url path="konfigurator"}">{intl l="HEIZUNGSKONFIGURATOR" d="hookkonfigurator.fo.default"}</a></li>
+					<li class="dropdown"><a href="{url path="konfigurator"}" class="dropdown-toggle">{intl l="HEIZUNGSKONFIGURATOR" d="hookkonfigurator.fo.default"}</a>
+                    <ul class="dropdown-menu" role="menu">
+                            
+                                <li><a href="{url path="heizungskonfigurator-angebot"}">{intl l="INDIVIDUELLES ANGEBOT"}</a></li>    
+                            
+                    </ul>
+                
+                </li>
 					<li class="dropdown"><a href="{url path="klimakonfigurator"}"  class="dropdown-toggle">{intl l="KLIMAKONFIGURATOR" d="klimakonfigurator.fo.default"}</a>
                         <ul class="dropdown-menu" role="menu">
                             

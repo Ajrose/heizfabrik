@@ -1,8 +1,6 @@
 <?php
 
-namespace HookKonfigurator\Model;
-
-use HookKonfigurator\Model\Base\MontageQuery as BaseMontageQuery;
+use Base\MontageQuery as BaseMontageQuery;
 
 
 /**

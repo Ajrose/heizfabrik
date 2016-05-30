@@ -1,12 +1,12 @@
 <?php
 
-namespace HookKonfigurator\Model\Base;
+namespace Base;
 
+use \Montage as ChildMontage;
+use \MontageQuery as ChildMontageQuery;
 use \Exception;
 use \PDO;
-use HookKonfigurator\Model\Montage as ChildMontage;
-use HookKonfigurator\Model\MontageQuery as ChildMontageQuery;
-use HookKonfigurator\Model\Map\MontageTableMap;
+use Map\MontageTableMap;
 use Propel\Runtime\Propel;
 use Propel\Runtime\ActiveQuery\Criteria;
 use Propel\Runtime\ActiveQuery\ModelCriteria;
@@ -22,6 +22,7 @@ use Propel\Runtime\Exception\PropelException;
  * 
  *
  * @method     ChildMontageQuery orderById($order = Criteria::ASC) Order by the id column
+ * @method     ChildMontageQuery orderByCalendarId($order = Criteria::ASC) Order by the calendar_id column
  * @method     ChildMontageQuery orderByType($order = Criteria::ASC) Order by the type column
  * @method     ChildMontageQuery orderByQuantity($order = Criteria::ASC) Order by the quantity column
  * @method     ChildMontageQuery orderByUnit($order = Criteria::ASC) Order by the unit column
@@ -29,6 +30,7 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildMontageQuery orderByDuration($order = Criteria::ASC) Order by the duration column
  *
  * @method     ChildMontageQuery groupById() Group by the id column
+ * @method     ChildMontageQuery groupByCalendarId() Group by the calendar_id column
  * @method     ChildMontageQuery groupByType() Group by the type column
  * @method     ChildMontageQuery groupByQuantity() Group by the quantity column
  * @method     ChildMontageQuery groupByUnit() Group by the unit column
@@ -59,6 +61,7 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildMontage findOneOrCreate(ConnectionInterface $con = null) Return the first ChildMontage matching the query, or a new ChildMontage object populated from the query conditions when no match is found
  *
  * @method     ChildMontage findOneById(int $id) Return the first ChildMontage filtered by the id column
+ * @method     ChildMontage findOneByCalendarId(int $calendar_id) Return the first ChildMontage filtered by the calendar_id column
  * @method     ChildMontage findOneByType(string $type) Return the first ChildMontage filtered by the type column
  * @method     ChildMontage findOneByQuantity(string $quantity) Return the first ChildMontage filtered by the quantity column
  * @method     ChildMontage findOneByUnit(string $unit) Return the first ChildMontage filtered by the unit column
@@ -66,6 +69,7 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildMontage findOneByDuration(int $duration) Return the first ChildMontage filtered by the duration column
  *
  * @method     array findById(int $id) Return ChildMontage objects filtered by the id column
+ * @method     array findByCalendarId(int $calendar_id) Return ChildMontage objects filtered by the calendar_id column
  * @method     array findByType(string $type) Return ChildMontage objects filtered by the type column
  * @method     array findByQuantity(string $quantity) Return ChildMontage objects filtered by the quantity column
  * @method     array findByUnit(string $unit) Return ChildMontage objects filtered by the unit column
@@ -77,13 +81,13 @@ abstract class MontageQuery extends ModelCriteria
 {
     
     /**
-     * Initializes internal state of \HookKonfigurator\Model\Base\MontageQuery object.
+     * Initializes internal state of \Base\MontageQuery object.
      *
      * @param     string $dbName The database name
      * @param     string $modelName The phpName of a model, e.g. 'Book'
      * @param     string $modelAlias The alias for the model in this query, e.g. 'b'
      */
-    public function __construct($dbName = 'thelia', $modelName = '\\HookKonfigurator\\Model\\Montage', $modelAlias = null)
+    public function __construct($dbName = 'thelia', $modelName = '\\Montage', $modelAlias = null)
     {
         parent::__construct($dbName, $modelName, $modelAlias);
     }
@@ -98,10 +102,10 @@ abstract class MontageQuery extends ModelCriteria
      */
     public static function create($modelAlias = null, $criteria = null)
     {
-        if ($criteria instanceof \HookKonfigurator\Model\MontageQuery) {
+        if ($criteria instanceof \MontageQuery) {
             return $criteria;
         }
-        $query = new \HookKonfigurator\Model\MontageQuery();
+        $query = new \MontageQuery();
         if (null !== $modelAlias) {
             $query->setModelAlias($modelAlias);
         }
@@ -159,7 +163,7 @@ abstract class MontageQuery extends ModelCriteria
      */
     protected function findPkSimple($key, $con)
     {
-        $sql = 'SELECT ID, TYPE, QUANTITY, UNIT, EXTRA_QUANTITY_PRICE, DURATION FROM montage WHERE ID = :p0';
+        $sql = 'SELECT ID, CALENDAR_ID, TYPE, QUANTITY, UNIT, EXTRA_QUANTITY_PRICE, DURATION FROM montage WHERE ID = :p0';
         try {
             $stmt = $con->prepare($sql);            
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -289,6 +293,47 @@ abstract class MontageQuery extends ModelCriteria
         }
 
         return $this->addUsingAlias(MontageTableMap::ID, $id, $comparison);
+    }
+
+    /**
+     * Filter the query on the calendar_id column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByCalendarId(1234); // WHERE calendar_id = 1234
+     * $query->filterByCalendarId(array(12, 34)); // WHERE calendar_id IN (12, 34)
+     * $query->filterByCalendarId(array('min' => 12)); // WHERE calendar_id > 12
+     * </code>
+     *
+     * @param     mixed $calendarId The value to use as filter.
+     *              Use scalar values for equality.
+     *              Use array values for in_array() equivalent.
+     *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return ChildMontageQuery The current query, for fluid interface
+     */
+    public function filterByCalendarId($calendarId = null, $comparison = null)
+    {
+        if (is_array($calendarId)) {
+            $useMinMax = false;
+            if (isset($calendarId['min'])) {
+                $this->addUsingAlias(MontageTableMap::CALENDAR_ID, $calendarId['min'], Criteria::GREATER_EQUAL);
+                $useMinMax = true;
+            }
+            if (isset($calendarId['max'])) {
+                $this->addUsingAlias(MontageTableMap::CALENDAR_ID, $calendarId['max'], Criteria::LESS_EQUAL);
+                $useMinMax = true;
+            }
+            if ($useMinMax) {
+                return $this;
+            }
+            if (null === $comparison) {
+                $comparison = Criteria::IN;
+            }
+        }
+
+        return $this->addUsingAlias(MontageTableMap::CALENDAR_ID, $calendarId, $comparison);
     }
 
     /**
@@ -473,16 +518,16 @@ abstract class MontageQuery extends ModelCriteria
     }
 
     /**
-     * Filter the query by a related \HookKonfigurator\Model\Product object
+     * Filter the query by a related \Product object
      *
-     * @param \HookKonfigurator\Model\Product|ObjectCollection $product The related object(s) to use as filter
+     * @param \Product|ObjectCollection $product The related object(s) to use as filter
      * @param string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return ChildMontageQuery The current query, for fluid interface
      */
     public function filterByProduct($product, $comparison = null)
     {
-        if ($product instanceof \HookKonfigurator\Model\Product) {
+        if ($product instanceof \Product) {
             return $this
                 ->addUsingAlias(MontageTableMap::ID, $product->getId(), $comparison);
         } elseif ($product instanceof ObjectCollection) {
@@ -493,7 +538,7 @@ abstract class MontageQuery extends ModelCriteria
             return $this
                 ->addUsingAlias(MontageTableMap::ID, $product->toKeyValue('PrimaryKey', 'Id'), $comparison);
         } else {
-            throw new PropelException('filterByProduct() only accepts arguments of type \HookKonfigurator\Model\Product or Collection');
+            throw new PropelException('filterByProduct() only accepts arguments of type \Product or Collection');
         }
     }
 
@@ -538,35 +583,35 @@ abstract class MontageQuery extends ModelCriteria
      *                                   to be used as main alias in the secondary query
      * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
      *
-     * @return   \HookKonfigurator\Model\ProductQuery A secondary query class using the current class as primary query
+     * @return   \ProductQuery A secondary query class using the current class as primary query
      */
     public function useProductQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN)
     {
         return $this
             ->joinProduct($relationAlias, $joinType)
-            ->useQuery($relationAlias ? $relationAlias : 'Product', '\HookKonfigurator\Model\ProductQuery');
+            ->useQuery($relationAlias ? $relationAlias : 'Product', '\ProductQuery');
     }
 
     /**
-     * Filter the query by a related \HookKonfigurator\Model\MontageConstraints object
+     * Filter the query by a related \MontageConstraints object
      *
-     * @param \HookKonfigurator\Model\MontageConstraints|ObjectCollection $montageConstraints  the related object to use as filter
+     * @param \MontageConstraints|ObjectCollection $montageConstraints  the related object to use as filter
      * @param string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return ChildMontageQuery The current query, for fluid interface
      */
     public function filterByMontageConstraints($montageConstraints, $comparison = null)
     {
-        if ($montageConstraints instanceof \HookKonfigurator\Model\MontageConstraints) {
+        if ($montageConstraints instanceof \MontageConstraints) {
             return $this
-                ->addUsingAlias(MontageTableMap::ID, $montageConstraints->getId(), $comparison);
+                ->addUsingAlias(MontageTableMap::ID, $montageConstraints->getMontageId(), $comparison);
         } elseif ($montageConstraints instanceof ObjectCollection) {
             return $this
                 ->useMontageConstraintsQuery()
                 ->filterByPrimaryKeys($montageConstraints->getPrimaryKeys())
                 ->endUse();
         } else {
-            throw new PropelException('filterByMontageConstraints() only accepts arguments of type \HookKonfigurator\Model\MontageConstraints or Collection');
+            throw new PropelException('filterByMontageConstraints() only accepts arguments of type \MontageConstraints or Collection');
         }
     }
 
@@ -611,35 +656,35 @@ abstract class MontageQuery extends ModelCriteria
      *                                   to be used as main alias in the secondary query
      * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
      *
-     * @return   \HookKonfigurator\Model\MontageConstraintsQuery A secondary query class using the current class as primary query
+     * @return   \MontageConstraintsQuery A secondary query class using the current class as primary query
      */
     public function useMontageConstraintsQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN)
     {
         return $this
             ->joinMontageConstraints($relationAlias, $joinType)
-            ->useQuery($relationAlias ? $relationAlias : 'MontageConstraints', '\HookKonfigurator\Model\MontageConstraintsQuery');
+            ->useQuery($relationAlias ? $relationAlias : 'MontageConstraints', '\MontageConstraintsQuery');
     }
 
     /**
-     * Filter the query by a related \HookKonfigurator\Model\ProductHeizungMontage object
+     * Filter the query by a related \ProductHeizungMontage object
      *
-     * @param \HookKonfigurator\Model\ProductHeizungMontage|ObjectCollection $productHeizungMontage  the related object to use as filter
+     * @param \ProductHeizungMontage|ObjectCollection $productHeizungMontage  the related object to use as filter
      * @param string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return ChildMontageQuery The current query, for fluid interface
      */
     public function filterByProductHeizungMontage($productHeizungMontage, $comparison = null)
     {
-        if ($productHeizungMontage instanceof \HookKonfigurator\Model\ProductHeizungMontage) {
+        if ($productHeizungMontage instanceof \ProductHeizungMontage) {
             return $this
-                ->addUsingAlias(MontageTableMap::ID, $productHeizungMontage->getId(), $comparison);
+                ->addUsingAlias(MontageTableMap::ID, $productHeizungMontage->getMontageId(), $comparison);
         } elseif ($productHeizungMontage instanceof ObjectCollection) {
             return $this
                 ->useProductHeizungMontageQuery()
                 ->filterByPrimaryKeys($productHeizungMontage->getPrimaryKeys())
                 ->endUse();
         } else {
-            throw new PropelException('filterByProductHeizungMontage() only accepts arguments of type \HookKonfigurator\Model\ProductHeizungMontage or Collection');
+            throw new PropelException('filterByProductHeizungMontage() only accepts arguments of type \ProductHeizungMontage or Collection');
         }
     }
 
@@ -684,35 +729,35 @@ abstract class MontageQuery extends ModelCriteria
      *                                   to be used as main alias in the secondary query
      * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
      *
-     * @return   \HookKonfigurator\Model\ProductHeizungMontageQuery A secondary query class using the current class as primary query
+     * @return   \ProductHeizungMontageQuery A secondary query class using the current class as primary query
      */
     public function useProductHeizungMontageQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN)
     {
         return $this
             ->joinProductHeizungMontage($relationAlias, $joinType)
-            ->useQuery($relationAlias ? $relationAlias : 'ProductHeizungMontage', '\HookKonfigurator\Model\ProductHeizungMontageQuery');
+            ->useQuery($relationAlias ? $relationAlias : 'ProductHeizungMontage', '\ProductHeizungMontageQuery');
     }
 
     /**
-     * Filter the query by a related \HookKonfigurator\Model\SetMontage object
+     * Filter the query by a related \SetMontage object
      *
-     * @param \HookKonfigurator\Model\SetMontage|ObjectCollection $setMontage  the related object to use as filter
+     * @param \SetMontage|ObjectCollection $setMontage  the related object to use as filter
      * @param string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return ChildMontageQuery The current query, for fluid interface
      */
     public function filterBySetMontage($setMontage, $comparison = null)
     {
-        if ($setMontage instanceof \HookKonfigurator\Model\SetMontage) {
+        if ($setMontage instanceof \SetMontage) {
             return $this
-                ->addUsingAlias(MontageTableMap::ID, $setMontage->getId(), $comparison);
+                ->addUsingAlias(MontageTableMap::ID, $setMontage->getMontageId(), $comparison);
         } elseif ($setMontage instanceof ObjectCollection) {
             return $this
                 ->useSetMontageQuery()
                 ->filterByPrimaryKeys($setMontage->getPrimaryKeys())
                 ->endUse();
         } else {
-            throw new PropelException('filterBySetMontage() only accepts arguments of type \HookKonfigurator\Model\SetMontage or Collection');
+            throw new PropelException('filterBySetMontage() only accepts arguments of type \SetMontage or Collection');
         }
     }
 
@@ -757,13 +802,13 @@ abstract class MontageQuery extends ModelCriteria
      *                                   to be used as main alias in the secondary query
      * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
      *
-     * @return   \HookKonfigurator\Model\SetMontageQuery A secondary query class using the current class as primary query
+     * @return   \SetMontageQuery A secondary query class using the current class as primary query
      */
     public function useSetMontageQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN)
     {
         return $this
             ->joinSetMontage($relationAlias, $joinType)
-            ->useQuery($relationAlias ? $relationAlias : 'SetMontage', '\HookKonfigurator\Model\SetMontageQuery');
+            ->useQuery($relationAlias ? $relationAlias : 'SetMontage', '\SetMontageQuery');
     }
 
     /**

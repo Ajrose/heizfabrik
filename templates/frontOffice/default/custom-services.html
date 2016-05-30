@@ -116,10 +116,70 @@
                             	</div>
                         </div>
 						</li>
-                        
+                        <li>
+                            <h3 class="fs-anim-upper">Schritt 2 - Persönliche Daten</h3>
+							<div class="row">
+
+                                <div>
+                           				<label class="fs-field-label-sm fs-anim-upper" for="q3">Vorname</label><br>
+                                        {form_field field="projekt-art"}
+                                         
+											<input type="text" class="fs-anim-upper" name="{$name}" id="{$label_attr.for}" value="{$value}" class="form-control input-sm">
+                                        {/form_field}
+                                </div>
+                                <div>
+                           				<label class="fs-field-label-sm fs-anim-upper" for="q3">Nachname</label><br>
+                                        {form_field field="projekt-art"}
+                                         
+											<input type="text" class="fs-anim-upper" name="{$name}" id="{$label_attr.for}" value="{$value}" class="form-control input-sm">
+                                        {/form_field}
+                                </div>
+                                <div>
+                           	   <label class="fs-field-label-sm fs-anim-upper" for="q3">Email</label><br>
+                                        {form_field field="projekt-art"}
+                                         
+											<input type="text" class="fs-anim-upper" name="{$name}" id="{$label_attr.for}" value="{$value}" class="form-control input-sm">
+                                        {/form_field}
+                                </div>
+                                
+                               <div>
+                           	   <label class="fs-field-label-sm fs-anim-upper" for="q3">Telefon</label><br>
+                                        {form_field field="projekt-art"}
+                                         
+											<input type="text" class="fs-anim-upper" name="{$name}" id="{$label_attr.for}" value="{$value}" class="form-control input-sm">
+                                        {/form_field}
+                                </div>
+                                <div>
+                           	   <label class="fs-field-label-sm fs-anim-upper" for="q3">Mobil</label><br>
+                                        {form_field field="projekt-art"}
+                                         
+											<input type="text" class="fs-anim-upper" name="{$name}" id="{$label_attr.for}" value="{$value}" class="form-control input-sm">
+                                        {/form_field}
+                                </div>
+                                
+                            			
+                                
+                              
+
+                                <div>
+                            			<label class="fs-field-label-sm fs-anim-upper" for="q5" >Wann benötigen Sie den Service?</label>
+                                <div>
+                            			{form_field field="zeit"}
+											<select class="fs-anim-lower" name="{$name}" id="{$label_attr.for}" value="{$value}">
+                                               	{foreach $choices as $choice}
+                            						<option value="{$choice->value}"{if $value === {$choice->value}} selected{/if}>{$choice->label}</option>
+							 					{/foreach}
+                            				</select>
+	
+
+                            			{/form_field}
+                                </div>
+                            	</div>
+                        </div>
+						</li>
                         
 						<li>
-                        <h3 class="fs-anim-upper">Schritt 2</h3>
+                        <h3 class="fs-anim-upper">Schritt 3</h3>
                             <div>
                                 {form_field field="anmerkungen"}
 							<label class="fs-field-label fs-anim-upper" for="q15">Bitte beschreiben Sie Ihr Projekt </label>
@@ -133,6 +193,8 @@
                             </div>
                             
 						</li>
+                                                
+						
                             
 				
                       
@@ -179,25 +241,7 @@
   
 <script>
     
-    $( "#projekt-art" ).change(function() {
-    var selection = $(this).val();
-    switch(selection){
-    case "Klimaanlage":
-    case "Kessel oder Boiler":
-    case "Elektrische Wandheizung":
-    $("#marke").show()
-    break;
-    default:
-    $("#marke").hide() 
-    
-    break;
-    case "Kessel oder Boiler":
-    $("#oel-gas").show()     
 
-
-
-    }
-});
     
 
 (function() {

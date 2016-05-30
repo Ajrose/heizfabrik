@@ -11378,8 +11378,10 @@ button.fs-continue,
 	pointer-events: none;
 }
 
-.fs-fields > li label.fs-field-label-sm {
-	//font-size: 0.8em;
+label.fs-field-label-sm {
+	//font-size: 1em;
+    font-weight:400!important;
+    padding:3px;
 }
 .fs-fields > li select,.fs-fields > li input {
 	font-size: 0.8em;

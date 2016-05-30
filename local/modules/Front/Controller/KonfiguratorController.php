@@ -32,6 +32,7 @@ class KonfiguratorController extends BaseFrontController {
 		return new JsonResponse ( array ('stuff' => 'more stuff') ); // $productsQuerry->__toString()
 		}
 	}
+    
 	
 	public function servicesAction(Request $request) {
 		if ($request->isXmlHttpRequest ()) {

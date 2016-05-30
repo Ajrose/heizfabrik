@@ -223,11 +223,17 @@
 						<div class="products-content">
 							<ul class="thumbnails image_picker_selector">
 								{loop type="service"  name="services_list" product_id=$product_id limit="8"}
+                               {assign var="service_for_appointment" value = $SERVICE_ID} 
  									{include file="includes/product-services.html"  hasServiceDescription=false hasQuickView=true width="200" height="100"}
 								{/loop}	
+                                
  							</ul>
  						</div>
+                    
+                
+  
 					{/if}
+                    
 					
                     <fieldset class="product-cart form-inline">
                         {form_field field='quantity'}
@@ -249,6 +255,17 @@
 
                 </form>
                 {/form}
+                <div class="appointment"> Make an appointment</div>
+                <div id="services-appointments" style="display:none">
+                     <script type="text/javascript" src="schedule/index.php?controller=pjFrontEnd&action=pjActionLoad&service_bla={$service_for_appointment}"></script>
+                </div>
+                
+        
+                
+
+                
+                
+                
                 {hook name="product.details-bottom" product={$ID}}
             </section>
 
@@ -375,6 +392,13 @@
 {/loop}
 
 <script type="text/javascript">
+    
+
+    
+    
+    
+    
+    
     // Product sale elements
     var PSE_FORM = true;
     var PSE_COUNT = {$pse_count};
@@ -452,7 +476,24 @@ $('.products-content').on('click', '.thumbnail', function (event) {
 {/block}
 
 {block name="after-javascript-include"}
+
+
+
+
+
 <script>
+     $(document).on("click.appointment", ".appointment", function(e) {
+        // alert("sds")
+
+$("#services-appointments").show();
+        });
+    
+         
+    
+   
+    
+    
+    
 $('.products-content').on('click', '.thumbnail', function (event) {
 	if($(this).hasClass("selected")){
    

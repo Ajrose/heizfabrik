@@ -33,7 +33,7 @@ class MontageTableMap extends TableMap
     /**
      * The (dot-path) name of this class
      */
-    const CLASS_NAME = 'HookKonfigurator.Model.Map.MontageTableMap';
+    const CLASS_NAME = '.Map.MontageTableMap';
 
     /**
      * The default database name for this class
@@ -48,17 +48,17 @@ class MontageTableMap extends TableMap
     /**
      * The related Propel class for this table
      */
-    const OM_CLASS = '\\HookKonfigurator\\Model\\Montage';
+    const OM_CLASS = '\\Montage';
 
     /**
      * A class that can be returned by this tableMap
      */
-    const CLASS_DEFAULT = 'HookKonfigurator.Model.Montage';
+    const CLASS_DEFAULT = 'Montage';
 
     /**
      * The total number of columns
      */
-    const NUM_COLUMNS = 6;
+    const NUM_COLUMNS = 7;
 
     /**
      * The number of lazy-loaded columns
@@ -68,12 +68,17 @@ class MontageTableMap extends TableMap
     /**
      * The number of columns to hydrate (NUM_COLUMNS - NUM_LAZY_LOAD_COLUMNS)
      */
-    const NUM_HYDRATE_COLUMNS = 6;
+    const NUM_HYDRATE_COLUMNS = 7;
 
     /**
      * the column name for the ID field
      */
     const ID = 'montage.ID';
+
+    /**
+     * the column name for the CALENDAR_ID field
+     */
+    const CALENDAR_ID = 'montage.CALENDAR_ID';
 
     /**
      * the column name for the TYPE field
@@ -112,12 +117,12 @@ class MontageTableMap extends TableMap
      * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
      */
     protected static $fieldNames = array (
-        self::TYPE_PHPNAME       => array('Id', 'Type', 'Quantity', 'Unit', 'ExtraQuantityPrice', 'Duration', ),
-        self::TYPE_STUDLYPHPNAME => array('id', 'type', 'quantity', 'unit', 'extraQuantityPrice', 'duration', ),
-        self::TYPE_COLNAME       => array(MontageTableMap::ID, MontageTableMap::TYPE, MontageTableMap::QUANTITY, MontageTableMap::UNIT, MontageTableMap::EXTRA_QUANTITY_PRICE, MontageTableMap::DURATION, ),
-        self::TYPE_RAW_COLNAME   => array('ID', 'TYPE', 'QUANTITY', 'UNIT', 'EXTRA_QUANTITY_PRICE', 'DURATION', ),
-        self::TYPE_FIELDNAME     => array('id', 'type', 'quantity', 'unit', 'extra_quantity_price', 'duration', ),
-        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, )
+        self::TYPE_PHPNAME       => array('Id', 'CalendarId', 'Type', 'Quantity', 'Unit', 'ExtraQuantityPrice', 'Duration', ),
+        self::TYPE_STUDLYPHPNAME => array('id', 'calendarId', 'type', 'quantity', 'unit', 'extraQuantityPrice', 'duration', ),
+        self::TYPE_COLNAME       => array(MontageTableMap::ID, MontageTableMap::CALENDAR_ID, MontageTableMap::TYPE, MontageTableMap::QUANTITY, MontageTableMap::UNIT, MontageTableMap::EXTRA_QUANTITY_PRICE, MontageTableMap::DURATION, ),
+        self::TYPE_RAW_COLNAME   => array('ID', 'CALENDAR_ID', 'TYPE', 'QUANTITY', 'UNIT', 'EXTRA_QUANTITY_PRICE', 'DURATION', ),
+        self::TYPE_FIELDNAME     => array('id', 'calendar_id', 'type', 'quantity', 'unit', 'extra_quantity_price', 'duration', ),
+        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, )
     );
 
     /**
@@ -127,12 +132,12 @@ class MontageTableMap extends TableMap
      * e.g. self::$fieldKeys[self::TYPE_PHPNAME]['Id'] = 0
      */
     protected static $fieldKeys = array (
-        self::TYPE_PHPNAME       => array('Id' => 0, 'Type' => 1, 'Quantity' => 2, 'Unit' => 3, 'ExtraQuantityPrice' => 4, 'Duration' => 5, ),
-        self::TYPE_STUDLYPHPNAME => array('id' => 0, 'type' => 1, 'quantity' => 2, 'unit' => 3, 'extraQuantityPrice' => 4, 'duration' => 5, ),
-        self::TYPE_COLNAME       => array(MontageTableMap::ID => 0, MontageTableMap::TYPE => 1, MontageTableMap::QUANTITY => 2, MontageTableMap::UNIT => 3, MontageTableMap::EXTRA_QUANTITY_PRICE => 4, MontageTableMap::DURATION => 5, ),
-        self::TYPE_RAW_COLNAME   => array('ID' => 0, 'TYPE' => 1, 'QUANTITY' => 2, 'UNIT' => 3, 'EXTRA_QUANTITY_PRICE' => 4, 'DURATION' => 5, ),
-        self::TYPE_FIELDNAME     => array('id' => 0, 'type' => 1, 'quantity' => 2, 'unit' => 3, 'extra_quantity_price' => 4, 'duration' => 5, ),
-        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, )
+        self::TYPE_PHPNAME       => array('Id' => 0, 'CalendarId' => 1, 'Type' => 2, 'Quantity' => 3, 'Unit' => 4, 'ExtraQuantityPrice' => 5, 'Duration' => 6, ),
+        self::TYPE_STUDLYPHPNAME => array('id' => 0, 'calendarId' => 1, 'type' => 2, 'quantity' => 3, 'unit' => 4, 'extraQuantityPrice' => 5, 'duration' => 6, ),
+        self::TYPE_COLNAME       => array(MontageTableMap::ID => 0, MontageTableMap::CALENDAR_ID => 1, MontageTableMap::TYPE => 2, MontageTableMap::QUANTITY => 3, MontageTableMap::UNIT => 4, MontageTableMap::EXTRA_QUANTITY_PRICE => 5, MontageTableMap::DURATION => 6, ),
+        self::TYPE_RAW_COLNAME   => array('ID' => 0, 'CALENDAR_ID' => 1, 'TYPE' => 2, 'QUANTITY' => 3, 'UNIT' => 4, 'EXTRA_QUANTITY_PRICE' => 5, 'DURATION' => 6, ),
+        self::TYPE_FIELDNAME     => array('id' => 0, 'calendar_id' => 1, 'type' => 2, 'quantity' => 3, 'unit' => 4, 'extra_quantity_price' => 5, 'duration' => 6, ),
+        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, )
     );
 
     /**
@@ -147,11 +152,12 @@ class MontageTableMap extends TableMap
         // attributes
         $this->setName('montage');
         $this->setPhpName('Montage');
-        $this->setClassName('\\HookKonfigurator\\Model\\Montage');
-        $this->setPackage('HookKonfigurator.Model');
+        $this->setClassName('\\Montage');
+        $this->setPackage('');
         $this->setUseIdGenerator(false);
         // columns
         $this->addForeignPrimaryKey('ID', 'Id', 'INTEGER' , 'product', 'ID', true, null, null);
+        $this->addColumn('CALENDAR_ID', 'CalendarId', 'INTEGER', false, 10, null);
         $this->addColumn('TYPE', 'Type', 'VARCHAR', true, 255, 'montage');
         $this->addColumn('QUANTITY', 'Quantity', 'DECIMAL', false, 16, 0);
         $this->addColumn('UNIT', 'Unit', 'VARCHAR', false, 255, 'piece');
@@ -164,11 +170,22 @@ class MontageTableMap extends TableMap
      */
     public function buildRelations()
     {
-        $this->addRelation('Product', '\\HookKonfigurator\\Model\\Product', RelationMap::MANY_TO_ONE, array('id' => 'id', ), 'CASCADE', null);
-        $this->addRelation('MontageConstraints', '\\HookKonfigurator\\Model\\MontageConstraints', RelationMap::ONE_TO_ONE, array('id' => 'id', ), null, null);
-        $this->addRelation('ProductHeizungMontage', '\\HookKonfigurator\\Model\\ProductHeizungMontage', RelationMap::ONE_TO_ONE, array('id' => 'id', ), null, null);
-        $this->addRelation('SetMontage', '\\HookKonfigurator\\Model\\SetMontage', RelationMap::ONE_TO_ONE, array('id' => 'id', ), null, null);
+        $this->addRelation('Product', '\\Product', RelationMap::MANY_TO_ONE, array('id' => 'id', ), 'CASCADE', null);
+        $this->addRelation('MontageConstraints', '\\MontageConstraints', RelationMap::ONE_TO_MANY, array('id' => 'montage_id', ), 'CASCADE', null, 'MontageConstraintss');
+        $this->addRelation('ProductHeizungMontage', '\\ProductHeizungMontage', RelationMap::ONE_TO_MANY, array('id' => 'montage_id', ), 'CASCADE', null, 'ProductHeizungMontages');
+        $this->addRelation('SetMontage', '\\SetMontage', RelationMap::ONE_TO_MANY, array('id' => 'montage_id', ), 'CASCADE', null, 'SetMontages');
     } // buildRelations()
+    /**
+     * Method to invalidate the instance pool of all tables related to montage     * by a foreign key with ON DELETE CASCADE
+     */
+    public static function clearRelatedInstancePool()
+    {
+        // Invalidate objects in ".$this->getClassNameFromBuilder($joinedTableTableMapBuilder)." instance pool,
+        // since one or more of them may be deleted by ON DELETE CASCADE/SETNULL rule.
+                MontageConstraintsTableMap::clearInstancePool();
+                ProductHeizungMontageTableMap::clearInstancePool();
+                SetMontageTableMap::clearInstancePool();
+            }
 
     /**
      * Retrieves a string version of the primary key from the DB resultset row that can be used to uniquely identify a row in this table.
@@ -309,6 +326,7 @@ class MontageTableMap extends TableMap
     {
         if (null === $alias) {
             $criteria->addSelectColumn(MontageTableMap::ID);
+            $criteria->addSelectColumn(MontageTableMap::CALENDAR_ID);
             $criteria->addSelectColumn(MontageTableMap::TYPE);
             $criteria->addSelectColumn(MontageTableMap::QUANTITY);
             $criteria->addSelectColumn(MontageTableMap::UNIT);
@@ -316,6 +334,7 @@ class MontageTableMap extends TableMap
             $criteria->addSelectColumn(MontageTableMap::DURATION);
         } else {
             $criteria->addSelectColumn($alias . '.ID');
+            $criteria->addSelectColumn($alias . '.CALENDAR_ID');
             $criteria->addSelectColumn($alias . '.TYPE');
             $criteria->addSelectColumn($alias . '.QUANTITY');
             $criteria->addSelectColumn($alias . '.UNIT');
@@ -367,7 +386,7 @@ class MontageTableMap extends TableMap
         if ($values instanceof Criteria) {
             // rename for clarity
             $criteria = $values;
-        } elseif ($values instanceof \HookKonfigurator\Model\Montage) { // it's a model object
+        } elseif ($values instanceof \Montage) { // it's a model object
             // create criteria based on pk values
             $criteria = $values->buildPkeyCriteria();
         } else { // it's a primary key, or an array of pks

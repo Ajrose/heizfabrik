@@ -93,6 +93,15 @@ web : http://www.hausfabrik.at
     {/javascripts}
     <![endif]-->
    <script src="{javascript file='assets/dist/js/vendors/modernizr.custom.js'}"></script>
+    
+    
+<!--Services appointment codes-->
+    
+     
+     <link rel="stylesheet" href="http://localhost/schedule/index.php?controller=pjFrontEnd&action=pjActionLoadCss">
+     <link rel="stylesheet" href="http://localhost/schedule/core/framework/libs/pj/css/pj.bootstrap.min.css">
+   
+    
    
     {hook name="main.head-bottom"}
 </head>
@@ -286,6 +295,7 @@ Die Standardlieferung dauert bis 3 Arbeitstage."}</small></div>
     {/javascripts}
 
     {hook name="main.after-javascript-include"}
+   
 
     {block name="after-javascript-include"}{/block}
 

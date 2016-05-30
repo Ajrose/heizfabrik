@@ -1,24 +1,26 @@
 <?php
 
-namespace HookKonfigurator\Model\Base;
+namespace Base;
 
+use \Montage as ChildMontage;
+use \MontageConstraints as ChildMontageConstraints;
+use \MontageConstraintsQuery as ChildMontageConstraintsQuery;
+use \MontageQuery as ChildMontageQuery;
+use \Product as ChildProduct;
+use \ProductHeizungMontage as ChildProductHeizungMontage;
+use \ProductHeizungMontageQuery as ChildProductHeizungMontageQuery;
+use \ProductQuery as ChildProductQuery;
+use \SetMontage as ChildSetMontage;
+use \SetMontageQuery as ChildSetMontageQuery;
 use \Exception;
 use \PDO;
-use HookKonfigurator\Model\MontageConstraints as ChildMontageConstraints;
-use HookKonfigurator\Model\MontageConstraintsQuery as ChildMontageConstraintsQuery;
-use HookKonfigurator\Model\MontageQuery as ChildMontageQuery;
-use HookKonfigurator\Model\Product as ChildProduct;
-use HookKonfigurator\Model\ProductHeizungMontage as ChildProductHeizungMontage;
-use HookKonfigurator\Model\ProductHeizungMontageQuery as ChildProductHeizungMontageQuery;
-use HookKonfigurator\Model\ProductQuery as ChildProductQuery;
-use HookKonfigurator\Model\SetMontage as ChildSetMontage;
-use HookKonfigurator\Model\SetMontageQuery as ChildSetMontageQuery;
-use HookKonfigurator\Model\Map\MontageTableMap;
+use Map\MontageTableMap;
 use Propel\Runtime\Propel;
 use Propel\Runtime\ActiveQuery\Criteria;
 use Propel\Runtime\ActiveQuery\ModelCriteria;
 use Propel\Runtime\ActiveRecord\ActiveRecordInterface;
 use Propel\Runtime\Collection\Collection;
+use Propel\Runtime\Collection\ObjectCollection;
 use Propel\Runtime\Connection\ConnectionInterface;
 use Propel\Runtime\Exception\BadMethodCallException;
 use Propel\Runtime\Exception\PropelException;
@@ -30,7 +32,7 @@ abstract class Montage implements ActiveRecordInterface
     /**
      * TableMap class name
      */
-    const TABLE_MAP = '\\HookKonfigurator\\Model\\Map\\MontageTableMap';
+    const TABLE_MAP = '\\Map\\MontageTableMap';
 
 
     /**
@@ -64,6 +66,12 @@ abstract class Montage implements ActiveRecordInterface
      * @var        int
      */
     protected $id;
+
+    /**
+     * The value for the calendar_id field.
+     * @var        int
+     */
+    protected $calendar_id;
 
     /**
      * The value for the type field.
@@ -105,19 +113,22 @@ abstract class Montage implements ActiveRecordInterface
     protected $aProduct;
 
     /**
-     * @var        ChildMontageConstraints one-to-one related ChildMontageConstraints object
+     * @var        ObjectCollection|ChildMontageConstraints[] Collection to store aggregation of ChildMontageConstraints objects.
      */
-    protected $singleMontageConstraints;
+    protected $collMontageConstraintss;
+    protected $collMontageConstraintssPartial;
 
     /**
-     * @var        ChildProductHeizungMontage one-to-one related ChildProductHeizungMontage object
+     * @var        ObjectCollection|ChildProductHeizungMontage[] Collection to store aggregation of ChildProductHeizungMontage objects.
      */
-    protected $singleProductHeizungMontage;
+    protected $collProductHeizungMontages;
+    protected $collProductHeizungMontagesPartial;
 
     /**
-     * @var        ChildSetMontage one-to-one related ChildSetMontage object
+     * @var        ObjectCollection|ChildSetMontage[] Collection to store aggregation of ChildSetMontage objects.
      */
-    protected $singleSetMontage;
+    protected $collSetMontages;
+    protected $collSetMontagesPartial;
 
     /**
      * Flag to prevent endless save loop, if this object is referenced
@@ -126,6 +137,24 @@ abstract class Montage implements ActiveRecordInterface
      * @var boolean
      */
     protected $alreadyInSave = false;
+
+    /**
+     * An array of objects scheduled for deletion.
+     * @var ObjectCollection
+     */
+    protected $montageConstraintssScheduledForDeletion = null;
+
+    /**
+     * An array of objects scheduled for deletion.
+     * @var ObjectCollection
+     */
+    protected $productHeizungMontagesScheduledForDeletion = null;
+
+    /**
+     * An array of objects scheduled for deletion.
+     * @var ObjectCollection
+     */
+    protected $setMontagesScheduledForDeletion = null;
 
     /**
      * Applies default values to this object.
@@ -142,7 +171,7 @@ abstract class Montage implements ActiveRecordInterface
     }
 
     /**
-     * Initializes internal state of HookKonfigurator\Model\Base\Montage object.
+     * Initializes internal state of Base\Montage object.
      * @see applyDefaults()
      */
     public function __construct()
@@ -413,6 +442,17 @@ abstract class Montage implements ActiveRecordInterface
     }
 
     /**
+     * Get the [calendar_id] column value.
+     * 
+     * @return   int
+     */
+    public function getCalendarId()
+    {
+
+        return $this->calendar_id;
+    }
+
+    /**
      * Get the [type] column value.
      * 
      * @return   string
@@ -471,7 +511,7 @@ abstract class Montage implements ActiveRecordInterface
      * Set the value of [id] column.
      * 
      * @param      int $v new value
-     * @return   \HookKonfigurator\Model\Montage The current object (for fluent API support)
+     * @return   \Montage The current object (for fluent API support)
      */
     public function setId($v)
     {
@@ -493,10 +533,31 @@ abstract class Montage implements ActiveRecordInterface
     } // setId()
 
     /**
+     * Set the value of [calendar_id] column.
+     * 
+     * @param      int $v new value
+     * @return   \Montage The current object (for fluent API support)
+     */
+    public function setCalendarId($v)
+    {
+        if ($v !== null) {
+            $v = (int) $v;
+        }
+
+        if ($this->calendar_id !== $v) {
+            $this->calendar_id = $v;
+            $this->modifiedColumns[MontageTableMap::CALENDAR_ID] = true;
+        }
+
+
+        return $this;
+    } // setCalendarId()
+
+    /**
      * Set the value of [type] column.
      * 
      * @param      string $v new value
-     * @return   \HookKonfigurator\Model\Montage The current object (for fluent API support)
+     * @return   \Montage The current object (for fluent API support)
      */
     public function setType($v)
     {
@@ -517,7 +578,7 @@ abstract class Montage implements ActiveRecordInterface
      * Set the value of [quantity] column.
      * 
      * @param      string $v new value
-     * @return   \HookKonfigurator\Model\Montage The current object (for fluent API support)
+     * @return   \Montage The current object (for fluent API support)
      */
     public function setQuantity($v)
     {
@@ -538,7 +599,7 @@ abstract class Montage implements ActiveRecordInterface
      * Set the value of [unit] column.
      * 
      * @param      string $v new value
-     * @return   \HookKonfigurator\Model\Montage The current object (for fluent API support)
+     * @return   \Montage The current object (for fluent API support)
      */
     public function setUnit($v)
     {
@@ -559,7 +620,7 @@ abstract class Montage implements ActiveRecordInterface
      * Set the value of [extra_quantity_price] column.
      * 
      * @param      string $v new value
-     * @return   \HookKonfigurator\Model\Montage The current object (for fluent API support)
+     * @return   \Montage The current object (for fluent API support)
      */
     public function setExtraQuantityPrice($v)
     {
@@ -580,7 +641,7 @@ abstract class Montage implements ActiveRecordInterface
      * Set the value of [duration] column.
      * 
      * @param      int $v new value
-     * @return   \HookKonfigurator\Model\Montage The current object (for fluent API support)
+     * @return   \Montage The current object (for fluent API support)
      */
     public function setDuration($v)
     {
@@ -653,19 +714,22 @@ abstract class Montage implements ActiveRecordInterface
             $col = $row[TableMap::TYPE_NUM == $indexType ? 0 + $startcol : MontageTableMap::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)];
             $this->id = (null !== $col) ? (int) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 1 + $startcol : MontageTableMap::translateFieldName('Type', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 1 + $startcol : MontageTableMap::translateFieldName('CalendarId', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->calendar_id = (null !== $col) ? (int) $col : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 2 + $startcol : MontageTableMap::translateFieldName('Type', TableMap::TYPE_PHPNAME, $indexType)];
             $this->type = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 2 + $startcol : MontageTableMap::translateFieldName('Quantity', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 3 + $startcol : MontageTableMap::translateFieldName('Quantity', TableMap::TYPE_PHPNAME, $indexType)];
             $this->quantity = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 3 + $startcol : MontageTableMap::translateFieldName('Unit', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 4 + $startcol : MontageTableMap::translateFieldName('Unit', TableMap::TYPE_PHPNAME, $indexType)];
             $this->unit = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 4 + $startcol : MontageTableMap::translateFieldName('ExtraQuantityPrice', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 5 + $startcol : MontageTableMap::translateFieldName('ExtraQuantityPrice', TableMap::TYPE_PHPNAME, $indexType)];
             $this->extra_quantity_price = (null !== $col) ? (string) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 5 + $startcol : MontageTableMap::translateFieldName('Duration', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 6 + $startcol : MontageTableMap::translateFieldName('Duration', TableMap::TYPE_PHPNAME, $indexType)];
             $this->duration = (null !== $col) ? (int) $col : null;
             $this->resetModified();
 
@@ -675,10 +739,10 @@ abstract class Montage implements ActiveRecordInterface
                 $this->ensureConsistency();
             }
 
-            return $startcol + 6; // 6 = MontageTableMap::NUM_HYDRATE_COLUMNS.
+            return $startcol + 7; // 7 = MontageTableMap::NUM_HYDRATE_COLUMNS.
 
         } catch (Exception $e) {
-            throw new PropelException("Error populating \HookKonfigurator\Model\Montage object", 0, $e);
+            throw new PropelException("Error populating \Montage object", 0, $e);
         }
     }
 
@@ -740,11 +804,11 @@ abstract class Montage implements ActiveRecordInterface
         if ($deep) {  // also de-associate any related objects?
 
             $this->aProduct = null;
-            $this->singleMontageConstraints = null;
+            $this->collMontageConstraintss = null;
 
-            $this->singleProductHeizungMontage = null;
+            $this->collProductHeizungMontages = null;
 
-            $this->singleSetMontage = null;
+            $this->collSetMontages = null;
 
         } // if (deep)
     }
@@ -880,21 +944,54 @@ abstract class Montage implements ActiveRecordInterface
                 $this->resetModified();
             }
 
-            if ($this->singleMontageConstraints !== null) {
-                if (!$this->singleMontageConstraints->isDeleted() && ($this->singleMontageConstraints->isNew() || $this->singleMontageConstraints->isModified())) {
-                    $affectedRows += $this->singleMontageConstraints->save($con);
+            if ($this->montageConstraintssScheduledForDeletion !== null) {
+                if (!$this->montageConstraintssScheduledForDeletion->isEmpty()) {
+                    \MontageConstraintsQuery::create()
+                        ->filterByPrimaryKeys($this->montageConstraintssScheduledForDeletion->getPrimaryKeys(false))
+                        ->delete($con);
+                    $this->montageConstraintssScheduledForDeletion = null;
                 }
             }
 
-            if ($this->singleProductHeizungMontage !== null) {
-                if (!$this->singleProductHeizungMontage->isDeleted() && ($this->singleProductHeizungMontage->isNew() || $this->singleProductHeizungMontage->isModified())) {
-                    $affectedRows += $this->singleProductHeizungMontage->save($con);
+                if ($this->collMontageConstraintss !== null) {
+            foreach ($this->collMontageConstraintss as $referrerFK) {
+                    if (!$referrerFK->isDeleted() && ($referrerFK->isNew() || $referrerFK->isModified())) {
+                        $affectedRows += $referrerFK->save($con);
+                    }
                 }
             }
 
-            if ($this->singleSetMontage !== null) {
-                if (!$this->singleSetMontage->isDeleted() && ($this->singleSetMontage->isNew() || $this->singleSetMontage->isModified())) {
-                    $affectedRows += $this->singleSetMontage->save($con);
+            if ($this->productHeizungMontagesScheduledForDeletion !== null) {
+                if (!$this->productHeizungMontagesScheduledForDeletion->isEmpty()) {
+                    \ProductHeizungMontageQuery::create()
+                        ->filterByPrimaryKeys($this->productHeizungMontagesScheduledForDeletion->getPrimaryKeys(false))
+                        ->delete($con);
+                    $this->productHeizungMontagesScheduledForDeletion = null;
+                }
+            }
+
+                if ($this->collProductHeizungMontages !== null) {
+            foreach ($this->collProductHeizungMontages as $referrerFK) {
+                    if (!$referrerFK->isDeleted() && ($referrerFK->isNew() || $referrerFK->isModified())) {
+                        $affectedRows += $referrerFK->save($con);
+                    }
+                }
+            }
+
+            if ($this->setMontagesScheduledForDeletion !== null) {
+                if (!$this->setMontagesScheduledForDeletion->isEmpty()) {
+                    \SetMontageQuery::create()
+                        ->filterByPrimaryKeys($this->setMontagesScheduledForDeletion->getPrimaryKeys(false))
+                        ->delete($con);
+                    $this->setMontagesScheduledForDeletion = null;
+                }
+            }
+
+                if ($this->collSetMontages !== null) {
+            foreach ($this->collSetMontages as $referrerFK) {
+                    if (!$referrerFK->isDeleted() && ($referrerFK->isNew() || $referrerFK->isModified())) {
+                        $affectedRows += $referrerFK->save($con);
+                    }
                 }
             }
 
@@ -922,6 +1019,9 @@ abstract class Montage implements ActiveRecordInterface
          // check the columns in natural order for more readable SQL queries
         if ($this->isColumnModified(MontageTableMap::ID)) {
             $modifiedColumns[':p' . $index++]  = 'ID';
+        }
+        if ($this->isColumnModified(MontageTableMap::CALENDAR_ID)) {
+            $modifiedColumns[':p' . $index++]  = 'CALENDAR_ID';
         }
         if ($this->isColumnModified(MontageTableMap::TYPE)) {
             $modifiedColumns[':p' . $index++]  = 'TYPE';
@@ -951,6 +1051,9 @@ abstract class Montage implements ActiveRecordInterface
                 switch ($columnName) {
                     case 'ID':                        
                         $stmt->bindValue($identifier, $this->id, PDO::PARAM_INT);
+                        break;
+                    case 'CALENDAR_ID':                        
+                        $stmt->bindValue($identifier, $this->calendar_id, PDO::PARAM_INT);
                         break;
                     case 'TYPE':                        
                         $stmt->bindValue($identifier, $this->type, PDO::PARAM_STR);
@@ -1026,18 +1129,21 @@ abstract class Montage implements ActiveRecordInterface
                 return $this->getId();
                 break;
             case 1:
-                return $this->getType();
+                return $this->getCalendarId();
                 break;
             case 2:
-                return $this->getQuantity();
+                return $this->getType();
                 break;
             case 3:
-                return $this->getUnit();
+                return $this->getQuantity();
                 break;
             case 4:
-                return $this->getExtraQuantityPrice();
+                return $this->getUnit();
                 break;
             case 5:
+                return $this->getExtraQuantityPrice();
+                break;
+            case 6:
                 return $this->getDuration();
                 break;
             default:
@@ -1070,11 +1176,12 @@ abstract class Montage implements ActiveRecordInterface
         $keys = MontageTableMap::getFieldNames($keyType);
         $result = array(
             $keys[0] => $this->getId(),
-            $keys[1] => $this->getType(),
-            $keys[2] => $this->getQuantity(),
-            $keys[3] => $this->getUnit(),
-            $keys[4] => $this->getExtraQuantityPrice(),
-            $keys[5] => $this->getDuration(),
+            $keys[1] => $this->getCalendarId(),
+            $keys[2] => $this->getType(),
+            $keys[3] => $this->getQuantity(),
+            $keys[4] => $this->getUnit(),
+            $keys[5] => $this->getExtraQuantityPrice(),
+            $keys[6] => $this->getDuration(),
         );
         $virtualColumns = $this->virtualColumns;
         foreach ($virtualColumns as $key => $virtualColumn) {
@@ -1085,14 +1192,14 @@ abstract class Montage implements ActiveRecordInterface
             if (null !== $this->aProduct) {
                 $result['Product'] = $this->aProduct->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
             }
-            if (null !== $this->singleMontageConstraints) {
-                $result['MontageConstraints'] = $this->singleMontageConstraints->toArray($keyType, $includeLazyLoadColumns, $alreadyDumpedObjects, true);
+            if (null !== $this->collMontageConstraintss) {
+                $result['MontageConstraintss'] = $this->collMontageConstraintss->toArray(null, true, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
             }
-            if (null !== $this->singleProductHeizungMontage) {
-                $result['ProductHeizungMontage'] = $this->singleProductHeizungMontage->toArray($keyType, $includeLazyLoadColumns, $alreadyDumpedObjects, true);
+            if (null !== $this->collProductHeizungMontages) {
+                $result['ProductHeizungMontages'] = $this->collProductHeizungMontages->toArray(null, true, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
             }
-            if (null !== $this->singleSetMontage) {
-                $result['SetMontage'] = $this->singleSetMontage->toArray($keyType, $includeLazyLoadColumns, $alreadyDumpedObjects, true);
+            if (null !== $this->collSetMontages) {
+                $result['SetMontages'] = $this->collSetMontages->toArray(null, true, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
             }
         }
 
@@ -1132,18 +1239,21 @@ abstract class Montage implements ActiveRecordInterface
                 $this->setId($value);
                 break;
             case 1:
-                $this->setType($value);
+                $this->setCalendarId($value);
                 break;
             case 2:
-                $this->setQuantity($value);
+                $this->setType($value);
                 break;
             case 3:
-                $this->setUnit($value);
+                $this->setQuantity($value);
                 break;
             case 4:
-                $this->setExtraQuantityPrice($value);
+                $this->setUnit($value);
                 break;
             case 5:
+                $this->setExtraQuantityPrice($value);
+                break;
+            case 6:
                 $this->setDuration($value);
                 break;
         } // switch()
@@ -1171,11 +1281,12 @@ abstract class Montage implements ActiveRecordInterface
         $keys = MontageTableMap::getFieldNames($keyType);
 
         if (array_key_exists($keys[0], $arr)) $this->setId($arr[$keys[0]]);
-        if (array_key_exists($keys[1], $arr)) $this->setType($arr[$keys[1]]);
-        if (array_key_exists($keys[2], $arr)) $this->setQuantity($arr[$keys[2]]);
-        if (array_key_exists($keys[3], $arr)) $this->setUnit($arr[$keys[3]]);
-        if (array_key_exists($keys[4], $arr)) $this->setExtraQuantityPrice($arr[$keys[4]]);
-        if (array_key_exists($keys[5], $arr)) $this->setDuration($arr[$keys[5]]);
+        if (array_key_exists($keys[1], $arr)) $this->setCalendarId($arr[$keys[1]]);
+        if (array_key_exists($keys[2], $arr)) $this->setType($arr[$keys[2]]);
+        if (array_key_exists($keys[3], $arr)) $this->setQuantity($arr[$keys[3]]);
+        if (array_key_exists($keys[4], $arr)) $this->setUnit($arr[$keys[4]]);
+        if (array_key_exists($keys[5], $arr)) $this->setExtraQuantityPrice($arr[$keys[5]]);
+        if (array_key_exists($keys[6], $arr)) $this->setDuration($arr[$keys[6]]);
     }
 
     /**
@@ -1188,6 +1299,7 @@ abstract class Montage implements ActiveRecordInterface
         $criteria = new Criteria(MontageTableMap::DATABASE_NAME);
 
         if ($this->isColumnModified(MontageTableMap::ID)) $criteria->add(MontageTableMap::ID, $this->id);
+        if ($this->isColumnModified(MontageTableMap::CALENDAR_ID)) $criteria->add(MontageTableMap::CALENDAR_ID, $this->calendar_id);
         if ($this->isColumnModified(MontageTableMap::TYPE)) $criteria->add(MontageTableMap::TYPE, $this->type);
         if ($this->isColumnModified(MontageTableMap::QUANTITY)) $criteria->add(MontageTableMap::QUANTITY, $this->quantity);
         if ($this->isColumnModified(MontageTableMap::UNIT)) $criteria->add(MontageTableMap::UNIT, $this->unit);
@@ -1249,7 +1361,7 @@ abstract class Montage implements ActiveRecordInterface
      * If desired, this method can also make copies of all associated (fkey referrers)
      * objects.
      *
-     * @param      object $copyObj An object of \HookKonfigurator\Model\Montage (or compatible) type.
+     * @param      object $copyObj An object of \Montage (or compatible) type.
      * @param      boolean $deepCopy Whether to also copy all rows that refer (by fkey) to the current row.
      * @param      boolean $makeNew Whether to reset autoincrement PKs and make the object new.
      * @throws PropelException
@@ -1257,6 +1369,7 @@ abstract class Montage implements ActiveRecordInterface
     public function copyInto($copyObj, $deepCopy = false, $makeNew = true)
     {
         $copyObj->setId($this->getId());
+        $copyObj->setCalendarId($this->getCalendarId());
         $copyObj->setType($this->getType());
         $copyObj->setQuantity($this->getQuantity());
         $copyObj->setUnit($this->getUnit());
@@ -1268,19 +1381,22 @@ abstract class Montage implements ActiveRecordInterface
             // the getter/setter methods for fkey referrer objects.
             $copyObj->setNew(false);
 
-            $relObj = $this->getMontageConstraints();
-            if ($relObj) {
-                $copyObj->setMontageConstraints($relObj->copy($deepCopy));
+            foreach ($this->getMontageConstraintss() as $relObj) {
+                if ($relObj !== $this) {  // ensure that we don't try to copy a reference to ourselves
+                    $copyObj->addMontageConstraints($relObj->copy($deepCopy));
+                }
             }
 
-            $relObj = $this->getProductHeizungMontage();
-            if ($relObj) {
-                $copyObj->setProductHeizungMontage($relObj->copy($deepCopy));
+            foreach ($this->getProductHeizungMontages() as $relObj) {
+                if ($relObj !== $this) {  // ensure that we don't try to copy a reference to ourselves
+                    $copyObj->addProductHeizungMontage($relObj->copy($deepCopy));
+                }
             }
 
-            $relObj = $this->getSetMontage();
-            if ($relObj) {
-                $copyObj->setSetMontage($relObj->copy($deepCopy));
+            foreach ($this->getSetMontages() as $relObj) {
+                if ($relObj !== $this) {  // ensure that we don't try to copy a reference to ourselves
+                    $copyObj->addSetMontage($relObj->copy($deepCopy));
+                }
             }
 
         } // if ($deepCopy)
@@ -1299,7 +1415,7 @@ abstract class Montage implements ActiveRecordInterface
      * objects.
      *
      * @param      boolean $deepCopy Whether to also copy all rows that refer (by fkey) to the current row.
-     * @return                 \HookKonfigurator\Model\Montage Clone of current object.
+     * @return                 \Montage Clone of current object.
      * @throws PropelException
      */
     public function copy($deepCopy = false)
@@ -1316,7 +1432,7 @@ abstract class Montage implements ActiveRecordInterface
      * Declares an association between this object and a ChildProduct object.
      *
      * @param                  ChildProduct $v
-     * @return                 \HookKonfigurator\Model\Montage The current object (for fluent API support)
+     * @return                 \Montage The current object (for fluent API support)
      * @throws PropelException
      */
     public function setProduct(ChildProduct $v = null)
@@ -1368,114 +1484,744 @@ abstract class Montage implements ActiveRecordInterface
      */
     public function initRelation($relationName)
     {
+        if ('MontageConstraints' == $relationName) {
+            return $this->initMontageConstraintss();
+        }
+        if ('ProductHeizungMontage' == $relationName) {
+            return $this->initProductHeizungMontages();
+        }
+        if ('SetMontage' == $relationName) {
+            return $this->initSetMontages();
+        }
     }
 
     /**
-     * Gets a single ChildMontageConstraints object, which is related to this object by a one-to-one relationship.
+     * Clears out the collMontageConstraintss collection
      *
+     * This does not modify the database; however, it will remove any associated objects, causing
+     * them to be refetched by subsequent calls to accessor method.
+     *
+     * @return void
+     * @see        addMontageConstraintss()
+     */
+    public function clearMontageConstraintss()
+    {
+        $this->collMontageConstraintss = null; // important to set this to NULL since that means it is uninitialized
+    }
+
+    /**
+     * Reset is the collMontageConstraintss collection loaded partially.
+     */
+    public function resetPartialMontageConstraintss($v = true)
+    {
+        $this->collMontageConstraintssPartial = $v;
+    }
+
+    /**
+     * Initializes the collMontageConstraintss collection.
+     *
+     * By default this just sets the collMontageConstraintss collection to an empty array (like clearcollMontageConstraintss());
+     * however, you may wish to override this method in your stub class to provide setting appropriate
+     * to your application -- for example, setting the initial array to the values stored in database.
+     *
+     * @param      boolean $overrideExisting If set to true, the method call initializes
+     *                                        the collection even if it is not empty
+     *
+     * @return void
+     */
+    public function initMontageConstraintss($overrideExisting = true)
+    {
+        if (null !== $this->collMontageConstraintss && !$overrideExisting) {
+            return;
+        }
+        $this->collMontageConstraintss = new ObjectCollection();
+        $this->collMontageConstraintss->setModel('\MontageConstraints');
+    }
+
+    /**
+     * Gets an array of ChildMontageConstraints objects which contain a foreign key that references this object.
+     *
+     * If the $criteria is not null, it is used to always fetch the results from the database.
+     * Otherwise the results are fetched from the database the first time, then cached.
+     * Next time the same method is called without $criteria, the cached collection is returned.
+     * If this ChildMontage is new, it will return
+     * an empty collection or the current collection; the criteria is ignored on a new object.
+     *
+     * @param      Criteria $criteria optional Criteria object to narrow the query
      * @param      ConnectionInterface $con optional connection object
-     * @return                 ChildMontageConstraints
+     * @return Collection|ChildMontageConstraints[] List of ChildMontageConstraints objects
      * @throws PropelException
      */
-    public function getMontageConstraints(ConnectionInterface $con = null)
+    public function getMontageConstraintss($criteria = null, ConnectionInterface $con = null)
     {
+        $partial = $this->collMontageConstraintssPartial && !$this->isNew();
+        if (null === $this->collMontageConstraintss || null !== $criteria  || $partial) {
+            if ($this->isNew() && null === $this->collMontageConstraintss) {
+                // return empty collection
+                $this->initMontageConstraintss();
+            } else {
+                $collMontageConstraintss = ChildMontageConstraintsQuery::create(null, $criteria)
+                    ->filterByMontage($this)
+                    ->find($con);
 
-        if ($this->singleMontageConstraints === null && !$this->isNew()) {
-            $this->singleMontageConstraints = ChildMontageConstraintsQuery::create()->findPk($this->getPrimaryKey(), $con);
+                if (null !== $criteria) {
+                    if (false !== $this->collMontageConstraintssPartial && count($collMontageConstraintss)) {
+                        $this->initMontageConstraintss(false);
+
+                        foreach ($collMontageConstraintss as $obj) {
+                            if (false == $this->collMontageConstraintss->contains($obj)) {
+                                $this->collMontageConstraintss->append($obj);
+                            }
+                        }
+
+                        $this->collMontageConstraintssPartial = true;
+                    }
+
+                    reset($collMontageConstraintss);
+
+                    return $collMontageConstraintss;
+                }
+
+                if ($partial && $this->collMontageConstraintss) {
+                    foreach ($this->collMontageConstraintss as $obj) {
+                        if ($obj->isNew()) {
+                            $collMontageConstraintss[] = $obj;
+                        }
+                    }
+                }
+
+                $this->collMontageConstraintss = $collMontageConstraintss;
+                $this->collMontageConstraintssPartial = false;
+            }
         }
 
-        return $this->singleMontageConstraints;
+        return $this->collMontageConstraintss;
     }
 
     /**
-     * Sets a single ChildMontageConstraints object as related to this object by a one-to-one relationship.
+     * Sets a collection of MontageConstraints objects related by a one-to-many relationship
+     * to the current object.
+     * It will also schedule objects for deletion based on a diff between old objects (aka persisted)
+     * and new objects from the given Propel collection.
      *
-     * @param                  ChildMontageConstraints $v ChildMontageConstraints
-     * @return                 \HookKonfigurator\Model\Montage The current object (for fluent API support)
+     * @param      Collection $montageConstraintss A Propel collection.
+     * @param      ConnectionInterface $con Optional connection object
+     * @return   ChildMontage The current object (for fluent API support)
+     */
+    public function setMontageConstraintss(Collection $montageConstraintss, ConnectionInterface $con = null)
+    {
+        $montageConstraintssToDelete = $this->getMontageConstraintss(new Criteria(), $con)->diff($montageConstraintss);
+
+        
+        $this->montageConstraintssScheduledForDeletion = $montageConstraintssToDelete;
+
+        foreach ($montageConstraintssToDelete as $montageConstraintsRemoved) {
+            $montageConstraintsRemoved->setMontage(null);
+        }
+
+        $this->collMontageConstraintss = null;
+        foreach ($montageConstraintss as $montageConstraints) {
+            $this->addMontageConstraints($montageConstraints);
+        }
+
+        $this->collMontageConstraintss = $montageConstraintss;
+        $this->collMontageConstraintssPartial = false;
+
+        return $this;
+    }
+
+    /**
+     * Returns the number of related MontageConstraints objects.
+     *
+     * @param      Criteria $criteria
+     * @param      boolean $distinct
+     * @param      ConnectionInterface $con
+     * @return int             Count of related MontageConstraints objects.
      * @throws PropelException
      */
-    public function setMontageConstraints(ChildMontageConstraints $v = null)
+    public function countMontageConstraintss(Criteria $criteria = null, $distinct = false, ConnectionInterface $con = null)
     {
-        $this->singleMontageConstraints = $v;
+        $partial = $this->collMontageConstraintssPartial && !$this->isNew();
+        if (null === $this->collMontageConstraintss || null !== $criteria || $partial) {
+            if ($this->isNew() && null === $this->collMontageConstraintss) {
+                return 0;
+            }
 
-        // Make sure that that the passed-in ChildMontageConstraints isn't already associated with this object
-        if ($v !== null && $v->getMontage(null, false) === null) {
-            $v->setMontage($this);
+            if ($partial && !$criteria) {
+                return count($this->getMontageConstraintss());
+            }
+
+            $query = ChildMontageConstraintsQuery::create(null, $criteria);
+            if ($distinct) {
+                $query->distinct();
+            }
+
+            return $query
+                ->filterByMontage($this)
+                ->count($con);
+        }
+
+        return count($this->collMontageConstraintss);
+    }
+
+    /**
+     * Method called to associate a ChildMontageConstraints object to this object
+     * through the ChildMontageConstraints foreign key attribute.
+     *
+     * @param    ChildMontageConstraints $l ChildMontageConstraints
+     * @return   \Montage The current object (for fluent API support)
+     */
+    public function addMontageConstraints(ChildMontageConstraints $l)
+    {
+        if ($this->collMontageConstraintss === null) {
+            $this->initMontageConstraintss();
+            $this->collMontageConstraintssPartial = true;
+        }
+
+        if (!in_array($l, $this->collMontageConstraintss->getArrayCopy(), true)) { // only add it if the **same** object is not already associated
+            $this->doAddMontageConstraints($l);
         }
 
         return $this;
     }
 
     /**
-     * Gets a single ChildProductHeizungMontage object, which is related to this object by a one-to-one relationship.
-     *
-     * @param      ConnectionInterface $con optional connection object
-     * @return                 ChildProductHeizungMontage
-     * @throws PropelException
+     * @param MontageConstraints $montageConstraints The montageConstraints object to add.
      */
-    public function getProductHeizungMontage(ConnectionInterface $con = null)
+    protected function doAddMontageConstraints($montageConstraints)
     {
-
-        if ($this->singleProductHeizungMontage === null && !$this->isNew()) {
-            $this->singleProductHeizungMontage = ChildProductHeizungMontageQuery::create()->findPk($this->getPrimaryKey(), $con);
-        }
-
-        return $this->singleProductHeizungMontage;
+        $this->collMontageConstraintss[]= $montageConstraints;
+        $montageConstraints->setMontage($this);
     }
 
     /**
-     * Sets a single ChildProductHeizungMontage object as related to this object by a one-to-one relationship.
+     * @param  MontageConstraints $montageConstraints The montageConstraints object to remove.
+     * @return ChildMontage The current object (for fluent API support)
+     */
+    public function removeMontageConstraints($montageConstraints)
+    {
+        if ($this->getMontageConstraintss()->contains($montageConstraints)) {
+            $this->collMontageConstraintss->remove($this->collMontageConstraintss->search($montageConstraints));
+            if (null === $this->montageConstraintssScheduledForDeletion) {
+                $this->montageConstraintssScheduledForDeletion = clone $this->collMontageConstraintss;
+                $this->montageConstraintssScheduledForDeletion->clear();
+            }
+            $this->montageConstraintssScheduledForDeletion[]= clone $montageConstraints;
+            $montageConstraints->setMontage(null);
+        }
+
+        return $this;
+    }
+
+
+    /**
+     * If this collection has already been initialized with
+     * an identical criteria, it returns the collection.
+     * Otherwise if this Montage is new, it will return
+     * an empty collection; or if this Montage has previously
+     * been saved, it will retrieve related MontageConstraintss from storage.
      *
-     * @param                  ChildProductHeizungMontage $v ChildProductHeizungMontage
-     * @return                 \HookKonfigurator\Model\Montage The current object (for fluent API support)
+     * This method is protected by default in order to keep the public
+     * api reasonable.  You can provide public methods for those you
+     * actually need in Montage.
+     *
+     * @param      Criteria $criteria optional Criteria object to narrow the query
+     * @param      ConnectionInterface $con optional connection object
+     * @param      string $joinBehavior optional join type to use (defaults to Criteria::LEFT_JOIN)
+     * @return Collection|ChildMontageConstraints[] List of ChildMontageConstraints objects
+     */
+    public function getMontageConstraintssJoinConstraints($criteria = null, $con = null, $joinBehavior = Criteria::LEFT_JOIN)
+    {
+        $query = ChildMontageConstraintsQuery::create(null, $criteria);
+        $query->joinWith('Constraints', $joinBehavior);
+
+        return $this->getMontageConstraintss($query, $con);
+    }
+
+    /**
+     * Clears out the collProductHeizungMontages collection
+     *
+     * This does not modify the database; however, it will remove any associated objects, causing
+     * them to be refetched by subsequent calls to accessor method.
+     *
+     * @return void
+     * @see        addProductHeizungMontages()
+     */
+    public function clearProductHeizungMontages()
+    {
+        $this->collProductHeizungMontages = null; // important to set this to NULL since that means it is uninitialized
+    }
+
+    /**
+     * Reset is the collProductHeizungMontages collection loaded partially.
+     */
+    public function resetPartialProductHeizungMontages($v = true)
+    {
+        $this->collProductHeizungMontagesPartial = $v;
+    }
+
+    /**
+     * Initializes the collProductHeizungMontages collection.
+     *
+     * By default this just sets the collProductHeizungMontages collection to an empty array (like clearcollProductHeizungMontages());
+     * however, you may wish to override this method in your stub class to provide setting appropriate
+     * to your application -- for example, setting the initial array to the values stored in database.
+     *
+     * @param      boolean $overrideExisting If set to true, the method call initializes
+     *                                        the collection even if it is not empty
+     *
+     * @return void
+     */
+    public function initProductHeizungMontages($overrideExisting = true)
+    {
+        if (null !== $this->collProductHeizungMontages && !$overrideExisting) {
+            return;
+        }
+        $this->collProductHeizungMontages = new ObjectCollection();
+        $this->collProductHeizungMontages->setModel('\ProductHeizungMontage');
+    }
+
+    /**
+     * Gets an array of ChildProductHeizungMontage objects which contain a foreign key that references this object.
+     *
+     * If the $criteria is not null, it is used to always fetch the results from the database.
+     * Otherwise the results are fetched from the database the first time, then cached.
+     * Next time the same method is called without $criteria, the cached collection is returned.
+     * If this ChildMontage is new, it will return
+     * an empty collection or the current collection; the criteria is ignored on a new object.
+     *
+     * @param      Criteria $criteria optional Criteria object to narrow the query
+     * @param      ConnectionInterface $con optional connection object
+     * @return Collection|ChildProductHeizungMontage[] List of ChildProductHeizungMontage objects
      * @throws PropelException
      */
-    public function setProductHeizungMontage(ChildProductHeizungMontage $v = null)
+    public function getProductHeizungMontages($criteria = null, ConnectionInterface $con = null)
     {
-        $this->singleProductHeizungMontage = $v;
+        $partial = $this->collProductHeizungMontagesPartial && !$this->isNew();
+        if (null === $this->collProductHeizungMontages || null !== $criteria  || $partial) {
+            if ($this->isNew() && null === $this->collProductHeizungMontages) {
+                // return empty collection
+                $this->initProductHeizungMontages();
+            } else {
+                $collProductHeizungMontages = ChildProductHeizungMontageQuery::create(null, $criteria)
+                    ->filterByMontage($this)
+                    ->find($con);
 
-        // Make sure that that the passed-in ChildProductHeizungMontage isn't already associated with this object
-        if ($v !== null && $v->getMontage(null, false) === null) {
-            $v->setMontage($this);
+                if (null !== $criteria) {
+                    if (false !== $this->collProductHeizungMontagesPartial && count($collProductHeizungMontages)) {
+                        $this->initProductHeizungMontages(false);
+
+                        foreach ($collProductHeizungMontages as $obj) {
+                            if (false == $this->collProductHeizungMontages->contains($obj)) {
+                                $this->collProductHeizungMontages->append($obj);
+                            }
+                        }
+
+                        $this->collProductHeizungMontagesPartial = true;
+                    }
+
+                    reset($collProductHeizungMontages);
+
+                    return $collProductHeizungMontages;
+                }
+
+                if ($partial && $this->collProductHeizungMontages) {
+                    foreach ($this->collProductHeizungMontages as $obj) {
+                        if ($obj->isNew()) {
+                            $collProductHeizungMontages[] = $obj;
+                        }
+                    }
+                }
+
+                $this->collProductHeizungMontages = $collProductHeizungMontages;
+                $this->collProductHeizungMontagesPartial = false;
+            }
+        }
+
+        return $this->collProductHeizungMontages;
+    }
+
+    /**
+     * Sets a collection of ProductHeizungMontage objects related by a one-to-many relationship
+     * to the current object.
+     * It will also schedule objects for deletion based on a diff between old objects (aka persisted)
+     * and new objects from the given Propel collection.
+     *
+     * @param      Collection $productHeizungMontages A Propel collection.
+     * @param      ConnectionInterface $con Optional connection object
+     * @return   ChildMontage The current object (for fluent API support)
+     */
+    public function setProductHeizungMontages(Collection $productHeizungMontages, ConnectionInterface $con = null)
+    {
+        $productHeizungMontagesToDelete = $this->getProductHeizungMontages(new Criteria(), $con)->diff($productHeizungMontages);
+
+        
+        $this->productHeizungMontagesScheduledForDeletion = $productHeizungMontagesToDelete;
+
+        foreach ($productHeizungMontagesToDelete as $productHeizungMontageRemoved) {
+            $productHeizungMontageRemoved->setMontage(null);
+        }
+
+        $this->collProductHeizungMontages = null;
+        foreach ($productHeizungMontages as $productHeizungMontage) {
+            $this->addProductHeizungMontage($productHeizungMontage);
+        }
+
+        $this->collProductHeizungMontages = $productHeizungMontages;
+        $this->collProductHeizungMontagesPartial = false;
+
+        return $this;
+    }
+
+    /**
+     * Returns the number of related ProductHeizungMontage objects.
+     *
+     * @param      Criteria $criteria
+     * @param      boolean $distinct
+     * @param      ConnectionInterface $con
+     * @return int             Count of related ProductHeizungMontage objects.
+     * @throws PropelException
+     */
+    public function countProductHeizungMontages(Criteria $criteria = null, $distinct = false, ConnectionInterface $con = null)
+    {
+        $partial = $this->collProductHeizungMontagesPartial && !$this->isNew();
+        if (null === $this->collProductHeizungMontages || null !== $criteria || $partial) {
+            if ($this->isNew() && null === $this->collProductHeizungMontages) {
+                return 0;
+            }
+
+            if ($partial && !$criteria) {
+                return count($this->getProductHeizungMontages());
+            }
+
+            $query = ChildProductHeizungMontageQuery::create(null, $criteria);
+            if ($distinct) {
+                $query->distinct();
+            }
+
+            return $query
+                ->filterByMontage($this)
+                ->count($con);
+        }
+
+        return count($this->collProductHeizungMontages);
+    }
+
+    /**
+     * Method called to associate a ChildProductHeizungMontage object to this object
+     * through the ChildProductHeizungMontage foreign key attribute.
+     *
+     * @param    ChildProductHeizungMontage $l ChildProductHeizungMontage
+     * @return   \Montage The current object (for fluent API support)
+     */
+    public function addProductHeizungMontage(ChildProductHeizungMontage $l)
+    {
+        if ($this->collProductHeizungMontages === null) {
+            $this->initProductHeizungMontages();
+            $this->collProductHeizungMontagesPartial = true;
+        }
+
+        if (!in_array($l, $this->collProductHeizungMontages->getArrayCopy(), true)) { // only add it if the **same** object is not already associated
+            $this->doAddProductHeizungMontage($l);
         }
 
         return $this;
     }
 
     /**
-     * Gets a single ChildSetMontage object, which is related to this object by a one-to-one relationship.
-     *
-     * @param      ConnectionInterface $con optional connection object
-     * @return                 ChildSetMontage
-     * @throws PropelException
+     * @param ProductHeizungMontage $productHeizungMontage The productHeizungMontage object to add.
      */
-    public function getSetMontage(ConnectionInterface $con = null)
+    protected function doAddProductHeizungMontage($productHeizungMontage)
     {
-
-        if ($this->singleSetMontage === null && !$this->isNew()) {
-            $this->singleSetMontage = ChildSetMontageQuery::create()->findPk($this->getPrimaryKey(), $con);
-        }
-
-        return $this->singleSetMontage;
+        $this->collProductHeizungMontages[]= $productHeizungMontage;
+        $productHeizungMontage->setMontage($this);
     }
 
     /**
-     * Sets a single ChildSetMontage object as related to this object by a one-to-one relationship.
-     *
-     * @param                  ChildSetMontage $v ChildSetMontage
-     * @return                 \HookKonfigurator\Model\Montage The current object (for fluent API support)
-     * @throws PropelException
+     * @param  ProductHeizungMontage $productHeizungMontage The productHeizungMontage object to remove.
+     * @return ChildMontage The current object (for fluent API support)
      */
-    public function setSetMontage(ChildSetMontage $v = null)
+    public function removeProductHeizungMontage($productHeizungMontage)
     {
-        $this->singleSetMontage = $v;
-
-        // Make sure that that the passed-in ChildSetMontage isn't already associated with this object
-        if ($v !== null && $v->getMontage(null, false) === null) {
-            $v->setMontage($this);
+        if ($this->getProductHeizungMontages()->contains($productHeizungMontage)) {
+            $this->collProductHeizungMontages->remove($this->collProductHeizungMontages->search($productHeizungMontage));
+            if (null === $this->productHeizungMontagesScheduledForDeletion) {
+                $this->productHeizungMontagesScheduledForDeletion = clone $this->collProductHeizungMontages;
+                $this->productHeizungMontagesScheduledForDeletion->clear();
+            }
+            $this->productHeizungMontagesScheduledForDeletion[]= clone $productHeizungMontage;
+            $productHeizungMontage->setMontage(null);
         }
 
         return $this;
+    }
+
+
+    /**
+     * If this collection has already been initialized with
+     * an identical criteria, it returns the collection.
+     * Otherwise if this Montage is new, it will return
+     * an empty collection; or if this Montage has previously
+     * been saved, it will retrieve related ProductHeizungMontages from storage.
+     *
+     * This method is protected by default in order to keep the public
+     * api reasonable.  You can provide public methods for those you
+     * actually need in Montage.
+     *
+     * @param      Criteria $criteria optional Criteria object to narrow the query
+     * @param      ConnectionInterface $con optional connection object
+     * @param      string $joinBehavior optional join type to use (defaults to Criteria::LEFT_JOIN)
+     * @return Collection|ChildProductHeizungMontage[] List of ChildProductHeizungMontage objects
+     */
+    public function getProductHeizungMontagesJoinProductHeizung($criteria = null, $con = null, $joinBehavior = Criteria::LEFT_JOIN)
+    {
+        $query = ChildProductHeizungMontageQuery::create(null, $criteria);
+        $query->joinWith('ProductHeizung', $joinBehavior);
+
+        return $this->getProductHeizungMontages($query, $con);
+    }
+
+    /**
+     * Clears out the collSetMontages collection
+     *
+     * This does not modify the database; however, it will remove any associated objects, causing
+     * them to be refetched by subsequent calls to accessor method.
+     *
+     * @return void
+     * @see        addSetMontages()
+     */
+    public function clearSetMontages()
+    {
+        $this->collSetMontages = null; // important to set this to NULL since that means it is uninitialized
+    }
+
+    /**
+     * Reset is the collSetMontages collection loaded partially.
+     */
+    public function resetPartialSetMontages($v = true)
+    {
+        $this->collSetMontagesPartial = $v;
+    }
+
+    /**
+     * Initializes the collSetMontages collection.
+     *
+     * By default this just sets the collSetMontages collection to an empty array (like clearcollSetMontages());
+     * however, you may wish to override this method in your stub class to provide setting appropriate
+     * to your application -- for example, setting the initial array to the values stored in database.
+     *
+     * @param      boolean $overrideExisting If set to true, the method call initializes
+     *                                        the collection even if it is not empty
+     *
+     * @return void
+     */
+    public function initSetMontages($overrideExisting = true)
+    {
+        if (null !== $this->collSetMontages && !$overrideExisting) {
+            return;
+        }
+        $this->collSetMontages = new ObjectCollection();
+        $this->collSetMontages->setModel('\SetMontage');
+    }
+
+    /**
+     * Gets an array of ChildSetMontage objects which contain a foreign key that references this object.
+     *
+     * If the $criteria is not null, it is used to always fetch the results from the database.
+     * Otherwise the results are fetched from the database the first time, then cached.
+     * Next time the same method is called without $criteria, the cached collection is returned.
+     * If this ChildMontage is new, it will return
+     * an empty collection or the current collection; the criteria is ignored on a new object.
+     *
+     * @param      Criteria $criteria optional Criteria object to narrow the query
+     * @param      ConnectionInterface $con optional connection object
+     * @return Collection|ChildSetMontage[] List of ChildSetMontage objects
+     * @throws PropelException
+     */
+    public function getSetMontages($criteria = null, ConnectionInterface $con = null)
+    {
+        $partial = $this->collSetMontagesPartial && !$this->isNew();
+        if (null === $this->collSetMontages || null !== $criteria  || $partial) {
+            if ($this->isNew() && null === $this->collSetMontages) {
+                // return empty collection
+                $this->initSetMontages();
+            } else {
+                $collSetMontages = ChildSetMontageQuery::create(null, $criteria)
+                    ->filterByMontage($this)
+                    ->find($con);
+
+                if (null !== $criteria) {
+                    if (false !== $this->collSetMontagesPartial && count($collSetMontages)) {
+                        $this->initSetMontages(false);
+
+                        foreach ($collSetMontages as $obj) {
+                            if (false == $this->collSetMontages->contains($obj)) {
+                                $this->collSetMontages->append($obj);
+                            }
+                        }
+
+                        $this->collSetMontagesPartial = true;
+                    }
+
+                    reset($collSetMontages);
+
+                    return $collSetMontages;
+                }
+
+                if ($partial && $this->collSetMontages) {
+                    foreach ($this->collSetMontages as $obj) {
+                        if ($obj->isNew()) {
+                            $collSetMontages[] = $obj;
+                        }
+                    }
+                }
+
+                $this->collSetMontages = $collSetMontages;
+                $this->collSetMontagesPartial = false;
+            }
+        }
+
+        return $this->collSetMontages;
+    }
+
+    /**
+     * Sets a collection of SetMontage objects related by a one-to-many relationship
+     * to the current object.
+     * It will also schedule objects for deletion based on a diff between old objects (aka persisted)
+     * and new objects from the given Propel collection.
+     *
+     * @param      Collection $setMontages A Propel collection.
+     * @param      ConnectionInterface $con Optional connection object
+     * @return   ChildMontage The current object (for fluent API support)
+     */
+    public function setSetMontages(Collection $setMontages, ConnectionInterface $con = null)
+    {
+        $setMontagesToDelete = $this->getSetMontages(new Criteria(), $con)->diff($setMontages);
+
+        
+        $this->setMontagesScheduledForDeletion = $setMontagesToDelete;
+
+        foreach ($setMontagesToDelete as $setMontageRemoved) {
+            $setMontageRemoved->setMontage(null);
+        }
+
+        $this->collSetMontages = null;
+        foreach ($setMontages as $setMontage) {
+            $this->addSetMontage($setMontage);
+        }
+
+        $this->collSetMontages = $setMontages;
+        $this->collSetMontagesPartial = false;
+
+        return $this;
+    }
+
+    /**
+     * Returns the number of related SetMontage objects.
+     *
+     * @param      Criteria $criteria
+     * @param      boolean $distinct
+     * @param      ConnectionInterface $con
+     * @return int             Count of related SetMontage objects.
+     * @throws PropelException
+     */
+    public function countSetMontages(Criteria $criteria = null, $distinct = false, ConnectionInterface $con = null)
+    {
+        $partial = $this->collSetMontagesPartial && !$this->isNew();
+        if (null === $this->collSetMontages || null !== $criteria || $partial) {
+            if ($this->isNew() && null === $this->collSetMontages) {
+                return 0;
+            }
+
+            if ($partial && !$criteria) {
+                return count($this->getSetMontages());
+            }
+
+            $query = ChildSetMontageQuery::create(null, $criteria);
+            if ($distinct) {
+                $query->distinct();
+            }
+
+            return $query
+                ->filterByMontage($this)
+                ->count($con);
+        }
+
+        return count($this->collSetMontages);
+    }
+
+    /**
+     * Method called to associate a ChildSetMontage object to this object
+     * through the ChildSetMontage foreign key attribute.
+     *
+     * @param    ChildSetMontage $l ChildSetMontage
+     * @return   \Montage The current object (for fluent API support)
+     */
+    public function addSetMontage(ChildSetMontage $l)
+    {
+        if ($this->collSetMontages === null) {
+            $this->initSetMontages();
+            $this->collSetMontagesPartial = true;
+        }
+
+        if (!in_array($l, $this->collSetMontages->getArrayCopy(), true)) { // only add it if the **same** object is not already associated
+            $this->doAddSetMontage($l);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param SetMontage $setMontage The setMontage object to add.
+     */
+    protected function doAddSetMontage($setMontage)
+    {
+        $this->collSetMontages[]= $setMontage;
+        $setMontage->setMontage($this);
+    }
+
+    /**
+     * @param  SetMontage $setMontage The setMontage object to remove.
+     * @return ChildMontage The current object (for fluent API support)
+     */
+    public function removeSetMontage($setMontage)
+    {
+        if ($this->getSetMontages()->contains($setMontage)) {
+            $this->collSetMontages->remove($this->collSetMontages->search($setMontage));
+            if (null === $this->setMontagesScheduledForDeletion) {
+                $this->setMontagesScheduledForDeletion = clone $this->collSetMontages;
+                $this->setMontagesScheduledForDeletion->clear();
+            }
+            $this->setMontagesScheduledForDeletion[]= clone $setMontage;
+            $setMontage->setMontage(null);
+        }
+
+        return $this;
+    }
+
+
+    /**
+     * If this collection has already been initialized with
+     * an identical criteria, it returns the collection.
+     * Otherwise if this Montage is new, it will return
+     * an empty collection; or if this Montage has previously
+     * been saved, it will retrieve related SetMontages from storage.
+     *
+     * This method is protected by default in order to keep the public
+     * api reasonable.  You can provide public methods for those you
+     * actually need in Montage.
+     *
+     * @param      Criteria $criteria optional Criteria object to narrow the query
+     * @param      ConnectionInterface $con optional connection object
+     * @param      string $joinBehavior optional join type to use (defaults to Criteria::LEFT_JOIN)
+     * @return Collection|ChildSetMontage[] List of ChildSetMontage objects
+     */
+    public function getSetMontagesJoinSets($criteria = null, $con = null, $joinBehavior = Criteria::LEFT_JOIN)
+    {
+        $query = ChildSetMontageQuery::create(null, $criteria);
+        $query->joinWith('Sets', $joinBehavior);
+
+        return $this->getSetMontages($query, $con);
     }
 
     /**
@@ -1484,6 +2230,7 @@ abstract class Montage implements ActiveRecordInterface
     public function clear()
     {
         $this->id = null;
+        $this->calendar_id = null;
         $this->type = null;
         $this->quantity = null;
         $this->unit = null;
@@ -1509,20 +2256,26 @@ abstract class Montage implements ActiveRecordInterface
     public function clearAllReferences($deep = false)
     {
         if ($deep) {
-            if ($this->singleMontageConstraints) {
-                $this->singleMontageConstraints->clearAllReferences($deep);
+            if ($this->collMontageConstraintss) {
+                foreach ($this->collMontageConstraintss as $o) {
+                    $o->clearAllReferences($deep);
+                }
             }
-            if ($this->singleProductHeizungMontage) {
-                $this->singleProductHeizungMontage->clearAllReferences($deep);
+            if ($this->collProductHeizungMontages) {
+                foreach ($this->collProductHeizungMontages as $o) {
+                    $o->clearAllReferences($deep);
+                }
             }
-            if ($this->singleSetMontage) {
-                $this->singleSetMontage->clearAllReferences($deep);
+            if ($this->collSetMontages) {
+                foreach ($this->collSetMontages as $o) {
+                    $o->clearAllReferences($deep);
+                }
             }
         } // if ($deep)
 
-        $this->singleMontageConstraints = null;
-        $this->singleProductHeizungMontage = null;
-        $this->singleSetMontage = null;
+        $this->collMontageConstraintss = null;
+        $this->collProductHeizungMontages = null;
+        $this->collSetMontages = null;
         $this->aProduct = null;
     }
 
