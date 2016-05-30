@@ -69,7 +69,7 @@ if (isset($tpl['status']))
 									$bookings = array();
 									foreach ($tpl['bs_arr'] as $item)
 									{
-										if ($employee['id'] == $item['employee_id'] && $i >= $item['start_ts'] && $i < $item['start_ts'] + $item['total'] * 60)
+										if ($employee['id'] == $item['employee_id'] && $i >= $item['start_ts'] && $i < $item['start_ts'] + $item['duration'] * 60)
 										{
 											$bookings[] = $item;
 										}
@@ -84,9 +84,17 @@ if (isset($tpl['status']))
 										foreach($employee['services'] as $service)
 										{
 											$step = $tpl['option_arr']['o_step'] * 60;
-											list($service_id, $service_length, $service_before) = explode("|", $service);
+											$params =explode("|", $service);
+											switch(count($params)){
+												case 3: list($service_id, $service_length, $service_before) = $params;break;
+												case 2: list($service_id, $service_length) = $params;break;
+												case 1: list($service_id) = $params;break;
+											}
 											$service_length = $service_length * 60;
-											$service_before = $service_before * 60;
+											if(isset($service_before))
+												$service_before = $service_before * 60;
+											else 
+												$service_before = 0;
 											$service_id = $service_id;
 											$_offset = $slots_per_employee['end_ts'] <= $slots_per_employee['start_ts'] ? 86400 : 0;
 											$class = 'asUnavailable';

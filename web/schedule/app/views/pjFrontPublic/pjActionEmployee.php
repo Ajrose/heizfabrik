@@ -58,21 +58,7 @@ $cart = $controller->cart->getAll();
 											<img src="<?php echo $src;?>" alt="" class="img-responsive center-block">
 										</a>
 									</div><!-- /.col-lg-3 col-md-3 col-sm-3 col-xs-12 -->
-									<div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
-										<h2 class="pjAsListElementTitle text-capitalize"><?php echo pjSanitize::html($employee['name']); ?></h2><!-- /.pjAsListElementTitle -->
-										
-										<h3 class="pjAsEmployeePosition text-capitalize"><?php echo pjSanitize::html($employee['services']); ?></h3><!-- /.pjAsEmployeePosition -->
-										
-										<p><?php echo nl2br(pjSanitize::html($employee['notes'])); ?></p>
-										<?php
-										if((!isset($_GET['employee_id']) || (isset($_GET['employee_id']) && $employee['id'] != $_GET['employee_id'])) && !isset($tpl['unavailable']))
-										{ 
-											?>
-											<a href="#" class="btn btn-default pjAsBtn pjAsBtnPrimary pjAsEmployeeAppointment" data-iso="<?php echo $_GET['date']; ?>" data-eid="<?php echo $employee['id']; ?>" data-slug="<?php echo $slug;?>">Select time</a>
-											<?php
-										} 
-										?>
-									</div><!-- /.col-lg-9 col-md-9 col-sm-9 col-xs-12 -->
+									
 								</div><!-- /.row -->
 								<?php
 								if(!isset($tpl['unavailable']))

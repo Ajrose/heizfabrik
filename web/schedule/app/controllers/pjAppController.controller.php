@@ -797,7 +797,7 @@ class pjAppController extends pjController
 			->orderBy('`name` ASC')
 			->find($service_id)
 			->getData();
-		
+
 		$wt_arr = pjAppController::getWTimePerEmployee($employee_id, $cid, $date);
 		$employee['t_arr'] = $wt_arr['t_arr'];
 		$employee['bs_arr'] = $wt_arr['bs_arr'];

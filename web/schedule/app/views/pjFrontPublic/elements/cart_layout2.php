@@ -10,12 +10,12 @@ if(!empty($cart))
 	{
 		list($cid, $date, $service_id, $start_ts, $end_ts, $employee_id) = explode("|", $key);
 	
-		$fixed_start_ts = $start_ts + $cart_arr[$service_id]['before'] * 60;
-		$fixed_end_ts = $end_ts - $cart_arr[$service_id]['after'] * 60;
+		$fixed_start_ts = $start_ts ;//+ $cart_arr[$service_id]['before'] * 60;
+		$fixed_end_ts = $end_ts ;//- $cart_arr[$service_id]['after'] * 60;
 		?>
 		<li class="list-group-item pjAsAsideService">
 			<dl>
-				<dt class="pjAsServiceTitle"><?php echo pjSanitize::html($cart_arr[$service_id]['name']);?></dt>
+				<dt class="pjAsServiceTitle"><?php /*echo pjSanitize::html($cart_arr[$service_id]['name']);*/?></dt>
 				
 				<dd>
 					<p><?php echo date($tpl['option_arr']['o_date_format'], strtotime($date));?></p>

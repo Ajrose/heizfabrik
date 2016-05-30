@@ -165,7 +165,7 @@ class pjFrontEnd extends pjFront
 					$pjBookingServiceModel->addBatchRow(array(
 						$booking_id, $service['id'], $service['employee_id'],
 						$service['date'], @$service['start'], $service['start_ts'],
-						$service['total'], $service['price'], 0, 0
+						$service['duration'], $service['price'], 0, 0
 					));
 				}
 				$pjBookingServiceModel->insertBatch();

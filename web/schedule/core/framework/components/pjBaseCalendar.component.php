@@ -255,7 +255,7 @@ class pjBaseCalendar
     {
     	return '';
     }
-    public function onBeforeShow($timestamp, $today, $current, $year, $month, $day)
+    public function onBeforeShow($timestamp, $iso, $today, $current, $year, $month, $day)
     {
 		if ($timestamp < $today[0])
 		{

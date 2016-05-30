@@ -46,31 +46,12 @@
 							?>
 							<li class="list-group-item pjAsListElement pjAsService">
 								<div class="row">
-									<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12">
-										<a href="#" class="pjAsServiceAppointment" data-iso="<?php echo $_GET['date']; ?>" data-id="<?php echo $service['id'];?>" data-slug="<?php echo $slug;?>">
-											<img src="<?php echo $src;?>" alt="" class="img-responsive center-block">
-										</a>
-									</div><!-- /.col-lg-3 col-md-3 col-sm-3 col-xs-12 -->
+
 									<div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
-										<h2 class="pjAsListElementTitle text-capitalize"><?php echo pjSanitize::html($service['name']); ?></h2><!-- /.pjAsListElementTitle -->
+
+	
 			
-										<ul class="list-unstyled pjAsServiceMeta">
-											<li>
-												<dl class="dl-horizontal">
-													<dt class="text-capitalize"><?php __('single_price');?>: </dt>
-													<dd class="text-capitalize"><?php echo pjUtil::formatCurrencySign(number_format($service['price'], 2), $tpl['option_arr']['o_currency']); ?></dd>
-												</dl><!-- /.dl-horizontal -->
-											</li>
-			
-											<li>
-												<dl class="dl-horizontal">
-													<dt class="text-capitalize"><?php __('front_duration');?>: </dt>
-													<dd><?php echo $service['length']; ?> <?php __('front_minutes'); ?></dd>
-												</dl><!-- /.dl-horizontal -->
-											</li>
-										</ul><!-- /.list-unstyled pjAsServiceMeta -->
-			
-										<p><?php echo nl2br(pjSanitize::html($service['description'])); ?></p>
+										
 										<?php
 										if((!isset($_GET['service_id']) || (isset($_GET['service_id']) && $service['id'] != $_GET['service_id'])) && !isset($tpl['unavailable']))
 										{ 
@@ -108,7 +89,7 @@
 											<div class="form-horizontal asEmployeeInfo">
 												<form class="pjAsAddToCartForm" action="" method="post">
 													<div class="form-group">
-														<label for="" class="col-lg-3 col-md-3 col-sm-3 col-sx-12 control-label text-capitalize"><?php __('front_single_employee');?>: </label>
+														
 														<div class="col-lg-9 col-md-9 col-sm-9 col-sx-12">
 															<?php
 															if($in_cart == false)
@@ -140,18 +121,16 @@
 																}else{
 																	?>
 																	<input type="hidden" name="employee_id" value="<?php echo $tpl['employee_arr'][0]['id'];?>" />
-																	<label class="form-control-static"><?php echo $tpl['employee_arr'][0]['name'];?></label>
+														
 																	<?php
 																}
-															}else{
-																?><p class="form-control-static"><?php echo $tpl['employee']['name'];?></p><?php
-															} 
+															}
 															?>
 														</div>
 													</div>
 													
 													<div class="form-group" style="display:<?php echo $in_cart == false && isset($tpl['employee']) ? ' block' : ' none'; ?>">
-														<label for="" class="col-lg-3 col-md-3 col-sm-3 col-sx-12 control-label text-capitalize"><?php __('front_time');?>: </label>
+														<label for="" class="col-lg-3 col-md-3 col-sm-3 col-sx-12 control-label text-capitalize"> </label>
 														<div class="col-lg-9 col-md-9 col-sm-9 col-sx-12">
 															<div class="pjAsTableTimes">
 																<?php
@@ -162,7 +141,7 @@
 													</div><!-- /.form-group -->
 													
 													<div class="row pjAsEmployeeTimes" style="display:<?php echo $in_cart == false ? ' none' : ' block';?>">
-														<label for="" class="col-lg-3 col-md-3 col-sm-3 col-sx-12 control-label text-capitalize"><?php __('front_time');?>: </label>
+														<label for="" class="col-lg-3 col-md-3 col-sm-3 col-sx-12 control-label text-capitalize"></label>
 														<div class="col-lg-9 col-md-9 col-sm-9 col-sx-12">
 															<div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
 																<div class="form-group pjAsEmployeeTime asEmployeeTime" style="display:<?php echo $in_cart == false ? ' none' : ' block';?>">

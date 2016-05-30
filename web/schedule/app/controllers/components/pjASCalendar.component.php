@@ -41,7 +41,7 @@ class pjASCalendar extends pjBaseCalendar
 		return $this;
 	}
 	
-	public function onBeforeShow($timestamp, $iso, $today, $current, $year, $month, $d)
+	public function onBeforeShow($timestamp, $iso, $today, $current, $year, $month, $day)
     {
     	$date = getdate($timestamp);
     	
@@ -61,11 +61,11 @@ class pjASCalendar extends pjBaseCalendar
 		} else {
 			$class = $this->classCalendar;
 
-			if ($year == $today["year"] && $month == $today["mon"] && $d == $today["mday"])
+			if ($year == $today["year"] && $month == $today["mon"] && $day == $today["mday"])
 			{
 				$class .= " " . $this->classToday;
 			}
-			if ($year == $current["year"] && $month == $current["mon"] && $d == $current["mday"])
+			if ($year == $current["year"] && $month == $current["mon"] && $day == $current["mday"])
 			{
 				$class .= " " . $this->classSelected;
 			}

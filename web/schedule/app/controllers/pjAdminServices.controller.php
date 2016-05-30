@@ -204,6 +204,7 @@ class pjAdminServices extends pjAdmin
 				//AND `e`.`is_active`='1'
 			foreach ($data as $k => $v)
 			{
+				if(array_key_exists('price',$v))
 				$data[$k]['price_format'] = pjUtil::formatCurrencySign(number_format($v['price'], 2), $this->option_arr['o_currency']);
 			}
 				

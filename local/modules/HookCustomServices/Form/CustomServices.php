@@ -21,6 +21,14 @@ use Thelia\Log\Tlog;
 
 class CustomServices extends BaseForm
 {
+	private $choices = array();
+	
+	private function addChoice($field_name,$key,$value){
+		$value = Translator::getInstance()->trans($value);
+		$this->choices[$field_name.$key] = $value; 
+		return $value;
+	}
+	
     protected function buildForm()
     {
     	
@@ -36,14 +44,14 @@ class CustomServices extends BaseForm
 						1 => $translator->trans("Öl"),
 						2 => $translator->trans("Gas"));
      
+     
+     
          $formBuilder = $this->formBuilder
          ->add("projekt-art", "choice", array(
          		"choices" => $project_art,
-         		"choice_label" => function ($value, $key, $index) {
-         		$log = Tlog::getInstance();
-         			$log->debug("choicelog2 ".$key." ".$value." ".$index);
-        return strtoupper($key);
-    },
+         		"choice_label" => function ($value, $key, $index){
+         			return "label".$index;
+         		},
          		"label" => $translator->trans("projekt-art"),
          		"label_attr" => array(
          				"for" => "projekt-art",
@@ -102,16 +110,13 @@ class CustomServices extends BaseForm
 				"data" => "Ich bin flexibel"
 		))
 		
-		
-		
 		->add("anmerkungen", "text", array(
 		"label" => Translator::getInstance()->trans("anmerkungen"),
 		"label_attr" => array(
                     "for" => "anmerkungen"
                 )/*,
 		"disabled" => true*/
-		))
-             
+		)) 
 
         ->add("image_upload", "file", array(
 		"label" => Translator::getInstance()->trans("upload"),
@@ -128,5 +133,10 @@ class CustomServices extends BaseForm
     public function getName()
     {
         return "customservices";
+    }
+
+    public function getChoiceLabel($choice,$value)
+    {
+    	return "customservices2";
     }
 }

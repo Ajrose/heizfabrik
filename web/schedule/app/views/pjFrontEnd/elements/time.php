@@ -4,10 +4,10 @@ $acceptBookings = (int) $tpl['option_arr']['o_accept_bookings'] === 1;
 
 $employee = $tpl['employee'];
 
-$step = $tpl['option_arr']['o_step'] * 60;
-$service_total = $tpl['service']['total'] * 60;
-$service_length = $tpl['service']['length'] * 60;
-$service_before = $tpl['service']['before'] * 60;
+$step = $tpl['option_arr']['o_step'] * 60*3;
+$service_total = $tpl['service']['duration'] * 60;
+$service_length = $service_total;//$tpl['service']['length'] * 60;
+$service_before = $service_total;//$tpl['service']['before'] * 60;
 
 $hour_earlier = $tpl['option_arr']['o_booking_earlier'] * 60 * 60;
 
@@ -37,7 +37,7 @@ if (!$employee['t_arr'])
 		$class = "pjAsTimeAvailable";
 		foreach ($employee['bs_arr'] as $item)
 		{
-			if ($i >= $item['start_ts'] && $i < $item['start_ts'] + $item['total'] * 60)
+			if ($i >= $item['start_ts'] && $i < $item['start_ts'] + $item['duration'] * 60)
 			{
 				$is_free = false;
 				$class = "pjAsTimeBooked";
@@ -104,7 +104,7 @@ if (!$employee['t_arr'])
 			'class' => $class,
 			'time' => date($tpl['option_arr']['o_time_format'], $i)
 		);
-		if(count($cells) == 5)
+		if(count($cells) == 1)
 		{
 			$rows[] = $cells;
 			$cells = array();
@@ -114,7 +114,7 @@ if (!$employee['t_arr'])
 }
 if($isAvailable == true)
 {
-	$time_table .= '<table class="table" border="0" cellpadding="0" cellspacing="0" width="100%">';
+	$time_table .= '<table class="table" border="0" cellpadding="0" cellspacing="0" width="100%" >';
 	$time_table .= '<tbody>';
 	foreach($rows as $r)
 	{

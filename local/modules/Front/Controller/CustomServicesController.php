@@ -110,8 +110,37 @@ $contactEmail="ani.jalavyan@sepa.at";
                 $log->error(sprintf('message : %s', $ex->getMessage()));
             }
 //;
-
-return new JsonResponse($form->get('projekt-art')->getConfig()->getOption("label"));
+/*foreach ($form->get('projekt-art')->getConfig()->getOptions() as $option)
+	if(is_string($option))
+	$log->debug("1234aaa ".$option);
+	else 
+		if(is_array($option))
+		$log->debug("1234aaa ".implode(" ",$option));
+		else if(is_bool($option))
+		$log->debug("1234aaa ".$option);
+		else if(is_object($option)){
+			if(get_class($option) == "Symfony\Component\Form\ChoiceList\ArrayKeyChoiceList")
+			$log->debug($option->getValuesForChoices(array(1,2))[1]);
+			else $log->debug(get_class($option));
+			//Symfony\Component\Form\ChoiceList\ArrayKeyChoiceList;
+		}*/
+			
+			foreach ($form->get('projekt-art')->getConfig()->getAttributes() as $option)
+				if(is_string($option))
+					$log->debug("1234aaa ".$option);
+					else
+						if(is_array($option))
+							$log->debug("1234aaa ".implode(" ",$option));
+							else if(is_bool($option))
+								$log->debug("1234aaa ".$option);
+								else if(is_object($option)){
+									if(get_class($option) == "Symfony\Component\Form\ChoiceList\ArrayKeyChoiceList")
+										$log->debug($option->getValuesForChoices(array(1,2))[1]);
+										else $log->debug(get_class($option));
+										//Symfony\Component\Form\ChoiceList\ArrayKeyChoiceList;
+								}
+								
+return new JsonResponse($contactForm->getChoiceName());
           // return $this->generateRedirectFromRoute('custom.services.success');
 
 

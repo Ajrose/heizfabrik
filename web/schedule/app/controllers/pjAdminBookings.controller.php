@@ -85,7 +85,7 @@ class pjAdminBookings extends pjAdmin
 							'date' => $date,
 							'start' => date("H:i:s", $_GET['start_ts']),
 							'start_ts' => $_GET['start_ts'],
-							'total' => @$service_arr['total'],
+							'total' => @$service_arr['duration'],
 							'price' => @$service_arr['price']
 					))->insert()->getInsertId();
 						
@@ -923,7 +923,7 @@ class pjAdminBookings extends pjAdmin
 						'date' => $date,
 						'start' => date("H:i:s", $_POST['start_ts']),
 						'start_ts' => $_POST['start_ts'],
-						'total' => @$service_arr['total'],
+						'total' => @$service_arr['duration'],
 						'price' => @$service_arr['price']
 					))->insert()->getInsertId();
 					
