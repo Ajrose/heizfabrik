@@ -54,6 +54,16 @@ class pjBaseCalendar
 	protected $classSelected = "pj-calendar-day-selected";
 	protected $classEmpty = "pj-calendar-day-disabled";
 	
+	private $termine = '<div class="pjAsTableTimes">
+			<table class="table" border="0" cellpadding="0" cellspacing="0" width="100%">
+				<tbody>
+					<tr><td class="text-uppercase pjAsTime pjAsTimeAvailable"><a href="#" class="asSlotBlock  asSlotAvailable" data-end="09:00" data-start_ts="1464944400" data-end_ts="1464944400" data-employee_id="1" data-service_id="335">09:00</a></td></tr>
+					<tr><td class="text-uppercase pjAsTime pjAsTimeAvailable"><a href="#" class="asSlotBlock  asSlotAvailable" data-end="12:00" data-start_ts="1464955200" data-end_ts="1464955200" data-employee_id="1" data-service_id="335">12:00</a></td></tr>
+					<tr><td class="text-uppercase pjAsTime pjAsTimeAvailable"><a href="#" class="asSlotBlock  asSlotAvailable" data-end="15:00" data-start_ts="1464966000" data-end_ts="1464966000" data-employee_id="1" data-service_id="335">15:00</a></td></tr><tr></tr>
+				</tbody>
+			</table>
+			</div> ';
+	
     
     public function __construct()
     {
@@ -377,7 +387,7 @@ class pjBaseCalendar
 	        	    	$tooltip = $this->onShowTooltip($timestamp);
 	        	    	$str .= '<div class="pj-calendar-day '.$class.'" data-iso="'.$iso.'" data-time="'.$timestamp.'"><p>'.$day.'</p>'.$tooltip.'</div>';
         	    	}else{
-        	    		$str .= '<div class="pj-calendar-day '.$class.'" data-iso="'.$iso.'" data-time="'.$timestamp.'"><p>'.$day.'</p></div>';
+        	    		$str .= '<div class="pj-calendar-day '.$class.'" data-iso="'.$iso.'" data-time="'.$timestamp.'"><p>'.$day.'</p>'.$this->termine.'</div>';
         	    	}
         	    }
         	    $day++;
