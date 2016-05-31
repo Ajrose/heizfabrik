@@ -188,7 +188,7 @@ class pjFront extends pjAppController
 		);
 	}
 	
-	protected function getCalendar($dates, $year=null, $month=null, $day=null)
+	protected function getCalendar($dates, $year=null, $month=null, $day=null,$serviceId=null)
 	{
 		list($y, $n, $j) = explode("-", date("Y-n-j"));
 		$year = is_null($year) ? $y : $year;
@@ -203,6 +203,7 @@ class pjFront extends pjAppController
 			->setWeekNumbers($this->option_arr['o_week_numbers'] == 1 ? 'left' : NULL)
 			->setMonthNames(__('months', true))
 			->setDayNames(__('day_names', true))
+			->setServiceId($serviceId)
 			->set('options', $this->option_arr)
 			->set('dates', $dates);
 			

@@ -190,16 +190,11 @@ class pjFrontPublic extends pjFront
 				->select("t1.*, t2.content AS `name`, t3.content AS `description`")
 				->join('pjMultiLang', "t2.model='pjService' AND t2.foreign_id=t1.id AND t2.locale='".$this->getLocaleId()."' AND t2.field='name'", 'left outer')
 				->join('pjMultiLang', "t3.model='pjService' AND t3.foreign_id=t1.id AND t3.locale='".$this->getLocaleId()."' AND t3.field='description'", 'left outer')
-				//->where('t1.calendar_id', $this->getForeignId())
                 ->where('t1.id', $_SESSION['service_bla'])
 				->orderBy('`name` ASC')
 				->findAll()
 				->getData();
-			/*IN (
-						                         	SELECT TES.service_id 
-													FROM `".pjEmployeeServiceModel::factory()->getTable()."` AS TES 
-													WHERE TES.employee_id = t1.id
-												)*/
+
 			$_employee_arr = pjEmployeeModel::factory()
 				->select("t1.*, t2.content AS `name`, 
 							(
@@ -262,7 +257,7 @@ class pjFrontPublic extends pjFront
 			
 			list($year, $month, $day) = explode("-", $_GET['date']);
 			$dates = $this->getDates($this->getForeignId(), $year, $month);
-			$this->set('calendar', $this->getCalendar($dates[0], $year, $month, $day));
+			$this->set('calendar', $this->getCalendar($dates[0], $year, $month, $day,$_SESSION['service_bla']));
 			
 			if((int) $this->option_arr['o_booking_days_earlier'] > 0)
 			{
