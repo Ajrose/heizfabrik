@@ -54,15 +54,17 @@ class pjBaseCalendar
 	protected $classSelected = "pj-calendar-day-selected";
 	protected $classEmpty = "pj-calendar-day-disabled";
 	
-	private $termine = '<div class="pjAsTableTimes">
-			<table class="table" border="0" cellpadding="0" cellspacing="0" width="100%">
-				<tbody>
-					<tr><td class="text-uppercase pjAsTime pjAsTimeAvailable"><a href="#" class="asSlotBlock  asSlotAvailable" data-end="09:00" data-start_ts="1464944400" data-end_ts="1464944400" data-employee_id="1" data-service_id="335">09:00</a></td></tr>
-					<tr><td class="text-uppercase pjAsTime pjAsTimeAvailable"><a href="#" class="asSlotBlock  asSlotAvailable" data-end="12:00" data-start_ts="1464955200" data-end_ts="1464955200" data-employee_id="1" data-service_id="335">12:00</a></td></tr>
-					<tr><td class="text-uppercase pjAsTime pjAsTimeAvailable"><a href="#" class="asSlotBlock  asSlotAvailable" data-end="15:00" data-start_ts="1464966000" data-end_ts="1464966000" data-employee_id="1" data-service_id="335">15:00</a></td></tr><tr></tr>
-				</tbody>
-			</table>
-			</div> ';
+	private $termine = '<div class="col-lg-9 col-md-9 col-sm-9 col-sx-12">
+															<div class="pjAsTableTimes">
+			<table class="table" border="0" cellpadding="0" cellspacing="0" width="100%"><tbody>
+			<tr><td class="text-uppercase pjAsTime pjAsTimeAvailable"><a href="#" class="asSlotBlock  asSlotAvailable" data-end="09:00 AM" data-start_ts="1465808400" data-end_ts="1465808400" data-employee_id="1" data-service_id="335">09-12</a></td></tr>
+			<tr><td class="text-uppercase pjAsTime pjAsTimeAvailable"><a href="#" class="asSlotBlock  asSlotAvailable" data-end="12:00 PM" data-start_ts="1465819200" data-end_ts="1465819200" data-employee_id="1" data-service_id="335">12-15</a></td></tr>
+			<tr><td class="text-uppercase pjAsTime pjAsTimeAvailable"><a href="#" class="asSlotBlock  asSlotAvailable" data-end="03:00 PM" data-start_ts="1465830000" data-end_ts="1465830000" data-employee_id="1" data-service_id="335">15-18</a></td></tr>
+			<tr></tr></tbody></table>															
+			</div><!-- /.pjAsTableTimes -->
+														</div>';
+	
+	private $month, $year;
 	
     
     public function __construct()
@@ -305,6 +307,105 @@ class pjBaseCalendar
     	return $str;
     }
     
+    //TODO
+    public function getWeekHTML($inputWeek, $inputYear, $showYear = 1)
+    {
+    	$str = "";
+    	//$str = $inputWeek.'?'. $inputYear.' B ';
+    	
+    	$arr = $this->updateYear($inputWeek, $inputYear);
+    	$week = $arr[0];
+    	$year = $arr[1];
+    	
+    	//$str .= $week.'|'. $year.' ';
+    	if($week < 10)
+    	 	$stringTime = strtotime($year.'W0'.$week);
+    	else
+    		$stringTime = strtotime($year.'W'.$week);
+    	//$str .= $week.'|'. $year.' time '.$stringTime." date ".date('n d',$stringTime);
+    	
+    	$monthDayFromWeek = explode(" ",date('n d',$stringTime));
+    	$month = $monthDayFromWeek[0];
+    	$firstDay = $monthDayFromWeek[1];
+    	
+    	//$str .= ' '.$month.'|'.$firstDay;
+    	
+    	$monthName = $this->monthNames[$month];
+    	 
+    	$option_arr = $this->getOptions();
+    	 
+    	$search = array('Month', 'Year');
+    	$replace = array($week, $showYear > 0 ? $year : "");//.' '.$monthName
+    	$header = str_replace($search, $replace, $option_arr['o_month_year_format']);
+    	 
+    	$prevW = ((int) $week - 1) < 1 ? 52 : (int) $week - 1;
+    	$prevY = ((int) $week - 1) < 1 ? (int) $year - 1 : (int) $year;
+    	 
+    	$nextW = ((int) $week + 1) > 52 ? 1 : (int) $week + 1;
+    	$nextY = ((int) $week + 1) > 52 ? (int) $year + 1 : (int) $year;
+    	
+    	$str .= $this->getActionHTML($header, $prevW, $prevY, $nextW, $nextY);
+    	
+    	$cols = 7;
+    	
+    	if($this->getShowDayNames() == true)
+    	{
+    		$str .= '<div class="pj-calendar-head pj-calendar-'.$cols.'-columns">';
+    		$str .= '<div class="pj-calendar-day-header"><p>'.$this->dayNames[($this->startDay)%7].'</p></div>';
+    		$str .= '<div class="pj-calendar-day-header"><p>'.$this->dayNames[($this->startDay + 1)%7].'</p></div>';
+    		$str .= '<div class="pj-calendar-day-header"><p>'.$this->dayNames[($this->startDay + 2)%7].'</p></div>';
+    		$str .= '<div class="pj-calendar-day-header"><p>'.$this->dayNames[($this->startDay + 3)%7].'</p></div>';
+    		$str .= '<div class="pj-calendar-day-header"><p>'.$this->dayNames[($this->startDay + 4)%7].'</p></div>';
+    		$str .= '<div class="pj-calendar-day-header"><p>'.$this->dayNames[($this->startDay + 5)%7].'</p></div>';
+    		$str .= '<div class="pj-calendar-day-header"><p>'.$this->dayNames[($this->startDay + 6)%7].'</p></div>';
+    		$str .= '</div>';
+    	}
+    	$day = $this->startDay + $firstDay-1; //$this->startDay + 1 - $firstDay;
+    	$str .= '<div class="pj-calendar-body pj-calendar-'.$cols.'-columns">';//.$month.' '.$day.' '.$year;
+    	//$day = $this->startDay + 1 - $firstDay;
+    	
+    	$today = getdate(time());
+    	$current = getdate($this->getCurrentDate());
+    	 
+    		for ($i = 0; $i < 7; $i++)
+    		{
+    			$timestamp = mktime(0, 0, 0, $month, $day, $year);
+    			$iso = date('Y-m-d', $timestamp);
+    	
+    				$class = $this->onBeforeShow($timestamp, $iso, $today, $current, $year, $month, $day);
+    				if($this->getShowTooltip() == true)
+    				{
+    					$tooltip = $this->onShowTooltip($timestamp);
+    					$str .= '<div class="pj-calendar-day '.$class.'" data-iso="'.$iso.'" data-time="'.$timestamp.'"><p>'.$day.'</p>'.$tooltip.'</div>';
+    				}else{
+    					$str .= '<div class="pj-calendar-day '.$class.'" data-iso="'.$iso.'" data-time="'.$timestamp.'"><p>'.$day.'</p>'.$this->termine.'</div>';
+    				}
+
+    			$day++;
+    		}
+    	$str .= '</div>';
+    	
+    	return $str;
+    }
+    
+    static public function updateYear($week, $year)
+    {
+    	$arr = array();
+    	$arr[0] = $week;
+    	$arr[1] = $year;
+    
+    	while ($arr[0] > 52){
+    		$arr[0] -= 52;
+    		$arr[1]++;
+    	}
+    
+    	while ($arr[0] <= 0){
+    		$arr[0] += 52;
+    		$arr[1]--;
+    	}
+    	return $arr;
+    }
+    
 	public function getMonthHTML($inputMonth, $inputYear, $showYear = 1)
 	{
 		$str = "";
@@ -332,9 +433,8 @@ class pjBaseCalendar
     	$nextY = ((int) $month + 1) > 12 ? (int) $year + 1 : (int) $year;
     	
     	$cols = ($this->getWeekNumbers() == 'left' || $this->getWeekNumbers() == 'right') ? 8 : 7;
-    	
     	$str .= $this->getActionHTML($header, $prevM, $prevY, $nextM, $nextY);
-    	
+
     	if($this->getShowDayNames() == true)
     	{
 	    	$str .= '<div class="pj-calendar-head pj-calendar-'.$cols.'-columns">';
@@ -416,6 +516,7 @@ class pjBaseCalendar
     	return $str;
     }
 
+    
     static public function adjustDate($month, $year)
     {
         $arr = array();
