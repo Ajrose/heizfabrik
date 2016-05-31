@@ -255,7 +255,7 @@
 
                 </form>
                 {/form}
-                <div class="appointment"> Make an appointment</div>
+               
                 <div id="services-appointments" style="display:none">
                      <script type="text/javascript" src="schedule/index.php?controller=pjFrontEnd&action=pjActionLoad&service_bla={$service_for_appointment}"></script>
                 </div>
@@ -415,6 +415,7 @@
 
 <script>
 $('.products-content').on('click', '.thumbnail', function (event) {
+    
 	if($(this).hasClass("selected")){
    
 	$(this).removeClass("selected");
@@ -485,7 +486,7 @@ $('.products-content').on('click', '.thumbnail', function (event) {
      $(document).on("click.appointment", ".appointment", function(e) {
         // alert("sds")
 
-$("#services-appointments").show();
+
         });
     
          
@@ -495,7 +496,9 @@ $("#services-appointments").show();
     
     
 $('.products-content').on('click', '.thumbnail', function (event) {
+    
 	if($(this).hasClass("selected")){
+        $("#services-appointments").hide();
    
 	$(this).removeClass("selected");
     //now disable inputs
@@ -509,6 +512,7 @@ $('.products-content').on('click', '.thumbnail', function (event) {
 	    $productObject.text(parseInt($productObject.text())-parseInt($serviceObject.text()) );
 	}
 	else  {
+        $("#services-appointments").show();
 		$(this).addClass("selected");
 	    $(this).find($("[name^=service]")).prop('disabled',false);
 	    //add service price to product

@@ -1,9 +1,9 @@
 <div class="container-fluid">
 	<div class="row">
-		<div class="col-lg-8 col-md-8 col-sm-8 ">
+		<div class="col-lg-12 col-md-12 col-sm-12 ">
 			<div class="panel panel-default pjAsContainer pjAsAside">
 				<div class="panel-heading pjAsHead">
-					<h2 class="pjAsHeadTitle"><?php __('front_select_date'); ?></h2><!-- /.pjAsHeadTitle -->
+					<h2 class="pjAsHeadTitle">Wählen Sie die gewünschten Ankunftszeiten</h2><!-- /.pjAsHeadTitle -->
 				</div><!-- /.panel-heading pjAsHead -->
 
 				<div class="panel-body pjAsCalendarInline">
@@ -20,7 +20,7 @@
 			</div><!-- /.panel panel-default pjAsContainer pjAsAside -->
 		</div><!-- /.col-lg-4 col-md-4 col-sm-4 col-xs-12 -->
 
-		<div class="col-lg-4 col-md-4 col-sm-4">
+		<div class="col-lg-12 col-md-12 col-sm-12">
 			<div class="panel panel-default pjAsContainer">
 				<?php include PJ_VIEWS_PATH . 'pjFrontPublic/elements/header.php';?>
 				
@@ -50,7 +50,7 @@
 										<?php
 										if(isset($tpl['service_id_arr'][$service['id']]) && !isset($tpl['unavailable']))
 										{
-											?><a href="#" class="btn btn-default pjAsBtn pjAsBtnPrimary pjAsServiceAppointment" data-iso="<?php echo $_GET['date']; ?>" data-id="<?php echo $service['id'];?>" data-slug="<?php echo $slug;?>">Select time</a><?php
+											?><a href="#" class="btn btn-default pjAsBtn pjAsBtnPrimary pjAsServiceAppointment" data-iso="<?php echo $_GET['date']; ?>" data-id="<?php echo $service['id'];?>" data-slug="<?php echo $slug;?>">Uhrzeit wählen</a><?php
 										} 
 										?>
 									</div><!-- /.col-lg-12 col-md-12 col-sm-12 col-xs-12 -->

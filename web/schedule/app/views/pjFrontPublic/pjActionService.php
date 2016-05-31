@@ -1,6 +1,6 @@
 <div class="container-fluid">
 	<div class="row">
-		<div class="col-lg-8 col-md-8 col-sm-8">
+		<div class="col-lg-12 col-md-12 col-sm-12">
 			<div class="panel panel-default pjAsContainer pjAsAside">
 				<div class="panel-heading pjAsHead">
 					<h2 class="pjAsHeadTitle"><?php __('front_select_date'); ?></h2><!-- /.pjAsHeadTitle -->
@@ -20,7 +20,7 @@
 			</div><!-- /.panel panel-default pjAsContainer pjAsAside -->
 		</div><!-- /.col-lg-4 col-md-4 col-sm-12 col-xs-12 -->
 
-		<div class="col-lg-4 col-md-4 col-sm-4">
+		<div class="col-lg-12 col-md-12 col-sm-12">
 			<div class="panel panel-default pjAsContainer">
 				<?php include PJ_VIEWS_PATH . 'pjFrontPublic/elements/header.php';?>
 				
@@ -174,7 +174,7 @@
 														?>
 														<div class="form-group">
 															<div class="col-lg-9 col-lg-offset-3 col-md-9 col-md-offset-3 col-sm-9 col-sm-offset-3 col-sx-12">
-																<input class="btn btn-default pjAsBtn pjAsBtnPrimary pjAsBtnAppointment" value="<?php __('front_make_appointment', false, true); ?>"<?php echo $in_cart == false ? ' disabled="disabled"' : true;?> type="submit">
+																<input class="btn btn-default pjAsBtn pjAsBtnPrimary pjAsBtnAppointment" value="den Termin buchen"<?php echo $in_cart == false ? ' disabled="disabled"' : true;?> type="submit">
 																<a href="#" class="btn btn-default pjAsBtn pjAsBtnSecondary pjAsBtnBackToServices"><?php __('btnCancel'); ?></a>
 															</div><!-- /.col-lg-8 col-lg-offset-4 col-md-8 col-md-offset-4 col-sm-8 col-sm-offset-4 col-sx-12 -->
 														</div><!-- /.form-group -->
