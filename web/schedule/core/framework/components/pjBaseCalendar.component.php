@@ -322,15 +322,11 @@ class pjBaseCalendar
     public function getWeekHTML($inputWeek, $inputYear, $showYear = 1)
     {
     	$str = "";
-    	//$str = $inputWeek.'?'. $inputYear.' B ';
     	
     	$arr = $this->updateYear($inputWeek, $inputYear);
     	$week = $arr[0];
     	$year = $arr[1];
     	
-    	
-    	
-    	//$str .= $week.'|'. $year.' ';
     	if($week < 10)
     	 	$stringTime = strtotime($year.'W0'.$week);
     	else
@@ -392,25 +388,38 @@ class pjBaseCalendar
     			$iso = date('Y-m-d', $timestamp);
     	
     				$class = $this->onBeforeShow($timestamp, $iso, $today, $current, $year, $month, $day);
+    				$dayOfWeek = getdate($timestamp)['wday'];
+    				if($dayOfWeek < 1 || $dayOfWeek>5)$class = $this->classReserved;
+    				$timeSlotClass = "pjAsTimeAvailable";
+    				$timeAsSlotClass = "asSlotAvailable";
+    				if($class == $this->classPast){
+    					$timeSlotClass = "pjAsTimeUnavailable";
+    					$timeAsSlotClass = "";
+    				}
+    				//$str .= "?".$timestamp."||".$iso."||".implode(" ",$today)."||".implode(" ",$current)."||".$class."||".$this->getCurrentDate()."?";
     				if($this->getShowTooltip() == true)
     				{
     					$tooltip = $this->onShowTooltip($timestamp);
     					$str .= '<div class="pj-calendar-day '.$class.'" data-iso="'.$iso.'" data-time="'.$timestamp.'"><p>'.$day.'</p>'.$tooltip.'</div>';
     				}else{
     					$str .= '<div class="pj-calendar-day '.$class.'" data-iso="'.$iso.'" data-time="'.$timestamp.'"><p>'.$day.'</p>'.
-    					'		
-    					<table class="table" border="0" cellpadding="0" cellspacing="0" width="100%">
+    					'<table class="table" border="0" cellpadding="0" cellspacing="0" width="100%">
 							<tbody>						
-    							<tr><td class="text-uppercase pjAsTime pjAsTimeAvailable"><a href="#" class="asSlotBlock asSlotAvailable" data-date="'.date('d-m-Y', $timestamp = mktime(0, 0, 0, $month, $day, $year)).'" data-end="09:00 AM" data-start_ts="'.mktime(9, 0, 0, $month, $day, $year).'" data-end_ts="'.mktime(12, 0, 0, $month, $day, $year).'" data-employee_id="1" data-service_id="335">09:00</a></td></tr>
-								<tr><td class="text-uppercase pjAsTime pjAsTimeAvailable"><a href="#" class="asSlotBlock asSlotAvailable" data-date="'.date('d-m-Y', $timestamp = mktime(0, 0, 0, $month, $day, $year)).'" data-end="12:00 PM" data-start_ts="'.mktime(12, 0, 0, $month, $day, $year).'" data-end_ts="'.mktime(15, 0, 0, $month, $day, $year).'" data-employee_id="1" data-service_id="335">12:00</a></td></tr>
-								<tr><td class="text-uppercase pjAsTime pjAsTimeAvailable"><a href="#" class="asSlotBlock asSlotAvailable" data-date="'.date('d-m-Y', $timestamp = mktime(0, 0, 0, $month, $day, $year)).'" data-end="03:00 PM" data-start_ts="'.mktime(15, 0, 0, $month, $day, $year).'" data-end_ts="'.mktime(18, 0, 0, $month, $day, $year).'" data-employee_id="1" data-service_id="335">15:00</a></td></tr>
+    							<tr><td class="text-uppercase pjAsTime '.$timeSlotClass.'"><a href="#" class="asSlotBlock '.$timeAsSlotClass.'" data-date="'.date('d-m-Y', $timestamp = mktime(0, 0, 0, $month, $day, $year)).'" data-end="09:00 AM" data-start_ts="'.mktime(9, 0, 0, $month, $day, $year).'" data-end_ts="'.mktime(12, 0, 0, $month, $day, $year).'" data-employee_id="1" data-service_id="335">09:00</a></td></tr>
+								<tr><td class="text-uppercase pjAsTime '.$timeSlotClass.'"><a href="#" class="asSlotBlock '.$timeAsSlotClass.'" data-date="'.date('d-m-Y', $timestamp = mktime(0, 0, 0, $month, $day, $year)).'" data-end="12:00 PM" data-start_ts="'.mktime(12, 0, 0, $month, $day, $year).'" data-end_ts="'.mktime(15, 0, 0, $month, $day, $year).'" data-employee_id="1" data-service_id="335">12:00</a></td></tr>
+								<tr><td class="text-uppercase pjAsTime '.$timeSlotClass.'"><a href="#" class="asSlotBlock '.$timeAsSlotClass.'" data-date="'.date('d-m-Y', $timestamp = mktime(0, 0, 0, $month, $day, $year)).'" data-end="03:00 PM" data-start_ts="'.mktime(15, 0, 0, $month, $day, $year).'" data-end_ts="'.mktime(18, 0, 0, $month, $day, $year).'" data-employee_id="1" data-service_id="335">15:00</a></td></tr>
     						</tbody>
 						</table>
 					</div>';
     				}
     		if($day < $daysInMonth)
     			$day++;
-    		else $day = 1;
+    		else 
+    		{
+    			$day = 1;
+    			if($month + 1 > 12 ) {$year += 1;$month = 1;}
+    			else $month += 1;
+    		}
     		}
     		$str .= '</div>
     				<input type="hidden" name="employee_id" value="'.$this->employeeId.'">

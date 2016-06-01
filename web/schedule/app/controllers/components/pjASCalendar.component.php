@@ -43,6 +43,7 @@ class pjASCalendar extends pjBaseCalendar
 	
 	public function onBeforeShow($timestamp, $iso, $today, $current, $year, $month, $day)
     {
+		
     	$date = getdate($timestamp);
     	
     	$today_ts = strtotime(date('Y-m-d 00:00:00', $today[0]));

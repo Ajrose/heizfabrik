@@ -12,7 +12,7 @@ if(!empty($cart))
 	
 		$fixed_start_ts = $start_ts ;//+ $cart_arr[$service_id]['before'] * 60;
 		$fixed_end_ts = $end_ts ;//- $cart_arr[$service_id]['after'] * 60;
-		echo "bla ".$key." bla";
+		//echo "bla ".$key." bla";
 		?>
 		<li class="list-group-item pjAsAsideService">
 			<dl>
