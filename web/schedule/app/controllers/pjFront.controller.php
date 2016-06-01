@@ -109,18 +109,18 @@ class pjFront extends pjAppController
 		{
 			return false;
 		}
-
+/*
 		foreach ($summary['services'] as $service)
 		{
-			/*$key = $item['type'] . '_' . $item['id'];
+			$key = $item['type'] . '_' . $item['id'];
 			if ((int) $item['unavailable_days'] === 0 && (int) $item['cnt'] >= (int) $item['booked_qty'] + (int) $summary['cart'][$key])
 			{
 				//ok
 			} else {
 				// item not available
 				return false;
-			}*/
-		}
+			}
+		}*/
 		// Pass all checks
 		return true;
 	}
@@ -188,7 +188,7 @@ class pjFront extends pjAppController
 		);
 	}
 	
-	protected function getCalendar($dates, $year=null, $month=null, $day=null,$serviceId=null)
+	protected function getCalendar($dates, $year=null, $month=null, $day=null,$serviceId=null,$employeeId=null)
 	{
 		list($y, $n, $j) = explode("-", date("Y-n-j"));
 		$year = is_null($year) ? $y : $year;
@@ -204,6 +204,7 @@ class pjFront extends pjAppController
 			->setMonthNames(__('months', true))
 			->setDayNames(__('day_names', true))
 			->setServiceId($serviceId)
+			->setEmployeeId($employeeId)
 			->set('options', $this->option_arr)
 			->set('dates', $dates);
 			

@@ -42,6 +42,8 @@ class pjBaseCalendar
     
     private $serviceId = NULL;
     
+    private $employeeId = NULL;
+    
     private $options = array(
     	'o_month_year_format' => 'Month, Year'
     );
@@ -56,42 +58,6 @@ class pjBaseCalendar
 	protected $classSelected = "pj-calendar-day-selected";
 	protected $classEmpty = "pj-calendar-day-disabled";
 	
-	private $termine_form_define = '<form class="pjAsAddToCartForm" action="" method="post">';
-	private $termine_content1 = '
-				
-			<input type="hidden" name="employee_id" value="1">
-			<div class="form-group" style="display: block">
-				<label for="" class="col-lg-3 col-md-3 col-sm-3 col-sx-12 control-label text-capitalize"> </label>
-				<div class="col-lg-9 col-md-9 col-sm-9 col-sx-12">
-					<div class="pjAsTableTimes">
-						<table class="table" border="0" cellpadding="0" cellspacing="0" width="100%">
-							<tbody>
-								<tr><td class="text-uppercase pjAsTime pjAsTimeAvailable"><a href="#" class="asSlotBlock  asSlotAvailable" data-end="09:00 AM" data-start_ts="1465376400" data-end_ts="1465376400" data-employee_id="1" data-service_id="335">09:00</a></td></tr>
-								<tr><td class="text-uppercase pjAsTime pjAsTimeAvailable"><a href="#" class="asSlotBlock  asSlotAvailable" data-end="12:00 PM" data-start_ts="1465387200" data-end_ts="1465387200" data-employee_id="1" data-service_id="335">12:00</a></td></tr>
-								<tr><td class="text-uppercase pjAsTime pjAsTimeAvailable"><a href="#" class="asSlotBlock  asSlotAvailable" data-end="03:00 PM" data-start_ts="1465398000" data-end_ts="1465398000" data-employee_id="1" data-service_id="335">15:00</a></td></tr>
-							</tbody>
-						</table>															
-					</div><!-- /.pjAsTableTimes -->
-				</div><!-- /.col-lg-8 col-md-8 col-sm-8 col-sx-12 -->
-			</div><!-- /.form-group -->
-			
-			<input type="hidden" name="date" value="';
-		private 	$termine_after_date = '">
-													<input type="hidden" name="service_id" value="';
-													
-		private $termine_after_service_id = '">
-													<input type="hidden" name="start_ts" value="';
-		private $termine_after_start_ts = '">
-													<input type="hidden" name="end_ts" value="';
-		private $termine_after_end_ts = '">';
-		private $termine_close_form = '<div class="form-group">
-															<div class="col-lg-9 col-lg-offset-3 col-md-9 col-md-offset-3 col-sm-9 col-sm-offset-3 col-sx-12">
-																<input class="btn btn-default pjAsBtn pjAsBtnPrimary pjAsBtnAppointment" value="den Termin buchen" type="submit">
-																<a href="#" class="btn btn-default pjAsBtn pjAsBtnSecondary pjAsBtnBackToServices">Cancel</a>
-															</div><!-- /.col-lg-8 col-lg-offset-4 col-md-8 col-md-offset-4 col-sm-8 col-sm-offset-4 col-sx-12 -->
-														</div><!-- /.form-group -->
-												</form>';	
-    
     public function __construct()
     {
     	$this->setCurrentDate(time());
@@ -250,6 +216,24 @@ class pjBaseCalendar
     	$this->showTooltip = $value;
     	return $this;
     }
+    
+    public function getServiceId() {
+    	return $this->serviceId;
+    }
+    
+    public function setServiceId($serviceId) {
+    	$this->serviceId = $serviceId;
+    	return $this;
+    }
+    
+    public function getEmployeeId() {
+    	return $this->employeeId;
+    }
+    
+    public function setEmployeeId($employeeId) {
+    	$this->employeeId = $employeeId;
+    	return $this;
+    }
 
     public function getCurrentMonthView()
     {
@@ -337,12 +321,14 @@ class pjBaseCalendar
     //TODO
     public function getWeekHTML($inputWeek, $inputYear, $showYear = 1)
     {
-    	$str = $this->termine_form_define;
+    	$str = "";
     	//$str = $inputWeek.'?'. $inputYear.' B ';
     	
     	$arr = $this->updateYear($inputWeek, $inputYear);
     	$week = $arr[0];
     	$year = $arr[1];
+    	
+    	
     	
     	//$str .= $week.'|'. $year.' ';
     	if($week < 10)
@@ -354,6 +340,7 @@ class pjBaseCalendar
     	$monthDayFromWeek = explode(" ",date('n d',$stringTime));
     	$month = $monthDayFromWeek[0];
     	$firstDay = $monthDayFromWeek[1];
+    	$daysInMonth = $this->getDaysInMonth($month, $year);
     	
     	//$str .= ' '.$month.'|'.$firstDay;
     	$monthName = $this->monthNames[$month];
@@ -370,6 +357,12 @@ class pjBaseCalendar
     	$nextW = ((int) $week + 1) > 52 ? 1 : (int) $week + 1;
     	$nextY = ((int) $week + 1) > 52 ? (int) $year + 1 : (int) $year;
     	
+    	$str .= '<div class="form-horizontal asEmployeeInfo">
+    				<form class="pjAsAddToCartForm" action="" method="post">
+    					<div class="form-group" style="display: block">
+							<div class="col-lg-12 col-md-12 col-sm-12 col-sx-12">
+								<div class="pjAsTableTimes">';
+
     	$str .= $this->getActionHTML($header, $prevW, $prevY, $nextW, $nextY);
     	
     	$cols = 7;
@@ -404,15 +397,42 @@ class pjBaseCalendar
     					$tooltip = $this->onShowTooltip($timestamp);
     					$str .= '<div class="pj-calendar-day '.$class.'" data-iso="'.$iso.'" data-time="'.$timestamp.'"><p>'.$day.'</p>'.$tooltip.'</div>';
     				}else{
-    					$str .= '<div class="pj-calendar-day '.$class.'" data-iso="'.$iso.'" data-time="'.$timestamp.'"><p>'.$day.'</p>'
-    							.$this->termine_content1.date('d-m-Y', $timestamp).$this->termine_after_date
-    							.$this->serviceId.$this->termine_after_service_id.mktime(9, 0, 0, $month, $day, $year)
-    							.$this->termine_after_start_ts.mktime(12, 0, 0, $month, $day, $year).$this->termine_after_end_ts.'</div>';
+    					$str .= '<div class="pj-calendar-day '.$class.'" data-iso="'.$iso.'" data-time="'.$timestamp.'"><p>'.$day.'</p>'.
+    					'		
+    					<table class="table" border="0" cellpadding="0" cellspacing="0" width="100%">
+							<tbody>						
+    							<tr><td class="text-uppercase pjAsTime pjAsTimeAvailable"><a href="#" class="asSlotBlock asSlotAvailable" data-date="'.date('d-m-Y', $timestamp = mktime(0, 0, 0, $month, $day, $year)).'" data-end="09:00 AM" data-start_ts="'.mktime(9, 0, 0, $month, $day, $year).'" data-end_ts="'.mktime(12, 0, 0, $month, $day, $year).'" data-employee_id="1" data-service_id="335">09:00</a></td></tr>
+								<tr><td class="text-uppercase pjAsTime pjAsTimeAvailable"><a href="#" class="asSlotBlock asSlotAvailable" data-date="'.date('d-m-Y', $timestamp = mktime(0, 0, 0, $month, $day, $year)).'" data-end="12:00 PM" data-start_ts="'.mktime(12, 0, 0, $month, $day, $year).'" data-end_ts="'.mktime(15, 0, 0, $month, $day, $year).'" data-employee_id="1" data-service_id="335">12:00</a></td></tr>
+								<tr><td class="text-uppercase pjAsTime pjAsTimeAvailable"><a href="#" class="asSlotBlock asSlotAvailable" data-date="'.date('d-m-Y', $timestamp = mktime(0, 0, 0, $month, $day, $year)).'" data-end="03:00 PM" data-start_ts="'.mktime(15, 0, 0, $month, $day, $year).'" data-end_ts="'.mktime(18, 0, 0, $month, $day, $year).'" data-employee_id="1" data-service_id="335">15:00</a></td></tr>
+    						</tbody>
+						</table>
+					</div>';
     				}
+    		if($day < $daysInMonth)
     			$day++;
+    		else $day = 1;
     		}
-    	$str .= '</div>';
-    	$str .= $this->termine_close_form;
+    		$str .= '</div>
+    				<input type="hidden" name="employee_id" value="'.$this->employeeId.'">
+    				<input type="hidden" name="date" value="">
+    				<input type="hidden" name="service_id" value="'.$this->serviceId.'">
+					<input type="hidden" name="start_ts" value="">
+					<input type="hidden" name="end_ts" value="">
+    				
+    				</div><!-- /.pjAsTableTimes -->
+				</div><!-- /.col-lg-8 col-md-8 col-sm-8 col-sx-12 -->
+			</div><!-- /.form-group -->
+    		
+			<div class="form-group">
+				<div class="col-lg-9 col-lg-offset-3 col-md-9 col-md-offset-3 col-sm-9 col-sm-offset-3 col-sx-12">
+					<input class="btn btn-default pjAsBtn pjAsBtnPrimary pjAsBtnAppointment" value="den Termin buchen" type="submit" disabled="disabled">
+						<a href="#" class="btn btn-default pjAsBtn pjAsBtnSecondary pjAsBtnBackToServices">Cancel</a>
+				</div><!-- /.col-lg-8 col-lg-offset-4 col-md-8 col-md-offset-4 col-sm-8 col-sm-offset-4 col-sx-12 -->
+			</div><!-- /.form-group -->
+    		
+		</form>
+	</div>';
+    	
     	return $str;
     }
     
@@ -565,13 +585,5 @@ class pjBaseCalendar
         
         return $arr;
     }
-	public function getServiceId() {
-		return $this->serviceId;
-	}
-	public function setServiceId($serviceId) {
-		$this->serviceId = $serviceId;
-		return $this;
-	}
-	
 }
 ?>

@@ -252,17 +252,21 @@
 				}
 				var $this = pjQ.$(this),
 					$holder = $this.closest(".asEmployeeInfo");
+					
 				if($this.hasClass('asSlotAvailable'))
 				{
 					if ($this.parent().hasClass("pjAsTimeSelected")) 
 					{
+						
 						$this.parent().removeClass("pjAsTimeSelected");
 						$holder.find(":submit").attr("disabled", "disabled")
 							.end().find(".asEmployeeTime").hide()
 							.end().find(".asEmployeeTimeValue").html("")
 							.end().find("input[name='start_ts']").val("")
-							.end().find("input[name='end_ts']").val("");
+							.end().find("input[name='end_ts']").val("")
+							//.end().find("input[name='date']").val("");
 					} else {
+						//alert($holder.find("input[name='end_ts']").html());
 						$holder.find('.pjAsTimeSelected').removeClass("pjAsTimeSelected");
 						$this.parent().addClass("pjAsTimeSelected");
 						$holder.find(":submit").removeAttr("disabled")
@@ -272,7 +276,9 @@
 							.end()
 							.end().find(".asEmployeeTime").show()
 							.end().find("input[name='start_ts']").val($this.data("start_ts"))
-							.end().find("input[name='end_ts']").val($this.data("end_ts"));
+							.end().find("input[name='end_ts']").val($this.data("end_ts"))
+							if($this.data("date").length)
+							$holder.find("input[name='date']").val($this.data("date"));
 					}
 				}
 								

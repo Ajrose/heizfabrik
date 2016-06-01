@@ -19,8 +19,10 @@ class pjFrontEnd extends pjFront
 	{
 		if ($this->isXHR())
 		{
+			
 			if (isset($_GET['cid']) && isset($_POST['date']) && isset($_POST['start_ts']) && isset($_POST['end_ts']) && isset($_POST['service_id']) && isset($_POST['employee_id']))
 			{
+				
 				$date = pjUtil::formatDate($_POST['date'], $this->option_arr['o_date_format']);
                 
 				$key = sprintf("%u|%s|%u|%s|%s|%u", $_GET['cid'], $date, $_POST['service_id'], $_POST['start_ts'], $_POST['end_ts'], $_POST['employee_id']);

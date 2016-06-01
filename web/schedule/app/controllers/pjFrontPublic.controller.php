@@ -113,7 +113,7 @@ class pjFrontPublic extends pjFront
 			
 			list($year, $month, $day) = explode("-", $_GET['date']);
 			$dates = $this->getDates($this->getForeignId(), $year, $month);
-			$this->set('calendar', $this->getCalendar($dates[0], $year, $month, $day));
+			$this->set('calendar', $this->getCalendar($dates[0], $year, $month, $day,$_SESSION['service_bla']));
 			
 			$_employee_arr = pjEmployeeModel::factory()
 				->select("t1.*, t2.content AS `name`")
@@ -334,7 +334,7 @@ class pjFrontPublic extends pjFront
 				
 			list($year, $month, $day) = explode("-", $_GET['date']);
 			$dates = $this->getDates($this->getForeignId(), $year, $month);
-			$this->set('calendar', $this->getCalendar($dates[0], $year, $month, $day));
+			$this->set('calendar', $this->getCalendar($dates[0], $year, $month, $day,$_SESSION['service_bla'],$_GET['employee_id']));
 
 			$service_arr = pjServiceModel::factory()
 				->select("t1.*, t2.content AS `name`")
