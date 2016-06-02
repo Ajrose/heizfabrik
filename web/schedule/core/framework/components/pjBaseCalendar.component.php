@@ -392,7 +392,7 @@ class pjBaseCalendar
     				if($dayOfWeek < 1 || $dayOfWeek>5)$class = $this->classReserved;
     				$timeSlotClass = "pjAsTimeAvailable";
     				$timeAsSlotClass = "asSlotAvailable";
-    				if($class == $this->classPast){
+    				if($class == $this->classPast || $class == $this->classReserved){
     					$timeSlotClass = "pjAsTimeUnavailable";
     					$timeAsSlotClass = "";
     				}
