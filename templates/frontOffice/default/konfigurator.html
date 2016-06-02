@@ -41,7 +41,7 @@
                                 {form_field field="brennstoff_momentan"} 
 											<div class="fs-radio-group fs-radio-normal clearfix fs-anim-lower">
                                 	{foreach $choices as $choice}
-										<span><input id="{$label_attr.for}{$choice->value}" name="{$name}" type="radio" value="{$choice->value}"{if $value === {$choice->value}} checked{/if}><label for="{$label_attr.for}{$choice->value}" class="radio{$choice->value} fs-field-label-sm">{$choice->label}</label></span>
+										<span><input id="{$label_attr.for}{$choice->value}" name="{$name}" type="radio" value="{$choice->value}"{if $value === {$choice->value}} checked{/if}><label for="{$label_attr.for}{$choice->value}" class="radio{$choice->value} fs-field-label-sm radiolabel">{$choice->label}</label></span>
 								 	{/foreach}
 									</div>
                                   		{/form_field}
@@ -58,7 +58,7 @@
                              			{form_field field="brennstoff_zukunft"} 
 											<div class="fs-radio-group fs-radio-normal clearfix fs-anim-lower">
                                 	{foreach $choices as $choice}
-										<span><input id="{$label_attr.for}{$choice->value}" name="{$name}" type="radio" value="{$choice->value}"{if $value === {$choice->value}} checked{/if}><label for="{$label_attr.for}{$choice->value}" class="radio{$choice->value} fs-field-label-sm">{$choice->label}</label></span>
+										<span><input id="{$label_attr.for}{$choice->value}" name="{$name}" type="radio" value="{$choice->value}"{if $value === {$choice->value}} checked{/if}><label for="{$label_attr.for}{$choice->value}" class="radio{$choice->value} fs-field-label-sm radiolabel">{$choice->label}</label></span>
 								 	{/foreach}
 									</div>
                                   		{/form_field}
@@ -139,7 +139,7 @@
 									</div>
                             	{/form_field}
                             
-                            <label class="fs-field-label-sm fs-anim-upper" for="q9" >Wie groß sind die Fenster Fläche?</label>
+                            <label class="fs-field-label-sm fs-anim-upper" for="q9" >Wie groß sind die Fensterflächen?</label>
                            	{form_field field="verglaste_flaeche"}
 							<div class="fs-radio-group fs-radio-normal clearfix fs-anim-lower">
                                 {foreach $choices as $choice}
@@ -196,7 +196,7 @@
                         
 						<li>
 							<h3 class="fs-anim-upper">Temperatur</h3>
-							<label class="fs-field-label-sm fs-anim-upper" for="q13" >Wie viel ist die Wohnraum Temperatur?</label>
+							<label class="fs-field-label-sm fs-anim-upper" for="q13" >Wie hoch ist die Wohnraumtemperatur?</label>
                             {form_field field="wohnraumtemperatur"}
 							<div class="fs-radio-group fs-radio-normal clearfix fs-anim-lower">
                                 {foreach $choices as $choice}
@@ -205,7 +205,7 @@
 							</div>
                             {/form_field}
                                 
-                            <label class="fs-field-label-sm fs-anim-upper" for="q14" >Wie viel ist die Außentemperatur?</label>
+                            <label class="fs-field-label-sm fs-anim-upper" for="q14" >Wie hoch ist die Außentemperatur?</label>
 							{form_field field="aussentemperatur"}
 							<div class="fs-radio-group fs-radio-normal clearfix fs-anim-lower">
                                 {foreach $choices as $choice}

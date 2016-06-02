@@ -197,12 +197,11 @@ web : http://www.hausfabrik.at
                         <div class="banner row banner-col-3">
                             <div class="col col-sm-4">
                                 <span class="shopicon shop-lieferung highlightcolor fa-flip-horizontal"></span>
-                                <div><strong>{intl l="LIEFERUNG"}</strong></div> <div><br><small>{intl l="Wir berechnen Festpreise pro Adresse, die von der Lieferoption abhängen. Liefergebühren.
-Die Standardlieferung dauert bis 3 Arbeitstage."}</small></div>
+                                <div><strong>{intl l="LIEFERUNG"}</strong></div> <div><br><small>{intl l="Der Lieferpreis richtet sich nach einem Fixpreis, abhängig von Ihrer Adresse. Die Standartlieferung erfolgt innerhalb von 2-3 Werktagen."}</small></div>
                             </div>
                             <div class="col col-sm-4">
                                 <span class="shopicon shop-bezahlung highlightcolor"></span>
-                                <div><strong>{intl l="BEZAHLUNG"} </strong></div><div><br><small>{intl l="Die folgenden Zahlungsmethoden stehen Ihnen zur Verfügung:"}</small></div>
+                                <div><strong>{intl l="BEZAHLUNG"} </strong></div><div><br><small>{intl l="Folgende Zahlungsmethoden stehen Ihnen zu Auswahl:"}</small></div>
                                 <div>
                                     <img src="{image file='assets/dist/img/paymentsystems/paypal.jpg'}" alt="paypal"/>
                                     <img src="{image file='assets/dist/img/paymentsystems/mastercard.jpg'}" alt="paypal"/>

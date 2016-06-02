@@ -3,7 +3,7 @@
 		<div class="col-lg-12 col-md-12 col-sm-12">
 			<div class="panel panel-default pjAsContainer pjAsAside">
 				<div class="panel-heading pjAsHead">
-					<h2 class="pjAsHeadTitle"><?php __('front_select_date'); ?></h2><!-- /.pjAsHeadTitle -->
+					<h2 class="pjAsHeadTitle">Wählen Sie die gewünschten Ankunftszeiten</h2><!-- /.pjAsHeadTitle -->
 				</div><!-- /.panel-heading pjAsHead -->
 
 				<div class="panel-body pjAsCalendarInline">
@@ -56,7 +56,7 @@
 										if((!isset($_GET['service_id']) || (isset($_GET['service_id']) && $service['id'] != $_GET['service_id'])) && !isset($tpl['unavailable']))
 										{ 
 											?>
-											<a href="#" class="btn btn-default pjAsBtn pjAsBtnPrimary pjAsServiceAppointment" data-id="<?php echo $service['id'];?>" data-slug="<?php echo $slug;?>">Select time<?php echo $service['id'];?></a>
+											<a href="#" class="btn btn-default pjAsBtn pjAsBtnPrimary pjAsServiceAppointment" data-id="<?php echo $service['id'];?>" data-slug="<?php echo $slug;?>">Uhrzeit wählen<?php //echo $service['id'];?></a>
 											<?php
 										}
 										?>

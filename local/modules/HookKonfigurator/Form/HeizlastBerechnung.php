@@ -26,8 +26,8 @@ class HeizlastBerechnung extends BaseForm
          ->add("brennstoff_momentan", "choice", array(
          		"choices" => array (
          				1 => Translator::getInstance()->trans("Erdgas"),
-         				2 => Translator::getInstance()->trans("Erdoel"),
-         				3 => Translator::getInstance()->trans("Flussiggas"),
+         				2 => Translator::getInstance()->trans("Erdöl"),
+         				3 => Translator::getInstance()->trans("Flüssiggas"),
          				4 => Translator::getInstance()->trans("Sonstiges")
          		),
          		"label" => Translator::getInstance()->trans("brennstoff_momentan"),
@@ -39,8 +39,8 @@ class HeizlastBerechnung extends BaseForm
          ->add("brennstoff_zukunft", "choice", array(
          		"choices" => array (
          				1 => Translator::getInstance()->trans("Erdgas"),
-         				2 => Translator::getInstance()->trans("Erdoel"),
-         				3 => Translator::getInstance()->trans("Flussiggas"),
+         				2 => Translator::getInstance()->trans("Erdöl"),
+         				3 => Translator::getInstance()->trans("Flüssiggas"),
          				4 => Translator::getInstance()->trans("Sonstiges")
          		),
          		"label" => Translator::getInstance()->trans("brennstoff_zukunft"),
@@ -123,8 +123,8 @@ class HeizlastBerechnung extends BaseForm
 		))
 		->add("anzahl_aussenwaende", "choice", array(
 				"choices" => array (
-						1 => Translator::getInstance()->trans("3-4 Waende"),
-						2 => Translator::getInstance()->trans("2 Waende"),
+						1 => Translator::getInstance()->trans("3-4 Wände"),
+						2 => Translator::getInstance()->trans("2 Wände"),
 						3 => Translator::getInstance()->trans("1 Wand")
 				),
 				"label" => Translator::getInstance()->trans("Anzahl Außenwände"),
@@ -137,7 +137,7 @@ class HeizlastBerechnung extends BaseForm
 				"choices" => array (
 						1 => Translator::getInstance()->trans("Einfach verglast"),
 						2 => Translator::getInstance()->trans("Doppelt verglast"),
-						3 => Translator::getInstance()->trans("Isoliertverglast")
+						3 => Translator::getInstance()->trans("Isolierverglast")
 				),
 				"label" => Translator::getInstance()->trans("Fenster"),
 				"label_attr" => array(

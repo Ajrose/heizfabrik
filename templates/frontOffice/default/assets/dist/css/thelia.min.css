@@ -11368,9 +11368,13 @@ button.fs-continue,
 /* Labels & info */
 .fs-fields > li label {
 	position: relative;
-    font-size:1.2em;
+    font-size:0.8em;
 }
-
+.fs-fields > li .radiolabel {
+	position: relative;
+    font-size:2em;
+    font-weight:bold!important;
+}
 .fs-fields > li label.fs-field-label {
 	display: inline-block;
 	padding: 0 5px 1em 0;
