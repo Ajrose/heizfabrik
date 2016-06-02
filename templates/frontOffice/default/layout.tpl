@@ -101,7 +101,17 @@ web : http://www.hausfabrik.at
      <link rel="stylesheet" href="http://localhost/schedule/index.php?controller=pjFrontEnd&action=pjActionLoadCss">
      <link rel="stylesheet" href="http://localhost/schedule/core/framework/libs/pj/css/pj.bootstrap.min.css">
    
-    
+    <!--Start of Zopim Live Chat Script-->
+     {literal} 
+<script type="text/javascript">
+window.$zopim||(function(d,s){var z=$zopim=function(c){z._.push(c)},$=z.s=
+d.createElement(s),e=d.getElementsByTagName(s)[0];z.set=function(o){z.set.
+_.push(o)};z._=[];z.set._=[];$.async=!0;$.setAttribute("charset","utf-8");
+$.src="//v2.zopim.com/?3xaJNLlpfnXxE25TpnCVCaE9w7UtIkge";z.t=+new Date;$.
+type="text/javascript";e.parentNode.insertBefore($,e)})(document,"script");
+</script>
+<!--End of Zopim Live Chat Script-->
+   {/literal}  
    
     {hook name="main.head-bottom"}
 </head>
@@ -209,7 +219,8 @@ web : http://www.hausfabrik.at
                                     <img src="{image file='assets/dist/img/paymentsystems/western.jpg'}" alt="paypal"/>
                                 </div>
                             </div>
-                            <div class="col col-sm-4">
+                            <a href="contact">
+                                <div class="col col-sm-4">
                                 <span class="shopicon shop-kontakt highlightcolor"></span>
                                 <div>
                                     <strong>{intl l="KONTAKT"} </strong>
@@ -220,6 +231,7 @@ web : http://www.hausfabrik.at
                                     <h5>Sa: 11-17Uhr</h5>
                                 </div>
                             </div>
+                                </a>
                         </div>
                     </div>
                 </section><!-- /.footer-banner -->
@@ -309,6 +321,18 @@ web : http://www.hausfabrik.at
 
     <!-- Custom scripts -->
     <script src="{javascript file='assets/dist/js/thelia.min.js'}"></script>
+    {literal}
+    <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-78676875-1', 'auto');
+  ga('send', 'pageview');
+
+</script>
+    {/literal}
 
     {hook name="main.body-bottom"}
 </body>

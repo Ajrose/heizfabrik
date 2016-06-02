@@ -3,12 +3,12 @@ if(!empty($cart))
 { 
 	?>
 	<li class="list-group-item pjAsAsideService">
-		<h3 class="pjAsAsideTitle"><?php __('front_selected_services'); ?></h3><!-- /.pjAsAsideTitle -->
+		<h3 class="pjAsAsideTitle">Gewähltes Datum</h3><!-- /.pjAsAsideTitle -->
 	</li><!-- /.list-group-item pjAsAsideService -->
 	<?php
     $counter=0;
     
-    if(count($cart)>3) array_splice($cart,2,-1);
+    if(count($cart)>3) $cart = array_splice($cart,2,-1);
 	foreach ($cart as $key => $value)
 	{
         $counter++;

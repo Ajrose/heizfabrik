@@ -4097,7 +4097,7 @@ textarea.input-group-sm>.input-group-btn>.btn {
 .navbar {
     position: relative;
     min-height: 50px;
-    margin-bottom: 20px;
+    margin-bottom: 5px;
     border: 1px solid transparent
 }
 .navbar-collapse {
@@ -6271,6 +6271,9 @@ button.close {
 header .header .logo {
     margin-top: 0
 }
+.logo{
+    padding-bottom:10px;
+}
 .block-thumbnail:after,
 .block-thumbnail:before,
 .btn-group-vertical>.btn-group:after,
@@ -8329,7 +8332,7 @@ header .header .logo {
     content: "\f23a"
 }
 header .header {
-    margin-bottom: 20px
+    //margin-bottom: 20px
 }
 header .header .language-container .search-container {
     margin-bottom: 10px
@@ -11109,6 +11112,8 @@ h2.title:after{
     background:#58585a;
     color:#FFF;
     border-top:solid 1px #58585a;
+    margin-left:15px;
+    margin-right:15px;
 }
 .grey li a{
     color:#FFF!important;
@@ -11512,7 +11517,7 @@ label.fs-field-label-sm {
 	text-align: center;
 	font-weight: 700;
 	font-size: 50%;
-	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+
 }
 
 .fs-fields > li .fs-radio-custom span label {
@@ -11748,7 +11753,6 @@ label.fs-field-label-sm {
 	width: 2em;
 	font-weight: 700;
 	font-size: 2em;
-	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 	cursor: default;
 }
 
@@ -12305,7 +12309,7 @@ input[type=text]::-ms-clear {
 
 
 .zertifikat-logos{
-    padding-top:20px;
+    padding-top:40px;
     text-align: right;
 }
 .zertifikat-logos img{

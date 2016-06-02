@@ -26,31 +26,31 @@ class HeizungAngebot extends BaseForm
         
            
         ->add("firstname", "text", array(
-         		"label" => Translator::getInstance()->trans("firstname"),
+         		"label" => Translator::getInstance()->trans("Vorname"),
          		"label_attr" => array(
          				"for" => "firstname",
          		)
          ))
         ->add("lastname", "text", array(
-         		"label" => Translator::getInstance()->trans("lastname"),
+         		"label" => Translator::getInstance()->trans("Nachname"),
          		"label_attr" => array(
          				"for" => "lastname",
          		)
          ))
         ->add("email", "text", array(
-         		"label" => Translator::getInstance()->trans("email"),
+         		"label" => Translator::getInstance()->trans("Email"),
          		"label_attr" => array(
          				"for" => "email",
          		)
          ))
          ->add("phone", "text", array(
-         		"label" => Translator::getInstance()->trans("phone"),
+         		"label" => Translator::getInstance()->trans("Telefon"),
          		"label_attr" => array(
          				"for" => "email",
          		)
          ))
         ->add("cellphone", "text", array(
-         		"label" => Translator::getInstance()->trans("cellphone"),
+         		"label" => Translator::getInstance()->trans("Mobil"),
          		"label_attr" => array(
          				"for" => "cellphone",
          		)
@@ -88,7 +88,7 @@ class HeizungAngebot extends BaseForm
 						2 => Translator::getInstance()->trans("Nein")
 						
 				),
-				"label" => Translator::getInstance()->trans("Werden Sie Fußbodenheizung haben?"),
+				"label" => Translator::getInstance()->trans("Werden Sie eine Fußbodenheizung haben?"),
 				"label_attr" => array(
                     "for" => "heizboden",
                 ),
@@ -113,7 +113,7 @@ class HeizungAngebot extends BaseForm
 						2 => Translator::getInstance()->trans("Nein")
 						
 				),
-				"label" => Translator::getInstance()->trans("Wird es ein Thermoregulator geben oder nicht?"),
+				"label" => Translator::getInstance()->trans("Wird es einen Thermoregulator geben oder nicht?"),
 				"label_attr" => array(
                     "for" => "lage",
                 ),
@@ -134,7 +134,7 @@ class HeizungAngebot extends BaseForm
                         3 => Translator::getInstance()->trans("Designer Heizkörper"),
                         4 => Translator::getInstance()->trans("Bodenkonvektoren")
 				),
-				"label" => Translator::getInstance()->trans("Welchen Typ von Heizkörper hätten Sie gerne?"),
+				"label" => Translator::getInstance()->trans("Welchen Heizkörpertyp hätten Sie gerne?"),
 				"label_attr" => array(
                     "for" => "radiatortyp",
                 ),
