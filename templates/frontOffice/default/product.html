@@ -482,19 +482,7 @@ $('.products-content').on('click', '.thumbnail', function (event) {
 
 
 
-<script>
-     $(document).on("click.appointment", ".appointment", function(e) {
-        // alert("sds")
-
-
-        });
-    
-         
-    
-   
-    
-    
-    
+<script>     
 $('.products-content').on('click', '.thumbnail', function (event) {
     
 	if($(this).hasClass("selected")){
@@ -520,13 +508,7 @@ $('.products-content').on('click', '.thumbnail', function (event) {
 	    $productid = $serviceObject.attr('product');
 	    $productObject = $("[name=price_product_"+$productid+"]");
 	    $productObject.text(parseInt($productObject.text())+parseInt($serviceObject.text()) );
-	    
-	   // alert($("[name=price_product_"+$productid+"]").text());
-	 //   alert($(this).find($("[name=price_product_o]")).text()+"   "+$(this).find($("[name=price_service_o]")).attr('product'));
 	}
-	
-//	if($(this).hasClass("selected")){
-	
 });
 </script>
 {hook name="product.after-javascript-include"}

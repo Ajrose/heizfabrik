@@ -44,6 +44,8 @@ class pjBaseCalendar
     
     private $employeeId = NULL;
     
+    private $selectedTimeslot = NULL;
+    
     private $options = array(
     	'o_month_year_format' => 'Month, Year'
     );
@@ -382,6 +384,11 @@ class pjBaseCalendar
     	$today = getdate(time());
     	$current = getdate($this->getCurrentDate());
     	 
+    	$ts = $this->selectedTimeslot;
+    	$start_ts = 0;
+    	$end_ts = 0;
+    	$selected_date = "";
+    	
     		for ($i = 0; $i < 7; $i++)
     		{
     			$timestamp = mktime(0, 0, 0, $month, $day, $year);
@@ -396,18 +403,40 @@ class pjBaseCalendar
     					$timeSlotClass = "pjAsTimeUnavailable";
     					$timeAsSlotClass = "";
     				}
+    				
+    				//== $i."1")$timeSlotClass = "pjAsTimeSelected";
+    				$dataDate = date('d-m-Y', $timestamp = mktime(0, 0, 0, $month, $day, $year));
+    				
+    				if($ts == $i."1"){
+    					$start_ts = mktime( 9, 0, 0, $month, $day, $year);
+    					$end_ts = mktime( 12, 0, 0, $month, $day, $year);
+    					$selected_date = $dataDate;
+    				}
+    				if($ts == $i."2"){
+    					$start_ts = mktime( 12, 0, 0, $month, $day, $year);
+    					$end_ts = mktime( 15, 0, 0, $month, $day, $year);
+    					$selected_date = $dataDate;
+    				}
+    				if($ts == $i."3"){
+    					$start_ts = mktime( 15, 0, 0, $month, $day, $year);
+    					$end_ts = mktime( 18, 0, 0, $month, $day, $year);
+    					$selected_date = $dataDate;
+    				}
+    				
     				//$str .= "?".$timestamp."||".$iso."||".implode(" ",$today)."||".implode(" ",$current)."||".$class."||".$this->getCurrentDate()."?";
     				if($this->getShowTooltip() == true)
     				{
     					$tooltip = $this->onShowTooltip($timestamp);
     					$str .= '<div class="pj-calendar-day '.$class.'" data-iso="'.$iso.'" data-time="'.$timestamp.'"><p>'.$day.'</p>'.$tooltip.'</div>';
     				}else{
+    					
+    					
     					$str .= '<div class="pj-calendar-day '.$class.'" data-iso="'.$iso.'" data-time="'.$timestamp.'"><p>'.$day.'</p>'.
     					'<table class="table" border="0" cellpadding="0" cellspacing="0" width="100%">
 							<tbody>						
-    							<tr><td class="text-uppercase pjAsTime '.$timeSlotClass.'"><a href="#" class="asSlotBlock '.$timeAsSlotClass.'" data-date="'.date('d-m-Y', $timestamp = mktime(0, 0, 0, $month, $day, $year)).'" data-end="09:00 AM" data-start_ts="'.mktime(9, 0, 0, $month, $day, $year).'" data-end_ts="'.mktime(12, 0, 0, $month, $day, $year).'" data-employee_id="1" data-service_id="335">09:00</a></td></tr>
-								<tr><td class="text-uppercase pjAsTime '.$timeSlotClass.'"><a href="#" class="asSlotBlock '.$timeAsSlotClass.'" data-date="'.date('d-m-Y', $timestamp = mktime(0, 0, 0, $month, $day, $year)).'" data-end="12:00 PM" data-start_ts="'.mktime(12, 0, 0, $month, $day, $year).'" data-end_ts="'.mktime(15, 0, 0, $month, $day, $year).'" data-employee_id="1" data-service_id="335">12:00</a></td></tr>
-								<tr><td class="text-uppercase pjAsTime '.$timeSlotClass.'"><a href="#" class="asSlotBlock '.$timeAsSlotClass.'" data-date="'.date('d-m-Y', $timestamp = mktime(0, 0, 0, $month, $day, $year)).'" data-end="03:00 PM" data-start_ts="'.mktime(15, 0, 0, $month, $day, $year).'" data-end_ts="'.mktime(18, 0, 0, $month, $day, $year).'" data-employee_id="1" data-service_id="335">15:00</a></td></tr>
+    							<tr><td class="text-uppercase pjAsTime '.($ts == $i.'1' ? "pjAsTimeSelected" : $timeSlotClass ).'"><a href="#" class="asSlotBlock '.$timeAsSlotClass.'" data-tsid="'.$i.'1" data-date="'.$dataDate.'" data-end="09:00 AM" data-start_ts="'.mktime( 9, 0, 0, $month, $day, $year).'" data-end_ts="'.mktime(12, 0, 0, $month, $day, $year).'" data-employee_id="1" data-service_id="335">09-12</a></td></tr>
+								<tr><td class="text-uppercase pjAsTime '.($ts == $i.'2' ? "pjAsTimeSelected" : $timeSlotClass ).'"><a href="#" class="asSlotBlock '.$timeAsSlotClass.'" data-tsid="'.$i.'2" data-date="'.$dataDate.'" data-end="12:00 PM" data-start_ts="'.mktime(12, 0, 0, $month, $day, $year).'" data-end_ts="'.mktime(15, 0, 0, $month, $day, $year).'" data-employee_id="1" data-service_id="335">12-15</a></td></tr>
+								<tr><td class="text-uppercase pjAsTime '.($ts == $i.'3' ? "pjAsTimeSelected" : $timeSlotClass ).'"><a href="#" class="asSlotBlock '.$timeAsSlotClass.'" data-tsid="'.$i.'3" data-date="'.$dataDate.'" data-end="03:00 PM" data-start_ts="'.mktime(15, 0, 0, $month, $day, $year).'" data-end_ts="'.mktime(18, 0, 0, $month, $day, $year).'" data-employee_id="1" data-service_id="335">15-18</a></td></tr>
     						</tbody>
 						</table>
 					</div>';
@@ -423,18 +452,18 @@ class pjBaseCalendar
     		}
     		$str .= '</div>
     				<input type="hidden" name="employee_id" value="'.$this->employeeId.'">
-    				<input type="hidden" name="date" value="">
+    				<input type="hidden" name="date" value="'.$selected_date.'">
     				<input type="hidden" name="service_id" value="'.$this->serviceId.'">
-					<input type="hidden" name="start_ts" value="">
-					<input type="hidden" name="end_ts" value="">
+					<input type="hidden" name="start_ts" value="'.$start_ts.'">
+					<input type="hidden" name="end_ts" value="'.$end_ts.'">
     				
     				</div><!-- /.pjAsTableTimes -->
 				</div><!-- /.col-lg-8 col-md-8 col-sm-8 col-sx-12 -->
 			</div><!-- /.form-group -->
     		
 			<div class="form-group">
-				<div class="col-lg-9 col-lg-offset-3 col-md-9 col-md-offset-3 col-sm-9 col-sm-offset-3 col-sx-12">
-					<input class="btn btn-default pjAsBtn pjAsBtnPrimary pjAsBtnAppointment" value="den Termin buchen" type="submit" disabled="disabled">
+				<div class="col-lg-9 col-lg-offset-3 col-md-9 col-md-offset-3 col-sm-9 col-sm-offset-3 col-sx-12">  
+					<input class="btn btn-default pjAsBtn pjAsBtnPrimary pjAsBtnAppointment" value="den Termin buchen" type="submit" '.($start_ts != 0 ? "" : 'disabled="disabled"' ).'">
 						<a href="#" class="btn btn-default pjAsBtn pjAsBtnSecondary pjAsBtnBackToServices">Cancel</a>
 				</div><!-- /.col-lg-8 col-lg-offset-4 col-md-8 col-md-offset-4 col-sm-8 col-sm-offset-4 col-sx-12 -->
 			</div><!-- /.form-group -->
@@ -594,5 +623,13 @@ class pjBaseCalendar
         
         return $arr;
     }
+	public function getSelectedTimeslot() {
+		return $this->selectedTimeslot;
+	}
+	public function setSelectedTimeslot($selectedTimeslot) {
+		$this->selectedTimeslot = $selectedTimeslot;
+		return $this;
+	}
+	
 }
 ?>

@@ -188,7 +188,7 @@ class pjFront extends pjAppController
 		);
 	}
 	
-	protected function getCalendar($dates, $year=null, $month=null, $day=null,$serviceId=null,$employeeId=null)
+	protected function getCalendar($dates, $year=null, $month=null, $day=null,$serviceId=null,$selectedTimeslot=null,$employeeId=null)
 	{
 		list($y, $n, $j) = explode("-", date("Y-n-j"));
 		$year = is_null($year) ? $y : $year;
@@ -205,6 +205,7 @@ class pjFront extends pjAppController
 			->setDayNames(__('day_names', true))
 			->setServiceId($serviceId)
 			->setEmployeeId($employeeId)
+			->setSelectedTimeslot($selectedTimeslot)
 			->set('options', $this->option_arr)
 			->set('dates', $dates);
 			

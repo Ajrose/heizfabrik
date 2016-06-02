@@ -113,7 +113,12 @@ class pjFrontPublic extends pjFront
 			
 			list($year, $month, $day) = explode("-", $_GET['date']);
 			$dates = $this->getDates($this->getForeignId(), $year, $month);
-			$this->set('calendar', $this->getCalendar($dates[0], $year, $month, $day,$_SESSION['service_bla']));
+			
+			$tsid = "0";
+			if(isset($_GET['tsid']))
+				$tsid = $_GET['tsid'];
+			
+			$this->set('calendar', $this->getCalendar($dates[0], $year, $month, $day,$_SESSION['service_bla']),$tsid);
 			
 			$_employee_arr = pjEmployeeModel::factory()
 				->select("t1.*, t2.content AS `name`")
@@ -257,7 +262,12 @@ class pjFrontPublic extends pjFront
 			
 			list($year, $month, $day) = explode("-", $_GET['date']);
 			$dates = $this->getDates($this->getForeignId(), $year, $month);
-			$this->set('calendar', $this->getCalendar($dates[0], $year, $month, $day,$_SESSION['service_bla']));
+			
+			$tsid = "0";
+			if(isset($_GET['tsid']))
+				$tsid = $_GET['tsid'];
+			
+			$this->set('calendar', $this->getCalendar($dates[0], $year, $month, $day,$_SESSION['service_bla'], $tsid));
 			
 			if((int) $this->option_arr['o_booking_days_earlier'] > 0)
 			{
@@ -334,7 +344,12 @@ class pjFrontPublic extends pjFront
 				
 			list($year, $month, $day) = explode("-", $_GET['date']);
 			$dates = $this->getDates($this->getForeignId(), $year, $month);
-			$this->set('calendar', $this->getCalendar($dates[0], $year, $month, $day,$_SESSION['service_bla'],$_GET['employee_id']));
+			
+			$tsid = "0";
+			if(isset($_GET['tsid']))
+				$tsid = $_GET['tsid'];
+			
+			$this->set('calendar', $this->getCalendar($dates[0], $year, $month, $day,$_SESSION['service_bla'],$tsid,$_GET['employee_id']));
 
 			$service_arr = pjServiceModel::factory()
 				->select("t1.*, t2.content AS `name`")

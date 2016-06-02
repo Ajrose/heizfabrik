@@ -98,6 +98,10 @@
     	onHashChange.call(null);
     });
 	
+	function select_timeslot(slot){
+		//this.tsid = slot;
+	}
+	
 	function AppScheduler(options) {
 		if (!(this instanceof AppScheduler)) {
 			return new AppScheduler(options);
@@ -126,6 +130,7 @@
 			this.layout = 2;
 			this.hash_arr = new Array();
 			this.options = {};
+			this.tsid = 0;
 			
 			return this;
 		},
@@ -240,7 +245,6 @@
 		init: function (opts) {
 			var that = this;
 			this.options = opts;
-			
 			this.container = document.getElementById("asContainer_" + this.options.cid);
 			this.$container = pjQ.$(this.container);
 			
@@ -252,9 +256,11 @@
 				}
 				var $this = pjQ.$(this),
 					$holder = $this.closest(".asEmployeeInfo");
-					
+				
+				var $selected_timeslot = "";
 				if($this.hasClass('asSlotAvailable'))
 				{
+					
 					if ($this.parent().hasClass("pjAsTimeSelected")) 
 					{
 						
@@ -266,8 +272,6 @@
 							.end().find("input[name='end_ts']").val("")
 							//.end().find("input[name='date']").val("");
 					} else {
-						//alert($holder.find("input[name='end_ts']").html());
-						$holder.find('.pjAsTimeSelected').removeClass("pjAsTimeSelected");
 						$this.parent().addClass("pjAsTimeSelected");
 						$holder.find(":submit").removeAttr("disabled")
 							.end().find(".asEmployeeTimeValue").eq(0).html($this.text())
@@ -277,11 +281,43 @@
 							.end().find(".asEmployeeTime").show()
 							.end().find("input[name='start_ts']").val($this.data("start_ts"))
 							.end().find("input[name='end_ts']").val($this.data("end_ts"))
-							if($this.data("date").length)
+						if($this.data("date").length)
 							$holder.find("input[name='date']").val($this.data("date"));
+
+						//$selected_timeslot = $this.data('tsid');
+						that.tsid = $this.data('tsid');
 					}
 				}
-								
+				
+				var $calendarDate = $this.closest(".pjAsCalendarDate");
+				if($calendarDate.length)
+				{
+					//$calendarDate.addClass("pj-calendar-day-selected");
+				var d, iso = $calendarDate.data("iso");
+				var param = 'Services';
+				if(that.layout == '1')
+				{
+					param = 'Employees';
+				}
+				if (that.options.seoUrl === 1) {
+					d = iso.split("-");
+					if(that.hash_arr.hasOwnProperty(iso))
+					{
+						hashBang(that.hash_arr[iso]);
+					}else{
+						hashBang(["#!", param, d[0], d[1], d[2], 1].join("/"));
+					}
+					
+				} else {
+					if(that.hash_arr.hasOwnProperty(iso))
+					{
+						hashBang(that.hash_arr[iso]);
+					}else{
+						hashBang(["#!/Services/date:", encodeURIComponent(iso), "/page:1"].join(""));	
+					}
+				}
+			};
+									
 			}).on("submit.as", ".pjAsAddToCartForm", function (e) {
 				
 				if (e && e.preventDefault) {
@@ -448,11 +484,10 @@
 					hashBang(["#!/Employee/date:", encodeURIComponent(iso), "/employee_id:", encodeURIComponent(employee_id), "/service_id:", encodeURIComponent(service_id)].join(""));
 				}
 				return false;
-			}).on("click.as", ".pjAsCalendarDate", function (e) {
+			})/*.on("click.as", ".pjAsCalendarDate", function (e) {
 				if (e && e.preventDefault) {
 					e.preventDefault();
 				}
-				
 				var d, iso = pjQ.$(this).data("iso");
 				var param = 'Services';
 				if(that.layout == '1')
@@ -476,9 +511,8 @@
 						hashBang(["#!/Services/date:", encodeURIComponent(iso), "/page:1"].join(""));	
 					}
 				}
-				
 				return false;
-			}).on("click.as", ".pjAsCalendarLinkMonth", function (e) {
+			})*/.on("click.as", ".pjAsCalendarLinkMonth", function (e) {
 				if (e && e.preventDefault) {
 					e.preventDefault();
 				}
@@ -803,12 +837,13 @@
 		},
 		loadServices: function () {
 			var that = this;
-			this.disableButtons.call(this);
+			//this.disableButtons.call(this);
 			pjQ.$.get([this.options.folder, "index.php?controller=pjFrontPublic&action=pjActionServices"].join(""), {
 				"cid": this.options.cid,
 				"layout": that.layout,
 				"date": this.date,
-				"theme": this.options.theme
+				"theme": this.options.theme,
+				"tsid": this.tsid
 			}).done(function (data) {
 				that.$container.html(data);
 				pjQ.$(window).resize(res).trigger("resize");
