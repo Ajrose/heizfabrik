@@ -67,12 +67,9 @@ class KonfiguratorController extends BaseFrontController {
 		//	$cartEvent->set
 			$log->debug ( "-- addservices ".$cartEvent->getProduct() );
 			
-			
-				
 			$this->getDispatcher()->dispatch(TheliaEvents::CART_ADDITEM, $cartEvent);
 		
 			$this->afterModifyCart();
-		
 		
 			if ($this->getRequest()->isXmlHttpRequest()) {
 				$this->changeViewForAjax();

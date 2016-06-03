@@ -98,8 +98,8 @@ web : http://www.hausfabrik.at
 <!--Services appointment codes-->
     
      
-     <link rel="stylesheet" href="http://localhost/schedule/index.php?controller=pjFrontEnd&action=pjActionLoadCss">
-     <link rel="stylesheet" href="http://localhost/schedule/core/framework/libs/pj/css/pj.bootstrap.min.css">
+     <link rel="stylesheet" href="/schedule/index.php?controller=pjFrontEnd&action=pjActionLoadCss">
+     <link rel="stylesheet" href="/schedule/core/framework/libs/pj/css/pj.bootstrap.min.css">
    
     <!--Start of Zopim Live Chat Script-->
      {literal} 
