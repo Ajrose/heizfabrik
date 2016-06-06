@@ -378,7 +378,7 @@ class ProductHeizung extends BaseI18nLoop implements PropelSearchLoopInterface, 
 								break; // solarpumpe
 							case 11 :
 								$hfCategory = 7;
-								break; // wärmepumpe
+								break; // wï¿½rmepumpe
 						}
 						$productThelia = new Product ();
 						$productThelia->setRef ( $hfproduct->getProductNumber () ); // must be unique
@@ -515,9 +515,6 @@ class ProductHeizung extends BaseI18nLoop implements PropelSearchLoopInterface, 
 						$productThelia->addProductDocument ( $product_label );
 						}
 						}
-
-						// $hfproduct = new Hfproducts();
-						// product heizfabrik specific details
 						
 						$product_heizung = new ModelProductHeizung ();
 						$product_heizung->setProductId ( $productThelia->getId () );
@@ -607,7 +604,7 @@ class ProductHeizung extends BaseI18nLoop implements PropelSearchLoopInterface, 
 		$brennstoff_filter_aktiv = true;
 		switch($brennstoff){
 			case 1: $brennstoff_name="Gas";break;
-			case 2: $brennstoff_name="Öl";break;
+			case 2: $brennstoff_name="ï¿½l";break;
 			case 3: $brennstoff_name="Flussiggas";break;
 			case 4: $brennstoff_filter_aktiv = false;break;
 		}

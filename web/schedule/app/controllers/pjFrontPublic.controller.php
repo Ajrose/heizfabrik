@@ -118,13 +118,13 @@ class pjFrontPublic extends pjFront
 			if(isset($_GET['tsid']))
 				$tsid = $_GET['tsid'];
 			
-			$this->set('calendar', $this->getCalendar($dates[0], $year, $month, $day,$_SESSION['service_bla']),$tsid);
+			$this->set('calendar', $this->getCalendar($dates[0], $year, $month, $day,$_SESSION['service_appointment']),$tsid);
 			
 			$_employee_arr = pjEmployeeModel::factory()
 				->select("t1.*, t2.content AS `name`")
 				->join('pjMultiLang', "t2.model='pjEmployee' AND t2.foreign_id=t1.id AND t2.field='name' AND t2.locale='".$this->getLocaleId()."'", 'left outer')
 				->where('t1.calendar_id', $this->getForeignId())
-                //->where('t1.id', $_SESSION['service_bla'])
+                //->where('t1.id', $_SESSION['service_appointment'])
 				->where("t1.id IN (SELECT TES.employee_id FROM `".pjEmployeeServiceModel::factory()->getTable()."` AS TES WHERE TES.service_id='".$service_id."') ")
 				->findAll()
 				->getData();
@@ -164,7 +164,7 @@ class pjFrontPublic extends pjFront
 					->join('pjMultiLang', "t2.model='pjService' AND t2.foreign_id=t1.id AND t2.locale='".$this->getLocaleId()."' AND t2.field='name'", 'left outer')
 					->join('pjMultiLang', "t3.model='pjService' AND t3.foreign_id=t1.id AND t3.locale='".$this->getLocaleId()."' AND t3.field='description'", 'left outer')
 					//->where('t1.calendar_id', $this->getForeignId())
-                    ->where('t1.id', $_SESSION['service_bla'])
+                    ->where('t1.id', $_SESSION['service_appointment'])
 					->orderBy('`name` ASC')
 					->findAll()
 					->getData()
@@ -195,7 +195,7 @@ class pjFrontPublic extends pjFront
 				->select("t1.*, t2.content AS `name`, t3.content AS `description`")
 				->join('pjMultiLang', "t2.model='pjService' AND t2.foreign_id=t1.id AND t2.locale='".$this->getLocaleId()."' AND t2.field='name'", 'left outer')
 				->join('pjMultiLang', "t3.model='pjService' AND t3.foreign_id=t1.id AND t3.locale='".$this->getLocaleId()."' AND t3.field='description'", 'left outer')
-                ->where('t1.id', $_SESSION['service_bla'])
+                ->where('t1.id', $_SESSION['service_appointment'])
 				->orderBy('`name` ASC')
 				->findAll()
 				->getData();
@@ -221,7 +221,7 @@ class pjFrontPublic extends pjFront
 							) AS service_ids")
 				->join('pjMultiLang', "t2.model='pjEmployee' AND t2.foreign_id=t1.id AND t2.field='name' AND t2.locale='".$this->getLocaleId()."'", 'left outer')
 				->where('t1.calendar_id', $this->getForeignId())
-                //->where('t1.id', $_SESSION['service_bla'])
+                //->where('t1.id', $_SESSION['service_appointment'])
 				->orderBy('`name` ASC')
 				->findAll()
 				->getData();
@@ -267,7 +267,7 @@ class pjFrontPublic extends pjFront
 			if(isset($_GET['tsid']))
 				$tsid = $_GET['tsid'];
 			
-			$this->set('calendar', $this->getCalendar($dates[0], $year, $month, $day,$_SESSION['service_bla'], $tsid));
+			$this->set('calendar', $this->getCalendar($dates[0], $year, $month, $day,$_SESSION['service_appointment'], $tsid));
 			
 			if((int) $this->option_arr['o_booking_days_earlier'] > 0)
 			{
@@ -349,13 +349,13 @@ class pjFrontPublic extends pjFront
 			if(isset($_GET['tsid']))
 				$tsid = $_GET['tsid'];
 			
-			$this->set('calendar', $this->getCalendar($dates[0], $year, $month, $day,$_SESSION['service_bla'],$tsid,$_GET['employee_id']));
+			$this->set('calendar', $this->getCalendar($dates[0], $year, $month, $day,$_SESSION['service_appointment'],$tsid,$_GET['employee_id']));
 
 			$service_arr = pjServiceModel::factory()
 				->select("t1.*, t2.content AS `name`")
 				->join('pjMultiLang', "t2.model='pjService' AND t2.foreign_id=t1.id AND t2.field='name' AND t2.locale='".$this->getLocaleId()."'", 'left outer')
 				->where('t1.calendar_id', $this->getForeignId())
-                //->where('t1.id', $_SESSION['service_bla'])
+                //->where('t1.id', $_SESSION['service_appointment'])
 				->where("t1.id IN (SELECT TES.service_id FROM `".pjEmployeeServiceModel::factory()->getTable()."` AS TES WHERE TES.employee_id='".$employee_id."') ")
 				->findAll()
 				->getData();

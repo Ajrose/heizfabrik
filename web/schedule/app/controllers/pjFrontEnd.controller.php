@@ -363,8 +363,7 @@ class pjFrontEnd extends pjFront
 			}
 		}
 		
-        $_SESSION['service_bla'] = $_GET['service_bla'];
-        //$this->set('service_bla', $_GET['service_bla']);
+        $_SESSION['service_appointment'] = $_GET['service_appointment'];
 		$this->set('first_working_date', $first_working_date);
 	}
 	

@@ -131,6 +131,7 @@
 			this.hash_arr = new Array();
 			this.options = {};
 			this.tsid = 0;
+			this.service_ts = new Array();
 			
 			return this;
 		},
@@ -325,6 +326,53 @@
 				}
 				that.disableButtons.call(that);
 				var arr = pjQ.$(this).serializeArray();
+				var $this = pjQ.$(this);
+				
+				var selected_date = that.date;
+				var selected_start_ts = $this.find("input[name='start_ts']").val();
+				var selected_end_ts = $this.find("input[name='end_ts']").val();
+				var selected_service = $this.find("input[name='service_id']").val();
+				var $service_div = $("#appointment_selected_dates_for_"+selected_service);
+
+				alert(selected_service);
+				if($service_div != null){
+					
+					var service_date = "";
+					var service_start_ts = "";
+					var service_end_ts = "";
+					
+					var appointment_added = false;
+					for(var i=0;i<4;i++){
+						service_date = $service_div.find('input[name="sp_date_'+selected_service+'['+i+']"]');
+						service_start_ts = $service_div.find('input[name="sp_start_ts_'+selected_service+'['+i+']"]');
+						service_end_ts = $service_div.find('input[name="sp_end_ts_'+selected_service+'['+i+']"]');
+						
+						if(service_date.val() == ""){
+							service_date.val(selected_date);
+							service_start_ts.val(selected_start_ts);
+							service_end_ts.val(selected_end_ts);	
+                            appointment_added  = true;							
+						}
+						else
+						if(service_date.val() == selected_date){
+							service_start_ts.val(selected_start_ts);
+							service_end_ts.val(selected_end_ts);
+							appointment_added = true;
+						}
+						
+						if(appointment_added) i = 4;
+						}
+					if(!appointment_added){
+						service_date.val(selected_date);
+						service_start_ts.val(selected_start_ts);
+						service_end_ts.val(selected_end_ts);	
+					}
+
+
+					
+				}
+				
+
 				that._addToCart.call(that, arr).done(function (data) {
 					that.enableButtons.call(that);
 					if(that.layout == '2')
@@ -333,6 +381,7 @@
 					}else if(that.layout == '1'){
 						that.loadEmployee.call(that);
 					}
+					//alert()
 				}).fail(function () {
 					that.enableButtons.call(that);
 				});
@@ -470,6 +519,7 @@
 				if (e && e.preventDefault) {
 					e.preventDefault();
 				}
+				
 				var $this = pjQ.$(this),
 					service_id = $this.data("sid"),
 					employee_id = $this.data("eid"),
@@ -837,7 +887,7 @@
 		},
 		loadServices: function () {
 			var that = this;
-			//this.disableButtons.call(this);
+			this.disableButtons.call(this);
 			pjQ.$.get([this.options.folder, "index.php?controller=pjFrontPublic&action=pjActionServices"].join(""), {
 				"cid": this.options.cid,
 				"layout": that.layout,

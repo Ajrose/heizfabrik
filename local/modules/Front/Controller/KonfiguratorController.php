@@ -57,14 +57,12 @@ class KonfiguratorController extends BaseFrontController {
 
 		
 		try {
-			//$cartEvent = new CartEvent();
-			
 			$cartEvent = $this->getCartEvent();
 			$cartEvent->setProduct($id);
 			$cartEvent->setAppend(1);
 			$cartEvent->setProductSaleElementsId($product_sale_id);
 			$cartEvent->setQuantity(1);
-		//	$cartEvent->set
+
 			$log->debug ( "-- addservices ".$cartEvent->getProduct() );
 			
 			$this->getDispatcher()->dispatch(TheliaEvents::CART_ADDITEM, $cartEvent);

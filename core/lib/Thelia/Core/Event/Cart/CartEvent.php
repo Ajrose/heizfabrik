@@ -25,6 +25,7 @@ class CartEvent extends ActionEvent
     protected $productSaleElementsId;
     protected $product;
     protected $cartItem;
+    protected $parentCategory;
 
     protected $cartItemId;
 
@@ -185,4 +186,12 @@ class CartEvent extends ActionEvent
     {
         return $this->cart;
     }
+	public function getParentCategory() {
+		return $this->parentCategory;
+	}
+	public function setParentCategory($parentCategory) {
+		$this->parentCategory = $parentCategory;
+		return $this;
+	}
+	
 }

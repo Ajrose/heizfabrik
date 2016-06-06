@@ -253,20 +253,12 @@
                             <button id="pse-submit" type="submit" class="btn btn_add_to_cart btn-primary"><i class="fa fa-chevron-right"></i> {intl l="Add to cart"}</button>
                         </div>
                     </fieldset>
-
                 </form>
-                {/form}
-               
-                <div id="services-appointments" style="display:none">
-                     <script type="text/javascript" src="schedule/index.php?controller=pjFrontEnd&action=pjActionLoad&service_bla={$service_for_appointment}"></script>
+                
+                <div id="services-appointments" {if $parent_category != #services_category_id#} style="display:none" {/if}>
+                     <script type="text/javascript" src="schedule/index.php?controller=pjFrontEnd&action=pjActionLoad&service_appointment={$service_for_appointment}"></script>
                 </div>
-                
-        
-                
-
-                
-                
-                
+                {/form}
                 {hook name="product.details-bottom" product={$ID}}
             </section>
 
@@ -394,12 +386,6 @@
 
 <script type="text/javascript">
     
-
-    
-    
-    
-    
-    
     // Product sale elements
     var PSE_FORM = true;
     var PSE_COUNT = {$pse_count};
@@ -415,6 +401,7 @@
 </script>
 
 <script>
+//TODO change to javascript in order to not require the same script two times (once for when jquery is not loaded)
 $('.products-content').on('click', '.thumbnail', function (event) {
     
 	if($(this).hasClass("selected")){
@@ -438,13 +425,8 @@ $('.products-content').on('click', '.thumbnail', function (event) {
 	    $productid = $serviceObject.attr('product');
 	    $productObject = $("[name=price_product_"+$productid+"]");
 	    $productObject.text(parseInt($productObject.text())+parseInt($serviceObject.text()) );
-	    
-	   // alert($("[name=price_product_"+$productid+"]").text());
-	 //   alert($(this).find($("[name=price_product_o]")).text()+"   "+$(this).find($("[name=price_service_o]")).attr('product'));
 	}
-	
-//	if($(this).hasClass("selected")){
-	
+
 });
 </script>
         </article><!-- /#product -->

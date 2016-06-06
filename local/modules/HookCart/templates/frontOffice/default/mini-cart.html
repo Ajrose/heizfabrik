@@ -24,6 +24,10 @@
                             <h6 class="name" style="margin:0">
                                 {$TITLE}
                             </h6>
+                            
+                            {if $PRODUCT_PARENT_CATEGORY_ID == #services_category_id#}
+                            <p>appointment {$PRODUCT_PARENT_CATEGORY_ID}</p>
+                            {/if}
                             <a href="{token_url path="/cart/delete/$ITEM_ID"}" class="btn btn-remove" data-tip="tooltip" data-title="Delete" data-original-title=""><i class="fa fa-trash"></i> <span>{intl l="Remove" d="hookcart.fo.default"}</span></a>
                         </td>
                         <td class="unitprice text-center">
@@ -37,6 +41,7 @@
                             <span class="qty">{$QUANTITY}</span> X <span class="price" style="font-size:1em;">{format_money number=$real_price}</span>
                             {assign "total_price" $total_price + $real_total_price}
                         </td>
+                        
                     </tr>
                     {/loop}
                     </tbody>

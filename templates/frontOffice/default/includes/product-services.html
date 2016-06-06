@@ -78,8 +78,23 @@
 						</span>
 						{/if}
 				</div>
+
 						<input type="hidden" name="service_id[{$RESULT_NUMBER}]" value="{$service_id}" disabled> 
 						<input type="hidden" class="pse-id" name="service_product_sale_id[{$RESULT_NUMBER}]" value="{$SERVICE_SALE_ELEMENT}" disabled> 
+
+				<div id="appointment_selected_dates_for_{$service_id}">					
+						<input type="hidden" name="sp_start_ts_{$service_id}[1]" value="" disabled> 
+						<input type="hidden" name="sp_end_ts_{$service_id}[1]" value="" disabled> 
+						<input type="hidden" name="sp_date_{$service_id}[1]" value="" disabled> 
+						
+						<input type="hidden" name="sp_start_ts_{$service_id}[2]" value="" disabled> 
+						<input type="hidden" name="sp_end_ts_{$service_id}[2]" value="" disabled> 
+						<input type="hidden" name="sp_date_{$service_id}[2]" value="" disabled>
+						
+						<input type="hidden" name="sp_start_ts_{$service_id}[3]" value="" disabled> 
+						<input type="hidden" name="sp_end_ts_{$service_id}[3]" value="" disabled> 
+						<input type="hidden" name="sp_date_{$service_id}[3]" value="" disabled>
+					</div>
 			</div>
 			{hook name="singleproduct.bottom" product="{$product_id}"}
 

@@ -1,5 +1,4 @@
 <?php
-
 if (!headers_sent())
 {
 	session_name('AppointmentScheduler');
@@ -25,7 +24,7 @@ if (!defined("ROOT_PATH"))
 }
 require ROOT_PATH . 'app/config/options.inc.php';
 require_once PJ_FRAMEWORK_PATH . 'pjAutoloader.class.php';
-echo "path ".PJ_FRAMEWORK_PATH ;
+
 pjAutoloader::register();
 if (!isset($_GET['controller']) || empty($_GET['controller']))
 {
