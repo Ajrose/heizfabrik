@@ -25,9 +25,10 @@ class CartEvent extends ActionEvent
     protected $productSaleElementsId;
     protected $product;
     protected $cartItem;
-    protected $parentCategory;
-
     protected $cartItemId;
+    protected $sp_start_ts;
+    protected $sp_end_ts;
+    protected $sp_date;
 
     public function __construct(Cart $cart)
     {
@@ -186,12 +187,29 @@ class CartEvent extends ActionEvent
     {
         return $this->cart;
     }
-	public function getParentCategory() {
-		return $this->parentCategory;
+	public function getSpStartTs() {
+		return $this->sp_start_ts;
 	}
-	public function setParentCategory($parentCategory) {
-		$this->parentCategory = $parentCategory;
+	public function setSpStartTs($sp_start_ts) {
+		$this->sp_start_ts = $sp_start_ts;
 		return $this;
 	}
+	public function getSpEndTs() {
+		return $this->sp_end_ts;
+	}
+	public function setSpEndTs($sp_end_ts) {
+		$this->sp_end_ts = $sp_end_ts;
+		return $this;
+	}
+	public function getSpDate() {
+		return $this->sp_date;
+	}
+	public function setSpDate($sp_date) {
+		$this->sp_date = $sp_date;
+		return $this;
+	}
+	
+	
+
 	
 }

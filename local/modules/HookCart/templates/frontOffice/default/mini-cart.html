@@ -24,9 +24,9 @@
                             <h6 class="name" style="margin:0">
                                 {$TITLE}
                             </h6>
-                            
-                            {if $PRODUCT_PARENT_CATEGORY_ID == #services_category_id#}
-                            <p>appointment {$PRODUCT_PARENT_CATEGORY_ID}</p>
+
+                            {if $PRODUCT_PARENT_CATEGORY_ID == 12}{#services_category_id#}
+                            <p>{$APPOINTMENT_DATE}</p>
                             {/if}
                             <a href="{token_url path="/cart/delete/$ITEM_ID"}" class="btn btn-remove" data-tip="tooltip" data-title="Delete" data-original-title=""><i class="fa fa-trash"></i> <span>{intl l="Remove" d="hookcart.fo.default"}</span></a>
                         </td>

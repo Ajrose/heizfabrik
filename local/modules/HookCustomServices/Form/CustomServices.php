@@ -13,8 +13,6 @@
 namespace HookCustomServices\Form;
 
 use HookCustomServices\HookCustomServices;
-use Symfony\Component\Validator\Constraints;
-use Symfony\Component\Validator\Constraints\NotBlank;
 use Thelia\Core\Translation\Translator;
 use Thelia\Form\BaseForm;
 use Thelia\Log\Tlog;
@@ -35,13 +33,7 @@ class CustomServices extends BaseForm
     protected function buildForm()
     {	
      $translator = Translator::getInstance();
-     
-     $oel_gas = array (
-						1 => $translator->trans("Öl"),
-						2 => $translator->trans("Gas"));
-     
-     
-     
+
          $formBuilder = $this->formBuilder
          ->add($this->choice_project_art, "choice", array(
          		"choices" => array (
@@ -59,7 +51,8 @@ class CustomServices extends BaseForm
          		),
          		"data" => 1
          ))
-             ->add("oel-gas", "choice", array(
+         
+         ->add("oel-gas", "choice", array(
 				"choices" => array (
 						1 =>addChoice($this->choice_oel_gas,1,"Öl"),
 						2 =>addChoice($this->choice_oel_gas,2,"Gas")
@@ -70,12 +63,14 @@ class CustomServices extends BaseForm
                 ),
 				"data" => "2"
 		))
+		
         ->add("marke", "text", array(
          		"label" => Translator::getInstance()->trans("marke"),
          		"label_attr" => array(
          				"for" => "marke",
          		)
          ))
+         
          ->add("arbeit-art", "choice", array(
          		"choices" => array (
          				1 => addChoice($this->choice_arbeit_art,1,"Reparatur oder Wartung"),
@@ -89,6 +84,7 @@ class CustomServices extends BaseForm
          		),
          		"data" => "Ersatz"
          ))
+         
 		->add("zugaenglichkeit", "choice", array(
 				"choices" => array (
 						1 => addChoice($this->choice_zugaenglichkeit,1,"Ja"),
@@ -101,6 +97,7 @@ class CustomServices extends BaseForm
                 ),
 				"data" => "Ja"
 		))
+		
 		->add("zeit", "choice", array(
 				"choices" => array (  
 						1 => addChoice($this->choice_zeit,1,"So früh wie möglich"),
@@ -127,20 +124,13 @@ class CustomServices extends BaseForm
 		"label_attr" => array(
                     "for" => "upload"
                 )
-            
             /*,
 		"disabled" => true*/
-		))         
-		;
+		));
     }
 
     public function getName()
     {
         return "customservices";
-    }
-
-    public function getChoiceLabel($choice,$value)
-    {
-    	return "customservices2";
     }
 }

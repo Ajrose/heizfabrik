@@ -598,13 +598,13 @@ class ProductHeizung extends BaseI18nLoop implements PropelSearchLoopInterface, 
 		->condition  ( 'same_product_id', 'product.id = `hz`.product_id' )
 		->setJoinCondition ( 'HeizungProduct', 'same_product_id' )
 		->condition ( 'power_larger_then', 'power >= ?', $waermebedarf - 1, \PDO::PARAM_INT )
-		->condition ( 'power_smaller_then', 'power <= ?', $waermebedarf + 1, \PDO::PARAM_INT );
+		->condition ( 'power_smaller_then', 'power <= ?', $waermebedarf + 4, \PDO::PARAM_INT );
 		
 		$brennstoff_name = "";
 		$brennstoff_filter_aktiv = true;
 		switch($brennstoff){
 			case 1: $brennstoff_name="Gas";break;
-			case 2: $brennstoff_name="�l";break;
+			case 2: $brennstoff_name="Öl";break;
 			case 3: $brennstoff_name="Flussiggas";break;
 			case 4: $brennstoff_filter_aktiv = false;break;
 		}

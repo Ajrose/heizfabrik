@@ -34,6 +34,7 @@ use Thelia\Model\Customer as CustomerModel;
 use Thelia\Model\ProductSaleElements;
 use Thelia\Model\Tools\ProductPriceTools;
 use Thelia\Tools\TokenProvider;
+use Thelia\Log\Tlog;
 
 /**
  *
@@ -79,6 +80,21 @@ class Cart extends BaseAction implements EventSubscriberInterface
      */
     public function addItem(CartEvent $event, $eventName, EventDispatcherInterface $dispatcher)
     {
+    	/*
+    	$log = Tlog::getInstance ();
+    	if(count($event->getSpStartTs())>0)
+    	$log->debug ( "-- CartAddItem ".implode(" ",$event->getSpStartTs()));
+    	else
+    		$log->debug(" CartAddItem appointment ist byebye");
+    	*/
+    	$cartItem = $event->getCartItem();
+    	if($cartItem)
+    	if(count($event->getSpStartTs())>0)
+    	{
+    		$cartItem->setServiceAppointmentChoices($event->getSpDate(), $event->getSpStartTs(), $event->getSpEndTs());
+    		$event->setCartItem($cartItem);
+    	}
+    	
         $cart = $event->getCart();
         $newness = $event->getNewness();
         $append = $event->getAppend();
@@ -103,6 +119,7 @@ class Cart extends BaseAction implements EventSubscriberInterface
         $dispatcher->dispatch(TheliaEvents::CART_FINDITEM, $event);
 
         $cartItem = $event->getCartItem();
+        $cartItem->setServiceAppointmentChoices($event->getSpDate(), $event->getSpStartTs(), $event->getSpEndTs());
 
         if ($cartItem === null || $newness) {
             $productSaleElements = ProductSaleElementsQuery::create()->findPk($productSaleElementsId);
@@ -115,7 +132,9 @@ class Cart extends BaseAction implements EventSubscriberInterface
         } elseif ($append && $cartItem !== null) {
             $cartItem->addQuantity($quantity)->save();
         }
+        
 
+ 
         $event->setCartItem($cartItem);
     }
 
@@ -159,8 +178,8 @@ class Cart extends BaseAction implements EventSubscriberInterface
      */
     public function changeItem(CartEvent $event, $eventName, EventDispatcherInterface $dispatcher)
     {
-        if ((null !== $cartItemId = $event->getCartItemId()) && (null !== $quantity = $event->getQuantity())) {
-            $cart = $event->getCart();
+     if ((null !== $cartItemId = $event->getCartItemId()) && (null !== $quantity = $event->getQuantity())) {
+     		$cart = $event->getCart();
 
             $cartItem = CartItemQuery::create()
                 ->filterByCartId($cart->getId())

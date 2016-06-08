@@ -334,7 +334,7 @@
 				var selected_service = $this.find("input[name='service_id']").val();
 				var $service_div = $("#appointment_selected_dates_for_"+selected_service);
 
-				alert(selected_service);
+				//alert(selected_service);
 				if($service_div != null){
 					
 					var service_date = "";

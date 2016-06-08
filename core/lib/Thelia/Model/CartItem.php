@@ -14,6 +14,9 @@ class CartItem extends BaseCartItem
 {
     /** @var EventDispatcherInterface */
     protected $dispatcher;
+    protected $sp_start_ts;
+    protected $sp_end_ts;
+    protected $sp_date;
 
     /**
      * @param EventDispatcherInterface $dispatcher
@@ -199,4 +202,23 @@ class CartItem extends BaseCartItem
 
         return $taxCalculator->load($this->getProduct(), $country, $state)->getTaxedPrice($this->getPromoPrice()*$this->getQuantity());
     }
+    
+    public function setServiceAppointmentChoices($sp_date, $sp_start_ts, $sp_end_ts ){
+    	$this->sp_start_ts = $sp_start_ts;
+    	$this->sp_end_ts   = $sp_end_ts;
+    	$this->sp_date     = $sp_date;
+    }
+    
+	public function getSpStartTs() {
+		return $this->sp_start_ts;
+	}
+	
+	public function getSpEndTs() {
+		return $this->sp_end_ts;
+	}
+	
+	public function getSpDate() {
+		return $this->sp_date;
+	}
+	  
 }
