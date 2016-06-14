@@ -54,7 +54,6 @@ class KonfiguratorController extends BaseFrontController {
 		$log->debug ( "-- addservices " );
 		
 		$message = null;
-
 		
 		try {
 			$cartEvent = $this->getCartEvent();
@@ -67,20 +66,14 @@ class KonfiguratorController extends BaseFrontController {
 			$sp_end_ts   = $request->request->get('sp_end_ts_'.$id);
 			$sp_date     = $request->request->get('sp_start_ts_'.$id);
 
-			if(count($sp_start_ts)>0){
+			if(count($sp_start_ts)>0)
 				$cartEvent->setSpStartTs($sp_start_ts);
-				//$log->debug ("sp_start_ts ".implode(" ",$sp_start_ts));
-			}
 			
-			if(count($sp_end_ts)>0){
+			if(count($sp_end_ts)>0)
 				$cartEvent->setSpStartTs($sp_end_ts);
-				//$log->debug ("sp_end_ts ".$cartEvent->getProduct() );
-			}
 			
-			if(count($sp_date)>0){
+			if(count($sp_date)>0)
 				$cartEvent->setSpStartTs($sp_date);
-				//$log->debug ( "sp_start_ts ".$cartEvent->getProduct() );
-			}
 			
 			$this->getDispatcher()->dispatch(TheliaEvents::CART_ADDITEM, $cartEvent);
 		
