@@ -22,7 +22,8 @@ use Thelia\Model\CartItem as CartItemModel;
 use Thelia\Model\ConfigQuery;
 use Thelia\Model\Cart as CartModel;
 use Thelia\Type;
-
+use Thelia\Model\CategoryQuery;
+use Thelia\Log\Tlog;
 /**
  *
  * Cart Loop
@@ -63,7 +64,6 @@ class Cart extends BaseLoop implements ArraySearchLoopInterface
         }
 
         $returnArray = iterator_to_array($cart->getCartItems());
-
         $orders  = $this->getOrder();
 
         foreach ($orders as $order) {
@@ -73,7 +73,6 @@ class Cart extends BaseLoop implements ArraySearchLoopInterface
                     break;
             }
         }
-
         return $returnArray;
     }
 
@@ -83,9 +82,18 @@ class Cart extends BaseLoop implements ArraySearchLoopInterface
         $locale = $this->getCurrentRequest()->getSession()->getLang()->getLocale();
         $checkAvailability = ConfigQuery::checkAvailableStock();
         $defaultAvailability = intval(ConfigQuery::read('default-available-stock', 100));
+        
+        $log = Tlog::getInstance ();
+
 
         /** @var CartItemModel $cartItem */
         foreach ($loopResult->getResultDataCollection() as $cartItem) {
+        	
+        	if(count($cartItem->getSpStartTs())>0)
+        	$log->debug ( "-- CartItemLoop ".implode(" ", $cartItem->getSpStartTs()));
+        	else
+        		$log->debug("-- CartItemLoop appointment is lost");
+        	
             $product = $cartItem->getProduct(null, $locale);
             $productSaleElement = $cartItem->getProductSaleElements();
 
@@ -113,6 +121,20 @@ class Cart extends BaseLoop implements ArraySearchLoopInterface
                 ->set("TOTAL_PROMO_TAXED_PRICE", $cartItem->getTotalTaxedPromoPrice($taxCountry));
             $loopResultRow->set("PRODUCT_SALE_ELEMENTS_ID", $productSaleElement->getId());
             $loopResultRow->set("PRODUCT_SALE_ELEMENTS_REF", $productSaleElement->getRef());
+            
+            //service appointment
+            // get a query object or somewhere lower
+            //category id
+            // 3 priority appointments 
+            
+            $category = CategoryQuery::create();
+            // $category->__toString()
+            $resultcat = $category->findById($product->getDefaultCategoryId());
+            if(count(resultcat))
+            $loopResultRow->set("PRODUCT_PARENT_CATEGORY_ID",$resultcat[0]->getparent());
+            
+            if(count($cartItem->getSpStartTs())>0)
+            $loopResultRow->set("APPOINTMENT_DATE",implode(" ", $cartItem->getSpStartTs()));
             $this->addOutputFields($loopResultRow, $cartItem);
             $loopResult->addRow($loopResultRow);
         }
