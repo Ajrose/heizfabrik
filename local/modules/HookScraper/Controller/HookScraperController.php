@@ -30,13 +30,26 @@ class HookScraperController extends BaseAdminController
 		$log->debug ( "-- hookscraper " );
 		
 		//return new JsonResponse (array('stuff' => 'more stuff'));
-		
 		if ($request->isXmlHttpRequest ()) {
 			$response = new Response();
-			$responsePage =$this->getPage($request);
+			//$responsePage =$this->getPage($request);
 			
-			$log->debug ( "-- hookscraper_page ".$responsePage );
-			$response->setContent($responsePage);
+			$parsedGCProduct = $this->GCproductPageImport('{"d":{"total":"1","page":"1",
+    	"records":null,
+    	"userdata":"0|False|True|10|1|1|1|False",
+    	"rows":[{"InfoImages":"",
+    	"Artikelnummer":"VVB801252PP|01:VARE01:69|WerksNr:303205|",
+    	"Werksnummer":null,"GTIN":null,
+    	"Bild":"images/shared/empty_image.gif",
+    	"Beschreibung":"Vaillant Verlängerung Brennwert\u003cbr /\u003eLuft-/Abgasführung, PP, 80/125, 2,0 m",
+    	"Bestand":"images/shared/gruen.gif",
+    	"Mengeneinheit":"Stück","VPE":"","Bruttopreis":"14900.00 EUR\u003cbr /\u003ePer 1",
+    	"Preiseinheit":null,"Nettopreis":"9685.00 EUR\u003cbr /\u003ePer 1",
+    	"Lagertext":"Der Artikel ist im Lager verfügbar. Der Bestand beträgt 2 Stück.",
+    	"Variante":"01","Lieferant":"VARE01","LfdWeNr":"69",
+    	"NachkommastellenErlaubt":false,"ProductKey":"01:VARE01:69"}],"temp":null,"message":""}}');
+			$log->debug ( "-- hookscraper_page ".$parsedGCProduct );
+			$response->setContent($parsedGCProduct);
 			
 			return $response;
 		}
@@ -52,7 +65,6 @@ private function getPage(Request $request){
 	$product_gc_id =$request->request->get("product_gc_id");
 	echo " Results for ".$product_gc_id."<br>";
 	
-	
 	$full_results = "";
 set_time_limit (0);
 //first request in order to get some cookies :P
@@ -66,15 +78,13 @@ curl_setopt($ch1, CURLOPT_COOKIEFILE, $cookiefile);
 curl_setopt($ch1, CURLOPT_USERAGENT, "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2767.4 Safari/537.36");
 
 $result1 = curl_exec($ch1);
-$full_results .=$result1;
+//$full_results .=$result1;
 
 
 echo "first request sent, received cookies <br>";	
-ob_flush();flush();
 
-
-file_put_contents(dirname(__FILE__) ."\\responses\\1scraper_first.txt", $result1."\n\n");
-file_put_contents(dirname(__FILE__) ."\\errors\\1scraper_error_first.txt", curl_error($ch1)."\n\n");
+file_put_contents(dirname(__FILE__) .DIRECTORY_SEPARATOR."responses".DIRECTORY_SEPARATOR."1scraper_first.txt", $result1."\n\n");
+file_put_contents(dirname(__FILE__) .DIRECTORY_SEPARATOR."errors".DIRECTORY_SEPARATOR."1scraper_error_first.txt", curl_error($ch1)."\n\n");
 
 curl_close($ch1);
 
@@ -100,13 +110,12 @@ curl_setopt($ch1, CURLOPT_COOKIEFILE, $cookiefile);
 curl_setopt($ch1, CURLOPT_USERAGENT, "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2767.4 Safari/537.36");
 
 $result1 = curl_exec($ch1);
-$full_results .=$result1;
+//$full_results .=$result1;
 echo "second request sent, received asp hidden fields <br>";
-ob_flush();flush();
 
 //echo $result1;
-file_put_contents(dirname(__FILE__) ."\\responses\\2scraper_second.txt", $result1."\n\n");
-file_put_contents(dirname(__FILE__) ."\\errors\\2scraper_error_second.txt", curl_error($ch1)."\n\n");
+file_put_contents(dirname(__FILE__) .DIRECTORY_SEPARATOR."responses".DIRECTORY_SEPARATOR."2scraper_second.txt", $result1."\n\n");
+file_put_contents(dirname(__FILE__) .DIRECTORY_SEPARATOR."errors".DIRECTORY_SEPARATOR."2scraper_error_second.txt", curl_error($ch1)."\n\n");
 
 curl_close($ch1);
 
@@ -152,14 +161,14 @@ curl_setopt($ch1, CURLOPT_HTTPHEADER, array(
  ));*/
 
 $result1 = curl_exec($ch1); 
-$full_results .=$result1;
+//$full_results .=$result1;
 echo "third request sent, user is logged in <br>";
-ob_flush();flush();
 
 //echo $result1;
-
-file_put_contents(dirname(__FILE__) ."\\responses\\3scraper_login.txt", $result1."\n\n");
-file_put_contents(dirname(__FILE__) ."\\errors\\3scraper_error_login.txt", curl_error($ch1)."\n\n");
+//unlink(dirname(__FILE__) ."//responses//3scraper_login.txt");
+//unlink(dirname(__FILE__) ."//errors//3scraper_error_login.txt");
+file_put_contents(dirname(__FILE__) .DIRECTORY_SEPARATOR."responses".DIRECTORY_SEPARATOR."3scraper_login.txt", $result1."\n\n");
+file_put_contents(dirname(__FILE__) .DIRECTORY_SEPARATOR."errors".DIRECTORY_SEPARATOR."3scraper_error_login.txt", curl_error($ch1)."\n\n");
 
 curl_close($ch1);
 
@@ -197,15 +206,12 @@ curl_setopt($ch1, CURLOPT_HTTPHEADER, array(
  ));
 
 $result1 = curl_exec($ch1); 
-$full_results .=$result1;
+//$full_results .=$result1;
 echo "forth request sent, search parameters have been sent <br>";
-ob_flush();flush();
 
-//echo $result1;
-
-file_put_contents(dirname(__FILE__) ."\\posts\\4scraper_post_search_parameters.txt", $searchParams_data."\n".strlen($searchParams_data)."\n\n");
-file_put_contents(dirname(__FILE__) ."\\responses\\4scraper_search_parameters.txt", $result1."\n\n");
-file_put_contents(dirname(__FILE__) ."\\errors\\4scraper_error_search_parameters.txt", curl_error($ch1)."\n\n");
+file_put_contents(dirname(__FILE__) .DIRECTORY_SEPARATOR."posts".DIRECTORY_SEPARATOR."4scraper_post_search_parameters.txt", $searchParams_data."\n".strlen($searchParams_data)."\n\n");
+file_put_contents(dirname(__FILE__) .DIRECTORY_SEPARATOR."responses".DIRECTORY_SEPARATOR."4scraper_search_parameters.txt", $result1."\n\n");
+file_put_contents(dirname(__FILE__) .DIRECTORY_SEPARATOR."errors".DIRECTORY_SEPARATOR."4scraper_error_search_parameters.txt", curl_error($ch1)."\n\n");
 
 curl_close($ch1);
 
@@ -242,20 +248,18 @@ curl_setopt($ch1, CURLOPT_HTTPHEADER, array(
  ));
 
 $result1 = curl_exec($ch1);
-$full_results .=$result1;
-echo "fifth request sent, got search response <br>";
-ob_flush();flush();
+//$full_results .=$result1;
+echo "fifth request sent, got search response <br><br><br>";
 
-//echo $result1;
-file_put_contents(dirname(__FILE__) ."\\posts\\5scraper_post_search_products.txt", $searchParams_data."\n".strlen($searchParams_data)."\n\n");
-file_put_contents(dirname(__FILE__) ."\\responses\\5scraper_search_products.txt", $result1."\n\n");
-file_put_contents(dirname(__FILE__) ."\\errors\\5scraper_error_search_products.txt", curl_error($ch1)."\n\n");
+file_put_contents(dirname(__FILE__) .DIRECTORY_SEPARATOR."posts".DIRECTORY_SEPARATOR."5scraper_post_search_products.txt", $searchParams_data."\n".strlen($searchParams_data)."\n\n");
+file_put_contents(dirname(__FILE__) .DIRECTORY_SEPARATOR."responses".DIRECTORY_SEPARATOR."5scraper_search_products.txt", $result1."\n\n");
+file_put_contents(dirname(__FILE__) .DIRECTORY_SEPARATOR."errors".DIRECTORY_SEPARATOR."5scraper_error_search_products.txt", curl_error($ch1)."\n\n");
 
 	curl_close($ch1);
 
 	//TODO make it a streaming response
 	
-	return $result1;
+	return $full_results."<br><br>".$result1;
 		
 	}
 	
@@ -395,6 +399,30 @@ file_put_contents(dirname(__FILE__) ."\\errors\\5scraper_error_search_products.t
         return $response;
 
     }
+    
+    private function GCproductPageImport($page){
+    	/*
+    	{"d":{"total":"1","page":"1",
+    	"records":null,
+    	"userdata":"0|False|True|10|1|1|1|False",
+    	"rows":[{"InfoImages":"",
+    	"Artikelnummer":"VVB801252PP|01:VARE01:69|WerksNr:303205|",
+    	"Werksnummer":null,"GTIN":null,
+    	"Bild":"images/shared/empty_image.gif",
+    	"Beschreibung":"Vaillant Verlängerung Brennwert\u003cbr /\u003eLuft-/Abgasführung, PP, 80/125, 2,0 m",
+    	"Bestand":"images/shared/gruen.gif",
+    	"Mengeneinheit":"Stück","VPE":"","Bruttopreis":"14900.00 EUR\u003cbr /\u003ePer 1",
+    	"Preiseinheit":null,"Nettopreis":"9685.00 EUR\u003cbr /\u003ePer 1",
+    	"Lagertext":"Der Artikel ist im Lager verfügbar. Der Bestand beträgt 2 Stück.",
+    	"Variante":"01","Lieferant":"VARE01","LfdWeNr":"69",
+    	"NachkommastellenErlaubt":false,"ProductKey":"01:VARE01:69"}],"temp":null,"message":""}}*/
+    	
+    	
+    	
+    	
+    }
+    
+    
 
     protected function redirectToConfigurationPage()
     {

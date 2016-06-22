@@ -77,7 +77,7 @@
 <div class="aspNetHidden">
 <input type="hidden" name="__EVENTTARGET" id="__EVENTTARGET" value="" />
 <input type="hidden" name="__EVENTARGUMENT" id="__EVENTARGUMENT" value="" />
-<input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE" value="/wEPDwUKLTUyMjM3MDA3MA9kFgYCAQ9kFgQCAQ8WAh4EVGV4dAVLPGxpbmsgcmVsPSdpY29uJyB0eXBlPSdpbWFnZS9pY28nIGhyZWY9J2ltYWdlcy9nYy1ncnVwcGUuZGUvZmF2aWNvbi5pY28nIC8+ZAICDxYCHwAFVzxsaW5rIHJlbD0nc2hvcnRjdXQgaWNvbicgdHlwZT0naW1hZ2UveC1pY29uJyBocmVmPSdpbWFnZXMvZ2MtZ3J1cHBlLmRlL2Zhdmljb24uaWNvJyAvPmQCAw9kFhYCAw8WAh4JaW5uZXJodG1sBQpXaWxsa29tbWVuZAIFDxYCHwEFEG53aW5nLU5ldHdvcmtpbmdkAgcPFgIfAQUJR0MtR3J1cHBlZAIJDxYCHwEFJ0locmUgRmFjaGdyb8OfaMOkbmRsZXIgZsO8ciBIYXVzdGVjaG5pa2QCDQ9kFgICAQ8PFgIfAAUCSVZkZAIPDxYCHwEFIE1laHJ3ZXJ0IHZvbiA8c3Ryb25nPkdDPC9zdHJvbmc+ZAIfDw8WAh8ABQJJVmRkAiUPDxYCHghJbWFnZVVybAUkfi9pbWFnZXMvZ2MtZ3J1cHBlLmRlL3Byb2RfbGlua3MucG5nZGQCJw9kFgICAQ8WAh8BBVNXaWxsa29tbWVuPGJyPjxiPm53aW5nLU5ldHdvcmtpbmchPC9iPjxicj48YnI+TGV0enRlcyBMb2dpbjo8YnI+MDYvMTgvMjAxNiAxNToyOTozMWQCKQ8PFgIfAgUmfi9pbWFnZXMvZ2MtZ3J1cHBlLmRlL3dhcmVuX3JlY2h0cy5wbmdkZAIrDw8WAh8CBSd+L2ltYWdlcy9nYy1ncnVwcGUuZGUvdm9yZ2FuZ191bnRlbi5wbmdkZAJJDxYCHwEFGGZtdXIybmxvdWFhcWljZ2wwMWxicTN5bmQYAQUeX19Db250cm9sc1JlcXVpcmVQb3N0QmFja0tleV9fFg0FB2ltZ0xlZnQFCGltZ1JpZ2h0BQlpbWdCb3R0b20FCWltZ0xlZnRJbgUKaW1nUmlnaHRJbgULaW1nQm90dG9tSW4FDGNoa1Nob3dMb2dpbgUQY2hrQm9yZGVyQnV0dG9ucwULY2hrU2hvd0xlZnQFDGNoa1Nob3dSaWdodAUOY2hrVXNlckNoYW5nZWQFEmNoa1Nob3dQcm9kdWN0TGlzdAUQY2hrVXNlSW5mb0NlbnRlcvUtikIVL7KuFrI33ZboTReHjW63" />
+<input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE" value="/wEPDwUKLTUyMjM3MDA3MA9kFgYCAQ9kFgQCAQ8WAh4EVGV4dAVLPGxpbmsgcmVsPSdpY29uJyB0eXBlPSdpbWFnZS9pY28nIGhyZWY9J2ltYWdlcy9nYy1ncnVwcGUuZGUvZmF2aWNvbi5pY28nIC8+ZAICDxYCHwAFVzxsaW5rIHJlbD0nc2hvcnRjdXQgaWNvbicgdHlwZT0naW1hZ2UveC1pY29uJyBocmVmPSdpbWFnZXMvZ2MtZ3J1cHBlLmRlL2Zhdmljb24uaWNvJyAvPmQCAw9kFhACBw8WAh4JaW5uZXJodG1sBQlHQy1HcnVwcGVkAgkPFgIfAQUnSWhyZSBGYWNoZ3Jvw59ow6RuZGxlciBmw7xyIEhhdXN0ZWNobmlrZAIND2QWAgIBDw8WAh8ABQJJVmRkAg8PFgIfAQUgTWVocndlcnQgdm9uIDxzdHJvbmc+R0M8L3N0cm9uZz5kAh8PDxYCHwAFAklWZGQCJQ8PFgIeCEltYWdlVXJsBSR+L2ltYWdlcy9nYy1ncnVwcGUuZGUvcHJvZF9saW5rcy5wbmdkZAIpDw8WAh8CBSZ+L2ltYWdlcy9nYy1ncnVwcGUuZGUvd2FyZW5fcmVjaHRzLnBuZ2RkAisPDxYCHwIFJ34vaW1hZ2VzL2djLWdydXBwZS5kZS92b3JnYW5nX3VudGVuLnBuZ2RkAkkPFgIfAQUYZm11cjJubG91YWFxaWNnbDAxbGJxM3luZBgBBR5fX0NvbnRyb2xzUmVxdWlyZVBvc3RCYWNrS2V5X18WDQUHaW1nTGVmdAUIaW1nUmlnaHQFCWltZ0JvdHRvbQUJaW1nTGVmdEluBQppbWdSaWdodEluBQtpbWdCb3R0b21JbgUMY2hrU2hvd0xvZ2luBRBjaGtCb3JkZXJCdXR0b25zBQtjaGtTaG93TGVmdAUMY2hrU2hvd1JpZ2h0BQ5jaGtVc2VyQ2hhbmdlZAUSY2hrU2hvd1Byb2R1Y3RMaXN0BRBjaGtVc2VJbmZvQ2VudGVyRixPFzT6DwOTsjeJls1EjkanreY=" />
 </div>
 
 <script type="text/javascript">
@@ -100,7 +100,7 @@ function __doPostBack(eventTarget, eventArgument) {
 <div class="aspNetHidden">
 
 	<input type="hidden" name="__VIEWSTATEGENERATOR" id="__VIEWSTATEGENERATOR" value="CA0B0334" />
-	<input type="hidden" name="__EVENTVALIDATION" id="__EVENTVALIDATION" value="/wEdAA/MY+Y0EFV0HXVqVpsDR5jV7XceVGCkuEwTnY79QW9t0vPKLkJReYPVAKQXRvBgO40SDPk8DQiXlRHg2VW8DWAgO3h2eRWLEFEHCfDFhRLoHdLFHY1Jw8hSb6tpMWE0erz0vOyiBlPwi9BU3K4nIP4KKudZ8MGP26UFvQlviMffvqwR7harO1xncQpzLAAQtb7bjjjXJRBzIU61jNqS2qbhUf77LCIYFpWCV2kguIgvIrLWClS7qN4Nmmr77cxPClTPHr3/AQ5+559xoT6JTcvruFUEKDcmMVBqwjTZiycxUrAtJEzr7Wzuu2neDgWKrfv//Z+tmWDKSQ+0xgSNbDNjZ6kXAQ==" />
+	<input type="hidden" name="__EVENTVALIDATION" id="__EVENTVALIDATION" value="/wEdAA88s5VnXV+rHdIDUlRMOxT87XceVGCkuEwTnY79QW9t0vPKLkJReYPVAKQXRvBgO40SDPk8DQiXlRHg2VW8DWAgO3h2eRWLEFEHCfDFhRLoHdLFHY1Jw8hSb6tpMWE0erz0vOyiBlPwi9BU3K4nIP4KKudZ8MGP26UFvQlviMffvqwR7harO1xncQpzLAAQtb7bjjjXJRBzIU61jNqS2qbhUf77LCIYFpWCV2kguIgvIrLWClS7qN4Nmmr77cxPClTPHr3/AQ5+559xoT6JTcvruFUEKDcmMVBqwjTZiycxUrAtJEzr7Wzuu2neDgWKrfvb2QOwkPwqB/bxiJtcDcl/2frsXg==" />
 </div>
 			<div class="fancydummy" style="display:none"> 
 			</div>
@@ -110,8 +110,8 @@ function __doPostBack(eventTarget, eventArgument) {
 				<table>
 					<tr style="height:30px;">
 						<td>
-                            <label id="lblHello" class="lightText hidden">Willkommen</label>
-                            <label id="lblLoggedInUser" class="lightText hidden">nwing-Networking</label>
+                            <label id="lblHello" class="lightText hidden"></label>
+                            <label id="lblLoggedInUser" class="lightText hidden"></label>
                             <input id="chkMsgCount" type="checkbox" class="hidden" />
                         </td>
                         <td style="padding-left:4px;padding-bottom:2px;">
@@ -294,7 +294,7 @@ function __doPostBack(eventTarget, eventArgument) {
 
 							<div id="pnlWelcome" style="display:none;">
 	
-                                <label id="lblLastLogin" class="textBold" style="width:210px;white-space:nowrap;overflow:hidden;">Willkommen<br><b>nwing-Networking!</b><br><br>Letztes Login:<br>06/18/2016 15:29:31</label>
+                                <label id="lblLastLogin" class="textBold" style="width:210px;white-space:nowrap;overflow:hidden;"></label>
 							
 </div>
 
@@ -781,10 +781,10 @@ function __doPostBack(eventTarget, eventArgument) {
             </div>
 
 			
-            <input name="chkShowLogin" type="checkbox" id="chkShowLogin" class="hidden" /> 
+            <input name="chkShowLogin" type="checkbox" id="chkShowLogin" class="hidden" checked="checked" /> 
 
 			
-            <input name="chkBorderButtons" type="checkbox" id="chkBorderButtons" class="hidden" checked="checked" />
+            <input name="chkBorderButtons" type="checkbox" id="chkBorderButtons" class="hidden" />
 
             <div id="divOxomiLayer" style="position:absolute;visibility:hidden;">
                 <div id="divOxomiContent" style="width:100%;height:100%;overflow:hidden !important;"></div>

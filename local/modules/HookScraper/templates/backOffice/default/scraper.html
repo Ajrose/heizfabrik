@@ -11,7 +11,7 @@
 
                     <form method="POST" action="{url path="/admin/module/hookscraper/scrapeproduct"}" class="clearfix">
                             <div class="form-group {if $error}has-error{/if}">
-                                <label for="{$label_attr.for}" class="control-label">{intl d='carousel.bo.default' l='Add an image to the carousel'}</label>
+                                <label for="{$label_attr.for}" class="control-label">{intl d='carousel.bo.default' l='Product-GC-ID'}</label>
                                 <div class="input-group">
                                     <input type="text" id="{$label_attr.for}" {if $required}required="required"{/if} name="product_gc_id" value="" title="{intl l='Product GC_ID' d='hookscraper.bo.default'}" placeholder="{intl l='Product GC_ID' d='hookscraper.bo.default'}" class="form-control">
                                     <span class="input-group-btn">
