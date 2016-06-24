@@ -24,6 +24,7 @@ if (!defined("ROOT_PATH"))
 }
 require ROOT_PATH . 'app/config/options.inc.php';
 require_once PJ_FRAMEWORK_PATH . 'pjAutoloader.class.php';
+
 pjAutoloader::register();
 if (!isset($_GET['controller']) || empty($_GET['controller']))
 {

@@ -90,10 +90,10 @@ class Service extends BaseI18nLoop implements PropelSearchLoopInterface, SearchL
 		$i = 1;
 		/** @var \Thelia\Model\Product $product */
 		foreach ( $loopResult->getResultDataCollection () as $product ) {
-			$log->debug ( "serviceloop product " . $product->__toString() );
+			//$log->debug ( "serviceloop product " . $product->__toString() );
 			$loopResultRow = new LoopResultRow ( $product );
 			
-			$log->debug ( "serviceloop pse_id " . $product->getVirtualColumn('pse_id')." product_id ".$product->getId() );
+			//$log->debug ( "serviceloop pse_id " . $product->getVirtualColumn('pse_id')." product_id ".$product->getId() );
 			
 			$loopResultRow
 			->set("SERVICE_SALE_ELEMENT", $product->getVirtualColumn('pse_id'))

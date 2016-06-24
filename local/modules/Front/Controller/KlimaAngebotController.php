@@ -59,65 +59,63 @@ class KlimaAngebotController extends BaseFrontController
         //§marke = $this->getRequest()->get('klimaangebot')['marke'];
         //§geraetetyp = $this->getRequest()->get('klimaangebot')['geraetetyp'];
         //§distance = $this->getRequest()->get('klimaangebot')['distance'];
-
-
+        
+        $files = new FileBag();
+        $files = $this->getRequest()->files;
         
         $headers  = 'MIME-Version: 1.0' . "\r\n";
         $headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
         
-     //   $image_upload =  $this->getRequest()->get('customservices')['image_upload'];
-        // $image_upload = new UploadedFile();
-       //  $image_upload->getClientOriginalName()
-        // $image_upload->
-        $files = new FileBag();
-        $files = $this->getRequest()->files;
+        
+        $storeName="Hausfabrik";
+        $contactEmail="ani.jalavyan@sepa.at";
+        $instance = \Swift_Message::newInstance()
+        
+        ->addTo($emailTest, $storeName)
+        ->addFrom($contactEmail, $storeName)
+        ->setSubject($subject)
+        ->setContentType("text/html");
         
        // $image_upload_name = implode(" ",$files->keys());
         //$image_upload = new UploadedFile();
-        $image_upload = $files->get("klimaangebot")["image_upload"];
         
-        //$image_upload->move($directory)
+        $imagesHTML = "";
         $new_image_path = THELIA_ROOT .ConfigQuery::read('images_library_path')."/imani";
-        if($image_upload != null){
-        $new_image_name = $image_upload->getClientOriginalName();
-        $image_upload->move($new_image_path ,$new_image_name);
-        $image_full_path = $new_image_path."/".$new_image_name;
-        }else {
-        	$image_upload = "no_image";
-        	$image_full_path = "no_image";
+        
+        foreach ($files->get("file") as $image){
+        	if($image != null){
+        		$new_image_name = $image->getClientOriginalName();
+        		$image->move($new_image_path ,$new_image_name);
+        		$image_full_path = $new_image_path."/".$new_image_name;
+        		$imagesHTML.= '<img src="'.$image.'">"';
+        	}else 
+        		$image_full_path = "no_image";
+        	
+        	if($image_full_path != "no_image")$instance->attach(\Swift_Attachment::fromPath($new_image_path."/".$new_image_name));
         }
-        $message = "Vorname:".$firstname."<br>Nachname:".$lastname."<br>Telefon".$phone."<br>Mobil".$cellphone."<br>Wie viele Stöcke hat das Gebäude?".$building_etage." <br>In welchem Stock befindet sich Ihre Wohnung?".$etage."<br>Art des Gebäudes?<br>Marke des Gerätes?<br>Gerätetyp?<br>Wegstrecke vom Innenteil zum Außenteil?<br>Bilder<img src=".$image_upload.">";
+        	//Bilder<img src=".$image_upload.">"
+        
+       // $image_upload = $files->get("file")["image_upload"];
+        
+		if($imagesHTML != "")$imagesHTML = "Bilder ".$imagesHTML;
+        $message = "Vorname:".$firstname."<br>Nachname:".$lastname."<br>Telefon".$phone."<br>Mobil".$cellphone."<br>Wie viele Stöcke hat das Gebäude?".$building_etage." <br>In welchem Stock befindet sich Ihre Wohnung?".$etage."<br>Art des Gebäudes?<br>Marke des Gerätes?<br>Gerätetyp?<br>Wegstrecke vom Innenteil zum Außenteil?<br>".$imagesHTML;
         
         
         
 $log->error(sprintf('message : %s', $message));
             $htmlMessage = "<p>$message</p>";
-$storeName="Hausfabrik";
-$contactEmail="ani.jalavyan@sepa.at";
-            $instance = \Swift_Message::newInstance()
-            
-                ->addTo($emailTest, $storeName)
-                ->addFrom($contactEmail, $storeName)
-                ->setSubject($subject)
-                ->setBody($message, 'text/plain')
-                ->setBody($htmlMessage, 'text/html')
-                ->setContentType("text/html")
-            ;
-            if($image_full_path != "no_image")$instance->attach(\Swift_Attachment::fromPath($new_image_path."/".$new_image_name));
 
+            
+
+            $instance->setBody($message, 'text/plain')
+            ->setBody($htmlMessage, 'text/html');
+            
             try {
                 $this->getMailer()->send($instance);
-                
             } catch (\Exception $ex) {
-               
                 $log->error(sprintf('message : %s', $ex->getMessage()));
             }
 
-
            return $this->generateRedirectFromRoute('klima.angebot.success');
-
-
-
-
     }
 }

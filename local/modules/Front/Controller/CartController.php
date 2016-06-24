@@ -107,6 +107,8 @@ class CartController extends BaseFrontController
 
             $this->getParserContext()->setGeneralError($e->getMessage());
         }
+        
+
     }
 
     public function deleteItem()

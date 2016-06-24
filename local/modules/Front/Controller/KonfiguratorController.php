@@ -54,25 +54,30 @@ class KonfiguratorController extends BaseFrontController {
 		$log->debug ( "-- addservices " );
 		
 		$message = null;
-
 		
 		try {
-			//$cartEvent = new CartEvent();
-			
 			$cartEvent = $this->getCartEvent();
 			$cartEvent->setProduct($id);
 			$cartEvent->setAppend(1);
 			$cartEvent->setProductSaleElementsId($product_sale_id);
 			$cartEvent->setQuantity(1);
-		//	$cartEvent->set
-			$log->debug ( "-- addservices ".$cartEvent->getProduct() );
 			
+			$sp_start_ts = $request->request->get('sp_start_ts_'.$id);
+			$sp_end_ts   = $request->request->get('sp_end_ts_'.$id);
+			$sp_date     = $request->request->get('sp_start_ts_'.$id);
+
+			if(count($sp_start_ts)>0)
+				$cartEvent->setSpStartTs($sp_start_ts);
 			
-				
+			if(count($sp_end_ts)>0)
+				$cartEvent->setSpStartTs($sp_end_ts);
+			
+			if(count($sp_date)>0)
+				$cartEvent->setSpStartTs($sp_date);
+			
 			$this->getDispatcher()->dispatch(TheliaEvents::CART_ADDITEM, $cartEvent);
 		
 			$this->afterModifyCart();
-		
 		
 			if ($this->getRequest()->isXmlHttpRequest()) {
 				$this->changeViewForAjax();
@@ -124,8 +129,9 @@ class KonfiguratorController extends BaseFrontController {
 				$nr_services = count($service_ids);
 				if($nr_services > 0)
 					for ($i = 1; $i<=$nr_services; $i++){
-					if($service_ids[$i]){
-					//	$log->debug ( "-- addservicesewerwrwe ".$service_ids[$i] );
+					if($service_ids[$i]){	
+						$log->debug ( "-- service_appointment ".$service_ids[$i]." ".(new JsonResponse($request->request->all())));
+							//$sp_start_ts	." ".implode(" ",$sp_end_ts)." ".implode(" ",$sp_date));
 						$this->addServiceToCart($service_ids[$i], $service_product_sale_ids[$i],$request);
 					}
 				};

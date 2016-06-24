@@ -12,6 +12,9 @@
 
 namespace Thelia\Core\Archiver;
 
+use Thelia\Core\Translation\Translator;
+use Symfony\Component\Config\Definition\Exception\Exception;
+
 /**
  * Class AbstractArchiver
  * @author Jérôme Billiras <jbilliras@openstudio.fr>

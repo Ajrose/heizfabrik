@@ -276,7 +276,7 @@ abstract class CategoryQuery extends ModelCriteria
      */
     public function filterByPrimaryKeys($keys)
     {
-
+    	
         return $this->addUsingAlias(CategoryTableMap::ID, $keys, Criteria::IN);
     }
 
