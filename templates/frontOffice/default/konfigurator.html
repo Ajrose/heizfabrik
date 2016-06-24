@@ -31,7 +31,7 @@
                 {hook name="konfigurator.form-top"}
 					<ol class="fs-fields">
 						<li>
-							<h3>Brennstoff wählen</h3>
+							<h3>Brennstoff</h3>
                             <div><label class="fs-field-label fs-anim-upper" for="q1">Womit heizen Sie momentan?</label></div>
 							<!--input class="fs-anim-lower" id="q1" name="q1" type="text" placeholder="Dean Moriarty" required/-->
                             <div class="fs-radio-group fs-radio-custom clearfix fs-anim-lower">
@@ -50,8 +50,8 @@
 						</li>
                         
                         <li>
-							<h3>Brennstoff wählen</h3>
-                            <div><label class="fs-field-label fs-anim-upper" for="q2">Womit werden Sie in der Zukunft heizen?</label></div>
+							<h3>Brennstoff</h3>
+                            <div><label class="fs-field-label fs-anim-upper" for="q2">Womit werden Sie in Zukunft heizen?</label></div>
                             <div class="fs-radio-group fs-radio-custom clearfix fs-anim-lower">
 								
                                 
@@ -89,7 +89,7 @@
                             	
                             	<div class="col-md-6">
                                 	<div>
-                            			<label class="fs-field-label-sm fs-anim-upper" for="q5" >Wann wurde das Haus gebaut?</label>
+                            			<label class="fs-field-label-sm fs-anim-upper" for="q5" >Wann wurde das Objekt gebaut?</label>
                                 		<br>
                             			{form_field field="baujahr"}
 											<select name="{$name}" id="{$label_attr.for}{$choice->value}" class="fs-anim-lower">
@@ -139,7 +139,7 @@
 									</div>
                             	{/form_field}
                             
-                            <label class="fs-field-label-sm fs-anim-upper" for="q9" >Wie groß sind die Fensterflächen?</label>
+                            <label class="fs-field-label-sm fs-anim-upper" for="q9" >Wie groß sind Ihre Fensterflächen?</label>
                            	{form_field field="verglaste_flaeche"}
 							<div class="fs-radio-group fs-radio-normal clearfix fs-anim-lower">
                                 {foreach $choices as $choice}

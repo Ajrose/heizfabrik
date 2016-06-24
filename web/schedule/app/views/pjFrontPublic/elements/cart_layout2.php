@@ -8,7 +8,14 @@ if(!empty($cart))
 	<?php
     $counter=0;
     
-    if(count($cart)>3) $cart = array_splice($cart,2,-1);
+    if(count($cart)>3){
+      
+        array_splice($cart,2,-1);
+        array_splice( $_SESSION["AppSched_Cart"],2,-1);
+        
+    }
+      //print_r($_SESSION);
+   
 	foreach ($cart as $key => $value)
 	{
         $counter++;

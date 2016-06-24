@@ -3,16 +3,20 @@
     <div id="carousel" class="carousel slide" data-ride="carousel">
         <div class="carousel-wrapper">
             <div class="carousel-inner">
-                {loop type="carousel" name="carousel.front" width="1200" height="390" resize_mode="borders"}
+                {loop type="carousel" name="carousel.front" width="1200" height="300" resize_mode="borders"}
                 <figure class="item {if $LOOP_COUNT == 1}active{/if}">
                     {if $URL}<a href="{$URL|default:'#'}">{/if}
                     <img src="{$IMAGE_URL}" alt="{$ALT}">
                     {if $URL}</a>{/if}
 
                     <div class="carousel-caption">
-                        {if $TITLE}<h3>{$TITLE}</h3>{/if}
-                        {if $DESCRIPTION}{$DESCRIPTION nofilter}{/if}
+                        <div class="banner-title">{if $TITLE}{$TITLE nofilter}{/if}</div>
+                        <a href="{$URL|default:'#'}">
+                        <button class="btn btn-1 btn-1-banner">{if $DESCRIPTION}{$DESCRIPTION nofilter}{/if}</button>
+                        </a>
                     </div>
+
+                    
                 </figure>
                 {/loop}
             </div>

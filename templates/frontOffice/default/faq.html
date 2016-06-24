@@ -1,0 +1,123 @@
+{extends file="layout.tpl"}
+
+{* Body Class *}
+{block name="body-class"}page-konfigurator{/block}
+
+{* Breadcrumb *}
+{block name='no-return-functions' append}
+    {$breadcrumbs = [['title' => {intl l="FAQ" d="hookkonfigurator.fo.default"}, 'url'=>{url path="/faq"}]]}
+{/block}
+
+{block name="main-content"}
+    <div class="main">
+            <!--h1 id="main-label" class="page-header">{intl l="Dein Angebot" d="hookkonfigurator.fo.default"}</h1-->
+
+<div class="container1">		
+    <div class="row">
+    <h2 class="title">Häufige Fragen</h2>
+        <div class="col-sm-12">
+<ul>
+   <li><a href="#a">Wie funktioniert der Bestellvorgang im Hausfabrik Online Shop?</a></li>
+   <li><a href="#b">Wie lange kann ich meine bestellten Artikel zurücksenden?</a></li>
+    <li><a href="#c">Wie kann ich meine Bestellung bezahlen?</a></li>
+    <li><a href="#d">Wie hoch ist der Mindestbestellwert?</a></li>
+    <li><a href="#e">Wie hoch sind die Versandkosten bei der Hausfabrik?</a></li>
+    <li><a href="#f">Wie kann ich die Hausfabrik kontaktieren?</a></li>
+    <li><a href="#g">Kann ich den Termin für das Service online auswählen?</a></li>
+    <li><a href="#h">Bietet die Hausfabrik auch individuelle Angebote?</a></li>
+</ul>
+<div class="distance50"></div>
+<div id="a">
+  <h4>Wie funktioniert der Bestellvorgang im Hausfabrik Online Shop?</h4>        
+Legen Sie Ihre gewünschten Produkte in den Warenkorb.
+    <ol>
+        <li>Klicken Sie auf „Zur Kassa“ und loggen Sie sich ein oder registrieren Sie sich.</li>
+        <li>Wählen Sie Ihre bevorzugte Zahlungsart und führen Sie die dort angegebenen Schritte durch.</li>
+        <li>Wenn Sie Ihre Zahlung erfolgreich abgeschlossen haben und wir Ihre Bestellung erhalten haben, bekommen Sie eine Bestätigung per E-Mail.</li>
+    </ol>  
+</div>
+<div class="distance50"></div>
+<div id="b">
+  <h4>Wie lange kann ich meine bestellten Artikel zurücksenden?</h4>        
+Legen Sie Ihre gewünschten Produkte in den Warenkorb.
+    <p>
+Das Rückgaberecht bei der Heizfabrik können Sie 14 Tage ab Erhalt der Ware in Anspruch nehmen. Einzelheiten zum Widerrufsrecht erhalten sie <a href="assets/dist/pdf/WiderrufsformularHausfabrik.docx"><strong>hier</strong></a>.
+    </p>  
+</div>
+<div class="distance50"></div>
+<div id="c">
+    <h4>Wie kann ich meine Bestellung bezahlen?</h4>
+    <p>
+Bei der Hausfabrik stehen Ihnen folgende Zahlungsmethoden zur Verfügung:
+PayPal, Vorauskasse
+
+    </p>  
+</div>
+ <div class="distance50"></div>
+<div id="d">
+    <h4>Wie hoch ist der Mindestbestellwert?</h4>
+    <p>
+Bei der Heizfabrik gibt es keinen Mindestbestellwert.
+    </p>  
+</div>
+<div id="e">
+    <h4>Wie hoch sind die Versandkosten bei der Hausfabrik?</h4>
+    <p>
+Die Versandkosten richten sich nach einem Fixpreis, abhängig von Ihrer Adresse. Die Versandkosten werden Ihnen dann automatisch im Warenkorb angezeigt.
+    </p>  
+</div>
+<div class="distance50"></div>
+<div id="f">
+    <h4>Wie kann ich die Hausfabrik kontaktieren?</h4>
+    <p>
+Sie können uns telefonisch unter <strong>0800/022573 </strong>erreichen. Weiters können Sie unser Kontaktformular ausfüllen und wir kümmern uns umgehend um Ihr Anliegen. 
+    </p>  
+</div>
+<div class="distance50"></div>
+<div id="g">
+    <h4>Kann ich den Termin für das Service online auswählen?</h4>
+    <p>
+Ja, Sie können Ihren Wunschtermin im Kalender auswählen. 
+    </p>  
+</div>
+<div class="distance50"></div>
+<div id="h">
+    <h4>Bietet die Hausfabrik auch individuelle Angebote?</h4>
+    <p>
+Ja, wir erstellen gerne für Sie ein individuelles Angebot für Ihre zukünftige Heizung oder Ihre zukünftige Klimaanlage. Dafür füllen Sie bitte das Formular für ihre neue <a href="heizungskonfigurator-angebot"><strong>Heizung</strong></a>/ ihre neue <a href="klimakonfigurator-angebot"><strong>Klimaanlage</strong> </a>aus.
+    </p>  
+</div>
+
+            
+            
+        
+
+        </div>
+    </div>
+          
+</div><!-- /.layout -->
+{/block}
+
+{block name="stylesheet"}
+
+{hook name="register.stylesheet"}
+
+{/block}
+
+
+{block name="after-javascript-include"}
+
+
+
+
+
+
+
+
+{hook name="register.after-javascript-include"}
+
+{/block}
+
+{block name="javascript-initialization"}
+{hook name="register.javascript-initialization"}
+{/block}

@@ -64,7 +64,7 @@ class KlimaAngebot extends BaseForm
          ))
              
         ->add("etage", "text", array(
-         		"label" => Translator::getInstance()->trans("In welchem Stock befindet sich die Wohnung"),
+         		"label" => Translator::getInstance()->trans("In welchem Stock befindet sich die Wohnung?"),
          		"label_attr" => array(
          				"for" => "etage",
          		)
@@ -82,7 +82,7 @@ class KlimaAngebot extends BaseForm
 				"data" => 1
 		))
         ->add("marke", "text", array(
-         		"label" => Translator::getInstance()->trans("Welche Marke hat Ihr Gerät"),
+         		"label" => Translator::getInstance()->trans("Welche Marke hat Ihr Gerät?"),
          		"label_attr" => array(
          				"for" => "etage",
          		)
@@ -104,8 +104,8 @@ class KlimaAngebot extends BaseForm
              
          ->add("distance", "choice", array(
 				"choices" => array (
-						1 => Translator::getInstance()->trans("bis 3 meter"),
-						2 => Translator::getInstance()->trans("von 3 bis 6 meter"),
+						1 => Translator::getInstance()->trans("bis 3 Meter"),
+						2 => Translator::getInstance()->trans("von 3 bis 6 Meter"),
 						3 => Translator::getInstance()->trans("Sonstige")
 				),
 				"label" => Translator::getInstance()->trans("Wegstrecke vom Innenteil zum Außenteil"),

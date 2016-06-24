@@ -40,7 +40,7 @@ return [
     'Support' => 'Kundendienst',
     'Thank you for your order!' => 'Vielen Dank für Ihre Bestellung !',
     'Thanks' => 'Danke !',
-    'The %store team.' => 'Die %store Team.',
+    'The %store team.' => 'Das %store Team.',
     'Thelia V2' => 'Thelia V2',
     'To login, please use the email address <span style="font-family: courier, fixed; font-size: 120%">%email</span>' => 'Um sich anzumelden, nutzen Sie bitte die E-Mail-Adresse <span style="font-family: courier, fixed; font-size: 120%">%email</span> ',
     'Total' => 'Gesamtsumme',
@@ -65,4 +65,11 @@ return [
     'Your order confirmation Nº %ref' => 'Ihre Bestellungsbestätigung Nr. %ref',
     'Your password for %store' => 'Ihr Passwort für %store',
     'Your password is <span style="font-family: courier, fixed; font-size: 120%">%pass</span>' => 'Ihr Passwort ist <span style="font-family: courier, fixed; font-size: 120%">%pass</span> ',
+    'Your subscription to newsletter'=>'Ihr Abonement zum Newsletter',
+    'Dear %firstname %lastname,'=>'Liebe(r) %firstname %lastname,',
+    'Hello'=>'Hallo',
+    'To unsubscribe from our newsletter, please <a href=\"%unsublink\">click here</a>.'=>'Um Newsletter abzubestellen, bitte <a href=\"%unsublink\">hier drücken.</a>.',
+    
+    'Thank you for your registration. You will now receive the %store newsletter on your email address %email.'=>'Vielen Dank für Ihre Registrierung. Sie werden an diese Email Adresse %email Newsletter bekommen.',
+    
 ];

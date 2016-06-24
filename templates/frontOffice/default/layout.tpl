@@ -52,6 +52,9 @@ web : http://www.hausfabrik.at
     {stylesheets file='assets/dist/css/thelia.min.css'}
         <link rel="stylesheet" href="{$asset_url}">
     {/stylesheets}
+    {stylesheets file='assets/dist/css/minnu.css'}
+        <link rel="stylesheet" href="{$asset_url}">
+    {/stylesheets}
     {*
      If you want to generate the CSS assets on the fly, just replace the stylesheet inclusion above by the following.
      Then, in your back-office, go to Configuration -> System Variables and set process_assets to 1.
@@ -93,13 +96,14 @@ web : http://www.hausfabrik.at
     {/javascripts}
     <![endif]-->
    <script src="{javascript file='assets/dist/js/vendors/modernizr.custom.js'}"></script>
-    
+
+   <script src="{javascript file='assets/dist/js/vendors/dropzone.js'}"></script> 
     
 <!--Services appointment codes-->
     
      
-     <link rel="stylesheet" href="http://localhost/schedule/index.php?controller=pjFrontEnd&action=pjActionLoadCss">
-     <link rel="stylesheet" href="http://localhost/schedule/core/framework/libs/pj/css/pj.bootstrap.min.css">
+     <link rel="stylesheet" href="/schedule/index.php?controller=pjFrontEnd&action=pjActionLoadCss">
+     <link rel="stylesheet" href="/schedule/core/framework/libs/pj/css/pj.bootstrap.min.css">
    
     <!--Start of Zopim Live Chat Script-->
      {literal} 
@@ -151,13 +155,13 @@ type="text/javascript";e.parentNode.insertBefore($,e)})(document,"script");
 			<header class="container" role="banner">
                 <h1 class="logo  hidden-xs col-sm-4" >
                         <a href="{navigate to="index"}" title="{$store_name}">
-                            <img src="{image file='assets/dist/img/logo.png'}" alt="{$store_name}">
+                            <img src="{image file='assets/dist/img/logo.png'}" style="max-width:200px" alt="{$store_name}">
                         </a>
                 </h1>
-                <div class="col-sm-4 zertifikat-logos">
+                <!--div class="col-sm-4 zertifikat-logos">
                <img src={image file='assets/dist/img/installateur_fachbetrieb-logo.png'} style="width:80px">
                 <img src={image file='assets/dist/img/shk_innung.png'}  style="width:80px">       
-                </div>
+                </div-->
                 
                 <div class="hotline">
                
@@ -205,10 +209,12 @@ type="text/javascript";e.parentNode.insertBefore($,e)})(document,"script");
                 <section class="footer-banner">
                     <div class="container">
                         <div class="banner row banner-col-3">
-                            <div class="col col-sm-4">
+                            <a href="lieferung">
+                                <div class="col col-sm-4">
                                 <span class="shopicon shop-lieferung highlightcolor fa-flip-horizontal"></span>
                                 <div><strong>{intl l="LIEFERUNG"}</strong></div> <div><br><small>{intl l="Der Lieferpreis richtet sich nach einem Fixpreis, abhängig von Ihrer Adresse. Die Standartlieferung erfolgt innerhalb von 2-3 Werktagen."}</small></div>
-                            </div>
+                                </div>
+                            </a>
                             <div class="col col-sm-4">
                                 <span class="shopicon shop-bezahlung highlightcolor"></span>
                                 <div><strong>{intl l="BEZAHLUNG"} </strong></div><div><br><small>{intl l="Folgende Zahlungsmethoden stehen Ihnen zu Auswahl:"}</small></div>
@@ -216,19 +222,19 @@ type="text/javascript";e.parentNode.insertBefore($,e)})(document,"script");
                                     <img src="{image file='assets/dist/img/paymentsystems/paypal.jpg'}" alt="paypal"/>
                                     <img src="{image file='assets/dist/img/paymentsystems/mastercard.jpg'}" alt="paypal"/>
                                     <img src="{image file='assets/dist/img/paymentsystems/visa.jpg'}" alt="paypal"/>
-                                    <img src="{image file='assets/dist/img/paymentsystems/western.jpg'}" alt="paypal"/>
+                                    <!--img src="{image file='assets/dist/img/paymentsystems/western.jpg'}" alt="paypal"/-->
                                 </div>
                             </div>
                             <a href="contact">
                                 <div class="col col-sm-4">
                                 <span class="shopicon shop-kontakt highlightcolor"></span>
                                 <div>
-                                    <strong>{intl l="KONTAKT"} </strong>
+                                    <strong>{intl l="SUPPORT"} </strong>
                                 </div>
                                 <div>
                                     <h3><strong>{intl l="0800/022573"}</strong></h3>
-                                    <h5>Mo-Fr: 8-20Uhr</h5>
-                                    <h5>Sa: 11-17Uhr</h5>
+                                    <h5>Mo-Fr: 8-20 Uhr</h5>
+                                    <h5>Sa: 11-17 Uhr</h5>
                                 </div>
                             </div>
                                 </a>
@@ -237,6 +243,26 @@ type="text/javascript";e.parentNode.insertBefore($,e)})(document,"script");
                 </section><!-- /.footer-banner -->
             {/elsehook}
 
+{ifhook rel="main.footer-body"}
+                <section class="footer-block">
+                    <div class="container">
+                        <div class="blocks row">
+                            {hookblock name="main.footer-body"  fields="id,class,title,content"}
+                            {forhook rel="main.footer-body"}
+                                <div class="col col-sm-4">
+                                    <section {if $id} id="{$id}"{/if} class="block {if $class} block-{$class}{/if}">
+                                        <div class="block-heading"><h3 class="block-title">{$title}</h3></div>
+                                        <div class="block-content">
+                                            {$content nofilter}
+                                        </div>
+                                    </section>
+                                </div>
+                            {/forhook}
+                            {/hookblock}
+                        </div>
+                    </div>
+                </section>
+            {/ifhook}
 
             
             {ifhook rel="main.footer-bottom"}
@@ -258,6 +284,12 @@ type="text/javascript";e.parentNode.insertBefore($,e)})(document,"script");
                     <div class="container">
                         <div class="info row">
                             <nav class="nav-footer col-lg-9" role="navigation">
+                                <ul class="list-unstyled list-inline">
+                                    <li><a href="agb">AGB</a></li>
+                                    <li><a href="impressum">Impressum</a></li>
+                                    <li><a href="widerruf">Widerrufsrerklärung</a></li>
+                                    <li><a href="faq">Häufige Fragen (FAQ)</a></li>
+                                </ul>
                                 <!--ul class="list-unstyled list-inline">
                                     {$folder_information={config key="information_folder_id"}}
                                     {if $folder_information}

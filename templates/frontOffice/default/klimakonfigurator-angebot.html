@@ -15,17 +15,9 @@
 	<div class="container1">
 	 {block name="klima-angebot-form"}    
 		<div>
-			
-               
             {form name="klima.angebot"}
 				<form id="form-klimaangebot"   
-     class="form-horizontal fs-form fs-form-full" action="{url path="/klimakonfigurator-angebot/sendmail"}" method="post" autocomplete="off" enctype="multipart/form-data">
-             <!--     <div class="dropzone" id="my-awesome-dropzone" style="background:#666;" class="" style="height:150px; border:dotted 2px #CCC">
-                </div>
-                <div class="fallback">
-    <input name="file" type="file" multiple />
-  </div>
-                -->
+     class="form-horizontal fs-form fs-form-full dropzone" action="{url path="/klimakonfigurator-angebot/sendmail"}" method="post" autocomplete="off" enctype="multipart/form-data">
                 {form_field field='error_message'}
                 	<input type="hidden" name="{$name}" value="{intl l="missing or invalid data"}" />
                 {/form_field} 
@@ -113,7 +105,15 @@
                     </div>
                     <div class="panel-body">
                     {form_field field="image_upload"}
-                              <input type="file" name="{$name}" id="{$label_attr.for}">  
+						<div class="fallback">
+    						<input name="file" type="file" id="{$label_attr.for}" multiple />
+  						</div>
+  						<div class="dz-default dz-message">
+  							<span>Drop files here to upload</span>
+
+  						</div>
+  						  	<div id="previews" >
+  						</div>
                     {/form_field}
                     </div>  
                 </fieldset>
@@ -224,12 +224,53 @@
 {/block}
 
 {block name="stylesheet"}
+    {stylesheets file='assets/dist/css/dropzone.css'}
+        <link rel="stylesheet" href="{$asset_url}">
+    {/stylesheets}
 	{hook name="register.stylesheet"}
 {/block}
 
-
 {block name="after-javascript-include"}
- 
+ <script>
+ Dropzone.options.formKlimaangebot = {
+
+		  // Prevents Dropzone from uploading dropped files immediately
+		  autoProcessQueue: false,
+		  uploadMultiple: true,
+		  addRemoveLinks: true,
+		  parallelUploads: 10,
+		  maxFilesize: 256,
+		  clickable: false,
+		  previewsContainer: '#previews',
+	      dictDefaultMessage: "Drop files here to upload",
+	      dictFallbackMessage: "Your browser does not support drag'n'drop file uploads.",
+	      dictFallbackText: "Please use the fallback form below to upload your files like in the olden days.",
+	      dictFileTooBig: "File is too big ( { { filesize } } MiB). Max filesize: { { maxFilesize } } MiB.",
+	      dictInvalidFileType: "You can't upload files of this type.",
+	      dictResponseError: "Server responded with { { statusCode } } code.",
+	      dictCancelUpload: "Cancel upload",
+	      dictCancelUploadConfirmation: "Are you sure you want to cancel this upload?",
+	      dictRemoveFile: "Remove file",
+	      dictRemoveFileConfirmation: null,
+	      dictMaxFilesExceeded: "You can not upload any more files.",
+	      
+		  init: function() {
+		    var submitButton = document.querySelector("#form-klimaangebot")
+		        myDropzone = this; // closure
+
+		    submitButton.addEventListener("click", function(e) {
+		    	e.preventDefault();
+		      myDropzone.processQueue(); // Tell Dropzone to process all queued files.
+		    });
+		  },
+	      success: function(file,response){
+	    	  document.open();
+	    	    document.write(response);
+	    	    document.close();
+	    	    window.history.pushState( { "html":response,"pageTitle":response.pageTitle } ,"", "/klimakonfigurator-angebot/success");
+	      }
+		};
+</script>
 
 
 {hook name="register.after-javascript-include"}

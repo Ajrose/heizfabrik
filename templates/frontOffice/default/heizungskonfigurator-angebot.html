@@ -34,7 +34,7 @@
                  
 					<fieldset id="register-info" class="panel panel-default">
                     <div class="panel-heading">
-                        1. {intl l="Personale Informationen"}
+                        1. {intl l="Persönliche Informationen"}
                     </div>
 
                     <div class="panel-body">
@@ -112,6 +112,7 @@
                         2. {intl l="Fotobegehung"}
                     </div>
                     <div class="panel-body">
+                        Bitte laden Sie hier den Plan der Wohnung hoch.<br><br>
                     {form_field field="image_upload"}
                               <input type="file" name="{$name}" id="{$label_attr.for}">  
                     {/form_field}
@@ -189,18 +190,7 @@
                         {/form_field}
                         
                         
-                        {form_field field="marke"}
-                            <div class="group-cellphone{if $error} has-error{/if}">
-                                <label class="control-label " for="{$label_attr.for}">{$label}</label>
-                                <div class="control-input">
-                                    <input type="text" name="{$name}" id="{$label_attr.for}" class="form-control" maxlength="20" placeholder="z.B Gree" value="{$value}"{if $required} aria-required="true" required{/if}{if !isset($error_focus) && $error} autofocus{/if}>
-                                    {if $error }
-                                        <span class="help-block">{$message}</span>
-                                        {assign var="error_focus" value="true"}
-                                    {/if}
-                                </div>
-                            </div><!--/.form-group-->
-                        {/form_field}
+
                         
                          {form_field field="radiatortyp"}
                             <div class="group-cellphone{if $error} has-error{/if}">
@@ -212,18 +202,8 @@
                                         </select>
                             </div><!--/.form-group-->
                         {/form_field}
-                        {form_field field="heizkoerpermarke"}
-                            <div class="group-cellphone{if $error} has-error{/if}">
-                                <label class="control-label " for="{$label_attr.for}">{$label}</label>
-                        <br>
-    				               <select name="{$name}" id="{$label_attr.for}{$choice->value}" class="fs-anim-lower">
-                              					{foreach $choices as $choice}
-                            						<option value="{$choice->value}"{if $value === {$choice->value}} checked{/if}>{$choice->label}</option>
-							 					{/foreach}
-                                        </select>
-                               
-                            </div><!--/.form-group-->
-                        {/form_field}
+                        
+
                         
                          {form_field field="anschlussarten"}
                             <div class="group-cellphone{if $error} has-error{/if}">
@@ -235,7 +215,7 @@
                                
                             </div><!--/.form-group-->
                         {/form_field}
-                         {form_field field="waermepumpe"}
+                        {form_field field="waermepumpe"}
                             <div class="group-cellphone{if $error} has-error{/if}">
                                 <label class="control-label " for="{$label_attr.for}">{$label}</label>
                         <br>
@@ -246,18 +226,7 @@
                             </div><!--/.form-group-->
                         {/form_field}
                         
-                         {form_field field="ausgaenge"}
-                            <div class="group-lastname{if $error} has-error{/if}">
-                                <label class="control-label" for="{$label_attr.for}">{$label}{if $required} <span class="required">*</span>{/if}</label>
-                                <div class="control-input ">
-                                    <input type="text" name="{$name}" id="{$label_attr.for}" class="form-control" maxlength="255" placeholder="{intl l="3"}" value="{$value}" {if $required} aria-required="true" required{/if}{if !isset($error_focus) && $error} autofocus{/if}>
-                                    {if $error }
-                                        <span class="help-block">{$message}</span>
-                                        {assign var="error_focus" value="true"}
-                                    {/if}
-                                </div>
-                            </div><!--/.form-group-->
-                        {/form_field}
+                       
                         {form_field field="roehrenheizkoerper"}
                             <div class="group-cellphone{if $error} has-error{/if}">
                                 <label class="control-label " for="{$label_attr.for}">{$label}</label>
@@ -278,19 +247,7 @@
                                
                             </div><!--/.form-group-->
                         {/form_field}
-                        
-                         {form_field field="roehremarke"}
-                            <div class="group-cellphone{if $error} has-error{/if}">
-                                <label class="control-label" for="{$label_attr.for}">{$label}</label>
-                                <br>
-    				                <select name="{$name}" id="{$label_attr.for}{$choice->value}" class="fs-anim-lower">
-                              					{foreach $choices as $choice}
-                            						<option value="{$choice->value}"{if $value === {$choice->value}} checked{/if}>{$choice->label}</option>
-							 					{/foreach}
-                                    </select>
-                               
-                            </div><!--/.form-group-->
-                        {/form_field}
+
                         
 							<label class="fs-field-label" for="q15">Anmerkungen zu Ihrer Heizung</label><br>
 							<textarea id="q15" name="q15" placeholder="Anmerkungen" style="width: 90%;height: 120px;"></textarea>

@@ -101,7 +101,7 @@ class HeizungAngebot extends BaseForm
                         3 => Translator::getInstance()->trans("Sonstiges")
 						
 				),
-				"label" => Translator::getInstance()->trans("Wo wird das Gerät sein?"),
+				"label" => Translator::getInstance()->trans("In welchem Raum soll die Therme installiert werden?"),
 				"label_attr" => array(
                     "for" => "lage",
                 ),
@@ -150,7 +150,7 @@ class HeizungAngebot extends BaseForm
                         5=> Translator::getInstance()->trans("Kermi"),
 						6 => Translator::getInstance()->trans("Sonstige")
 				),
-				"label" => Translator::getInstance()->trans("Welche Heizkörpermarke hätten Sie gerne?"),
+				"label" => Translator::getInstance()->trans("Wie hätten Sie Ihren Heizkörper gerne installiert?"),
 				"label_attr" => array(
                     "for" => "heizkoerpermarke",
                 ),
@@ -163,7 +163,7 @@ class HeizungAngebot extends BaseForm
 						2 => Translator::getInstance()->trans("An der Wand")
                         
 				),
-				"label" => Translator::getInstance()->trans("Welche Heizkörpermarke hätten Sie gerne?"),
+				"label" => Translator::getInstance()->trans("Wie hätten Sie Ihren Heizkörper gerne installiert??"),
 				"label_attr" => array(
                     "for" => "anschlussarten",
                 ),
@@ -176,7 +176,7 @@ class HeizungAngebot extends BaseForm
 						2 => Translator::getInstance()->trans("nein")
                         
 				),
-				"label" => Translator::getInstance()->trans("Haben Sie früher Wärmepumpe gehabt?"),
+				"label" => Translator::getInstance()->trans("Haben Sie früher eine Wärmepumpe gehabt?"),
 				"label_attr" => array(
                     "for" => "waermepumpe",
                 ),
