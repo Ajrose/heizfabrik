@@ -10725,7 +10725,7 @@ td.product .name>a:hover {
     color:#000;
     padding:20px;
     border:solid 5px  #FFF;
-    min-height: 240px;
+    min-height: 250px;
     min-width:370px;
 }
 
@@ -10763,7 +10763,13 @@ td.product .name>a:hover {
 .aside-banner-shop{
      background: url(../img/aside-banners/aside-banner-shop.png) #f3f5f8 right no-repeat;
 }
+.aside-banner-neue-heizung{
+     background: url(../img/aside-banners/aside-banner-neue-heizung.png) #f3f5f8 right no-repeat;
+}
 .aside-banner-services{
+     background: url(../img/aside-banners/aside-banner-services.png) #f3f5f8 right no-repeat;
+}
+.aside-banner-wartung{
      background: url(../img/aside-banners/aside-banner-services.png) #f3f5f8 right no-repeat;
 }
 .fertige-badezimmer-set{
