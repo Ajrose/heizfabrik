@@ -1,5 +1,4 @@
 <?php
-
 namespace HookKonfigurator\Model;
 
 use HookKonfigurator\Model\Base\SetsQuery as BaseSetsQuery;

@@ -1,5 +1,4 @@
 <?php
-
 namespace HookKonfigurator\Model;
 
 class Products

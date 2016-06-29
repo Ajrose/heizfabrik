@@ -2,6 +2,8 @@
 
 namespace Thelia\Model\Map;
 
+use Thelia\Model\Product;
+use Thelia\Model\ProductQuery;
 use Propel\Runtime\Propel;
 use Propel\Runtime\ActiveQuery\Criteria;
 use Propel\Runtime\ActiveQuery\InstancePoolTrait;
@@ -11,8 +13,6 @@ use Propel\Runtime\Exception\PropelException;
 use Propel\Runtime\Map\RelationMap;
 use Propel\Runtime\Map\TableMap;
 use Propel\Runtime\Map\TableMapTrait;
-use Thelia\Model\Product;
-use Thelia\Model\ProductQuery;
 
 
 /**
@@ -58,7 +58,7 @@ class ProductTableMap extends TableMap
     /**
      * The total number of columns
      */
-    const NUM_COLUMNS = 13;
+    const NUM_COLUMNS = 14;
 
     /**
      * The number of lazy-loaded columns
@@ -68,7 +68,7 @@ class ProductTableMap extends TableMap
     /**
      * The number of columns to hydrate (NUM_COLUMNS - NUM_LAZY_LOAD_COLUMNS)
      */
-    const NUM_HYDRATE_COLUMNS = 13;
+    const NUM_HYDRATE_COLUMNS = 14;
 
     /**
      * the column name for the ID field
@@ -84,6 +84,11 @@ class ProductTableMap extends TableMap
      * the column name for the REF field
      */
     const REF = 'product.REF';
+
+    /**
+     * the column name for the EXTERN_ID field
+     */
+    const EXTERN_ID = 'product.EXTERN_ID';
 
     /**
      * the column name for the VISIBLE field
@@ -156,12 +161,12 @@ class ProductTableMap extends TableMap
      * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
      */
     protected static $fieldNames = array (
-        self::TYPE_PHPNAME       => array('Id', 'TaxRuleId', 'Ref', 'Visible', 'Position', 'TemplateId', 'BrandId', 'Virtual', 'CreatedAt', 'UpdatedAt', 'Version', 'VersionCreatedAt', 'VersionCreatedBy', ),
-        self::TYPE_STUDLYPHPNAME => array('id', 'taxRuleId', 'ref', 'visible', 'position', 'templateId', 'brandId', 'virtual', 'createdAt', 'updatedAt', 'version', 'versionCreatedAt', 'versionCreatedBy', ),
-        self::TYPE_COLNAME       => array(ProductTableMap::ID, ProductTableMap::TAX_RULE_ID, ProductTableMap::REF, ProductTableMap::VISIBLE, ProductTableMap::POSITION, ProductTableMap::TEMPLATE_ID, ProductTableMap::BRAND_ID, ProductTableMap::VIRTUAL, ProductTableMap::CREATED_AT, ProductTableMap::UPDATED_AT, ProductTableMap::VERSION, ProductTableMap::VERSION_CREATED_AT, ProductTableMap::VERSION_CREATED_BY, ),
-        self::TYPE_RAW_COLNAME   => array('ID', 'TAX_RULE_ID', 'REF', 'VISIBLE', 'POSITION', 'TEMPLATE_ID', 'BRAND_ID', 'VIRTUAL', 'CREATED_AT', 'UPDATED_AT', 'VERSION', 'VERSION_CREATED_AT', 'VERSION_CREATED_BY', ),
-        self::TYPE_FIELDNAME     => array('id', 'tax_rule_id', 'ref', 'visible', 'position', 'template_id', 'brand_id', 'virtual', 'created_at', 'updated_at', 'version', 'version_created_at', 'version_created_by', ),
-        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, )
+        self::TYPE_PHPNAME       => array('Id', 'TaxRuleId', 'Ref', 'ExternId', 'Visible', 'Position', 'TemplateId', 'BrandId', 'Virtual', 'CreatedAt', 'UpdatedAt', 'Version', 'VersionCreatedAt', 'VersionCreatedBy', ),
+        self::TYPE_STUDLYPHPNAME => array('id', 'taxRuleId', 'ref', 'externId', 'visible', 'position', 'templateId', 'brandId', 'virtual', 'createdAt', 'updatedAt', 'version', 'versionCreatedAt', 'versionCreatedBy', ),
+        self::TYPE_COLNAME       => array(ProductTableMap::ID, ProductTableMap::TAX_RULE_ID, ProductTableMap::REF, ProductTableMap::EXTERN_ID, ProductTableMap::VISIBLE, ProductTableMap::POSITION, ProductTableMap::TEMPLATE_ID, ProductTableMap::BRAND_ID, ProductTableMap::VIRTUAL, ProductTableMap::CREATED_AT, ProductTableMap::UPDATED_AT, ProductTableMap::VERSION, ProductTableMap::VERSION_CREATED_AT, ProductTableMap::VERSION_CREATED_BY, ),
+        self::TYPE_RAW_COLNAME   => array('ID', 'TAX_RULE_ID', 'REF', 'EXTERN_ID', 'VISIBLE', 'POSITION', 'TEMPLATE_ID', 'BRAND_ID', 'VIRTUAL', 'CREATED_AT', 'UPDATED_AT', 'VERSION', 'VERSION_CREATED_AT', 'VERSION_CREATED_BY', ),
+        self::TYPE_FIELDNAME     => array('id', 'tax_rule_id', 'ref', 'extern_id', 'visible', 'position', 'template_id', 'brand_id', 'virtual', 'created_at', 'updated_at', 'version', 'version_created_at', 'version_created_by', ),
+        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, )
     );
 
     /**
@@ -171,12 +176,12 @@ class ProductTableMap extends TableMap
      * e.g. self::$fieldKeys[self::TYPE_PHPNAME]['Id'] = 0
      */
     protected static $fieldKeys = array (
-        self::TYPE_PHPNAME       => array('Id' => 0, 'TaxRuleId' => 1, 'Ref' => 2, 'Visible' => 3, 'Position' => 4, 'TemplateId' => 5, 'BrandId' => 6, 'Virtual' => 7, 'CreatedAt' => 8, 'UpdatedAt' => 9, 'Version' => 10, 'VersionCreatedAt' => 11, 'VersionCreatedBy' => 12, ),
-        self::TYPE_STUDLYPHPNAME => array('id' => 0, 'taxRuleId' => 1, 'ref' => 2, 'visible' => 3, 'position' => 4, 'templateId' => 5, 'brandId' => 6, 'virtual' => 7, 'createdAt' => 8, 'updatedAt' => 9, 'version' => 10, 'versionCreatedAt' => 11, 'versionCreatedBy' => 12, ),
-        self::TYPE_COLNAME       => array(ProductTableMap::ID => 0, ProductTableMap::TAX_RULE_ID => 1, ProductTableMap::REF => 2, ProductTableMap::VISIBLE => 3, ProductTableMap::POSITION => 4, ProductTableMap::TEMPLATE_ID => 5, ProductTableMap::BRAND_ID => 6, ProductTableMap::VIRTUAL => 7, ProductTableMap::CREATED_AT => 8, ProductTableMap::UPDATED_AT => 9, ProductTableMap::VERSION => 10, ProductTableMap::VERSION_CREATED_AT => 11, ProductTableMap::VERSION_CREATED_BY => 12, ),
-        self::TYPE_RAW_COLNAME   => array('ID' => 0, 'TAX_RULE_ID' => 1, 'REF' => 2, 'VISIBLE' => 3, 'POSITION' => 4, 'TEMPLATE_ID' => 5, 'BRAND_ID' => 6, 'VIRTUAL' => 7, 'CREATED_AT' => 8, 'UPDATED_AT' => 9, 'VERSION' => 10, 'VERSION_CREATED_AT' => 11, 'VERSION_CREATED_BY' => 12, ),
-        self::TYPE_FIELDNAME     => array('id' => 0, 'tax_rule_id' => 1, 'ref' => 2, 'visible' => 3, 'position' => 4, 'template_id' => 5, 'brand_id' => 6, 'virtual' => 7, 'created_at' => 8, 'updated_at' => 9, 'version' => 10, 'version_created_at' => 11, 'version_created_by' => 12, ),
-        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, )
+        self::TYPE_PHPNAME       => array('Id' => 0, 'TaxRuleId' => 1, 'Ref' => 2, 'ExternId' => 3, 'Visible' => 4, 'Position' => 5, 'TemplateId' => 6, 'BrandId' => 7, 'Virtual' => 8, 'CreatedAt' => 9, 'UpdatedAt' => 10, 'Version' => 11, 'VersionCreatedAt' => 12, 'VersionCreatedBy' => 13, ),
+        self::TYPE_STUDLYPHPNAME => array('id' => 0, 'taxRuleId' => 1, 'ref' => 2, 'externId' => 3, 'visible' => 4, 'position' => 5, 'templateId' => 6, 'brandId' => 7, 'virtual' => 8, 'createdAt' => 9, 'updatedAt' => 10, 'version' => 11, 'versionCreatedAt' => 12, 'versionCreatedBy' => 13, ),
+        self::TYPE_COLNAME       => array(ProductTableMap::ID => 0, ProductTableMap::TAX_RULE_ID => 1, ProductTableMap::REF => 2, ProductTableMap::EXTERN_ID => 3, ProductTableMap::VISIBLE => 4, ProductTableMap::POSITION => 5, ProductTableMap::TEMPLATE_ID => 6, ProductTableMap::BRAND_ID => 7, ProductTableMap::VIRTUAL => 8, ProductTableMap::CREATED_AT => 9, ProductTableMap::UPDATED_AT => 10, ProductTableMap::VERSION => 11, ProductTableMap::VERSION_CREATED_AT => 12, ProductTableMap::VERSION_CREATED_BY => 13, ),
+        self::TYPE_RAW_COLNAME   => array('ID' => 0, 'TAX_RULE_ID' => 1, 'REF' => 2, 'EXTERN_ID' => 3, 'VISIBLE' => 4, 'POSITION' => 5, 'TEMPLATE_ID' => 6, 'BRAND_ID' => 7, 'VIRTUAL' => 8, 'CREATED_AT' => 9, 'UPDATED_AT' => 10, 'VERSION' => 11, 'VERSION_CREATED_AT' => 12, 'VERSION_CREATED_BY' => 13, ),
+        self::TYPE_FIELDNAME     => array('id' => 0, 'tax_rule_id' => 1, 'ref' => 2, 'extern_id' => 3, 'visible' => 4, 'position' => 5, 'template_id' => 6, 'brand_id' => 7, 'virtual' => 8, 'created_at' => 9, 'updated_at' => 10, 'version' => 11, 'version_created_at' => 12, 'version_created_by' => 13, ),
+        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, )
     );
 
     /**
@@ -198,6 +203,7 @@ class ProductTableMap extends TableMap
         $this->addPrimaryKey('ID', 'Id', 'INTEGER', true, null, null);
         $this->addForeignKey('TAX_RULE_ID', 'TaxRuleId', 'INTEGER', 'tax_rule', 'ID', false, null, null);
         $this->addColumn('REF', 'Ref', 'VARCHAR', true, 255, null);
+        $this->addColumn('EXTERN_ID', 'ExternId', 'VARCHAR', false, 255, null);
         $this->addColumn('VISIBLE', 'Visible', 'TINYINT', true, null, 0);
         $this->addColumn('POSITION', 'Position', 'INTEGER', true, null, 0);
         $this->addForeignKey('TEMPLATE_ID', 'TemplateId', 'INTEGER', 'template', 'ID', false, null, null);
@@ -215,26 +221,27 @@ class ProductTableMap extends TableMap
      */
     public function buildRelations()
     {
-        $this->addRelation('TaxRule', '\\Thelia\\Model\\TaxRule', RelationMap::MANY_TO_ONE, array('tax_rule_id' => 'id', ), 'RESTRICT', 'RESTRICT');
+        $this->addRelation('Brand', '\\Thelia\\Model\\Brand', RelationMap::MANY_TO_ONE, array('brand_id' => 'id', ), 'SET NULL', null);
+        $this->addRelation('TaxRule', '\\Thelia\\Model\\TaxRule', RelationMap::MANY_TO_ONE, array('tax_rule_id' => 'id', ), null, null);
         $this->addRelation('Template', '\\Thelia\\Model\\Template', RelationMap::MANY_TO_ONE, array('template_id' => 'id', ), 'SET NULL', null);
-        $this->addRelation('Brand', '\\Thelia\\Model\\Brand', RelationMap::MANY_TO_ONE, array('brand_id' => 'id', ), 'SET NULL', 'RESTRICT');
-        $this->addRelation('ProductCategory', '\\Thelia\\Model\\ProductCategory', RelationMap::ONE_TO_MANY, array('id' => 'product_id', ), 'CASCADE', 'RESTRICT', 'ProductCategories');
-        $this->addRelation('FeatureProduct', '\\Thelia\\Model\\FeatureProduct', RelationMap::ONE_TO_MANY, array('id' => 'product_id', ), 'CASCADE', 'RESTRICT', 'FeatureProducts');
-        $this->addRelation('ProductSaleElements', '\\Thelia\\Model\\ProductSaleElements', RelationMap::ONE_TO_MANY, array('id' => 'product_id', ), 'CASCADE', 'RESTRICT', 'ProductSaleElementss');
-        $this->addRelation('ProductImage', '\\Thelia\\Model\\ProductImage', RelationMap::ONE_TO_MANY, array('id' => 'product_id', ), 'CASCADE', 'RESTRICT', 'ProductImages');
-        $this->addRelation('ProductDocument', '\\Thelia\\Model\\ProductDocument', RelationMap::ONE_TO_MANY, array('id' => 'product_id', ), 'CASCADE', 'RESTRICT', 'ProductDocuments');
-        $this->addRelation('AccessoryRelatedByProductId', '\\Thelia\\Model\\Accessory', RelationMap::ONE_TO_MANY, array('id' => 'product_id', ), 'CASCADE', 'RESTRICT', 'AccessoriesRelatedByProductId');
-        $this->addRelation('AccessoryRelatedByAccessory', '\\Thelia\\Model\\Accessory', RelationMap::ONE_TO_MANY, array('id' => 'accessory', ), 'CASCADE', 'RESTRICT', 'AccessoriesRelatedByAccessory');
-        $this->addRelation('CartItem', '\\Thelia\\Model\\CartItem', RelationMap::ONE_TO_MANY, array('id' => 'product_id', ), 'CASCADE', 'RESTRICT', 'CartItems');
-        $this->addRelation('ProductAssociatedContent', '\\Thelia\\Model\\ProductAssociatedContent', RelationMap::ONE_TO_MANY, array('id' => 'product_id', ), 'CASCADE', 'RESTRICT', 'ProductAssociatedContents');
-        $this->addRelation('SaleProduct', '\\Thelia\\Model\\SaleProduct', RelationMap::ONE_TO_MANY, array('id' => 'product_id', ), 'CASCADE', 'RESTRICT', 'SaleProducts');
+        $this->addRelation('AccessoryRelatedByAccessory', '\\Thelia\\Model\\Accessory', RelationMap::ONE_TO_MANY, array('id' => 'accessory', ), 'CASCADE', null, 'AccessoriesRelatedByAccessory');
+        $this->addRelation('AccessoryRelatedByProductId', '\\Thelia\\Model\\Accessory', RelationMap::ONE_TO_MANY, array('id' => 'product_id', ), 'CASCADE', null, 'AccessoriesRelatedByProductId');
+        $this->addRelation('CartItem', '\\Thelia\\Model\\CartItem', RelationMap::ONE_TO_MANY, array('id' => 'product_id', ), 'CASCADE', null, 'CartItems');
+        $this->addRelation('FeatureProduct', '\\Thelia\\Model\\FeatureProduct', RelationMap::ONE_TO_MANY, array('id' => 'product_id', ), 'CASCADE', null, 'FeatureProducts');
+        //$this->addRelation('Montage', '\\HookKonfigurator\\Model\\Montage', RelationMap::ONE_TO_ONE, array('id' => 'id', ), 'CASCADE', null);
+        $this->addRelation('ProductAssociatedContent', '\\Thelia\\Model\\ProductAssociatedContent', RelationMap::ONE_TO_MANY, array('id' => 'product_id', ), 'CASCADE', null, 'ProductAssociatedContents');
+        $this->addRelation('ProductCategory', '\\Thelia\\Model\\ProductCategory', RelationMap::ONE_TO_MANY, array('id' => 'product_id', ), 'CASCADE', null, 'ProductCategories');
+        $this->addRelation('ProductDocument', '\\Thelia\\Model\\ProductDocument', RelationMap::ONE_TO_MANY, array('id' => 'product_id', ), 'CASCADE', null, 'ProductDocuments');
+        //$this->addRelation('ProductHeizung', '\\Thelia\\Model\\ProductHeizung', RelationMap::ONE_TO_ONE, array('id' => 'product_id', ), 'CASCADE', null);
         $this->addRelation('ProductI18n', '\\Thelia\\Model\\ProductI18n', RelationMap::ONE_TO_MANY, array('id' => 'id', ), 'CASCADE', null, 'ProductI18ns');
+        $this->addRelation('ProductImage', '\\Thelia\\Model\\ProductImage', RelationMap::ONE_TO_MANY, array('id' => 'product_id', ), 'CASCADE', null, 'ProductImages');
+        $this->addRelation('ProductSaleElements', '\\Thelia\\Model\\ProductSaleElements', RelationMap::ONE_TO_MANY, array('id' => 'product_id', ), 'CASCADE', null, 'ProductSaleElementss');
         $this->addRelation('ProductVersion', '\\Thelia\\Model\\ProductVersion', RelationMap::ONE_TO_MANY, array('id' => 'id', ), 'CASCADE', null, 'ProductVersions');
-        $this->addRelation('Category', '\\Thelia\\Model\\Category', RelationMap::MANY_TO_MANY, array(), 'CASCADE', 'RESTRICT', 'Categories');
-        $this->addRelation('ProductRelatedByAccessory', '\\Thelia\\Model\\Product', RelationMap::MANY_TO_MANY, array(), 'CASCADE', 'RESTRICT', 'ProductsRelatedByAccessory');
-        $this->addRelation('ProductRelatedByProductId', '\\Thelia\\Model\\Product', RelationMap::MANY_TO_MANY, array(), 'CASCADE', 'RESTRICT', 'ProductsRelatedByProductId');
+        $this->addRelation('SaleProduct', '\\Thelia\\Model\\SaleProduct', RelationMap::ONE_TO_MANY, array('id' => 'product_id', ), 'CASCADE', null, 'SaleProducts');
+        //$this->addRelation('SetProducts', '\\Thelia\\Model\\SetProducts', RelationMap::ONE_TO_MANY, array('id' => 'product_id', ), 'CASCADE', null, 'SetProductss');
+        //$this->addRelation('Sets', '\\Thelia\\Model\\Sets', RelationMap::ONE_TO_ONE, array('id' => 'product_id', ), 'CASCADE', null);
     } // buildRelations()
-
+	
     /**
      *
      * Gets the list of behaviors registered for this table
@@ -256,17 +263,21 @@ class ProductTableMap extends TableMap
     {
         // Invalidate objects in ".$this->getClassNameFromBuilder($joinedTableTableMapBuilder)." instance pool,
         // since one or more of them may be deleted by ON DELETE CASCADE/SETNULL rule.
-                ProductCategoryTableMap::clearInstancePool();
-                FeatureProductTableMap::clearInstancePool();
-                ProductSaleElementsTableMap::clearInstancePool();
-                ProductImageTableMap::clearInstancePool();
-                ProductDocumentTableMap::clearInstancePool();
                 AccessoryTableMap::clearInstancePool();
                 CartItemTableMap::clearInstancePool();
+                FeatureProductTableMap::clearInstancePool();
+                //MontageTableMap::clearInstancePool();
                 ProductAssociatedContentTableMap::clearInstancePool();
-                SaleProductTableMap::clearInstancePool();
+                ProductCategoryTableMap::clearInstancePool();
+                ProductDocumentTableMap::clearInstancePool();
+                //ProductHeizungTableMap::clearInstancePool();
                 ProductI18nTableMap::clearInstancePool();
+                ProductImageTableMap::clearInstancePool();
+                ProductSaleElementsTableMap::clearInstancePool();
                 ProductVersionTableMap::clearInstancePool();
+                SaleProductTableMap::clearInstancePool();
+                //SetProductsTableMap::clearInstancePool();
+                //SetsTableMap::clearInstancePool();
             }
 
     /**
@@ -410,6 +421,7 @@ class ProductTableMap extends TableMap
             $criteria->addSelectColumn(ProductTableMap::ID);
             $criteria->addSelectColumn(ProductTableMap::TAX_RULE_ID);
             $criteria->addSelectColumn(ProductTableMap::REF);
+            $criteria->addSelectColumn(ProductTableMap::EXTERN_ID);
             $criteria->addSelectColumn(ProductTableMap::VISIBLE);
             $criteria->addSelectColumn(ProductTableMap::POSITION);
             $criteria->addSelectColumn(ProductTableMap::TEMPLATE_ID);
@@ -424,6 +436,7 @@ class ProductTableMap extends TableMap
             $criteria->addSelectColumn($alias . '.ID');
             $criteria->addSelectColumn($alias . '.TAX_RULE_ID');
             $criteria->addSelectColumn($alias . '.REF');
+            $criteria->addSelectColumn($alias . '.EXTERN_ID');
             $criteria->addSelectColumn($alias . '.VISIBLE');
             $criteria->addSelectColumn($alias . '.POSITION');
             $criteria->addSelectColumn($alias . '.TEMPLATE_ID');

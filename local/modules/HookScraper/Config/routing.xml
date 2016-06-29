@@ -29,7 +29,7 @@
     -->
     
     <route id="hookscraper.scrape.product" path="/admin/module/hookscraper/scrapeproduct" methods="post">
-        <default key="_controller">HookScraper\Controller\HookScraperController::scrapeProduct</default>
+        <default key="_controller">HookScraper\Controller\HookScraperController::scrapeSearch</default>
     </route>
 
 </routes>

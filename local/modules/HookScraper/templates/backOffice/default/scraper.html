@@ -11,7 +11,7 @@
 
                     <form method="POST" action="{url path="/admin/module/hookscraper/scrapeproduct"}" class="clearfix">
                             <div class="form-group {if $error}has-error{/if}">
-                                <label for="{$label_attr.for}" class="control-label">{intl d='carousel.bo.default' l='Product-GC-ID'}</label>
+                                <label for="{$label_attr.for}" class="control-label">{intl d='hookscraper.bo.default' l='Product-GC-ID'}</label>
                                 <div class="input-group">
                                     <input type="text" id="{$label_attr.for}" {if $required}required="required"{/if} name="product_gc_id" value="" title="{intl l='Product GC_ID' d='hookscraper.bo.default'}" placeholder="{intl l='Product GC_ID' d='hookscraper.bo.default'}" class="form-control">
                                     <span class="input-group-btn">
@@ -26,13 +26,38 @@
         </div>
     </div>
 
-
-		<section id="products-new">	
-			<div class="products-heading">  
-            	<div id="waermebedarf"></div>        
+    <div class="row">
+        <div class="col-md-12">
+        	<div class="well well-sm">
+				<section id="products-new">	
+					<label class="control-label">{intl d='hookscraper.bo.default' l='Raw response'}</label>
+					<div id="category-products">
+            		</div><!-- /#category-products -->
+				</section><!-- #products-heizung -->	
 			</div>
-			<div id="category-products">
-            </div><!-- /#category-products -->
-		</section><!-- #products-heizung -->	
+        </div>
+    </div>
 
-
+	<div class="row">
+        <div class="col-md-12">
+        	<div class="well well-sm">
+        		<div class="form-container">
+					<form method="POST" action="{url path="/admin/module/hookscraper/addproductfromgc"}" class="clearfix">
+                            <div class="form-group {if $error}has-error{/if}">
+                                <label for="{$label_attr.for}" class="control-label">{intl d='hookscraper.bo.default' l='Product details'}</label>
+                                <div class="input-group">
+                                    <input type="text" id="{$label_attr.for}" {if $required}required="required"{/if} name="product_gc_id" value="" title="{intl l='Product Title' d='hookscraper.bo.default'}" placeholder="{intl l='Title' d='hookscraper.bo.default'}" class="form-control">
+                                    <span class="input-group-btn">
+                                        <input type="submit" class="form-submit-button btn btn-sm btn-success" value="{intl d='hookscraper.bo.default' l='Import Product'}" >
+                                    </span>
+                                </div>
+                            </div>
+                    </form>       			
+        		</div>
+			</div>
+        </div>
+    </div>
+    
+    
+    
+</div>

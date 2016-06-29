@@ -1,5 +1,4 @@
 <?php
-
 namespace Thelia\Model\Base;
 
 use \Exception;
