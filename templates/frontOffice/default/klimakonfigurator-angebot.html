@@ -17,7 +17,7 @@
 		<div>
             {form name="klima.angebot"}
 				<form id="form-klimaangebot"   
-     class="form-horizontal fs-form fs-form-full dropzone" action="{url path="/klimakonfigurator-angebot/sendmail"}" method="post" autocomplete="off" enctype="multipart/form-data">
+     class="form-horizontal fs-form fs-form-full " action="{url path="/klimakonfigurator-angebot/sendmail"}" method="post" autocomplete="off" enctype="multipart/form-data">
                 {form_field field='error_message'}
                 	<input type="hidden" name="{$name}" value="{intl l="missing or invalid data"}" />
                 {/form_field} 
@@ -99,7 +99,7 @@
                     </div>
                     
                 </fieldset>
-                <fieldset  class="panel panel-default">
+                <fieldset  class="panel panel-default dropzone">
                      <div class="panel-heading">
                         2. {intl l="Wohnungsplan/Fotobegehung"}
                     </div>

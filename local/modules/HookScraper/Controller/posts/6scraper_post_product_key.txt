@@ -1,3 +1,3 @@
-{"strValues":"WK:01:HEWI01:202"}
+{"strValues":"WK:01:VARE01:151"}
 32
 
