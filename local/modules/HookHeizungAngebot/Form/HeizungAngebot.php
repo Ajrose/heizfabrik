@@ -64,7 +64,7 @@ class HeizungAngebot extends BaseForm
          ))
              
         ->add("etage", "text", array(
-         		"label" => Translator::getInstance()->trans("In welchem Stock befindet sich die Wohnung"),
+         		"label" => Translator::getInstance()->trans("In welchem Stock befindet sich die Wohnung?"),
          		"label_attr" => array(
          				"for" => "etage",
          		)

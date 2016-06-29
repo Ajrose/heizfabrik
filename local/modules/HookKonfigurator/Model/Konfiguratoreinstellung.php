@@ -176,9 +176,9 @@ class Konfiguratoreinstellung
 			case 3:$faktor+=8;
 		}
 		switch ($this->anzahl_aussenwaende){
-			case 1:$faktor+=15;break;
+			case 1:$faktor+=8;break;
 			case 2:$faktor+=11;break;
-			case 3:$faktor+=8;
+			case 3:$faktor+=15;
 		}
 		switch ($this->fenster){
 			case 1:$faktor+=15;break;

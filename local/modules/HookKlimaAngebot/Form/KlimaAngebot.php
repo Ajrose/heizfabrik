@@ -57,14 +57,14 @@ class KlimaAngebot extends BaseForm
          ))
              
         ->add("building_etage", "text", array(
-         		"label" => Translator::getInstance()->trans("Wie viele Stöcke hat das Gebäude?"),
+         		"label" => Translator::getInstance()->trans("3.	Wie viele Stockwerke hat das Gebäude?"),
          		"label_attr" => array(
          				"for" => "building_etage",
          		)
          ))
              
         ->add("etage", "text", array(
-         		"label" => Translator::getInstance()->trans("In welchem Stock befindet sich die Wohnung?"),
+         		"label" => Translator::getInstance()->trans("In welchem Stockwerk befindet sich Ihre Wohnung?"),
          		"label_attr" => array(
          				"for" => "etage",
          		)

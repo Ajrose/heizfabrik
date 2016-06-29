@@ -25,7 +25,7 @@ class KlimaBerechnung extends BaseForm
          $formBuilder = $this->formBuilder
              
      		->add("grundflaeche", "integer", array(
-				"label" => Translator::getInstance()->trans("FlÃ¤che"),
+				"label" => Translator::getInstance()->trans("Grundfläche des Räumes"),
 				"label_attr" => array(
 						"for" => "grundflaeche"
 				),
@@ -33,14 +33,14 @@ class KlimaBerechnung extends BaseForm
 		))
              
             ->add("raumhoehe", "integer", array(
-				"label" => Translator::getInstance()->trans("Raumhoehe"),
+				"label" => Translator::getInstance()->trans("Raumhöhe"),
 				"label_attr" => array(
 						"for" => "raumhoehe"
 				),
 				"data" => 3
 		))
             ->add("fenster", "integer", array(
-				"label" => Translator::getInstance()->trans("Fenster"),
+				"label" => Translator::getInstance()->trans("Fenster (mit Innenjalousie) der Sonne ausgesetzt"),
 				"label_attr" => array(
 						"for" => "fenster"
 				),
@@ -53,7 +53,7 @@ class KlimaBerechnung extends BaseForm
 						2 => Translator::getInstance()->trans("Dachboden"),
                         3 => Translator::getInstance()->trans("Isoliertes Flachdach")
 				),
-				"label" => Translator::getInstance()->trans("Decke"),
+				"label" => Translator::getInstance()->trans("Lage der Zimmer - Decke"),
 				"label_attr" => array(
 						"for" => "decke",
 				),
@@ -61,7 +61,7 @@ class KlimaBerechnung extends BaseForm
 		))
              
          ->add("personen", "integer", array(
-				"label" => Translator::getInstance()->trans("FlÃ¤che"),
+				"label" => Translator::getInstance()->trans("Wie viele Personen halten sich dauerhaft im Raum auf?"),
 				"label_attr" => array(
 						"for" => "personen"
 				),
@@ -69,14 +69,14 @@ class KlimaBerechnung extends BaseForm
 		))
              
         ->add("zusaetzliche_waerme", "integer", array(
-				"label" => Translator::getInstance()->trans("FlÃ¤che"),
+				"label" => Translator::getInstance()->trans("Anschlusswert in Watt von elektrischen Geräten und der Beleuchtung (TV, PC, Kühlschrank, Lampen etc.)"),
 				"label_attr" => array(
 						"for" => "zusaetzliche_waerme"
 				),
 				"data" => 200
 		))
          ->add("wegstrecke", "integer", array(
-				"label" => Translator::getInstance()->trans("FlÃ¤che"),
+				"label" => Translator::getInstance()->trans("Innenteil für Raum:"),
 				"label_attr" => array(
 						"for" => "wegstrecke"
 				),
@@ -87,7 +87,7 @@ class KlimaBerechnung extends BaseForm
 						1 => Translator::getInstance()->trans("Gefälle"),
 						2 => Translator::getInstance()->trans("Pumpe")
 				),
-				"label" => Translator::getInstance()->trans("Pumpe"),
+				"label" => Translator::getInstance()->trans("Kondensatablauf mit"),
 				"label_attr" => array(
 						"for" => "Pumpe",
 				),
@@ -101,7 +101,7 @@ class KlimaBerechnung extends BaseForm
 						3 => Translator::getInstance()->trans("Bodenmontagekonsole aus Gummi kurz"),
                         4 => Translator::getInstance()->trans("Bodenmontagekonsole aus Gummi lang"),
 				),
-				"label" => Translator::getInstance()->trans("montage-aussenteil"),
+				"label" => Translator::getInstance()->trans("Montage des Außenteils:"),
 				"label_attr" => array(
                     "for" => "montage-aussenteil",
                 ),
@@ -113,7 +113,7 @@ class KlimaBerechnung extends BaseForm
 						2 => Translator::getInstance()->trans("Stromanschluss ist herzustellen")
 						
 				),
-				"label" => Translator::getInstance()->trans("stromanschluss"),
+				"label" => Translator::getInstance()->trans("Stromanschluss Außenteil:"),
 				"label_attr" => array(
                     "for" => "stromanschluss",
                 ),
@@ -121,7 +121,7 @@ class KlimaBerechnung extends BaseForm
 		))
 
 		->add("anmerkungen", "text", array(
-		"label" => Translator::getInstance()->trans("anmerkungen"),
+		"label" => Translator::getInstance()->trans("Anmerkungen"),
 		"label_attr" => array(
                     "for" => "anmerkungen"
                 )/*,

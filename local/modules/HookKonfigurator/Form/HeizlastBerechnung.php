@@ -30,7 +30,7 @@ class HeizlastBerechnung extends BaseForm
          				3 => Translator::getInstance()->trans("Flüssiggas"),
          				4 => Translator::getInstance()->trans("Sonstiges")
          		),
-         		"label" => Translator::getInstance()->trans("brennstoff_momentan"),
+         		"label" => Translator::getInstance()->trans("Womit heizen Sie momentan?"),
          		"label_attr" => array(
          				"for" => "brennstoff_momentan",
          		),
@@ -43,7 +43,7 @@ class HeizlastBerechnung extends BaseForm
          				3 => Translator::getInstance()->trans("Flüssiggas"),
          				4 => Translator::getInstance()->trans("Sonstiges")
          		),
-         		"label" => Translator::getInstance()->trans("brennstoff_zukunft"),
+         		"label" => Translator::getInstance()->trans("Womit werden Sie in Zukunft heizen?"),
          		"label_attr" => array(
          				"for" => "brennstoff_zukunft",
          		),
@@ -55,7 +55,7 @@ class HeizlastBerechnung extends BaseForm
 						2 => Translator::getInstance()->trans("Reihenhaus"),
 						3 => Translator::getInstance()->trans("Mehrfamilienhaus")
 				),
-				"label" => Translator::getInstance()->trans("gebaeudeart"),
+				"label" => Translator::getInstance()->trans("Um was für ein Objekt handelt es sich?"),
 				"label_attr" => array(
                     "for" => "gebaeudeart",
                 ),
@@ -67,21 +67,21 @@ class HeizlastBerechnung extends BaseForm
 						2 => Translator::getInstance()->trans("1966-1977"),
 						3 => Translator::getInstance()->trans("Ab 1978")
 				),
-				"label" => Translator::getInstance()->trans("Baujahr"),
+				"label" => Translator::getInstance()->trans("Wann wurde das Objekt gebaut?"),
 				"label_attr" => array(
                     "for" => "baujahr",
                 ),
 				"data" => 1
 		))
 		->add("personen_anzahl", "integer", array(
-				"label" => Translator::getInstance()->trans("personen_anzahl"),
+				"label" => Translator::getInstance()->trans("Wie viele Personen leben in Ihrem Objekt?"),
 				"label_attr" => array(
 						"for" => "personen_anzahl",
 				),
 				"data" => 3
 		))
 		->add("flaeche", "integer", array(
-				"label" => Translator::getInstance()->trans("Fläche"),
+				"label" => Translator::getInstance()->trans("Wie groß ist die Heizfläche?"),
 				"label_attr" => array(
 						"for" => "flaeche"
 				),
@@ -92,7 +92,7 @@ class HeizlastBerechnung extends BaseForm
 						1 => Translator::getInstance()->trans("Frei"),
 						2 => Translator::getInstance()->trans("Normal")
 				),
-				"label" => Translator::getInstance()->trans("Lage des gebaeudes"),
+				"label" => Translator::getInstance()->trans("Lage des Gebäudes?"),
 				"label_attr" => array(
                     "for" => "lage_des_gebaeudes",
                 ),
@@ -111,11 +111,11 @@ class HeizlastBerechnung extends BaseForm
 		))
 		->add("lage_des_raumes", "choice", array(
 				"choices" => array (
-						1 => Translator::getInstance()->trans("1 Etage"),
-						2 => Translator::getInstance()->trans("2 Etagen"),
-						3 => Translator::getInstance()->trans("3-4 Etagen")
+						1 => Translator::getInstance()->trans("1. Etag"),
+						2 => Translator::getInstance()->trans("2. Etage"),
+						3 => Translator::getInstance()->trans("3.-4 Etage")
 				),
-				"label" => Translator::getInstance()->trans("Lage des Räumes"),
+				"label" => Translator::getInstance()->trans("In welcher Etage befinden sich die Räume?"),
 				"label_attr" => array(
                     "for" => "lage_des_raumes",
                 ),
@@ -123,11 +123,11 @@ class HeizlastBerechnung extends BaseForm
 		))
 		->add("anzahl_aussenwaende", "choice", array(
 				"choices" => array (
-						1 => Translator::getInstance()->trans("3-4 Wände"),
+						1 => Translator::getInstance()->trans("1 Wand"),
 						2 => Translator::getInstance()->trans("2 Wände"),
-						3 => Translator::getInstance()->trans("1 Wand")
+						3 => Translator::getInstance()->trans("mehr als 3 Wände")
 				),
-				"label" => Translator::getInstance()->trans("Anzahl Außenwände"),
+				"label" => Translator::getInstance()->trans("Wie viel ist die Anzahl der Außenwände?"),
 				"label_attr" => array(
                     "for" => "anzahl_aussenwaende",
                 ),
@@ -139,7 +139,7 @@ class HeizlastBerechnung extends BaseForm
 						2 => Translator::getInstance()->trans("Doppelt verglast"),
 						3 => Translator::getInstance()->trans("Isolierverglast")
 				),
-				"label" => Translator::getInstance()->trans("Fenster"),
+				"label" => Translator::getInstance()->trans("Wie sind Ihre Fenster verglast?"),
 				"label_attr" => array(
                     "for" => "fenster",
                 ),
@@ -151,7 +151,7 @@ class HeizlastBerechnung extends BaseForm
 						2 => Translator::getInstance()->trans("Mittel"),
 						3 => Translator::getInstance()->trans("Klein")
 				),
-				"label" => Translator::getInstance()->trans("Verglaste Fläche"),
+				"label" => Translator::getInstance()->trans("Wie groß sind Ihre Fensterflächen?"),
 				"label_attr" => array(
                     "for" => "verglaste_flaeche",
                 ),
@@ -162,7 +162,7 @@ class HeizlastBerechnung extends BaseForm
 						1 => Translator::getInstance()->trans("Ja"),
 						2 => Translator::getInstance()->trans("Nein")
 				),
-				"label" => Translator::getInstance()->trans("dach_daemmung"),
+				"label" => Translator::getInstance()->trans("Ist das Dach gedämmt?"),
 				"label_attr" => array(
 						"for" => "dach_daemmung",
 				),
@@ -174,7 +174,7 @@ class HeizlastBerechnung extends BaseForm
 						2 => Translator::getInstance()->trans("20"),
 						3 => Translator::getInstance()->trans("15")
 				),
-				"label" => Translator::getInstance()->trans("Wohneaum temperatur"),
+				"label" => Translator::getInstance()->trans("Wie hoch ist die Wohnraumtemperatur?"),
 				"label_attr" => array(
                     "for" => "wohnraumtemperatur",
                 ),
@@ -186,7 +186,7 @@ class HeizlastBerechnung extends BaseForm
 						2 => Translator::getInstance()->trans("-14C/-12C"),
 						3 => Translator::getInstance()->trans("-10C")
 				),
-				"label" => Translator::getInstance()->trans("Außentemperatur"),
+				"label" => Translator::getInstance()->trans("Wie hoch ist die Außentemperatur?"),
 				"label_attr" => array(
                     "for" => "aussentemperatur"
                 ),
@@ -196,16 +196,16 @@ class HeizlastBerechnung extends BaseForm
 				"choices" => array (
 						1 => Translator::getInstance()->trans("Nicht"),
 						2 => Translator::getInstance()->trans("Teilweise"),
-						3 => Translator::getInstance()->trans("Erhoeht")
+						3 => Translator::getInstance()->trans("Erhöht")
 				),
-				"label" => Translator::getInstance()->trans("Wärmedämung"),
+				"label" => Translator::getInstance()->trans("Ist eine Wärmedämmung vorhanden?"),
 				"label_attr" => array(
                     "for" => "waermedaemmung"
                 ),
 				"data" => 1
 		))
 		->add("anmerkungen", "text", array(
-		"label" => Translator::getInstance()->trans("anmerkungen"),
+		"label" => Translator::getInstance()->trans("Anmerkungen zu Ihrer Heizung"),
 		"label_attr" => array(
                     "for" => "anmerkungen"
                 )/*,
