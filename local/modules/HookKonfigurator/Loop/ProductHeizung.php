@@ -156,8 +156,8 @@ class ProductHeizung extends BaseI18nLoop implements PropelSearchLoopInterface, 
 	 */
 	private function associateValues($loopResultRow, $product, $default_category_id) {
 		$log = Tlog::getInstance ();
-		$log->debug ( " innerjoinprod " .$product->getUrl ( $this->locale ) );
-		$log->debug ( " URLpath " . implode ( "|", $product->getVirtualColumns () ) );
+		//$log->debug ( " innerjoinprod " .$product->getUrl ( $this->locale ) );
+		//$log->debug ( " URLpath " . implode ( "|", $product->getVirtualColumns () ) );
 	//	$montage = MontageQuery::create()->findById($product->getVirtualColumn('montage_id'));
 		
 		$loopResultRow
@@ -173,7 +173,7 @@ class ProductHeizung extends BaseI18nLoop implements PropelSearchLoopInterface, 
 		->set ( "TAX_RULE_ID", $product->getTaxRuleId () )
 		->set ( "BRAND_ID", $product->getBrandId () ?: 0 )
 		->set ( "TITLE", $product->getTitle () )// $product->getTitle())
-		->set ( "BEST_TAXED_PRICE", $product->getProductSaleElementss () [0]->getProductPrices () [0]->getPrice () )
+		->set ( "BEST_TAXED_PRICE", $product->getProductSaleElementss () [0]->getProductPrices () [0]->getPrice ()*1.2 )
 		//->set ( "CHAPO",  ) // $product->getProductI18ns()[0]->getChapo())
 		->set ( "DESCRIPTION", $product->getDescription())
 		->set ( "POWER", $product->getVirtualColumn ( 'power' ) )
@@ -182,7 +182,7 @@ class ProductHeizung extends BaseI18nLoop implements PropelSearchLoopInterface, 
 		->set ( "MONTAGE", 250)//$product->getVirtualColumn('montage_id'))
 		->set ( "MONTAGETEXT", "asdas")//$montage->__toString())
 		;
-		
+
 		return $loopResultRow;
 	}
 	public function import_brand_names_from_sht_vendors() {
@@ -606,6 +606,7 @@ class ProductHeizung extends BaseI18nLoop implements PropelSearchLoopInterface, 
 			case 1: $brennstoff_name="Gas";break;
 			case 2: $brennstoff_name="Öl";break;
 			case 3: $brennstoff_name="Flussiggas";break;
+			case 3: $brennstoff_name="Strom";break;
 			case 4: $brennstoff_filter_aktiv = false;break;
 		}
 

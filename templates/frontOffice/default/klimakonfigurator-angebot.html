@@ -17,7 +17,7 @@
 		<div>
             {form name="klima.angebot"}
 				<form id="form-klimaangebot"   
-     class="form-horizontal fs-form fs-form-full " action="{url path="/klimakonfigurator-angebot/sendmail"}" method="post" autocomplete="off" enctype="multipart/form-data">
+     class="form-horizontal fs-form fs-form-full dropzone" action="{url path="/klimakonfigurator-angebot/sendmail"}" method="post" autocomplete="off" enctype="multipart/form-data">
                 {form_field field='error_message'}
                 	<input type="hidden" name="{$name}" value="{intl l="missing or invalid data"}" />
                 {/form_field} 
@@ -99,20 +99,19 @@
                     </div>
                     
                 </fieldset>
-                <fieldset  class="panel panel-default dropzone">
+                <fieldset  class="panel panel-default">
                      <div class="panel-heading">
                         2. {intl l="Wohnungsplan/Fotobegehung"}
                     </div>
-                    <div class="panel-body">
+                    <div class="panel-body" id="imsirun">
                     {form_field field="image_upload"}
 						<div class="fallback">
     						<input name="file" type="file" id="{$label_attr.for}" multiple />
   						</div>
   						<div class="dz-default dz-message">
   							<span>Fotos hier ablegen</span>
-
   						</div>
-  						  	<div id="previews" >
+  						<div id="previews" >
   						</div>
                     {/form_field}
                     </div>  
@@ -242,6 +241,8 @@
 		  maxFilesize: 256,
 		  clickable: false,
 		  previewsContainer: '#previews',
+		  hiddenInputContainer: "#imsirun",
+		  capture:"#imsirun",
 	      dictDefaultMessage: "Drop files here to upload",
 	      dictFallbackMessage: "Your browser does not support drag'n'drop file uploads.",
 	      dictFallbackText: "Please use the fallback form below to upload your files like in the olden days.",
@@ -255,7 +256,7 @@
 	      dictMaxFilesExceeded: "You can not upload any more files.",
 	      
 		  init: function() {
-		    var submitButton = document.querySelector("#form-klimaangebot")
+		    var submitButton = document.querySelector("#form-klimaangebot");
 		        myDropzone = this; // closure
 
 		    submitButton.addEventListener("click", function(e) {
