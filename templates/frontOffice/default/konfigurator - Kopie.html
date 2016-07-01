@@ -313,9 +313,15 @@
 	      dictMaxFilesExceeded: "You can not upload any more files.",
 	      
 		  init: function() {
-		    var submitButton = document.querySelector("#form-konfigurator")
+              
+		    var submitButton = document.querySelector("#form-konfigurator");
+             
 		        myDropzone = this; // closure
-
+              
+              /*var $loader = $('<div class="loader"></div>');
+            $('body').append($loader);
+               $loader.hide();*/
+              
 		    submitButton.addEventListener("click", function(e) {
                
 		    	e.preventDefault();
@@ -351,6 +357,7 @@
 		    });
 		  },
 	     success: function(file,response, e, xhr){
+             
 
 	   $waermebedarf = xhr.getResponseHeader('waermebedarf');
 		if($waermebedarf != null) 
@@ -359,7 +366,10 @@
 		$("#category-products").empty().append(response);
 	      }
         /*totalUploadProgress: function(totalUploadProgress, totalBytes,totalBytesSent){
-            
+           if(totalUploadProgress==100) $loader.hide();
+            else $loader.show();
+
+        
         }*/
 		};
 </script>

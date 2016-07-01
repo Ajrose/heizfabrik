@@ -53,35 +53,13 @@ class HeizlastBerechnung extends BaseForm
 				"choices" => array (
 						1 => Translator::getInstance()->trans("Einzelhaus"),
 						2 => Translator::getInstance()->trans("Reihenhaus"),
-						3 => Translator::getInstance()->trans("Mehrfamilienhaus"),
-                        4 => Translator::getInstance()->trans("Wohnung")
+						3 => Translator::getInstance()->trans("Mehrfamilienhaus")
 				),
 				"label" => Translator::getInstance()->trans("Um was für ein Objekt handelt es sich?"),
 				"label_attr" => array(
                     "for" => "gebaeudeart",
                 ),
 				"data" => 1
-		))
-             
-        ->add("mitwarmwasser", "choice", array(
-				"choices" => array (
-						1 => Translator::getInstance()->trans("Durchlauf "),
-						2 => Translator::getInstance()->trans("Kleinen Speicher bis 50l"),
-						3 => Translator::getInstance()->trans("Speicher größer 50l")
-				),
-				"label" => Translator::getInstance()->trans("Ist das bestehende Gerät mit Warmwasser?"),
-				"label_attr" => array(
-                    "for" => "mitwarmwasser",
-                ),
-				"data" => 1
-		))
-             
-        ->add("kw", "integer", array(
-				"label" => Translator::getInstance()->trans("Wie viel KW hat das bestehende Gerät?"),
-				"label_attr" => array(
-						"for" => "kw",
-				),
-				"data" => 3
 		))
 		->add("baujahr", "choice", array(
 				"choices" => array (
@@ -192,10 +170,9 @@ class HeizlastBerechnung extends BaseForm
 		))
 		->add("wohnraumtemperatur", "choice", array(
 				"choices" => array (
-						1 => Translator::getInstance()->trans("15"),
+						1 => Translator::getInstance()->trans("22"),
 						2 => Translator::getInstance()->trans("20"),
-                        3 => Translator::getInstance()->trans("22"),
-						4 => Translator::getInstance()->trans("mehr als 22")
+						3 => Translator::getInstance()->trans("15")
 				),
 				"label" => Translator::getInstance()->trans("Wie hoch ist die Wohnraumtemperatur?"),
 				"label_attr" => array(
@@ -205,12 +182,11 @@ class HeizlastBerechnung extends BaseForm
 		))
 		->add("aussentemperatur", "choice", array(
 				"choices" => array (
-						1 => Translator::getInstance()->trans("-10C"),
+						1 => Translator::getInstance()->trans("-18C/-16C"),
 						2 => Translator::getInstance()->trans("-14C/-12C"),
-                        3 => Translator::getInstance()->trans("-18C/-16C"),
-						4 => Translator::getInstance()->trans("kälter als -18C")
+						3 => Translator::getInstance()->trans("-10C")
 				),
-				"label" => Translator::getInstance()->trans("Wie kalt kann bei ihnen im Winter die Außentemperatur werden?"),
+				"label" => Translator::getInstance()->trans("Wie hoch ist die Außentemperatur?"),
 				"label_attr" => array(
                     "for" => "aussentemperatur"
                 ),
