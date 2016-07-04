@@ -82,7 +82,7 @@ class HookScraperController extends BaseAdminController
 		$response .= "SupplierProductNumber: ".$supplierProductNumber ." <br>";
 		
 		//product description - locale,title,description,short,post
-		$title = $product["Description1"];
+		$title = $product["Description1"]." ".$product["Description2"];
 		$response .= "Title: ".$title ." <br>";
 		
 		$description = $product["DTN"];
@@ -122,19 +122,19 @@ class HookScraperController extends BaseAdminController
 		
 		
 		$currentDate = date ( "Y-m-d H:i:s" );
-		$productCategoryID = 28;
+		$productCategoryID = 37;
 		
 		
 		$productExists = count ( $productQuerry->findByRef ( $productNumber ) );
 		
 		if ($productExists == 0) // product_numbers must be unique
 		{
-			$log->debug ( " product_sanitary is new " );
+			$log->debug ( " gc_imported_product is new " );
 			$productThelia = new Product ();
 			$productThelia->setRef ( $productNumber ); // must be unique
 			$productThelia->setExternId($productNumber);
-			$productThelia->setVisible ( 0 );
-			$productThelia->setBrandId(26);
+			$productThelia->setVisible ( 1 );
+			$productThelia->setBrandId(98);
 			 
 			$productThelia->setCreatedAt ( $currentDate );
 			$productThelia->setUpdatedAt ( $currentDate );
@@ -142,7 +142,7 @@ class HookScraperController extends BaseAdminController
 			$productThelia->setVersionCreatedAt ( $currentDate );
 			$productThelia->setVersionCreatedBy ( "scraper.gc.1" );
 			$productThelia->create ( $productCategoryID, $productPriceAndStock, 1, 1, 'NULL', 20 );
-			$log->debug ( " sanitary is add as product " );
+			$log->debug ( " gc_imported_product is add as product " );
 			 
 			// product description
 			$locale = "en_US";
@@ -191,7 +191,7 @@ class HookScraperController extends BaseAdminController
 					
 					
 				$product_image_url = "http://www.gconlineplus.at/".$escapePictureSpaces;
-				$log->debug(" gc_scrapper ".$product_image_url);
+				$log->info(" gc_scrapper ".$product_image_url."");
 				if($product_image_url){
 					// product image
 					//$product_image_url = $product_image_url."_".$image_index;
@@ -219,7 +219,6 @@ class HookScraperController extends BaseAdminController
 					}
 				}
 			}
-		
 		}
 		else
 			$log->debug ( " ref number already in the database");
@@ -273,7 +272,7 @@ class HookScraperController extends BaseAdminController
 				}
 			}
 			*/
-		}
+		} 
 		
 		
 		

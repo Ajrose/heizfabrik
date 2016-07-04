@@ -242,7 +242,7 @@
                           <div class="fallback">
                               <input name="file" type="file" id="{$label_attr.for}" multiple />
                           </div>
-                          <div class="dz-default dz-message">
+                          <div class="dz-default dz-message dz-clickable" id="dropzonePreview" >
                              <span>Bitte hier Fotos von Ihrem alten Gerät ablegen (optional)</span>
                           </div>
                           <div id="previews" class="dropzone"></div>
@@ -256,7 +256,7 @@
          
                     
    <!--                	<a href="/login"><button type="button" class="fs-submit"style="margin-bottom:20px">Individuelles Angebot</button></a> -->
-					<button type="submit" class="fs-submit">Vorschlag sehen</button>
+					<button type="submit" class="fs-submit" id="fs-submit">Vorschlag sehen</button>
 
 				</form><!-- /fs-form -->
                 {/form}
@@ -298,7 +298,7 @@
 		  addRemoveLinks: true,
 		  parallelUploads: 10,
 		  maxFilesize: 256,
-		  clickable: false,
+		  clickable:'#dragdrop',
 		  previewsContainer: '#previews',
 	      dictDefaultMessage: "Drop files here to upload",
 	      dictFallbackMessage: "Your browser does not support drag'n'drop file uploads.",
@@ -313,7 +313,8 @@
 	      dictMaxFilesExceeded: "You can not upload any more files.",
 	      
 		  init: function() {
-		    var submitButton = document.querySelector("#form-konfigurator")
+		    var submitButton =document.getElementById("fs-submit");
+         
 		        myDropzone = this; // closure
 
 		    submitButton.addEventListener("click", function(e) {
@@ -323,9 +324,9 @@
 		      myDropzone.processQueue(); // Tell Dropzone to process all queued files.
                 else {
                     $.ajax({
-                      type: $(this).attr('method'),
-                      url: $(this).attr('action'),
-                      data: $(this).serialize()
+                      type: $("#form-konfigurator").attr('method'),
+                      url: $("#form-konfigurator").attr('action'),
+                      data: $("#form-konfigurator").serialize()
                      })
                      .done(function (data, textStatus, request) {
                       $waermebedarf = request.getResponseHeader('waermebedarf');
