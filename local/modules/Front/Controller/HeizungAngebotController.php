@@ -77,7 +77,7 @@ class HeizungAngebotController extends BaseFrontController
         //$image_upload = new UploadedFile();
         $image_upload = $files->get("heizungangebot")["image_upload"];
         
-        //$image_upload->move($directory)
+        //$image_upload->mov   e($directory)
         $new_image_path = THELIA_ROOT .ConfigQuery::read('images_library_path')."/imani";
         if($image_upload != null){
         $new_image_name = $image_upload->getClientOriginalName();
@@ -88,8 +88,6 @@ class HeizungAngebotController extends BaseFrontController
         	$image_full_path = "no_image";
         }
         $message = "Vorname:".$firstname."<br>Nachname:".$lastname."<br>Telefon".$phone."<br>Mobil".$cellphone."<br>Wie viele Stöcke hat das Gebäude?".$building_etage." <br>In welchem Stock befindet sich Ihre Wohnung?".$etage."<br>Art des Gebäudes?<br>Marke des Gerätes?<br>Gerätetyp?<br>Wegstrecke vom Innenteil zum Außenteil?<br>Bilder<img src=".$image_upload.">";
-        
-        
         
 $log->error(sprintf('message : %s', $message));
             $htmlMessage = "<p>$message</p>";

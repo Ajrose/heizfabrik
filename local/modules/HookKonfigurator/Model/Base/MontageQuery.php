@@ -1,6 +1,6 @@
 <?php
 
-namespace Base;
+namespace HookKonfigurator\Model\Base;
 
 use \Montage as ChildMontage;
 use \MontageQuery as ChildMontageQuery;

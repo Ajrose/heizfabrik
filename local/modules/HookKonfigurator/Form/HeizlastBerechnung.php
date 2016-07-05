@@ -63,7 +63,7 @@ class HeizlastBerechnung extends BaseForm
 				"data" => 1
 		))
              
-        ->add("mitwarmwasser", "choice", array(
+        ->add("bestehendes_geraet_mit_warmwasser", "choice", array(
 				"choices" => array (
 						1 => Translator::getInstance()->trans("Durchlauf "),
 						2 => Translator::getInstance()->trans("Kleinen Speicher bis 50l"),
@@ -75,8 +75,9 @@ class HeizlastBerechnung extends BaseForm
                 ),
 				"data" => 1
 		))
-             
-        ->add("kw", "integer", array(
+		
+		
+        ->add("bestehendes_geraet_kw", "integer", array(
 				"label" => Translator::getInstance()->trans("Wie viel KW hat das bestehende Gerät?"),
 				"label_attr" => array(
 						"for" => "kw",
@@ -131,6 +132,7 @@ class HeizlastBerechnung extends BaseForm
                 ),
 				"data" => 1
 		))
+		/*
 		->add("lage_des_raumes", "choice", array(
 				"choices" => array (
 						1 => Translator::getInstance()->trans("1. Etag"),
@@ -143,6 +145,7 @@ class HeizlastBerechnung extends BaseForm
                 ),
 				"data" => 1
 		))
+		*/
 		->add("anzahl_aussenwaende", "choice", array(
 				"choices" => array (
 						1 => Translator::getInstance()->trans("1 Wand"),
@@ -167,6 +170,7 @@ class HeizlastBerechnung extends BaseForm
                 ),
 				"data" => 1
 		))
+		/*
 		->add("verglaste_flaeche", "choice", array(
 				"choices" => array (
 						1 => Translator::getInstance()->trans("Gross"),
@@ -179,12 +183,14 @@ class HeizlastBerechnung extends BaseForm
                 ),
 				"data" => 1
 		))
+		*/
+         
 		->add("dach_daemmung", "choice", array(
 				"choices" => array (
 						1 => Translator::getInstance()->trans("Ja"),
 						2 => Translator::getInstance()->trans("Nein")
 				),
-				"label" => Translator::getInstance()->trans("Ist das Dach gedämmt?"),
+				"label" => Translator::getInstance()->trans("Ist das Dach gedämmt?"),
 				"label_attr" => array(
 						"for" => "dach_daemmung",
 				),
