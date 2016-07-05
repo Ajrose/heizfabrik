@@ -41,7 +41,7 @@
 						<li>
 							<h3>Brennstoff</h3>
                             {form_field field="brennstoff_momentan"} 
-                            <div><label class="fs-field-label fs-anim-upper" for="q1">{$label}</label></div>
+                            <div><label class="fs-field-label fs-anim-upper" for="{$for}">{$label}</label></div>
 							<!--input class="fs-anim-lower" id="q1" name="q1" type="text" placeholder="Dean Moriarty" required/-->
                             <div class="fs-radio-group fs-radio-custom clearfix fs-anim-lower">
 									<div class="fs-radio-group fs-radio-normal clearfix fs-anim-lower">
@@ -91,11 +91,11 @@
 									<div>
                                         {form_field field="personen_anzahl"}
 										<label class="fs-field-label-sm fs-anim-upper" for="q4" >{$label}</label>
-                          					<input class="fs-anim-lower" id="q4" name="q4" type="number" placeholder="3" step="1" min="1" style="width:20%"/>
+                          					<input class="fs-anim-lower" name="{$name}" id="{$label_attr.for}" value="{$value}" type="number" placeholder="3" step="1" min="1" style="width:20%"/>
                                         {/form_field}
                             		</div>
                                     <div>
-                                        {form_field field="mitwarmwasser"}
+                                        {form_field field="bestehendes_geraet_mit_warmwasser"}
                            				<label class="fs-field-label-sm fs-anim-upper" for="q3" >{$label}</label><br>
                                  
                            				 
@@ -110,9 +110,9 @@
                             	
                             	<div class="col-md-6">
                                     <div>
-                                        {form_field field="kw"}
+                                        {form_field field="bestehendes_geraet_kw"}
 										<label class="fs-field-label-sm fs-anim-upper" for="q4" >{$label}</label>
-                          					<input class="fs-anim-lower" id="q4" name="q4" type="number" placeholder="20" step="1" min="1" style="width:20%"/>
+                          					<input class="fs-anim-lower"  name="{$name}" id="{$label_attr.for}" value="{$value}" type="number" placeholder="20" step="1" min="1" style="width:20%"/>
                                         {/form_field}
                             		</div>
                                 	<div>
@@ -171,7 +171,7 @@
                             
                             
                             
-                            <!--label class="fs-field-label-sm fs-anim-upper" for="q9" >{$label}Ist das Dach gedämmt?</label>
+                            <!--label class="fs-field-label-sm fs-anim-upper" for="q9" >{$label}Ist das Dach gedaÌˆmmt?</label>
 							<div class="fs-radio-group fs-radio-normal clearfix fs-anim-lower">
 								<span><input id="q9b" name="q9" type="radio" value="conversion"/><label for="q9b" class="radio-conversion fs-field-label-sm">Ja</label></span>
 								<span><input id="q9c" name="q9" type="radio" value="social"/><label for="q9c" class="radio-social fs-field-label-sm">Nein</label></span>
@@ -237,7 +237,7 @@
                        	<li>
                             {form_field field="anmerkungen"}
 							<label class="fs-field-label fs-anim-upper" for="q15">{$label}</label>
-							<textarea class="fs-anim-lower" id="q15" name="q15" placeholder="Anmerkungen"></textarea>
+							<textarea class="fs-anim-lower" id="{$label_attr.for}" name="{$name}" placeholder="Anmerkungen"></textarea>
                        <div id="dragdrop" class="fs-anim-upper">                     
                           <div class="fallback">
                               <input name="file" type="file" id="{$label_attr.for}" multiple />
