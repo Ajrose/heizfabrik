@@ -310,7 +310,7 @@ class pjBaseCalendar
     	{
     		$str .= '<a class="btn btn-primary btn-sm pull-left '.$this->classMonthPrev.'" data-direction="prev" data-month="'.$prev_month.'" data-year="'.$prev_year.'" href="#"><span class="glyphicon glyphicon-chevron-left"></span></a>';
     	}
-    	$str .= '<div class="pj-calendar-ym">'.$header.'</div>';
+    	$str .= '<div class="pj-calendar-ym">KW '.$header.'</div>';
     	if($this->getShowNextLink())
     	{
     		$str .= '<a class="btn btn-primary btn-sm pull-right '.$this->classMonthNext.'" data-direction="next" data-month="'.$next_month.'" data-year="'.$next_year.'" href="#"><span class="glyphicon glyphicon-chevron-right"></span></a>';
