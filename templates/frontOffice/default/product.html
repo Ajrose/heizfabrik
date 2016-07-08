@@ -161,7 +161,6 @@
                             <span class="special-price">
                             	<span itemprop="price" class="price-label">{intl l="Special Price:"} </span>
                             	<span id="pse-price" style="display: none;" class="price">{format_money number=$TAXED_PROMO_PRICE symbol={currency attr="symbol"}}</span>
-                            	<div name="price_product_{$product_id}" style="font-size:30px; font-weight:bold;float:left" >{$BEST_TAXED_PRICE|string_format:"%d"}</div><div style="float:left;font-size:20px; padding:10px"> €</div><div class="clearfix"></div>
                             </span>
                             <meta itemprop="price" content="{$TAXED_PROMO_PRICE}">
                             {if $SHOW_ORIGINAL_PRICE}

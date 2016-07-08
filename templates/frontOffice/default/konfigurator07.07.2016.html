@@ -23,7 +23,7 @@
 
 		<div class="fs-form-wrap" id="fs-form-wrap">
 			<div class="fs-title">
-				<h1>HEIZUNGSTAUSCH</h1>
+				<h1>THERMENTAUSCH</h1>
 			</div>
               
           
@@ -56,7 +56,6 @@
                         
                         <li>
 							<h3>Brennstoff</h3>
-                            <div id="brennstoff_zukunft">
                             {form_field field="brennstoff_zukunft"} 
                             <div><label class="fs-field-label fs-anim-upper" for="q2">{$label}</label></div>
                             <div class="fs-radio-group fs-radio-custom clearfix fs-anim-lower">
@@ -65,12 +64,11 @@
                              			
 									<div class="fs-radio-group fs-radio-normal clearfix fs-anim-lower">
                                 	{foreach $choices as $choice}
-										<span><input class="radiovaluebrennstoff" id="{$label_attr.for}{$choice->value}" name="{$name}" type="radio" value="{$choice->value}"{if $value === {$choice->value}} checked{/if}><label for="{$label_attr.for}{$choice->value}" class="radio{$choice->value} fs-field-label-sm radiolabel">{$choice->label}</label></span>
+										<span><input id="{$label_attr.for}{$choice->value}" name="{$name}" type="radio" value="{$choice->value}"{if $value === {$choice->value}} checked{/if}><label for="{$label_attr.for}{$choice->value}" class="radio{$choice->value} fs-field-label-sm radiolabel">{$choice->label}</label></span>
 								 	{/foreach}
 									</div>
 							</div> 
                             {/form_field}
-                            </div>
 						</li>
                         
 						<li>
@@ -96,19 +94,7 @@
                           					<input class="fs-anim-lower" name="{$name}" id="{$label_attr.for}" value="{$value}" type="number" placeholder="3" step="1" min="1" style="width:20%"/>
                                         {/form_field}
                             		</div>
-                                    
                                     <div>
-                                        {form_field field="etagen"}
-										<label class="fs-field-label-sm fs-anim-upper" for="q4" >{$label}</label>
-                          					<input class="fs-anim-lower" name="{$name}" id="{$label_attr.for}" value="{$value}" type="number" placeholder="3" step="1" min="1" style="width:20%"/>
-                                        {/form_field}
-                            		</div>
-                                    
-                                   
-                            	</div>
-                            	
-                            	<div class="col-md-6">
-                                     <!--div>
                                         {form_field field="bestehendes_geraet_mit_warmwasser"}
                            				<label class="fs-field-label-sm fs-anim-upper" for="q3" >{$label}</label><br>
                                  
@@ -119,13 +105,16 @@
 							 					{/foreach}
                             				</select>
                                   		{/form_field}
-                            		</div-->
-                                    <!--div>
+                            		</div>
+                            	</div>
+                            	
+                            	<div class="col-md-6">
+                                    <div>
                                         {form_field field="bestehendes_geraet_kw"}
 										<label class="fs-field-label-sm fs-anim-upper" for="q4" >{$label}</label>
                           					<input class="fs-anim-lower"  name="{$name}" id="{$label_attr.for}" value="{$value}" type="number" placeholder="20" step="1" min="1" style="width:20%"/>
                                         {/form_field}
-                            		</div-->
+                            		</div>
                                 	<div>
                                         {form_field field="baujahr"}
                             			<label class="fs-field-label-sm fs-anim-upper" for="q5" >{$label}</label>
@@ -180,16 +169,6 @@
 									</div>
                             {/form_field}
                             
-                                                        
-                            {form_field field="dach_daemmung"} 
-                            <label class="fs-field-label-sm fs-anim-upper" for="q11" >{$label}</label>
-                           
-							<div class="fs-radio-group fs-radio-normal clearfix fs-anim-lower">
-                                {foreach $choices as $choice}
-									<span><input id="{$label_attr.for}{$choice->value}" name="{$name}" type="radio" value="{$choice->value}"{if $value === {$choice->value}} checked{/if}><label for="q11b" class="radio-conversion fs-field-label-sm">{$choice->label}</label></span>
-								{/foreach}
-							</div>
-                            {/form_field}
                             
                             
                             <!--label class="fs-field-label-sm fs-anim-upper" for="q9" >{$label}Ist das Dach gedaÌˆmmt?</label>
@@ -210,7 +189,7 @@
                                 {/foreach}
                             </div>
                             {/form_field}
-                            {form_field field="windlage_des_gebaudes"} 
+                                {form_field field="windlage_des_gebaudes"} 
                             <label class="fs-field-label-sm fs-anim-upper" for="q11" >{$label}</label>
                            
 							<div class="fs-radio-group fs-radio-normal clearfix fs-anim-lower">
@@ -219,7 +198,7 @@
 								{/foreach}
 							</div>
                             {/form_field}
-
+                            
                             
                             
                             {form_field field="anzahl_aussenwaende"}
@@ -254,99 +233,6 @@
 							</div>
                             {/form_field}
 						</li>
-                        
-                        
-                        <li>
-							<h3 class="fs-anim-upper">Fragen zu Ihrer Heizung </h3>
-                            <div style="float:left;">
-                            {form_field field="abgasfuehrung"}
-							                  <label class="fs-field-label fs-anim-upper" for="q15">{$label}</label><br>         				 
-											<select name="{$name}" id="{$label_attr.for}{$choice->value}" class="fs-anim-lower">
-                              					{foreach $choices as $choice}
-                            						<option value="{$choice->value}"{if $value === {$choice->value}} checked{/if}>{$choice->label}</option>
-							 					{/foreach}
-                            				</select>
-                            {/form_field}
-
-                            {form_field field="waermeabgabe"}
-
-							
-							<div class="fs-radio-group fs-radio-normal clearfix fs-anim-lower">
-                                <label class="fs-field-label fs-anim-upper" for="q15">{$label}</label><br>
-                                <select name="{$name}" id="{$label_attr.for}{$choice->value}" class="fs-anim-lower">
-                              					{foreach $choices as $choice}
-                            						<option value="{$choice->value}"{if $value === {$choice->value}} checked{/if}>{$choice->label}</option>
-							 					{/foreach}
-                                </select>
-							</div>
-                            {/form_field}
-                            </div>
-                            <div style="float:left; padding-left:70px;">
-                            {form_field field="duschwasser"}
-
-                            <label class="fs-field-label-sm fs-anim-upper" for="q14" >{$label}</label>
-							
-							<div class="fs-radio-group fs-radio-normal clearfix fs-anim-lower">
-                                {foreach $choices as $choice}
-									<span><input id="{$label_attr.for}{$choice->value}" name="{$name}" type="radio" value="{$choice->value}"{if $value === {$choice->value}} checked{/if}><label for="q14b" class="radio-conversion fs-field-label-sm">{$choice->label}</label></span>
-								{/foreach}
-							</div>
-                            {/form_field}
-
-                            {form_field field="wasserabfluss"}
-                            <label class="fs-field-label-sm fs-anim-upper" for="q14" >{$label}</label><br>
-							
-							<div class="fs-radio-group fs-radio-normal clearfix fs-anim-lower">
-                                {foreach $choices as $choice}
-									<span><input id="{$label_attr.for}{$choice->value}" name="{$name}" type="radio" value="{$choice->value}"{if $value === {$choice->value}} checked{/if}><label for="q14b" class="radio-conversion fs-field-label-sm">{$choice->label}</label></span>
-								{/foreach}
-							</div>
-                            {/form_field}
-                            </div>
-                            <div class="clearfix"></div>
-
-                            
-                            <div id="warmwasserversorgung" >
-                             {form_field field="warmwasserversorgung"}
-                            <label class="fs-field-label-sm fs-anim-upper" for="q14" >{$label}</label><br>
-							
-							<div class="fs-radio-group fs-radio-normal clearfix fs-anim-lower">
-                                {foreach $choices as $choice}
-									<span><input id="{$label_attr.for}{$choice->value}" name="{$name}" class="radiovalue" type="radio" value="{$choice->value}"{if $value === {$choice->value}} checked{/if}><label for="q14b" class="radio-conversion fs-field-label-sm">{$choice->label}</label></span>
-								{/foreach}
-							</div>
-                            {/form_field}
-                            </div>
-                            
-                            <div id="warmwasserversorgung-extra" style="display:none">                       
-                             {form_field field="warmwasserversorgung-extra"}
-                            <label class="fs-field-label-sm fs-anim-upper" for="q14" >{$label}</label><br>
-							
-							<div class="fs-radio-group fs-radio-normal clearfix fs-anim-lower">
-                                {foreach $choices as $choice}
-									<span><input id="{$label_attr.for}{$choice->value}" name="{$name}" type="radio" value="{$choice->value}"{if $value === {$choice->value}} checked{/if}><label for="q14b" class="radio-conversion fs-field-label-sm">{$choice->label}</label></span>
-								{/foreach}
-							</div>
-                            {/form_field}
-                            </div>
-                            
-                            <!--Fragen für Wärmepumpe-->
-                           <div id="warmwasserversorgung-extra-waermepumpe" style="display:none">                       
-                             {form_field field="warmwasserversorgung-extra-waermepumpe"}
-                            <label class="fs-field-label-sm fs-anim-upper" for="q14" >{$label}</label><br>
-							
-							<div class="fs-radio-group fs-radio-normal clearfix fs-anim-lower">
-                                {foreach $choices as $choice}
-									<span><input id="{$label_attr.for}{$choice->value}" name="{$name}" type="radio" value="{$choice->value}"{if $value === {$choice->value}} checked{/if}><label for="q14b" class="radio-conversion fs-field-label-sm">{$choice->label}</label></span>
-								{/foreach}
-							</div>
-                            {/form_field}
-                            </div>
-                            
-                            
-                            
-						</li>
-                        
 				
                        	<li>
                             {form_field field="anmerkungen"}
@@ -399,58 +285,6 @@
  <script src="{javascript file='assets/dist/js/vendors/classie.js'}"></script>
  <script src="{javascript file='assets/dist/js/vendors/selectFx.js'}"></script>
  <script src="{javascript file='assets/dist/js/vendors/fullscreenForm.js'}"></script>
-<script>
-    
-    
-    
-   $("#warmwasserversorgung").change(function(){
-       var radiovalue =  $('.radiovalue:checked').val();
-var radiovaluebrennstoff =  $('.radiovaluebrennstoff:checked').val();
-      
-       if(radiovaluebrennstoff==4){
-        if(radiovalue==1){
-          
-        $("#warmwasserversorgung-extra").hide();
-        $("#warmwasserversorgung-extra-waermepumpe").show();
-        }
-            else{
-           $("#warmwasserversorgung-extra-waermepumpe").hide();
-            $("#warmwasserversorgung-extra").hide();
-            } 
-        }
-       else  
-           if(radiovalue==1){
-           $("#warmwasserversorgung-extra-waermepumpe").hide();
-            $("#warmwasserversorgung-extra").show();
-            }   
-            else{
-           $("#warmwasserversorgung-extra-waermepumpe").hide();
-            $("#warmwasserversorgung-extra").hide();
-            }   
-
-});
-    
-        
-  /* $("#brennstoff_zukunft").change(function(){
-       var radiovaluebrennstoff =  $('.radiovaluebrennstoff:checked').val();
-       var radiovalue =  $('.radiovalue:checked').val();
-      if(radiovaluebrennstoff==4){
-          //alert("waermepumpe")
-          if(radiovalue==1){
-        $("#warmwasserversorgung-extra").hide();
-        $("#warmwasserversorgung-extra-waermepumpe").show();
-              }
-        }
-       else {
-           
-        $("#warmwasserversorgung-extra-waermepumpe").hide();
-        $("#warmwasserversorgung-extra").hide();
-            }
-
-});*/
-    
-</script>
-
 
 
 <!--Dropzone script start-->

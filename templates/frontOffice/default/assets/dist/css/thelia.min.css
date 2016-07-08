@@ -4183,7 +4183,7 @@ textarea.input-group-sm>.input-group-btn>.btn {
     padding: 15px;
     font-size: 18px;
     line-height: 20px;
-    height: 50px
+    //height: 50px
 }
 .navbar-brand:focus,
 .navbar-brand:hover {
@@ -6241,7 +6241,7 @@ button.close {
     right: 15%;
     bottom: 20px;
     z-index: 10;
-    padding-bottom: 20px;
+   // padding-bottom: 20px;
     color: #fff
 }
 @media screen and (min-width: 768px) {
@@ -10804,10 +10804,9 @@ td.product .name>a:hover {
 .btn-1-banner {
 	background:#86ac34!important;
 	color: #FFF;
-    padding: 10px 30px;
+    
     border: 1px solid #86ac34;
-    font-size:20px;
-    margin-top:30px;
+
 }
 
 .btn-1-banner:hover,
@@ -11420,7 +11419,7 @@ button.fs-continue,
 }
 .fs-fields > li .radiolabel {
 	position: relative;
-    font-size:2em;
+    font-size: 2vmin;
     font-weight:bold!important;
 }
 .fs-fields > li label.fs-field-label {
@@ -11556,7 +11555,7 @@ label.fs-field-label-sm {
 	margin-right: 3%;
 	padding: 10px;
 	max-width: 200px;
-	width: 20%;
+	width: 17%;
 	text-align: center;
 	font-weight: 700;
 	font-size: 50%;
@@ -11605,18 +11604,21 @@ label.fs-field-label-sm {
 }
 
 .fs-fields .fs-radio-custom label.radio1::after {
-	background-image: url(../img/mobile.svg);
+	background-image: url(../img/konfigurator-icons/erdgas.svg);
 }
 
 .fs-fields .fs-radio-custom label.radio2::after {
-	background-image: url(../img/social.svg);
+	background-image: url(../img/konfigurator-icons/heizoel.svg);
 }
 
 .fs-fields .fs-radio-custom label.radio3::after {
-	background-image: url(../img/conversion.svg);
+	background-image: url(../img/konfigurator-icons/holz.svg);
 }
 .fs-fields .fs-radio-custom label.radio4::after {
-	background-image: url(../img/sonstiges.svg);
+	background-image: url(../img/konfigurator-icons/heatpump.svg);
+}
+.fs-fields .fs-radio-custom label.radio5::after {
+	background-image: url(../img/konfigurator-icons/sonstiges.svg);
 }
 
 .fs-fields .fs-radio-custom label:hover::after,
@@ -12847,3 +12849,51 @@ input[type=text]::-ms-clear {
     }
 }
 /* end 5 columns layout*/
+
+
+    
+
+/*CAROUSEL START*/
+@media only screen and (min-width: 767px) {
+.title1{
+    font-size:2.7em;
+    }
+.title2{
+    font-size:2em;
+    }
+.btn-1-responsive{
+    font-size:2em;
+    margin-top:30px;
+    padding: 10px 30px;
+    }
+    
+}
+@media only screen and (max-width: 767px) {
+.title1{
+    font-size:1.7em;
+    }
+    .title2{
+    font-size:1.2em;
+    }
+    .btn-1-responsive{
+        display: none;
+    font-size:1em;
+        
+    margin-top:20px;
+    padding: 10px 30px;
+    }
+}
+@media only screen and (max-width: 380px) {
+.title1{
+    font-size:0.8em;
+    }
+.title2{
+    font-size:0.7em;
+    }
+    .btn-1-responsive{
+display: none;
+    
+    }
+}
+
+/*CAROUSEL END*/

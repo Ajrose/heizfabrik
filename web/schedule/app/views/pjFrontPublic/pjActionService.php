@@ -3,7 +3,9 @@
 		<div class="col-lg-12 col-md-12 col-sm-12">
 			<div class="panel panel-default pjAsContainer pjAsAside">
 				<div class="panel-heading pjAsHead">
-					<h2 class="pjAsHeadTitle">Wählen Sie die gewünschten Ankunftszeiten</h2><!-- /.pjAsHeadTitle -->
+					<h2 class="pjAsHeadTitle">Planen Sie Ihren Termin</h2><!-- /.pjAsHeadTitle -->
+                    <h4>Wählen Sie 3 bevorzugte Termine</h4>
+                     <p style="text-transform: none;">Unser Mitarbeiter wird Ihnen einen Termin innerhalb 24 Stunden per E-mail bestätigen.</p>
 				</div><!-- /.panel-heading pjAsHead -->
 
 				<div class="panel-body pjAsCalendarInline">
@@ -17,6 +19,8 @@
 					include PJ_VIEWS_PATH . 'pjFrontPublic/elements/cart_layout2.php';
 					?>
 				</ul><!-- /.list-group pjAsAsideServices -->
+                
+                
 			</div><!-- /.panel panel-default pjAsContainer pjAsAside -->
 		</div><!-- /.col-lg-4 col-md-4 col-sm-12 col-xs-12 -->
 

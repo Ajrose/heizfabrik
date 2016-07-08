@@ -26,9 +26,10 @@ class HeizlastBerechnung extends BaseForm
          ->add("brennstoff_momentan", "choice", array(
          		"choices" => array (
          				1 => Translator::getInstance()->trans("Erdgas"),
-         				2 => Translator::getInstance()->trans("Erdöl"),
-         				3 => Translator::getInstance()->trans("Flüssiggas"),
-         				4 => Translator::getInstance()->trans("Sonstiges")
+         				2 => Translator::getInstance()->trans("Heizöl"),
+         				3 => Translator::getInstance()->trans("Holz"),
+                        4 => Translator::getInstance()->trans("Wärmepumpe"),
+         				5 => Translator::getInstance()->trans("Sonstiges")
          		),
          		"label" => Translator::getInstance()->trans("Womit heizen Sie momentan?"),
          		"label_attr" => array(
@@ -39,9 +40,10 @@ class HeizlastBerechnung extends BaseForm
          ->add("brennstoff_zukunft", "choice", array(
          		"choices" => array (
          				1 => Translator::getInstance()->trans("Erdgas"),
-         				2 => Translator::getInstance()->trans("Erdöl"),
-         				3 => Translator::getInstance()->trans("Flüssiggas"),
-         				4 => Translator::getInstance()->trans("Sonstiges")
+         				2 => Translator::getInstance()->trans("Heizöl"),
+         				3 => Translator::getInstance()->trans("Holz"),
+                        4 => Translator::getInstance()->trans("Wärmepumpe"),
+         				5 => Translator::getInstance()->trans("Sonstiges")
          		),
          		"label" => Translator::getInstance()->trans("Womit werden Sie in Zukunft heizen?"),
          		"label_attr" => array(
@@ -51,19 +53,19 @@ class HeizlastBerechnung extends BaseForm
          ))
 		->add("gebaeudeart", "choice", array(
 				"choices" => array (
-						1 => Translator::getInstance()->trans("Einzelhaus"),
-						2 => Translator::getInstance()->trans("Reihenhaus"),
-						3 => Translator::getInstance()->trans("Mehrfamilienhaus"),
-                        4 => Translator::getInstance()->trans("Wohnung")
+						1 => Translator::getInstance()->trans("Einfamilienhaus"),
+						2 => Translator::getInstance()->trans("Reihenhaus oder Doppelhaushälfte "),
+						3 => Translator::getInstance()->trans("Mehrfamilienhaus mit Zentralheizung"),
+                        4 => Translator::getInstance()->trans("Wohnung mit eigener Heizung")
 				),
-				"label" => Translator::getInstance()->trans("Um was für ein Objekt handelt es sich?"),
+				"label" => Translator::getInstance()->trans("Um was für ein Gebäude handelt es sich?"),
 				"label_attr" => array(
                     "for" => "gebaeudeart",
                 ),
 				"data" => 1
 		))
              
-        ->add("mitwarmwasser", "choice", array(
+        ->add("bestehendes_geraet_mit_warmwasser", "choice", array(
 				"choices" => array (
 						1 => Translator::getInstance()->trans("Durchlauf "),
 						2 => Translator::getInstance()->trans("Kleinen Speicher bis 50l"),
@@ -75,8 +77,9 @@ class HeizlastBerechnung extends BaseForm
                 ),
 				"data" => 1
 		))
-             
-        ->add("kw", "integer", array(
+		
+		
+        ->add("bestehendes_geraet_kw", "integer", array(
 				"label" => Translator::getInstance()->trans("Wie viel KW hat das bestehende Gerät?"),
 				"label_attr" => array(
 						"for" => "kw",
@@ -86,24 +89,35 @@ class HeizlastBerechnung extends BaseForm
 		->add("baujahr", "choice", array(
 				"choices" => array (
 						1 => Translator::getInstance()->trans("Bis 1960"),
-						2 => Translator::getInstance()->trans("1966-1977"),
-						3 => Translator::getInstance()->trans("Ab 1978")
+						2 => Translator::getInstance()->trans("1961-1977"),
+						3 => Translator::getInstance()->trans("1978-1994"),
+                        4 => Translator::getInstance()->trans("Ab 1995")
 				),
-				"label" => Translator::getInstance()->trans("Wann wurde das Objekt gebaut?"),
+				"label" => Translator::getInstance()->trans("Wann wurde das Gebäude gebaut?"),
 				"label_attr" => array(
                     "for" => "baujahr",
                 ),
 				"data" => 1
 		))
 		->add("personen_anzahl", "integer", array(
-				"label" => Translator::getInstance()->trans("Wie viele Personen leben in Ihrem Objekt?"),
+				"label" => Translator::getInstance()->trans("Wie viele Personen leben im Haushalt?"),
 				"label_attr" => array(
 						"for" => "personen_anzahl",
 				),
 				"data" => 3
 		))
+             
+       ->add("etagen", "integer", array(
+				"label" => Translator::getInstance()->trans("Wie viele Etagen hat Ihre Gebäude?"),
+				"label_attr" => array(
+						"for" => "etagen",
+				),
+				"data" => 2
+		))
+             
+             
 		->add("flaeche", "integer", array(
-				"label" => Translator::getInstance()->trans("Wie groß ist die Heizfläche?"),
+				"label" => Translator::getInstance()->trans("Wie groß ist die zu beheizende Fläche?"),
 				"label_attr" => array(
 						"for" => "flaeche"
 				),
@@ -131,6 +145,7 @@ class HeizlastBerechnung extends BaseForm
                 ),
 				"data" => 1
 		))
+		/*
 		->add("lage_des_raumes", "choice", array(
 				"choices" => array (
 						1 => Translator::getInstance()->trans("1. Etag"),
@@ -143,6 +158,7 @@ class HeizlastBerechnung extends BaseForm
                 ),
 				"data" => 1
 		))
+		*/
 		->add("anzahl_aussenwaende", "choice", array(
 				"choices" => array (
 						1 => Translator::getInstance()->trans("1 Wand"),
@@ -167,6 +183,7 @@ class HeizlastBerechnung extends BaseForm
                 ),
 				"data" => 1
 		))
+		/*
 		->add("verglaste_flaeche", "choice", array(
 				"choices" => array (
 						1 => Translator::getInstance()->trans("Gross"),
@@ -179,12 +196,14 @@ class HeizlastBerechnung extends BaseForm
                 ),
 				"data" => 1
 		))
+		*/
+         
 		->add("dach_daemmung", "choice", array(
 				"choices" => array (
 						1 => Translator::getInstance()->trans("Ja"),
 						2 => Translator::getInstance()->trans("Nein")
 				),
-				"label" => Translator::getInstance()->trans("Ist das Dach gedämmt?"),
+				"label" => Translator::getInstance()->trans("Ist das Dach gedämmt?"),
 				"label_attr" => array(
 						"for" => "dach_daemmung",
 				),
@@ -228,6 +247,110 @@ class HeizlastBerechnung extends BaseForm
                 ),
 				"data" => 1
 		))
+             
+             
+         /* slide 7 */    
+        
+        ->add("abgasfuehrung", "choice", array(
+				"choices" => array (
+						1 => Translator::getInstance()->trans("Aussen am Haus "),
+						2 => Translator::getInstance()->trans("Im Kamin "),
+						3 => Translator::getInstance()->trans("Direkt durch das Dach"),
+                        4 => Translator::getInstance()->trans("Ist noch ein zweites Gerät im Kamin eingebunden")
+				),
+				"label" => Translator::getInstance()->trans("Wie verläuft die Abgasführung heute?"),
+				"label_attr" => array(
+                    "for" => "abgasfuehrung"
+                ),
+				"data" => 1
+		))
+
+             
+        ->add("waermeabgabe", "choice", array(
+				"choices" => array (
+						1 => Translator::getInstance()->trans("Heizkörper"),
+						2 => Translator::getInstance()->trans("Fußbodenheizung"),
+						3 => Translator::getInstance()->trans("Heizkörper und Fußbodenheizung "),
+                        4 => Translator::getInstance()->trans("Sonstiges ")
+				),
+				"label" => Translator::getInstance()->trans("Wie erfolgt die Wärmeabgabe?"),
+				"label_attr" => array(
+                    "for" => "waermeabgabe"
+                ),
+				"data" => 1
+		))
+             
+        ->add("duschwasser", "choice", array(
+				"choices" => array (
+						1 => Translator::getInstance()->trans("Ja"),
+						2 => Translator::getInstance()->trans("Nein")
+
+				),
+				"label" => Translator::getInstance()->trans("Wird Duschwasser mit der Heizung erwärmt? "),
+				"label_attr" => array(
+                    "for" => "duschwasser"
+                ),
+				"data" => 1
+		))
+             
+                          
+        ->add("wasserabfluss", "choice", array(
+				"choices" => array (
+						1 => Translator::getInstance()->trans("Ja"),
+						2 => Translator::getInstance()->trans("Nein")
+
+				),
+				"label" => Translator::getInstance()->trans("Ist ein Wasserabfluss unter der Heizung vorhanden? "),
+				"label_attr" => array(
+                    "for" => "duschwasser"
+                ),
+				"data" => 1
+		))
+             
+        ->add("warmwasserversorgung", "choice", array(
+				"choices" => array (
+						1 => Translator::getInstance()->trans("Ja"),
+						2 => Translator::getInstance()->trans("Nein")
+
+				),
+				"label" => Translator::getInstance()->trans("Soll die Warmwasserversorgung über die Heizung erfolgen? "),
+				"label_attr" => array(
+                    "for" => "warmwasserversorgung"
+                ),
+				"data" => 2
+		))
+             
+                          
+        ->add("warmwasserversorgung-extra", "choice", array(
+				"choices" => array (
+						1 => Translator::getInstance()->trans("Warmwasserspeicher"),
+						2 => Translator::getInstance()->trans("Kombigerät / Durchlauferhitzer"),
+                        3 => Translator::getInstance()->trans("Sonstige"),
+                    
+
+				),
+				"label" => Translator::getInstance()->trans("Wie wollen Sie die Warmwasserversorgung haben mit einem?"),
+				"label_attr" => array(
+                    "for" => "warmwasserversorgung"
+                ),
+				"data" => 1
+		))
+             
+        ->add("warmwasserversorgung-extra-waermepumpe", "choice", array(
+				"choices" => array (
+						1 => Translator::getInstance()->trans("Warmwasserspeicher"),
+                        2 => Translator::getInstance()->trans("Sonstige")
+                    
+
+				),
+				"label" => Translator::getInstance()->trans("Wie wollen Sie die Warmwasserversorgung haben mit einem?"),
+				"label_attr" => array(
+                    "for" => "warmwasserversorgung"
+                ),
+				"data" => 1
+		))
+             
+             
 		->add("anmerkungen", "text", array(
 		"label" => Translator::getInstance()->trans("Anmerkungen zu Ihrer Heizung"),
 		"label_attr" => array(

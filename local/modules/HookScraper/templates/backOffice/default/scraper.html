@@ -14,11 +14,23 @@
                                 <label for="{$label_attr.for}" class="control-label">{intl d='hookscraper.bo.default' l='Product-GC-ID'}</label>
                                 <div class="input-group">
                                     <input type="text" id="{$label_attr.for}" {if $required}required="required"{/if} name="product_gc_id" value="" title="{intl l='Product GC_ID' d='hookscraper.bo.default'}" placeholder="{intl l='Product GC_ID' d='hookscraper.bo.default'}" class="form-control">
-                                    <span class="input-group-btn">
-                                        <input type="submit" class="form-submit-button btn btn-sm btn-success" value="{intl d='hookscraper.bo.default' l='Import Product'}" >
-                                    </span>
+                                    
+                                </div>
+                                
+                                <div class="input-group">
+                                    <input type="text" id="{$label_attr.for}" {if $required}required="required"{/if} name="brand_id" value="" title="{intl l='Brand_ID' d='hookscraper.bo.default'}" placeholder="{intl l='BRAND_ID' d='hookscraper.bo.default'}" class="form-control">
+                                   
+                                </div>
+                                
+                                <div class="input-group">
+                                    <input type="text" id="{$label_attr.for}" {if $required}required="required"{/if} name="category_id" value="" title="{intl l='Category_ID' d='hookscraper.bo.default'}" placeholder="{intl l='CATEGORY_ID' d='hookscraper.bo.default'}" class="form-control">
+                                    
                                 </div>
                             </div>
+                        
+                        <span class="input-group-btn">
+                            <input type="submit" class="form-submit-button btn btn-sm btn-success" value="{intl d='hookscraper.bo.default' l='Import Product'}" >
+                        </span>
 
                     </form>
 

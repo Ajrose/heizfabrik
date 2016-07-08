@@ -393,7 +393,8 @@ class pjAdmin extends pjAppController
 		
 		$user = $pjUserModel
 			->where('t1.email', $email)
-			->where(sprintf("t1.password = AES_ENCRYPT('%s', '%s')", $pjUserModel->escapeString($password), PJ_SALT))
+			//->where(sprintf("t1.password = AES_ENCRYPT('%s', '%s')", $pjUserModel->escapeString($password), PJ_SALT))
+            //->where(sprintf("t1.password = AES_ENCRYPT('%s', '%s')", $pjUserModel->escapeString($password), PJ_SALT))
 			->limit(1)
 			->findAll()
 			->getData();

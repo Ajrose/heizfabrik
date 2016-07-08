@@ -26,7 +26,7 @@
 <div class="aspNetHidden">
 <input type="hidden" name="__EVENTTARGET" id="__EVENTTARGET" value="" />
 <input type="hidden" name="__EVENTARGUMENT" id="__EVENTARGUMENT" value="" />
-<input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE" value="/wEPDwULLTE1OTY1NjQwNTgPZBYCAgMPZBYCAgEPZBYOAg8PFgIeCWlubmVyaHRtbAUCREVkAhUPFgIfAAUQbndpbmctTmV0d29ya2luZ2QCFw8WAh8ABQJXQWQCGQ8WAh8ABQM1NTJkAhsPFgIfAAUKV2lsbGtvbW1lbmQCHQ8WAh8ABXdXaWxsa29tbWVuJmx0O2JyJmd0OyZsdDtiJmd0O253aW5nLU5ldHdvcmtpbmchJmx0Oy9iJmd0OyZsdDticiZndDsmbHQ7YnImZ3Q7TGV0enRlcyBMb2dpbjombHQ7YnImZ3Q7MDYvMjgvMjAxNiAyMjoyODo1N2QCHw8WAh8AZWQYAQUeX19Db250cm9sc1JlcXVpcmVQb3N0QmFja0tleV9fFgQFCmNoa0xvZ2luT0sFCGNoa1dzdk9LBRBjaGtOZXh0UGFnZU1vZGFsBRBjaGtVc2VJbmZvQ2VudGVyx5/jpJuW/njL2KYRH/pvA/2cKGg=" />
+<input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE" value="/wEPDwULLTE1OTY1NjQwNTgPZBYCAgMPZBYCAgEPZBYOAg8PFgIeCWlubmVyaHRtbAUCREVkAhUPFgIfAAUQbndpbmctTmV0d29ya2luZ2QCFw8WAh8ABQJXQWQCGQ8WAh8ABQM1NTJkAhsPFgIfAAUKV2lsbGtvbW1lbmQCHQ8WAh8ABXdXaWxsa29tbWVuJmx0O2JyJmd0OyZsdDtiJmd0O253aW5nLU5ldHdvcmtpbmchJmx0Oy9iJmd0OyZsdDticiZndDsmbHQ7YnImZ3Q7TGV0enRlcyBMb2dpbjombHQ7YnImZ3Q7MDcvMDUvMjAxNiAwOTozOTowMWQCHw8WAh8AZWQYAQUeX19Db250cm9sc1JlcXVpcmVQb3N0QmFja0tleV9fFgQFCmNoa0xvZ2luT0sFCGNoa1dzdk9LBRBjaGtOZXh0UGFnZU1vZGFsBRBjaGtVc2VJbmZvQ2VudGVySU1YEfHs818rku/FzZt1tcOKOJQ=" />
 </div>
 
 <script type="text/javascript">
@@ -49,7 +49,7 @@ function __doPostBack(eventTarget, eventArgument) {
 <div class="aspNetHidden">
 
 	<input type="hidden" name="__VIEWSTATEGENERATOR" id="__VIEWSTATEGENERATOR" value="FA0B6320" />
-	<input type="hidden" name="__EVENTVALIDATION" id="__EVENTVALIDATION" value="/wEdAAjNyKJaNt6c5TWX1+eY2SqKY3plgk0YBAefRz3MyBlTcHY2+Mc6SrnAqio3oCKbxYYxrKuDueUWsOM0U7wBRXmi/FNTWG01YRzBQO/ghCqFBGCk6sZcYSA7IxplkQW9RM64VQQoNyYxUGrCNNmLJzFSsC0kTOvtbO67ad4OBYqt+2pbPux3LUcpTxAAhJ76PFw7tiUZ" />
+	<input type="hidden" name="__EVENTVALIDATION" id="__EVENTVALIDATION" value="/wEdAAgwKhNKpx4ED8VjwuI04MzkY3plgk0YBAefRz3MyBlTcHY2+Mc6SrnAqio3oCKbxYYxrKuDueUWsOM0U7wBRXmi/FNTWG01YRzBQO/ghCqFBGCk6sZcYSA7IxplkQW9RM64VQQoNyYxUGrCNNmLJzFSsC0kTOvtbO67ad4OBYqt+08JXQrBP+iCA7X/aasBWbARYICO" />
 </div>
     <div class="pnlLogin" style="height:250px;">
         <div><span class="panelHeader">Kunden-Login</span></div>
@@ -105,7 +105,7 @@ function __doPostBack(eventTarget, eventArgument) {
     <label id="lblInstallation" class="hidden">WA</label>
     <label id="lblCompany" class="hidden">552</label> 
     <label id="lblHello" class="hidden">Willkommen</label>
-    <label id="lblWelcomeText" class="hidden">Willkommen&lt;br&gt;&lt;b&gt;nwing-Networking!&lt;/b&gt;&lt;br&gt;&lt;br&gt;Letztes Login:&lt;br&gt;06/28/2016 22:28:57</label>
+    <label id="lblWelcomeText" class="hidden">Willkommen&lt;br&gt;&lt;b&gt;nwing-Networking!&lt;/b&gt;&lt;br&gt;&lt;br&gt;Letztes Login:&lt;br&gt;07/05/2016 09:39:01</label>
     <label id="txtNextPage" class="hidden"></label>
     <label id="txtNextPageHeight" class="hidden"></label>
     <label id="txtNextPageWidth" class="hidden"></label>

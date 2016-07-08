@@ -140,7 +140,9 @@ type="text/javascript";e.parentNode.insertBefore($,e)})(document,"script");
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                         </button>
-                        <a class="navbar-brand visible-xs" href="{navigate to="index"}">{$store_name}</a>
+                        <a class="navbar-brand visible-xs" href="{navigate to="index"}">
+                            <img src="{image file='assets/dist/img/logo.png'}" style="max-width:100px;" alt="{$store_name}">
+                        </a>
                     </div>
 
                     {ifhook rel="main.navbar-secondary"}
@@ -168,7 +170,7 @@ type="text/javascript";e.parentNode.insertBefore($,e)})(document,"script");
                     <div class="hotline-icon"> <span></span></div>
                     <div class="hotline-text">
                     <h3>0800/022573</h3>
-                    <small> Mo-Fr:  8-20 Uhr<br>
+                    <small> Mo-Fr:&nbsp; 8-20 Uhr<br>
                         Sa:  11-17 Uhr</small>
                     </div>               
                 </div>

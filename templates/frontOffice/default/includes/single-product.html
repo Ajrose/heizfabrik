@@ -57,6 +57,7 @@
                         {else}
                             {format_money number=$BEST_TAXED_PRICE}
                         {/if}
+                        
                     </span></span>
                     {if $SHOW_ORIGINAL_PRICE}
                     <span class="old-price col-xs-6"><span class="price-label">{intl l="Regular Price:"} </span><span class="price">{format_money number=$TAXED_PRICE}</span></span>
@@ -64,6 +65,7 @@
                 {else}
                     <span class="regular-price col-xs-12"><span itemprop="price" class="price">{format_money number=$BEST_TAXED_PRICE}</span></span>
                 {/if}
+                <small>Alle Preise inkl. 20% MwSt.</small>
             </div>
 
             {if $hasBtn == true}
