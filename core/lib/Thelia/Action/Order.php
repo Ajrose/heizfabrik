@@ -48,6 +48,7 @@ use Thelia\Model\ProductSaleElementsQuery;
 use Thelia\Model\TaxRuleI18n;
 use Thelia\Module\PaymentModuleInterface;
 use Thelia\Tools\I18n;
+use Thelia\Log\Tlog;
 
 /**
  *
@@ -175,6 +176,8 @@ class Order extends BaseAction implements EventSubscriberInterface
 
         $placedOrder = $sessionOrder->copy();
 
+        $log =Tlog::getInstance();
+        
         // Be sure to create a brand new order, as copy raises the modified flag for all fields
         // and will also copy order reference and id.
         $placedOrder->setId(null)->setRef(null)->setNew(true);
@@ -463,7 +466,7 @@ class Order extends BaseAction implements EventSubscriberInterface
      */
     public function orderBeforePayment(OrderEvent $event, $eventName, EventDispatcherInterface $dispatcher)
     {
-        $dispatcher ->dispatch(TheliaEvents::ORDER_SEND_CONFIRMATION_EMAIL, clone $event);
+       // $dispatcher ->dispatch(TheliaEvents::ORDER_SEND_CONFIRMATION_EMAIL, clone $event);
 
         $dispatcher->dispatch(TheliaEvents::ORDER_SEND_NOTIFICATION_EMAIL, clone $event);
     }

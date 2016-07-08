@@ -80,7 +80,7 @@ class Cart extends BaseAction implements EventSubscriberInterface
      */
     public function addItem(CartEvent $event, $eventName, EventDispatcherInterface $dispatcher)
     {
-    
+    	/*
     	$log = Tlog::getInstance ();
     	
     	
@@ -97,7 +97,7 @@ class Cart extends BaseAction implements EventSubscriberInterface
     				$log->debug ( "--sessionitem array ".implode(" ",$sessionItem));
     				else $log->debug ( "--sessionitem string ".$sessionItem);
     	}
-    	
+    	*/
     	
         $cart = $event->getCart();
         $newness = $event->getNewness();
@@ -106,16 +106,12 @@ class Cart extends BaseAction implements EventSubscriberInterface
         $currency = $cart->getCurrency();
         $customer = $cart->getCustomer();
         $discount = 0;
-		
+
         if ($cart->isNew()) {
             $persistEvent = new CartPersistEvent($cart);
-         //   $dispatcher->dispatch(TheliaEvents::CART_PERSIST, $persistEvent);
+            $dispatcher->dispatch(TheliaEvents::CART_PERSIST, $persistEvent);
         }
-        
-       // if(!$event->getCartItem())
-      //  	$log->debug ( "-- CartAddItem null cartitem after persist".implode(" ",$this->getSession()->all()));
-		
-		
+
         if (null !== $customer && $customer->getDiscount() > 0) {
             $discount = $customer->getDiscount();
         }
@@ -124,11 +120,8 @@ class Cart extends BaseAction implements EventSubscriberInterface
         $productId = $event->getProduct();
 
         // Search for an identical item in the cart
-    //    $dispatcher->dispatch(TheliaEvents::CART_FINDITEM, $event);//group same products
+        $dispatcher->dispatch(TheliaEvents::CART_FINDITEM, $event);
 
-        if(!$event->getCartItem())
-        	$log->debug ( "-- CartAddItem null cartitem after find");
-        
         $cartItem = $event->getCartItem();
 
         if ($cartItem === null || $newness) {
@@ -140,15 +133,12 @@ class Cart extends BaseAction implements EventSubscriberInterface
                 $cartItem = $this->doAddItem($dispatcher, $cart, $productId, $productSaleElements, $quantity, $productPrices);
             }
         } elseif ($append && $cartItem !== null) {
-          //  $cartItem->addQuantity($quantity)->save();
+            $cartItem->addQuantity($quantity)->save();
         }
-        
-       // $cartItem->setServiceAppointmentChoices($event->getSpDate(), $event->getSpStartTs(), $event->getSpEndTs());
- 
-      //  $event->setCartItem($cartItem);
-        
 
+        $event->setCartItem($cartItem);
         
+       // $cartItem->setServiceAppointmentChoices($event->getSpDate(), $event->getSpStartTs(), $event->getSpEndTs());   
     }
 
     /**
@@ -293,7 +283,7 @@ class Cart extends BaseAction implements EventSubscriberInterface
         $cartItem = new CartItem();
         $cartItem->setDisptacher($dispatcher);
         $cartItem
-            //->setCart($cart)
+            ->setCart($cart)
             ->setProductId($productId)
             ->setProductSaleElementsId($productSaleElements->getId())
             ->setQuantity($quantity)
@@ -301,7 +291,7 @@ class Cart extends BaseAction implements EventSubscriberInterface
             ->setPromoPrice($productPrices->getPromoPrice())
             ->setPromo($productSaleElements->getPromo())
             ->setPriceEndOfLife(time() + ConfigQuery::read("cart.priceEOF", 60*60*24*30))
-            ;//->save();
+            ->save();
 
         return $cartItem;
     }
