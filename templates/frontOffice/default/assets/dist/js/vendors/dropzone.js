@@ -128,7 +128,7 @@
       filesizeBase: 1000,
       maxFiles: null,
       params: {},
-      clickable: true,
+      clickable: false,
       ignoreHiddenFiles: true,
       acceptedFiles: null,
       acceptedMimeTypes: null,
@@ -459,8 +459,10 @@
       }
       if (this.options.clickable) {
         if (this.options.clickable === true) {
+            
           this.clickableElements = [this.element];
         } else {
+            
           this.clickableElements = Dropzone.getElements(this.options.clickable, "clickable");
         }
       }
@@ -1315,7 +1317,7 @@
           if (!((200 <= (_ref = xhr.status) && _ref < 300))) {
             return handleError();
           } else {
-            return _this._finished(files, response, e);
+            return _this._finished(files, response, e,xhr);
           }
         };
       })(this);
@@ -1387,12 +1389,12 @@
      return xhr.send(formData);
     };
 
-    Dropzone.prototype._finished = function(files, responseText, e) {
+    Dropzone.prototype._finished = function(files, responseText, e, xhr) {
       var file, _i, _len;
       for (_i = 0, _len = files.length; _i < _len; _i++) {
         file = files[_i];
         file.status = Dropzone.SUCCESS;
-        this.emit("success", file, responseText, e);
+        this.emit("success", file, responseText, e, xhr);
         this.emit("complete", file);
       }
       if (this.options.uploadMultiple) {

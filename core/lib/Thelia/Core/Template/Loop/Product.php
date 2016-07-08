@@ -260,6 +260,7 @@ class Product extends BaseI18nLoop implements PropelSearchLoopInterface, SearchL
 
             $default_category_id = $product->getDefaultCategoryId();
 
+            //TODO add prices to result
             $loopResultRow
                 ->set("WEIGHT", $product->getVirtualColumn('weight'))
                 ->set("QUANTITY", $product->getVirtualColumn('quantity'))
@@ -276,7 +277,19 @@ class Product extends BaseI18nLoop implements PropelSearchLoopInterface, SearchL
                 ->set("IS_PROMO", $product->getVirtualColumn('is_promo'))
                 ->set("IS_NEW", $product->getVirtualColumn('is_new'))
                 ->set("PRODUCT_SALE_ELEMENT", $product->getVirtualColumn('pse_id'))
-                ->set("PSE_COUNT", $product->getVirtualColumn('pse_count'));
+                ->set("PSE_COUNT", $product->getVirtualColumn('pse_count'))
+            	/*->set("LISTEN_PRICE",$product->getVirtualColumn('listen_price'))
+            	->set("EK_PREIS_GC",$product->getVirtualColumn('ek_preis_gc'))
+            	->set("EK_PREIS_SHT",$product->getVirtualColumn('ek_preis_sht'))
+            	->set("EK_PREIS_OAG",$product->getVirtualColumn('ek_preis_oag'))
+            	->set("EK_PREIS_HOLTER",$product->getVirtualColumn('ek_preis_holter'))
+            	->set("EK_PREIS_ODORFER",$product->getVirtualColumn('ek_preis_odorfer'))
+            	->set("PREIS_REUTER",$product->getVirtualColumn('preis_reuter'))
+            	->set("VERGLEICH_EK",$product->getVirtualColumn('vergleich_ek'))
+            	->set("AUFSCHLAG",$product->getVirtualColumn('aufschlag'))
+            	*/
+            	;
+                
             $this->addOutputFields($loopResultRow, $product);
 
             $loopResult->addRow($this->associateValues($loopResultRow, $product, $default_category_id));
@@ -526,8 +539,18 @@ class Product extends BaseI18nLoop implements PropelSearchLoopInterface, SearchL
             $priceJoin->setJoinType(Criteria::LEFT_JOIN);
 
             $search->addJoinObject($priceJoin, 'price_join')
-                ->addJoinCondition('price_join', '`price`.`currency_id` = ?', $currency->getId(), null, \PDO::PARAM_INT);
-
+                ->addJoinCondition('price_join', '`price`.`currency_id` = ?', $currency->getId(), null, \PDO::PARAM_INT)
+            /*->withColumn ( '`price`.listen_price', 'listen_price' )
+            ->withColumn ( '`price`.ek_preis_gc', 'ek_preis_gc' )
+            ->withColumn ( '`price`.ek_preis_sht', 'ek_preis_sht' )
+            ->withColumn ( '`price`.ek_preis_oag', 'ek_preis_oag' )
+            ->withColumn ( '`price`.ek_preis_holter', 'ek_preis_holter' )
+            ->withColumn ( '`price`.ek_preis_odorfer', 'ek_preis_odorfer' )
+            ->withColumn ( '`price`.preis_reuter', 'preis_reuter' )
+            ->withColumn ( '`price`.vergleich_ek', 'vergleich_ek' )
+            ->withColumn ( '`price`.aufschlag', 'aufschlag' )*/
+            ;
+            
             if ($defaultCurrency->getId() != $currency->getId()) {
                 $priceJoinDefaultCurrency = new Join();
                 $priceJoinDefaultCurrency->addExplicitCondition(ProductSaleElementsTableMap::TABLE_NAME, 'ID', 'pse', ProductPriceTableMap::TABLE_NAME, 'PRODUCT_SALE_ELEMENTS_ID', 'price' . $defaultCurrencySuffix);

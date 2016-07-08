@@ -28,6 +28,15 @@ use Thelia\Model\Map\ProductPriceTableMap;
  * @method     ChildProductPriceQuery orderByFromDefaultCurrency($order = Criteria::ASC) Order by the from_default_currency column
  * @method     ChildProductPriceQuery orderByCreatedAt($order = Criteria::ASC) Order by the created_at column
  * @method     ChildProductPriceQuery orderByUpdatedAt($order = Criteria::ASC) Order by the updated_at column
+ * @method     ChildProductPriceQuery orderByListenPrice($order = Criteria::ASC) Order by the listen_price column
+ * @method     ChildProductPriceQuery orderByEkPreisSht($order = Criteria::ASC) Order by the ek_preis_sht column
+ * @method     ChildProductPriceQuery orderByEkPreisGc($order = Criteria::ASC) Order by the ek_preis_gc column
+ * @method     ChildProductPriceQuery orderByEkPreisOag($order = Criteria::ASC) Order by the ek_preis_oag column
+ * @method     ChildProductPriceQuery orderByEkPreisHolter($order = Criteria::ASC) Order by the ek_preis_holter column
+ * @method     ChildProductPriceQuery orderByEkPreisOdorfer($order = Criteria::ASC) Order by the ek_preis_odorfer column
+ * @method     ChildProductPriceQuery orderByPreisReuter($order = Criteria::ASC) Order by the preis_reuter column
+ * @method     ChildProductPriceQuery orderByVergleichEk($order = Criteria::ASC) Order by the vergleich_ek column
+ * @method     ChildProductPriceQuery orderByAufschlag($order = Criteria::ASC) Order by the aufschlag column
  *
  * @method     ChildProductPriceQuery groupByProductSaleElementsId() Group by the product_sale_elements_id column
  * @method     ChildProductPriceQuery groupByCurrencyId() Group by the currency_id column
@@ -36,18 +45,27 @@ use Thelia\Model\Map\ProductPriceTableMap;
  * @method     ChildProductPriceQuery groupByFromDefaultCurrency() Group by the from_default_currency column
  * @method     ChildProductPriceQuery groupByCreatedAt() Group by the created_at column
  * @method     ChildProductPriceQuery groupByUpdatedAt() Group by the updated_at column
+ * @method     ChildProductPriceQuery groupByListenPrice() Group by the listen_price column
+ * @method     ChildProductPriceQuery groupByEkPreisSht() Group by the ek_preis_sht column
+ * @method     ChildProductPriceQuery groupByEkPreisGc() Group by the ek_preis_gc column
+ * @method     ChildProductPriceQuery groupByEkPreisOag() Group by the ek_preis_oag column
+ * @method     ChildProductPriceQuery groupByEkPreisHolter() Group by the ek_preis_holter column
+ * @method     ChildProductPriceQuery groupByEkPreisOdorfer() Group by the ek_preis_odorfer column
+ * @method     ChildProductPriceQuery groupByPreisReuter() Group by the preis_reuter column
+ * @method     ChildProductPriceQuery groupByVergleichEk() Group by the vergleich_ek column
+ * @method     ChildProductPriceQuery groupByAufschlag() Group by the aufschlag column
  *
  * @method     ChildProductPriceQuery leftJoin($relation) Adds a LEFT JOIN clause to the query
  * @method     ChildProductPriceQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
  * @method     ChildProductPriceQuery innerJoin($relation) Adds a INNER JOIN clause to the query
  *
- * @method     ChildProductPriceQuery leftJoinProductSaleElements($relationAlias = null) Adds a LEFT JOIN clause to the query using the ProductSaleElements relation
- * @method     ChildProductPriceQuery rightJoinProductSaleElements($relationAlias = null) Adds a RIGHT JOIN clause to the query using the ProductSaleElements relation
- * @method     ChildProductPriceQuery innerJoinProductSaleElements($relationAlias = null) Adds a INNER JOIN clause to the query using the ProductSaleElements relation
- *
  * @method     ChildProductPriceQuery leftJoinCurrency($relationAlias = null) Adds a LEFT JOIN clause to the query using the Currency relation
  * @method     ChildProductPriceQuery rightJoinCurrency($relationAlias = null) Adds a RIGHT JOIN clause to the query using the Currency relation
  * @method     ChildProductPriceQuery innerJoinCurrency($relationAlias = null) Adds a INNER JOIN clause to the query using the Currency relation
+ *
+ * @method     ChildProductPriceQuery leftJoinProductSaleElements($relationAlias = null) Adds a LEFT JOIN clause to the query using the ProductSaleElements relation
+ * @method     ChildProductPriceQuery rightJoinProductSaleElements($relationAlias = null) Adds a RIGHT JOIN clause to the query using the ProductSaleElements relation
+ * @method     ChildProductPriceQuery innerJoinProductSaleElements($relationAlias = null) Adds a INNER JOIN clause to the query using the ProductSaleElements relation
  *
  * @method     ChildProductPrice findOne(ConnectionInterface $con = null) Return the first ChildProductPrice matching the query
  * @method     ChildProductPrice findOneOrCreate(ConnectionInterface $con = null) Return the first ChildProductPrice matching the query, or a new ChildProductPrice object populated from the query conditions when no match is found
@@ -59,6 +77,15 @@ use Thelia\Model\Map\ProductPriceTableMap;
  * @method     ChildProductPrice findOneByFromDefaultCurrency(boolean $from_default_currency) Return the first ChildProductPrice filtered by the from_default_currency column
  * @method     ChildProductPrice findOneByCreatedAt(string $created_at) Return the first ChildProductPrice filtered by the created_at column
  * @method     ChildProductPrice findOneByUpdatedAt(string $updated_at) Return the first ChildProductPrice filtered by the updated_at column
+ * @method     ChildProductPrice findOneByListenPrice(string $listen_price) Return the first ChildProductPrice filtered by the listen_price column
+ * @method     ChildProductPrice findOneByEkPreisSht(string $ek_preis_sht) Return the first ChildProductPrice filtered by the ek_preis_sht column
+ * @method     ChildProductPrice findOneByEkPreisGc(string $ek_preis_gc) Return the first ChildProductPrice filtered by the ek_preis_gc column
+ * @method     ChildProductPrice findOneByEkPreisOag(string $ek_preis_oag) Return the first ChildProductPrice filtered by the ek_preis_oag column
+ * @method     ChildProductPrice findOneByEkPreisHolter(string $ek_preis_holter) Return the first ChildProductPrice filtered by the ek_preis_holter column
+ * @method     ChildProductPrice findOneByEkPreisOdorfer(string $ek_preis_odorfer) Return the first ChildProductPrice filtered by the ek_preis_odorfer column
+ * @method     ChildProductPrice findOneByPreisReuter(string $preis_reuter) Return the first ChildProductPrice filtered by the preis_reuter column
+ * @method     ChildProductPrice findOneByVergleichEk(string $vergleich_ek) Return the first ChildProductPrice filtered by the vergleich_ek column
+ * @method     ChildProductPrice findOneByAufschlag(string $aufschlag) Return the first ChildProductPrice filtered by the aufschlag column
  *
  * @method     array findByProductSaleElementsId(int $product_sale_elements_id) Return ChildProductPrice objects filtered by the product_sale_elements_id column
  * @method     array findByCurrencyId(int $currency_id) Return ChildProductPrice objects filtered by the currency_id column
@@ -67,6 +94,15 @@ use Thelia\Model\Map\ProductPriceTableMap;
  * @method     array findByFromDefaultCurrency(boolean $from_default_currency) Return ChildProductPrice objects filtered by the from_default_currency column
  * @method     array findByCreatedAt(string $created_at) Return ChildProductPrice objects filtered by the created_at column
  * @method     array findByUpdatedAt(string $updated_at) Return ChildProductPrice objects filtered by the updated_at column
+ * @method     array findByListenPrice(string $listen_price) Return ChildProductPrice objects filtered by the listen_price column
+ * @method     array findByEkPreisSht(string $ek_preis_sht) Return ChildProductPrice objects filtered by the ek_preis_sht column
+ * @method     array findByEkPreisGc(string $ek_preis_gc) Return ChildProductPrice objects filtered by the ek_preis_gc column
+ * @method     array findByEkPreisOag(string $ek_preis_oag) Return ChildProductPrice objects filtered by the ek_preis_oag column
+ * @method     array findByEkPreisHolter(string $ek_preis_holter) Return ChildProductPrice objects filtered by the ek_preis_holter column
+ * @method     array findByEkPreisOdorfer(string $ek_preis_odorfer) Return ChildProductPrice objects filtered by the ek_preis_odorfer column
+ * @method     array findByPreisReuter(string $preis_reuter) Return ChildProductPrice objects filtered by the preis_reuter column
+ * @method     array findByVergleichEk(string $vergleich_ek) Return ChildProductPrice objects filtered by the vergleich_ek column
+ * @method     array findByAufschlag(string $aufschlag) Return ChildProductPrice objects filtered by the aufschlag column
  *
  */
 abstract class ProductPriceQuery extends ModelCriteria
@@ -155,7 +191,7 @@ abstract class ProductPriceQuery extends ModelCriteria
      */
     protected function findPkSimple($key, $con)
     {
-        $sql = 'SELECT `PRODUCT_SALE_ELEMENTS_ID`, `CURRENCY_ID`, `PRICE`, `PROMO_PRICE`, `FROM_DEFAULT_CURRENCY`, `CREATED_AT`, `UPDATED_AT` FROM `product_price` WHERE `PRODUCT_SALE_ELEMENTS_ID` = :p0 AND `CURRENCY_ID` = :p1';
+        $sql = 'SELECT PRODUCT_SALE_ELEMENTS_ID, CURRENCY_ID, PRICE, PROMO_PRICE, FROM_DEFAULT_CURRENCY, CREATED_AT, UPDATED_AT, LISTEN_PRICE, EK_PREIS_SHT, EK_PREIS_GC, EK_PREIS_OAG, EK_PREIS_HOLTER, EK_PREIS_ODORFER, PREIS_REUTER, VERGLEICH_EK, AUFSCHLAG FROM product_price WHERE PRODUCT_SALE_ELEMENTS_ID = :p0 AND CURRENCY_ID = :p1';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key[0], PDO::PARAM_INT);
@@ -538,78 +574,372 @@ abstract class ProductPriceQuery extends ModelCriteria
     }
 
     /**
-     * Filter the query by a related \Thelia\Model\ProductSaleElements object
+     * Filter the query on the listen_price column
      *
-     * @param \Thelia\Model\ProductSaleElements|ObjectCollection $productSaleElements The related object(s) to use as filter
-     * @param string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     * Example usage:
+     * <code>
+     * $query->filterByListenPrice(1234); // WHERE listen_price = 1234
+     * $query->filterByListenPrice(array(12, 34)); // WHERE listen_price IN (12, 34)
+     * $query->filterByListenPrice(array('min' => 12)); // WHERE listen_price > 12
+     * </code>
+     *
+     * @param     mixed $listenPrice The value to use as filter.
+     *              Use scalar values for equality.
+     *              Use array values for in_array() equivalent.
+     *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return ChildProductPriceQuery The current query, for fluid interface
      */
-    public function filterByProductSaleElements($productSaleElements, $comparison = null)
+    public function filterByListenPrice($listenPrice = null, $comparison = null)
     {
-        if ($productSaleElements instanceof \Thelia\Model\ProductSaleElements) {
-            return $this
-                ->addUsingAlias(ProductPriceTableMap::PRODUCT_SALE_ELEMENTS_ID, $productSaleElements->getId(), $comparison);
-        } elseif ($productSaleElements instanceof ObjectCollection) {
+        if (is_array($listenPrice)) {
+            $useMinMax = false;
+            if (isset($listenPrice['min'])) {
+                $this->addUsingAlias(ProductPriceTableMap::LISTEN_PRICE, $listenPrice['min'], Criteria::GREATER_EQUAL);
+                $useMinMax = true;
+            }
+            if (isset($listenPrice['max'])) {
+                $this->addUsingAlias(ProductPriceTableMap::LISTEN_PRICE, $listenPrice['max'], Criteria::LESS_EQUAL);
+                $useMinMax = true;
+            }
+            if ($useMinMax) {
+                return $this;
+            }
             if (null === $comparison) {
                 $comparison = Criteria::IN;
             }
-
-            return $this
-                ->addUsingAlias(ProductPriceTableMap::PRODUCT_SALE_ELEMENTS_ID, $productSaleElements->toKeyValue('PrimaryKey', 'Id'), $comparison);
-        } else {
-            throw new PropelException('filterByProductSaleElements() only accepts arguments of type \Thelia\Model\ProductSaleElements or Collection');
         }
+
+        return $this->addUsingAlias(ProductPriceTableMap::LISTEN_PRICE, $listenPrice, $comparison);
     }
 
     /**
-     * Adds a JOIN clause to the query using the ProductSaleElements relation
+     * Filter the query on the ek_preis_sht column
      *
-     * @param     string $relationAlias optional alias for the relation
-     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     * Example usage:
+     * <code>
+     * $query->filterByEkPreisSht(1234); // WHERE ek_preis_sht = 1234
+     * $query->filterByEkPreisSht(array(12, 34)); // WHERE ek_preis_sht IN (12, 34)
+     * $query->filterByEkPreisSht(array('min' => 12)); // WHERE ek_preis_sht > 12
+     * </code>
+     *
+     * @param     mixed $ekPreisSht The value to use as filter.
+     *              Use scalar values for equality.
+     *              Use array values for in_array() equivalent.
+     *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return ChildProductPriceQuery The current query, for fluid interface
      */
-    public function joinProductSaleElements($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+    public function filterByEkPreisSht($ekPreisSht = null, $comparison = null)
     {
-        $tableMap = $this->getTableMap();
-        $relationMap = $tableMap->getRelation('ProductSaleElements');
-
-        // create a ModelJoin object for this join
-        $join = new ModelJoin();
-        $join->setJoinType($joinType);
-        $join->setRelationMap($relationMap, $this->useAliasInSQL ? $this->getModelAlias() : null, $relationAlias);
-        if ($previousJoin = $this->getPreviousJoin()) {
-            $join->setPreviousJoin($previousJoin);
+        if (is_array($ekPreisSht)) {
+            $useMinMax = false;
+            if (isset($ekPreisSht['min'])) {
+                $this->addUsingAlias(ProductPriceTableMap::EK_PREIS_SHT, $ekPreisSht['min'], Criteria::GREATER_EQUAL);
+                $useMinMax = true;
+            }
+            if (isset($ekPreisSht['max'])) {
+                $this->addUsingAlias(ProductPriceTableMap::EK_PREIS_SHT, $ekPreisSht['max'], Criteria::LESS_EQUAL);
+                $useMinMax = true;
+            }
+            if ($useMinMax) {
+                return $this;
+            }
+            if (null === $comparison) {
+                $comparison = Criteria::IN;
+            }
         }
 
-        // add the ModelJoin to the current object
-        if ($relationAlias) {
-            $this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
-            $this->addJoinObject($join, $relationAlias);
-        } else {
-            $this->addJoinObject($join, 'ProductSaleElements');
-        }
-
-        return $this;
+        return $this->addUsingAlias(ProductPriceTableMap::EK_PREIS_SHT, $ekPreisSht, $comparison);
     }
 
     /**
-     * Use the ProductSaleElements relation ProductSaleElements object
+     * Filter the query on the ek_preis_gc column
      *
-     * @see useQuery()
+     * Example usage:
+     * <code>
+     * $query->filterByEkPreisGc(1234); // WHERE ek_preis_gc = 1234
+     * $query->filterByEkPreisGc(array(12, 34)); // WHERE ek_preis_gc IN (12, 34)
+     * $query->filterByEkPreisGc(array('min' => 12)); // WHERE ek_preis_gc > 12
+     * </code>
      *
-     * @param     string $relationAlias optional alias for the relation,
-     *                                   to be used as main alias in the secondary query
-     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     * @param     mixed $ekPreisGc The value to use as filter.
+     *              Use scalar values for equality.
+     *              Use array values for in_array() equivalent.
+     *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
-     * @return   \Thelia\Model\ProductSaleElementsQuery A secondary query class using the current class as primary query
+     * @return ChildProductPriceQuery The current query, for fluid interface
      */
-    public function useProductSaleElementsQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+    public function filterByEkPreisGc($ekPreisGc = null, $comparison = null)
     {
-        return $this
-            ->joinProductSaleElements($relationAlias, $joinType)
-            ->useQuery($relationAlias ? $relationAlias : 'ProductSaleElements', '\Thelia\Model\ProductSaleElementsQuery');
+        if (is_array($ekPreisGc)) {
+            $useMinMax = false;
+            if (isset($ekPreisGc['min'])) {
+                $this->addUsingAlias(ProductPriceTableMap::EK_PREIS_GC, $ekPreisGc['min'], Criteria::GREATER_EQUAL);
+                $useMinMax = true;
+            }
+            if (isset($ekPreisGc['max'])) {
+                $this->addUsingAlias(ProductPriceTableMap::EK_PREIS_GC, $ekPreisGc['max'], Criteria::LESS_EQUAL);
+                $useMinMax = true;
+            }
+            if ($useMinMax) {
+                return $this;
+            }
+            if (null === $comparison) {
+                $comparison = Criteria::IN;
+            }
+        }
+
+        return $this->addUsingAlias(ProductPriceTableMap::EK_PREIS_GC, $ekPreisGc, $comparison);
+    }
+
+    /**
+     * Filter the query on the ek_preis_oag column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByEkPreisOag(1234); // WHERE ek_preis_oag = 1234
+     * $query->filterByEkPreisOag(array(12, 34)); // WHERE ek_preis_oag IN (12, 34)
+     * $query->filterByEkPreisOag(array('min' => 12)); // WHERE ek_preis_oag > 12
+     * </code>
+     *
+     * @param     mixed $ekPreisOag The value to use as filter.
+     *              Use scalar values for equality.
+     *              Use array values for in_array() equivalent.
+     *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return ChildProductPriceQuery The current query, for fluid interface
+     */
+    public function filterByEkPreisOag($ekPreisOag = null, $comparison = null)
+    {
+        if (is_array($ekPreisOag)) {
+            $useMinMax = false;
+            if (isset($ekPreisOag['min'])) {
+                $this->addUsingAlias(ProductPriceTableMap::EK_PREIS_OAG, $ekPreisOag['min'], Criteria::GREATER_EQUAL);
+                $useMinMax = true;
+            }
+            if (isset($ekPreisOag['max'])) {
+                $this->addUsingAlias(ProductPriceTableMap::EK_PREIS_OAG, $ekPreisOag['max'], Criteria::LESS_EQUAL);
+                $useMinMax = true;
+            }
+            if ($useMinMax) {
+                return $this;
+            }
+            if (null === $comparison) {
+                $comparison = Criteria::IN;
+            }
+        }
+
+        return $this->addUsingAlias(ProductPriceTableMap::EK_PREIS_OAG, $ekPreisOag, $comparison);
+    }
+
+    /**
+     * Filter the query on the ek_preis_holter column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByEkPreisHolter(1234); // WHERE ek_preis_holter = 1234
+     * $query->filterByEkPreisHolter(array(12, 34)); // WHERE ek_preis_holter IN (12, 34)
+     * $query->filterByEkPreisHolter(array('min' => 12)); // WHERE ek_preis_holter > 12
+     * </code>
+     *
+     * @param     mixed $ekPreisHolter The value to use as filter.
+     *              Use scalar values for equality.
+     *              Use array values for in_array() equivalent.
+     *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return ChildProductPriceQuery The current query, for fluid interface
+     */
+    public function filterByEkPreisHolter($ekPreisHolter = null, $comparison = null)
+    {
+        if (is_array($ekPreisHolter)) {
+            $useMinMax = false;
+            if (isset($ekPreisHolter['min'])) {
+                $this->addUsingAlias(ProductPriceTableMap::EK_PREIS_HOLTER, $ekPreisHolter['min'], Criteria::GREATER_EQUAL);
+                $useMinMax = true;
+            }
+            if (isset($ekPreisHolter['max'])) {
+                $this->addUsingAlias(ProductPriceTableMap::EK_PREIS_HOLTER, $ekPreisHolter['max'], Criteria::LESS_EQUAL);
+                $useMinMax = true;
+            }
+            if ($useMinMax) {
+                return $this;
+            }
+            if (null === $comparison) {
+                $comparison = Criteria::IN;
+            }
+        }
+
+        return $this->addUsingAlias(ProductPriceTableMap::EK_PREIS_HOLTER, $ekPreisHolter, $comparison);
+    }
+
+    /**
+     * Filter the query on the ek_preis_odorfer column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByEkPreisOdorfer(1234); // WHERE ek_preis_odorfer = 1234
+     * $query->filterByEkPreisOdorfer(array(12, 34)); // WHERE ek_preis_odorfer IN (12, 34)
+     * $query->filterByEkPreisOdorfer(array('min' => 12)); // WHERE ek_preis_odorfer > 12
+     * </code>
+     *
+     * @param     mixed $ekPreisOdorfer The value to use as filter.
+     *              Use scalar values for equality.
+     *              Use array values for in_array() equivalent.
+     *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return ChildProductPriceQuery The current query, for fluid interface
+     */
+    public function filterByEkPreisOdorfer($ekPreisOdorfer = null, $comparison = null)
+    {
+        if (is_array($ekPreisOdorfer)) {
+            $useMinMax = false;
+            if (isset($ekPreisOdorfer['min'])) {
+                $this->addUsingAlias(ProductPriceTableMap::EK_PREIS_ODORFER, $ekPreisOdorfer['min'], Criteria::GREATER_EQUAL);
+                $useMinMax = true;
+            }
+            if (isset($ekPreisOdorfer['max'])) {
+                $this->addUsingAlias(ProductPriceTableMap::EK_PREIS_ODORFER, $ekPreisOdorfer['max'], Criteria::LESS_EQUAL);
+                $useMinMax = true;
+            }
+            if ($useMinMax) {
+                return $this;
+            }
+            if (null === $comparison) {
+                $comparison = Criteria::IN;
+            }
+        }
+
+        return $this->addUsingAlias(ProductPriceTableMap::EK_PREIS_ODORFER, $ekPreisOdorfer, $comparison);
+    }
+
+    /**
+     * Filter the query on the preis_reuter column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByPreisReuter(1234); // WHERE preis_reuter = 1234
+     * $query->filterByPreisReuter(array(12, 34)); // WHERE preis_reuter IN (12, 34)
+     * $query->filterByPreisReuter(array('min' => 12)); // WHERE preis_reuter > 12
+     * </code>
+     *
+     * @param     mixed $preisReuter The value to use as filter.
+     *              Use scalar values for equality.
+     *              Use array values for in_array() equivalent.
+     *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return ChildProductPriceQuery The current query, for fluid interface
+     */
+    public function filterByPreisReuter($preisReuter = null, $comparison = null)
+    {
+        if (is_array($preisReuter)) {
+            $useMinMax = false;
+            if (isset($preisReuter['min'])) {
+                $this->addUsingAlias(ProductPriceTableMap::PREIS_REUTER, $preisReuter['min'], Criteria::GREATER_EQUAL);
+                $useMinMax = true;
+            }
+            if (isset($preisReuter['max'])) {
+                $this->addUsingAlias(ProductPriceTableMap::PREIS_REUTER, $preisReuter['max'], Criteria::LESS_EQUAL);
+                $useMinMax = true;
+            }
+            if ($useMinMax) {
+                return $this;
+            }
+            if (null === $comparison) {
+                $comparison = Criteria::IN;
+            }
+        }
+
+        return $this->addUsingAlias(ProductPriceTableMap::PREIS_REUTER, $preisReuter, $comparison);
+    }
+
+    /**
+     * Filter the query on the vergleich_ek column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByVergleichEk(1234); // WHERE vergleich_ek = 1234
+     * $query->filterByVergleichEk(array(12, 34)); // WHERE vergleich_ek IN (12, 34)
+     * $query->filterByVergleichEk(array('min' => 12)); // WHERE vergleich_ek > 12
+     * </code>
+     *
+     * @param     mixed $vergleichEk The value to use as filter.
+     *              Use scalar values for equality.
+     *              Use array values for in_array() equivalent.
+     *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return ChildProductPriceQuery The current query, for fluid interface
+     */
+    public function filterByVergleichEk($vergleichEk = null, $comparison = null)
+    {
+        if (is_array($vergleichEk)) {
+            $useMinMax = false;
+            if (isset($vergleichEk['min'])) {
+                $this->addUsingAlias(ProductPriceTableMap::VERGLEICH_EK, $vergleichEk['min'], Criteria::GREATER_EQUAL);
+                $useMinMax = true;
+            }
+            if (isset($vergleichEk['max'])) {
+                $this->addUsingAlias(ProductPriceTableMap::VERGLEICH_EK, $vergleichEk['max'], Criteria::LESS_EQUAL);
+                $useMinMax = true;
+            }
+            if ($useMinMax) {
+                return $this;
+            }
+            if (null === $comparison) {
+                $comparison = Criteria::IN;
+            }
+        }
+
+        return $this->addUsingAlias(ProductPriceTableMap::VERGLEICH_EK, $vergleichEk, $comparison);
+    }
+
+    /**
+     * Filter the query on the aufschlag column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByAufschlag(1234); // WHERE aufschlag = 1234
+     * $query->filterByAufschlag(array(12, 34)); // WHERE aufschlag IN (12, 34)
+     * $query->filterByAufschlag(array('min' => 12)); // WHERE aufschlag > 12
+     * </code>
+     *
+     * @param     mixed $aufschlag The value to use as filter.
+     *              Use scalar values for equality.
+     *              Use array values for in_array() equivalent.
+     *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return ChildProductPriceQuery The current query, for fluid interface
+     */
+    public function filterByAufschlag($aufschlag = null, $comparison = null)
+    {
+        if (is_array($aufschlag)) {
+            $useMinMax = false;
+            if (isset($aufschlag['min'])) {
+                $this->addUsingAlias(ProductPriceTableMap::AUFSCHLAG, $aufschlag['min'], Criteria::GREATER_EQUAL);
+                $useMinMax = true;
+            }
+            if (isset($aufschlag['max'])) {
+                $this->addUsingAlias(ProductPriceTableMap::AUFSCHLAG, $aufschlag['max'], Criteria::LESS_EQUAL);
+                $useMinMax = true;
+            }
+            if ($useMinMax) {
+                return $this;
+            }
+            if (null === $comparison) {
+                $comparison = Criteria::IN;
+            }
+        }
+
+        return $this->addUsingAlias(ProductPriceTableMap::AUFSCHLAG, $aufschlag, $comparison);
     }
 
     /**
@@ -685,6 +1015,81 @@ abstract class ProductPriceQuery extends ModelCriteria
         return $this
             ->joinCurrency($relationAlias, $joinType)
             ->useQuery($relationAlias ? $relationAlias : 'Currency', '\Thelia\Model\CurrencyQuery');
+    }
+
+    /**
+     * Filter the query by a related \Thelia\Model\ProductSaleElements object
+     *
+     * @param \Thelia\Model\ProductSaleElements|ObjectCollection $productSaleElements The related object(s) to use as filter
+     * @param string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return ChildProductPriceQuery The current query, for fluid interface
+     */
+    public function filterByProductSaleElements($productSaleElements, $comparison = null)
+    {
+        if ($productSaleElements instanceof \Thelia\Model\ProductSaleElements) {
+            return $this
+                ->addUsingAlias(ProductPriceTableMap::PRODUCT_SALE_ELEMENTS_ID, $productSaleElements->getId(), $comparison);
+        } elseif ($productSaleElements instanceof ObjectCollection) {
+            if (null === $comparison) {
+                $comparison = Criteria::IN;
+            }
+
+            return $this
+                ->addUsingAlias(ProductPriceTableMap::PRODUCT_SALE_ELEMENTS_ID, $productSaleElements->toKeyValue('PrimaryKey', 'Id'), $comparison);
+        } else {
+            throw new PropelException('filterByProductSaleElements() only accepts arguments of type \Thelia\Model\ProductSaleElements or Collection');
+        }
+    }
+
+    /**
+     * Adds a JOIN clause to the query using the ProductSaleElements relation
+     *
+     * @param     string $relationAlias optional alias for the relation
+     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     *
+     * @return ChildProductPriceQuery The current query, for fluid interface
+     */
+    public function joinProductSaleElements($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+    {
+        $tableMap = $this->getTableMap();
+        $relationMap = $tableMap->getRelation('ProductSaleElements');
+
+        // create a ModelJoin object for this join
+        $join = new ModelJoin();
+        $join->setJoinType($joinType);
+        $join->setRelationMap($relationMap, $this->useAliasInSQL ? $this->getModelAlias() : null, $relationAlias);
+        if ($previousJoin = $this->getPreviousJoin()) {
+            $join->setPreviousJoin($previousJoin);
+        }
+
+        // add the ModelJoin to the current object
+        if ($relationAlias) {
+            $this->addAlias($relationAlias, $relationMap->getRightTable()->getName());
+            $this->addJoinObject($join, $relationAlias);
+        } else {
+            $this->addJoinObject($join, 'ProductSaleElements');
+        }
+
+        return $this;
+    }
+
+    /**
+     * Use the ProductSaleElements relation ProductSaleElements object
+     *
+     * @see useQuery()
+     *
+     * @param     string $relationAlias optional alias for the relation,
+     *                                   to be used as main alias in the secondary query
+     * @param     string $joinType Accepted values are null, 'left join', 'right join', 'inner join'
+     *
+     * @return   \Thelia\Model\ProductSaleElementsQuery A secondary query class using the current class as primary query
+     */
+    public function useProductSaleElementsQuery($relationAlias = null, $joinType = Criteria::INNER_JOIN)
+    {
+        return $this
+            ->joinProductSaleElements($relationAlias, $joinType)
+            ->useQuery($relationAlias ? $relationAlias : 'ProductSaleElements', '\Thelia\Model\ProductSaleElementsQuery');
     }
 
     /**
@@ -778,72 +1183,6 @@ abstract class ProductPriceQuery extends ModelCriteria
             $con->rollBack();
             throw $e;
         }
-    }
-
-    // timestampable behavior
-
-    /**
-     * Filter by the latest updated
-     *
-     * @param      int $nbDays Maximum age of the latest update in days
-     *
-     * @return     ChildProductPriceQuery The current query, for fluid interface
-     */
-    public function recentlyUpdated($nbDays = 7)
-    {
-        return $this->addUsingAlias(ProductPriceTableMap::UPDATED_AT, time() - $nbDays * 24 * 60 * 60, Criteria::GREATER_EQUAL);
-    }
-
-    /**
-     * Filter by the latest created
-     *
-     * @param      int $nbDays Maximum age of in days
-     *
-     * @return     ChildProductPriceQuery The current query, for fluid interface
-     */
-    public function recentlyCreated($nbDays = 7)
-    {
-        return $this->addUsingAlias(ProductPriceTableMap::CREATED_AT, time() - $nbDays * 24 * 60 * 60, Criteria::GREATER_EQUAL);
-    }
-
-    /**
-     * Order by update date desc
-     *
-     * @return     ChildProductPriceQuery The current query, for fluid interface
-     */
-    public function lastUpdatedFirst()
-    {
-        return $this->addDescendingOrderByColumn(ProductPriceTableMap::UPDATED_AT);
-    }
-
-    /**
-     * Order by update date asc
-     *
-     * @return     ChildProductPriceQuery The current query, for fluid interface
-     */
-    public function firstUpdatedFirst()
-    {
-        return $this->addAscendingOrderByColumn(ProductPriceTableMap::UPDATED_AT);
-    }
-
-    /**
-     * Order by create date desc
-     *
-     * @return     ChildProductPriceQuery The current query, for fluid interface
-     */
-    public function lastCreatedFirst()
-    {
-        return $this->addDescendingOrderByColumn(ProductPriceTableMap::CREATED_AT);
-    }
-
-    /**
-     * Order by create date asc
-     *
-     * @return     ChildProductPriceQuery The current query, for fluid interface
-     */
-    public function firstCreatedFirst()
-    {
-        return $this->addAscendingOrderByColumn(ProductPriceTableMap::CREATED_AT);
     }
 
 } // ProductPriceQuery

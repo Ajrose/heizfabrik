@@ -71,7 +71,6 @@ use Thelia\Model\ProductImageQuery;
 use Thelia\Model\ProductPrice;
 use Thelia\Model\ProductPriceQuery;
 use Thelia\Model\ProductQuery;
-use Thelia\Model\ProductSaleElements;
 use Thelia\Model\ProductSaleElements as ProductSaleElementsModel;
 use Thelia\Model\ProductSaleElementsProductDocument;
 use Thelia\Model\ProductSaleElementsProductDocumentQuery;
@@ -297,6 +296,15 @@ class ProductController extends AbstractSeoCrudController
                     "product_sale_element_id" => $saleElement->getId(),
                     "reference"               => $saleElement->getRef(),
                     "price"                   => $this->formatPrice($productPrice->getPrice()),
+                		"listen_price"                   => $this->formatPrice($productPrice->getListenPrice()),
+                		"vergleich_ek"                   => $this->formatPrice($productPrice->getVergleichEk()),
+                		"aufschlag"                   => $this->formatPrice($productPrice->getAufschlag()),
+                		"ek_preis_gc"                   => $this->formatPrice($productPrice->getEkPreisGc()),
+                		"ek_preis_sht"                   => $this->formatPrice($productPrice->getEkPreisSht()),
+                		"ek_preis_oag"                   => $this->formatPrice($productPrice->getEkPreisOag()),
+                		"ek_preis_holter"                   => $this->formatPrice($productPrice->getEkPreisHolter()),
+                		"ek_preis_odorfer"                   => $this->formatPrice($productPrice->getEkPreisOdorfer()),
+                		"preis_reuter"                   => $this->formatPrice($productPrice->getPreisReuter()),
                     "price_with_tax"          => $this->formatPrice($this->computePrice($productPrice->getPrice(), 'without_tax', $object)),
                     "use_exchange_rate"       => $productPrice->getFromDefaultCurrency() ? 1 : 0,
                     "currency"                => $productPrice->getCurrencyId(),
@@ -1079,6 +1087,17 @@ class ProductController extends AbstractSeoCrudController
             ->setEanCode($data['ean_code'])
             ->setTaxRuleId($data['tax_rule'])
             ->setFromDefaultCurrency($data['use_exchange_rate'])
+            
+            //hausfabrik
+            ->setListenPrice($data['listen_price'])
+            ->setEkPreisGc($data['ek_preis_gc'])
+            ->setEkPreisSht($data['ek_preis_sht'])
+            ->setEkPreisOag($data['ek_preis_oag'])
+            ->setEkPreisHolter($data['ek_preis_holter'])
+            ->setEkPreisOdorfer($data['ek_preis_odorfer'])
+            ->setPreisReuter($data['preis_reuter'])
+            ->setVergleichEk($data['vergleich_ek'])
+            ->setAufschlag($data['aufschlag'])
         ;
 
         $this->dispatch(TheliaEvents::PRODUCT_UPDATE_PRODUCT_SALE_ELEMENT, $event);
@@ -1140,7 +1159,27 @@ class ProductController extends AbstractSeoCrudController
                     $tmp_data['isnew']                   = isset($data['isnew'][$idx]) ? 1 : 0;
                     $tmp_data['isdefault']               = $data['default_pse'] == $pse_id;
                     $tmp_data['ean_code']                = $data['ean_code'][$idx];
-
+                    
+                    $tmp_data['listen_price']            = $data['listen_price'][$idx];
+                    $tmp_data['ek_preis_gc']             = $data['ek_preis_gc'][$idx];
+                    $tmp_data['ek_preis_sht']            = $data['ek_preis_sht'][$idx];
+                    $tmp_data['ek_preis_oag']            = $data['ek_preis_oag'][$idx];
+                    $tmp_data['ek_preis_holter']         = $data['ek_preis_holter'][$idx];
+                    $tmp_data['preis_reuter']            = $data['preis_reuter'][$idx];
+                    $tmp_data['vergleich_ek']            = $data['vergleich_ek'][$idx];
+                    $tmp_data['aufschlag']               = $data['aufschlag'][$idx];
+                    
+                    /*
+                    listen_price
+                    ek_preis_gc
+                    ek_preis_sht
+                    ek_preis_oag
+                    ek_preis_holter
+                    ek_preis_odorfer
+                    preis_reuter
+                    vergleich_ek
+                    aufschlag
+                    */
                     $this->processSingleProductSaleElementUpdate($tmp_data);
                 }
             } else {

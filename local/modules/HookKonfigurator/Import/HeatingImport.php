@@ -36,7 +36,6 @@ class HeatingImport extends ImportHandler
         $brandI18nQuerry = BrandI18nQuery::create ();
         $productQuerry = ProductQuery::create ();
         
-        
         $currentDate = date ( "Y-m-d H:i:s" );
         $heizungCategoryId = 10;
         
@@ -56,17 +55,17 @@ class HeatingImport extends ImportHandler
             $zusammengefaste_beschreibung = utf8_encode($row["zusammengefaste_beschreibung"]);
             $produkt_merkmale = utf8_encode($row["produkt_merkmale"]);
             $category = utf8_encode($row["category"]);
-            $energie_träger = utf8_encode($row["energie_träger"]);
+            $energie_trï¿½ger = utf8_encode($row["energie_trï¿½ger"]);
             $services = utf8_encode($row["services"]);
             $dokumente = utf8_encode($row["dokumente"]);
             $hersteller_produkt_url = utf8_encode($row["hersteller_produkt_url"]);
             
             $anzahl_von_bilder = $row["anzahl_von_bilder"];
-            $wärmeleistung = $row["wärmeleistung"];
-            $wasserwärmeleistung = $row["wasserwärmeleistung"];
+            $wï¿½rmeleistung = $row["wï¿½rmeleistung"];
+            $wasserwï¿½rmeleistung = $row["wasserwï¿½rmeleistung"];
             $energieeffizienz_heizung = $row["energieeffizienz_heizung"];
             $effizienz_classe = $row["effizienz_classe"];
-            $speicherkapazität = $row["speicherkapazität"];
+            $speicherkapazitï¿½t = $row["speicherkapazitï¿½t"];
             $gewicht = $row["gewicht"];
             $preis = $row["preis"];
             $gc_ek = $row["gc_ek"];
@@ -105,15 +104,15 @@ class HeatingImport extends ImportHandler
             	$product_heizung = new ProductHeizung();
             	$product_heizung->setProductId ( $productThelia->getId () );
 				$product_heizung->setGrade ( $effizienz_classe );
-				$product_heizung->setPower ( $wärmeleistung );
+				$product_heizung->setPower ( $wï¿½rmeleistung );
 				$product_heizung->setEnergyEfficiency ( $energieeffizienz_heizung );
 						
-						if ($wasserwärmeleistung == "NULL")
+						if ($wasserwï¿½rmeleistung == "NULL")
 							$product_heizung->setWarmWater ( 0 );
 						else
 							$product_heizung->setWarmWater ( 1 );
-						$product_heizung->setStorageCapacity ( $speicherkapazität );
-						$product_heizung->setEnergyCarrier($energie_träger);
+						$product_heizung->setStorageCapacity ( $speicherkapazitï¿½t );
+						$product_heizung->setEnergyCarrier($energie_trï¿½ger);
 						$product_heizung->save ();
             }
             else             
@@ -133,9 +132,9 @@ class HeatingImport extends ImportHandler
     protected function getMandatoryColumns()
     {
         return ["product_id", "sht_id","hersteller_produkt_nummer","bild_name_wurzel","anzahl_von_bilder","marke","produkt_name",
-        		"detaillierte_beschreibung","zusammengefaste_beschreibung","produkt_merkmale","category","wärmeleistung",
-        		"wasserwärmeleistung","energieeffizienz_heizung","energieeffizienz_wasser","effizienz_classe","speicherkapazität",
-        		"energie_träger","services","dokumente","hersteller_produkt_url","gewicht","preis","gc_ek"];
+        		"detaillierte_beschreibung","zusammengefaste_beschreibung","produkt_merkmale","category","wï¿½rmeleistung",
+        		"wasserwï¿½rmeleistung","energieeffizienz_heizung","energieeffizienz_wasser","effizienz_classe","speicherkapazitï¿½t",
+        		"energie_trï¿½ger","services","dokumente","hersteller_produkt_url","gewicht","preis","gc_ek"];
     }
 
     /**

@@ -73,23 +73,6 @@
             </div>
             {/if}
 
-			<div class="row">
-			    <div class="col-md-4">
-			        {form_field field='tax_rule'}
-			            <div class="form-group {if $error}has-error{/if}">
-			                <label for="tax_rule_field" class="control-label">{$label} : </label>
-			                <div class="form-group">
-			                    <select id="tax_rule_field" required="required" name="{$name}" class="form-control">
-			                        <option value="">{intl l="Select a tax tule"}</option>
-			                        {loop name="tax" type="tax-rule" backend_context="1"}
-			                            <option value="{$ID}" {if $ID == $TAX_RULE_ID}selected="selected"{/if}>{$TITLE}</option>
-			                        {/loop}
-			                    </select>
-			                </div>
-			            </div>
-			        {/form_field}
-			    </div>
-			</div>
 
 	        <p class="title title-without-tabs">{intl l='Pricing'}</p>
 
@@ -141,12 +124,25 @@
 			                          <span class="input-group-addon">{$currency_symbol}</span>
 			                      </div>
 			                  </div>
-                          {/form_field}
-
+                          {/form_field}  
+                          
+                       {form_field field='tax_rule'}
+			            <div class="form-group {if $error}has-error{/if}">
+			                <label for="tax_rule_field" class="control-label">{$label} : </label>
+			                <div class="form-group">
+			                    <select id="tax_rule_field" required="required" name="{$name}" class="form-control">
+			                        <option value="">{intl l="Select a tax tule"}</option>
+			                        {loop name="tax" type="tax-rule" backend_context="1"}
+			                            <option value="{$ID}" {if $ID == $TAX_RULE_ID}selected="selected"{/if}>{$TITLE}</option>
+			                        {/loop}
+			                    </select>
+			                </div>
+			            </div>
+			        {/form_field}                      
+                          
 			              {hook name="product.details-pricing-form" location="product_details_pricing_form" }
 			          </div>
 		        </div>
-
 
                  {* -- Détails -------------------------------------------------- *}
 
@@ -242,6 +238,122 @@
 			            {hook name="product.details-promotion-form" location="product_details_promotion_form" }
 			        </div>
                 </div>
+	        </div>
+	        
+	        <div class="row">
+	        
+	        
+	        <div class="col-md-4">
+            	<div class="well well-sm">
+            		<p class="title title-without-tabs">{intl l='Hausfabrik'}</p>
+            		
+            			  {form_field field='listen_price'}
+			                  <div class="form-group">
+			                      <label for="{$label_attr.for}" class="control-label">{$label}: </label>
+			                      <div class="input-group">
+			                          <input {if !$show_pricing_fields}readonly{/if}  type="text" id="{$label_attr.for}" name="{$name}" class="price_field automatic_price_field form-control" value="{$value}" title="{$value}" placeholder="{$label}">
+			                          <span class="input-group-addon">{$currency_symbol}</span>
+			                      </div>
+			                  </div>
+                          {/form_field}
+                          
+                          {form_field field='vergleich_ek'}
+			                  <div class="form-group">
+			                      <label for="{$label_attr.for}" class="control-label">{$label} : </label>
+			                      <div class="input-group">
+			                          <input {if !$show_pricing_fields}readonly{/if}  type="text" id="{$label_attr.for}" name="{$name}" class="price_field automatic_price_field form-control" value="{$value}" title="{$value}" placeholder="{$label}">
+			                          <span class="input-group-addon">{$currency_symbol}</span>
+			                      </div>
+			                  </div>
+                          {/form_field}
+
+                          {form_field field='aufschlag'}
+			                  <div class="form-group">
+			                      <label for="{$label_attr.for}" class="control-label">{$label} : </label>
+			                      <div class="input-group">
+			                          <input {if !$show_pricing_fields}readonly{/if}  type="text" id="{$label_attr.for}" name="{$name}" class="price_field automatic_price_field form-control" value="{$value}" title="{$value}" placeholder="{$label}">
+			                          <span class="input-group-addon">{$currency_symbol}</span>
+			                      </div>
+			                  </div>
+                          {/form_field}
+                          
+            	</div>
+            </div>
+	        
+	        
+	        <div class="col-md-4">
+            	<div class="well well-sm">
+            		<p class="title title-without-tabs">{intl l='Netto price 1'}</p>
+                          {form_field field='ek_preis_gc'}
+			                  <div class="form-group">
+			                      <label for="{$label_attr.for}" class="control-label">{$label} : </label>
+			                      <div class="input-group">
+			                          <input {if !$show_pricing_fields}readonly{/if}  type="text" id="{$label_attr.for}" name="{$name}" class="price_field automatic_price_field form-control" value="{$value}" title="{$value}" placeholder="{$label}">
+			                          <span class="input-group-addon">{$currency_symbol}</span>
+			                      </div>
+			                  </div>
+                          {/form_field}
+                          
+                          {form_field field='ek_preis_sht'}
+			                  <div class="form-group">
+			                      <label for="{$label_attr.for}" class="control-label">{$label} : </label>
+			                      <div class="input-group">
+			                          <input {if !$show_pricing_fields}readonly{/if}  type="text" id="{$label_attr.for}" name="{$name}" class="price_field automatic_price_field form-control" value="{$value}" title="{$value}" placeholder="{$label}">
+			                          <span class="input-group-addon">{$currency_symbol}</span>
+			                      </div>
+			                  </div>
+                          {/form_field}
+                          
+                          {form_field field='ek_preis_oag'}
+			                  <div class="form-group">
+			                      <label for="{$label_attr.for}" class="control-label">{$label} : </label>
+			                      <div class="input-group">
+			                          <input {if !$show_pricing_fields}readonly{/if}  type="text" id="{$label_attr.for}" name="{$name}" class="price_field automatic_price_field form-control" value="{$value}" title="{$value}" placeholder="{$label}">
+			                          <span class="input-group-addon">{$currency_symbol}</span>
+			                      </div>
+			                  </div>
+                          {/form_field}
+            	</div>
+            </div>
+                          
+	        <div class="col-md-4">
+            	<div class="well well-sm">
+            		<p class="title title-without-tabs">{intl l='Netto price 2'}</p>
+                          
+                          {form_field field='ek_preis_holter'}
+			                  <div class="form-group">
+			                      <label for="{$label_attr.for}" class="control-label">{$label} : </label>
+			                      <div class="input-group">
+			                          <input {if !$show_pricing_fields}readonly{/if}  type="text" id="{$label_attr.for}" name="{$name}" class="price_field automatic_price_field form-control" value="{$value}" title="{$value}" placeholder="{$label}">
+			                          <span class="input-group-addon">{$currency_symbol}</span>
+			                      </div>
+			                  </div>
+                          {/form_field}
+                          
+                          {form_field field='ek_preis_odorfer'}
+			                  <div class="form-group">
+			                      <label for="{$label_attr.for}" class="control-label">{$label} : </label>
+			                      <div class="input-group">
+			                          <input {if !$show_pricing_fields}readonly{/if}  type="text" id="{$label_attr.for}" name="{$name}" class="price_field automatic_price_field form-control" value="{$value}" title="{$value}" placeholder="{$label}">
+			                          <span class="input-group-addon">{$currency_symbol}</span>
+			                      </div>
+			                  </div>
+                          {/form_field}
+                          
+                          {form_field field='preis_reuter'}
+			                  <div class="form-group">
+			                      <label for="{$label_attr.for}" class="control-label">{$label} : </label>
+			                      <div class="input-group">
+			                          <input {if !$show_pricing_fields}readonly{/if}  type="text" id="{$label_attr.for}" name="{$name}" class="price_field automatic_price_field form-control" value="{$value}" title="{$value}" placeholder="{$label}">
+			                          <span class="input-group-addon">{$currency_symbol}</span>
+			                      </div>
+			                  </div>
+                          {/form_field}
+            	</div>
+            </div>                          
+
+	        
+	        
 	        </div>
         </form>
 	    {/form}

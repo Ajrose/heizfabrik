@@ -149,11 +149,12 @@ class Konfiguratoreinstellung
 	
 	public function calculateWaermebedarf(){
 		
-		$faktor = 0;
+		$faktor = 22;//Fensterfläche:klein + Lage des Räumes
 		switch ($this->gebaeudeart){
 			case 1:$faktor+=15;break;
 			case 2:$faktor+=11;break;
-			case 3:$faktor+=8;
+            case 3:$faktor+=8;break;
+			case 4:$faktor+=5;
 		}
 		switch ($this->baujahr){
 			case 1:$faktor+=15;break;
@@ -170,11 +171,11 @@ class Konfiguratoreinstellung
 			case 2:$faktor+=11;break;
 			case 3:$faktor+=8;
 		}
-		switch ($this->lage_des_raumes){
+		/*switch ($this->lage_des_raumes){
 			case 1:$faktor+=15;break;
 			case 2:$faktor+=11;break;
 			case 3:$faktor+=8;
-		}
+		}*/
 		switch ($this->anzahl_aussenwaende){
 			case 1:$faktor+=8;break;
 			case 2:$faktor+=11;break;
@@ -185,20 +186,22 @@ class Konfiguratoreinstellung
 			case 2:$faktor+=11;break;
 			case 3:$faktor+=8;
 		}
-		switch ($this->verglaste_flaeche){
+		/*switch ($this->verglaste_flaeche){
 			case 1:$faktor+=15;break;
 			case 2:$faktor+=11;break;
 			case 3:$faktor+=8;
-		}
+		}*/
 		switch ($this->wohnraumtemperatur){
-			case 1:$faktor+=15;break;
+			case 1:$faktor+=8;break;
 			case 2:$faktor+=11;break;
-			case 3:$faktor+=8;
+            case 3:$faktor+=15;break;
+			case 4:$faktor+=19;
 		}
 		switch ($this->aussentemperatur){
-			case 1:$faktor+=15;break;
+			case 1:$faktor+=8;break;
 			case 2:$faktor+=11;break;
-			case 3:$faktor+=8;
+            case 2:$faktor+=15;break;
+			case 3:$faktor+=19;
 		}
 		switch ($this->waermedaemmung){
 			case 1:$faktor*=1.3;break;

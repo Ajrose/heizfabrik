@@ -13,7 +13,7 @@
 namespace Thelia\Core\Event\Order;
 
 use Thelia\Core\Event\ActionEvent;
-use Thelia\Core\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Response;
 use Thelia\Model\Order;
 
 /**

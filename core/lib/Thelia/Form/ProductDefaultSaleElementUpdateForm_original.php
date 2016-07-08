@@ -91,45 +91,6 @@ class ProductDefaultSaleElementUpdateForm extends ProductSaleElementUpdateForm
                 "label"      => Translator::getInstance()->trans("Apply exchange rates on price in %sym", array("%sym" => Currency::getDefaultCurrency()->getSymbol())),
                 "label_attr" => array("for" => "use_exchange_rate_field"),
         ))
-        
-        
-        //hausfabrik
-        ->add("listen_price", "integer", array(
-                "label"      => Translator::getInstance()->trans("List price"),
-                "label_attr" => array("for" => "listen_price"),
-        ))
-        ->add("ek_preis_gc", "integer", array(
-        		"label"      => Translator::getInstance()->trans("Netto price GC"),
-        		"label_attr" => array("for" => "ek_preis_gc"),
-        ))
-        ->add("ek_preis_sht", "integer", array(
-        		"label"      => Translator::getInstance()->trans("Netto price SHT"),
-        		"label_attr" => array("for" => "ek_preis_sht"),
-        ))
-        ->add("ek_preis_oag", "integer", array(
-        		"label"      => Translator::getInstance()->trans("Netto price ÖAG"),
-        		"label_attr" => array("for" => "ek_preis_oag"),
-        ))
-        ->add("ek_preis_holter", "integer", array(
-        		"label"      => Translator::getInstance()->trans("Netto price HOLTER"),
-        		"label_attr" => array("for" => "ek_preis_holter"),
-        ))
-        ->add("ek_preis_odorfer", "integer", array(
-        		"label"      => Translator::getInstance()->trans("Netto price ODORFER"),
-        		"label_attr" => array("for" => "ek_preis_odorfer"),
-        ))
-        ->add("preis_reuter", "integer", array(
-        		"label"      => Translator::getInstance()->trans("Price REUTER"),
-        		"label_attr" => array("for" => "preis_reuter"),
-        ))
-        ->add("vergleich_ek", "integer", array(
-        		"label"      => Translator::getInstance()->trans("Comparison between prices"),
-        		"label_attr" => array("for" => "vergleich_ek"),
-        ))
-        ->add("aufschlag", "integer", array(
-        		"label"      => Translator::getInstance()->trans("Markup (aufschlag)"),
-        		"label_attr" => array("for" => "aufschlag"),
-        ))
         ;
     }
 

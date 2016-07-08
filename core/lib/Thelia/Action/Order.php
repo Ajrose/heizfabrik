@@ -36,7 +36,6 @@ use Thelia\Model\Lang as LangModel;
 use Thelia\Model\Map\OrderTableMap;
 use Thelia\Model\ModuleQuery;
 use Thelia\Model\Order as ModelOrder;
-use Thelia\Model\Order as OrderModel;
 use Thelia\Model\OrderAddress;
 use Thelia\Model\OrderAddressQuery;
 use Thelia\Model\OrderProduct;
@@ -408,7 +407,7 @@ class Order extends BaseAction implements EventSubscriberInterface
             )
         );
 
-        $event->setOrder(new OrderModel());
+        $event->setOrder(new ModelOrder());
     }
 
     /**
@@ -444,7 +443,7 @@ class Order extends BaseAction implements EventSubscriberInterface
         $dispatcher->dispatch(TheliaEvents::ORDER_BEFORE_PAYMENT, new OrderEvent($placedOrder));
 
         /* but memorize placed order */
-        $event->setOrder(new OrderModel());
+        $event->setOrder(new ModelOrder());
         $event->setPlacedOrder($placedOrder);
 
         /* call pay method */
@@ -484,7 +483,7 @@ class Order extends BaseAction implements EventSubscriberInterface
 
         $session->clearSessionCart($dispatcher);
 
-        $session->setOrder(new OrderModel());
+        $session->setOrder(new ModelOrder());
     }
 
     /**

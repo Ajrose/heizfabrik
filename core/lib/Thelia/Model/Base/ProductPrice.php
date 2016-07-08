@@ -18,7 +18,6 @@ use Propel\Runtime\Parser\AbstractParser;
 use Propel\Runtime\Util\PropelDateTime;
 use Thelia\Model\Currency as ChildCurrency;
 use Thelia\Model\CurrencyQuery as ChildCurrencyQuery;
-use Thelia\Model\ProductPrice as ChildProductPrice;
 use Thelia\Model\ProductPriceQuery as ChildProductPriceQuery;
 use Thelia\Model\ProductSaleElements as ChildProductSaleElements;
 use Thelia\Model\ProductSaleElementsQuery as ChildProductSaleElementsQuery;
@@ -104,14 +103,77 @@ abstract class ProductPrice implements ActiveRecordInterface
     protected $updated_at;
 
     /**
-     * @var        ProductSaleElements
+     * The value for the listen_price field.
+     * Note: this column has a database default value of: '0.000000'
+     * @var        string
      */
-    protected $aProductSaleElements;
+    protected $listen_price;
+
+    /**
+     * The value for the ek_preis_sht field.
+     * Note: this column has a database default value of: '0.000000'
+     * @var        string
+     */
+    protected $ek_preis_sht;
+
+    /**
+     * The value for the ek_preis_gc field.
+     * Note: this column has a database default value of: '0.000000'
+     * @var        string
+     */
+    protected $ek_preis_gc;
+
+    /**
+     * The value for the ek_preis_oag field.
+     * Note: this column has a database default value of: '0.000000'
+     * @var        string
+     */
+    protected $ek_preis_oag;
+
+    /**
+     * The value for the ek_preis_holter field.
+     * Note: this column has a database default value of: '0.000000'
+     * @var        string
+     */
+    protected $ek_preis_holter;
+
+    /**
+     * The value for the ek_preis_odorfer field.
+     * Note: this column has a database default value of: '0.000000'
+     * @var        string
+     */
+    protected $ek_preis_odorfer;
+
+    /**
+     * The value for the preis_reuter field.
+     * Note: this column has a database default value of: '0.000000'
+     * @var        string
+     */
+    protected $preis_reuter;
+
+    /**
+     * The value for the vergleich_ek field.
+     * Note: this column has a database default value of: '0.000000'
+     * @var        string
+     */
+    protected $vergleich_ek;
+
+    /**
+     * The value for the aufschlag field.
+     * Note: this column has a database default value of: '0.000000'
+     * @var        string
+     */
+    protected $aufschlag;
 
     /**
      * @var        Currency
      */
     protected $aCurrency;
+
+    /**
+     * @var        ProductSaleElements
+     */
+    protected $aProductSaleElements;
 
     /**
      * Flag to prevent endless save loop, if this object is referenced
@@ -132,6 +194,15 @@ abstract class ProductPrice implements ActiveRecordInterface
         $this->price = '0.000000';
         $this->promo_price = '0.000000';
         $this->from_default_currency = true;
+        $this->listen_price = '0.000000';
+        $this->ek_preis_sht = '0.000000';
+        $this->ek_preis_gc = '0.000000';
+        $this->ek_preis_oag = '0.000000';
+        $this->ek_preis_holter = '0.000000';
+        $this->ek_preis_odorfer = '0.000000';
+        $this->preis_reuter = '0.000000';
+        $this->vergleich_ek = '0.000000';
+        $this->aufschlag = '0.000000';
     }
 
     /**
@@ -490,6 +561,105 @@ abstract class ProductPrice implements ActiveRecordInterface
     }
 
     /**
+     * Get the [listen_price] column value.
+     *
+     * @return   string
+     */
+    public function getListenPrice()
+    {
+
+        return $this->listen_price;
+    }
+
+    /**
+     * Get the [ek_preis_sht] column value.
+     *
+     * @return   string
+     */
+    public function getEkPreisSht()
+    {
+
+        return $this->ek_preis_sht;
+    }
+
+    /**
+     * Get the [ek_preis_gc] column value.
+     *
+     * @return   string
+     */
+    public function getEkPreisGc()
+    {
+
+        return $this->ek_preis_gc;
+    }
+
+    /**
+     * Get the [ek_preis_oag] column value.
+     *
+     * @return   string
+     */
+    public function getEkPreisOag()
+    {
+
+        return $this->ek_preis_oag;
+    }
+
+    /**
+     * Get the [ek_preis_holter] column value.
+     *
+     * @return   string
+     */
+    public function getEkPreisHolter()
+    {
+
+        return $this->ek_preis_holter;
+    }
+
+    /**
+     * Get the [ek_preis_odorfer] column value.
+     *
+     * @return   string
+     */
+    public function getEkPreisOdorfer()
+    {
+
+        return $this->ek_preis_odorfer;
+    }
+
+    /**
+     * Get the [preis_reuter] column value.
+     *
+     * @return   string
+     */
+    public function getPreisReuter()
+    {
+
+        return $this->preis_reuter;
+    }
+
+    /**
+     * Get the [vergleich_ek] column value.
+     *
+     * @return   string
+     */
+    public function getVergleichEk()
+    {
+
+        return $this->vergleich_ek;
+    }
+
+    /**
+     * Get the [aufschlag] column value.
+     *
+     * @return   string
+     */
+    public function getAufschlag()
+    {
+
+        return $this->aufschlag;
+    }
+
+    /**
      * Set the value of [product_sale_elements_id] column.
      *
      * @param      int $v new value
@@ -653,6 +823,195 @@ abstract class ProductPrice implements ActiveRecordInterface
     } // setUpdatedAt()
 
     /**
+     * Set the value of [listen_price] column.
+     *
+     * @param      string $v new value
+     * @return   \Thelia\Model\ProductPrice The current object (for fluent API support)
+     */
+    public function setListenPrice($v)
+    {
+        if ($v !== null) {
+            $v = (string) $v;
+        }
+
+        if ($this->listen_price !== $v) {
+            $this->listen_price = $v;
+            $this->modifiedColumns[ProductPriceTableMap::LISTEN_PRICE] = true;
+        }
+
+
+        return $this;
+    } // setListenPrice()
+
+    /**
+     * Set the value of [ek_preis_sht] column.
+     *
+     * @param      string $v new value
+     * @return   \Thelia\Model\ProductPrice The current object (for fluent API support)
+     */
+    public function setEkPreisSht($v)
+    {
+        if ($v !== null) {
+            $v = (string) $v;
+        }
+
+        if ($this->ek_preis_sht !== $v) {
+            $this->ek_preis_sht = $v;
+            $this->modifiedColumns[ProductPriceTableMap::EK_PREIS_SHT] = true;
+        }
+
+
+        return $this;
+    } // setEkPreisSht()
+
+    /**
+     * Set the value of [ek_preis_gc] column.
+     *
+     * @param      string $v new value
+     * @return   \Thelia\Model\ProductPrice The current object (for fluent API support)
+     */
+    public function setEkPreisGc($v)
+    {
+        if ($v !== null) {
+            $v = (string) $v;
+        }
+
+        if ($this->ek_preis_gc !== $v) {
+            $this->ek_preis_gc = $v;
+            $this->modifiedColumns[ProductPriceTableMap::EK_PREIS_GC] = true;
+        }
+
+
+        return $this;
+    } // setEkPreisGc()
+
+    /**
+     * Set the value of [ek_preis_oag] column.
+     *
+     * @param      string $v new value
+     * @return   \Thelia\Model\ProductPrice The current object (for fluent API support)
+     */
+    public function setEkPreisOag($v)
+    {
+        if ($v !== null) {
+            $v = (string) $v;
+        }
+
+        if ($this->ek_preis_oag !== $v) {
+            $this->ek_preis_oag = $v;
+            $this->modifiedColumns[ProductPriceTableMap::EK_PREIS_OAG] = true;
+        }
+
+
+        return $this;
+    } // setEkPreisOag()
+
+    /**
+     * Set the value of [ek_preis_holter] column.
+     *
+     * @param      string $v new value
+     * @return   \Thelia\Model\ProductPrice The current object (for fluent API support)
+     */
+    public function setEkPreisHolter($v)
+    {
+        if ($v !== null) {
+            $v = (string) $v;
+        }
+
+        if ($this->ek_preis_holter !== $v) {
+            $this->ek_preis_holter = $v;
+            $this->modifiedColumns[ProductPriceTableMap::EK_PREIS_HOLTER] = true;
+        }
+
+
+        return $this;
+    } // setEkPreisHolter()
+
+    /**
+     * Set the value of [ek_preis_odorfer] column.
+     *
+     * @param      string $v new value
+     * @return   \Thelia\Model\ProductPrice The current object (for fluent API support)
+     */
+    public function setEkPreisOdorfer($v)
+    {
+        if ($v !== null) {
+            $v = (string) $v;
+        }
+
+        if ($this->ek_preis_odorfer !== $v) {
+            $this->ek_preis_odorfer = $v;
+            $this->modifiedColumns[ProductPriceTableMap::EK_PREIS_ODORFER] = true;
+        }
+
+
+        return $this;
+    } // setEkPreisOdorfer()
+
+    /**
+     * Set the value of [preis_reuter] column.
+     *
+     * @param      string $v new value
+     * @return   \Thelia\Model\ProductPrice The current object (for fluent API support)
+     */
+    public function setPreisReuter($v)
+    {
+        if ($v !== null) {
+            $v = (string) $v;
+        }
+
+        if ($this->preis_reuter !== $v) {
+            $this->preis_reuter = $v;
+            $this->modifiedColumns[ProductPriceTableMap::PREIS_REUTER] = true;
+        }
+
+
+        return $this;
+    } // setPreisReuter()
+
+    /**
+     * Set the value of [vergleich_ek] column.
+     *
+     * @param      string $v new value
+     * @return   \Thelia\Model\ProductPrice The current object (for fluent API support)
+     */
+    public function setVergleichEk($v)
+    {
+        if ($v !== null) {
+            $v = (string) $v;
+        }
+
+        if ($this->vergleich_ek !== $v) {
+            $this->vergleich_ek = $v;
+            $this->modifiedColumns[ProductPriceTableMap::VERGLEICH_EK] = true;
+        }
+
+
+        return $this;
+    } // setVergleichEk()
+
+    /**
+     * Set the value of [aufschlag] column.
+     *
+     * @param      string $v new value
+     * @return   \Thelia\Model\ProductPrice The current object (for fluent API support)
+     */
+    public function setAufschlag($v)
+    {
+        if ($v !== null) {
+            $v = (string) $v;
+        }
+
+        if ($this->aufschlag !== $v) {
+            $this->aufschlag = $v;
+            $this->modifiedColumns[ProductPriceTableMap::AUFSCHLAG] = true;
+        }
+
+
+        return $this;
+    } // setAufschlag()
+
+    /**
      * Indicates whether the columns in this object are only set to default values.
      *
      * This method can be used in conjunction with isModified() to indicate whether an object is both
@@ -671,6 +1030,42 @@ abstract class ProductPrice implements ActiveRecordInterface
             }
 
             if ($this->from_default_currency !== true) {
+                return false;
+            }
+
+            if ($this->listen_price !== '0.000000') {
+                return false;
+            }
+
+            if ($this->ek_preis_sht !== '0.000000') {
+                return false;
+            }
+
+            if ($this->ek_preis_gc !== '0.000000') {
+                return false;
+            }
+
+            if ($this->ek_preis_oag !== '0.000000') {
+                return false;
+            }
+
+            if ($this->ek_preis_holter !== '0.000000') {
+                return false;
+            }
+
+            if ($this->ek_preis_odorfer !== '0.000000') {
+                return false;
+            }
+
+            if ($this->preis_reuter !== '0.000000') {
+                return false;
+            }
+
+            if ($this->vergleich_ek !== '0.000000') {
+                return false;
+            }
+
+            if ($this->aufschlag !== '0.000000') {
                 return false;
             }
 
@@ -727,6 +1122,33 @@ abstract class ProductPrice implements ActiveRecordInterface
                 $col = null;
             }
             $this->updated_at = (null !== $col) ? PropelDateTime::newInstance($col, null, '\DateTime') : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 7 + $startcol : ProductPriceTableMap::translateFieldName('ListenPrice', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->listen_price = (null !== $col) ? (string) $col : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 8 + $startcol : ProductPriceTableMap::translateFieldName('EkPreisSht', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->ek_preis_sht = (null !== $col) ? (string) $col : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 9 + $startcol : ProductPriceTableMap::translateFieldName('EkPreisGc', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->ek_preis_gc = (null !== $col) ? (string) $col : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 10 + $startcol : ProductPriceTableMap::translateFieldName('EkPreisOag', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->ek_preis_oag = (null !== $col) ? (string) $col : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 11 + $startcol : ProductPriceTableMap::translateFieldName('EkPreisHolter', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->ek_preis_holter = (null !== $col) ? (string) $col : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 12 + $startcol : ProductPriceTableMap::translateFieldName('EkPreisOdorfer', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->ek_preis_odorfer = (null !== $col) ? (string) $col : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 13 + $startcol : ProductPriceTableMap::translateFieldName('PreisReuter', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->preis_reuter = (null !== $col) ? (string) $col : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 14 + $startcol : ProductPriceTableMap::translateFieldName('VergleichEk', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->vergleich_ek = (null !== $col) ? (string) $col : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 15 + $startcol : ProductPriceTableMap::translateFieldName('Aufschlag', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->aufschlag = (null !== $col) ? (string) $col : null;
             $this->resetModified();
 
             $this->setNew(false);
@@ -735,7 +1157,7 @@ abstract class ProductPrice implements ActiveRecordInterface
                 $this->ensureConsistency();
             }
 
-            return $startcol + 7; // 7 = ProductPriceTableMap::NUM_HYDRATE_COLUMNS.
+            return $startcol + 16; // 16 = ProductPriceTableMap::NUM_HYDRATE_COLUMNS.
 
         } catch (Exception $e) {
             throw new PropelException("Error populating \Thelia\Model\ProductPrice object", 0, $e);
@@ -802,8 +1224,8 @@ abstract class ProductPrice implements ActiveRecordInterface
 
         if ($deep) {  // also de-associate any related objects?
 
-            $this->aProductSaleElements = null;
             $this->aCurrency = null;
+            $this->aProductSaleElements = null;
         } // if (deep)
     }
 
@@ -874,19 +1296,8 @@ abstract class ProductPrice implements ActiveRecordInterface
             $ret = $this->preSave($con);
             if ($isInsert) {
                 $ret = $ret && $this->preInsert($con);
-                // timestampable behavior
-                if (!$this->isColumnModified(ProductPriceTableMap::CREATED_AT)) {
-                    $this->setCreatedAt(time());
-                }
-                if (!$this->isColumnModified(ProductPriceTableMap::UPDATED_AT)) {
-                    $this->setUpdatedAt(time());
-                }
             } else {
                 $ret = $ret && $this->preUpdate($con);
-                // timestampable behavior
-                if ($this->isModified() && !$this->isColumnModified(ProductPriceTableMap::UPDATED_AT)) {
-                    $this->setUpdatedAt(time());
-                }
             }
             if ($ret) {
                 $affectedRows = $this->doSave($con);
@@ -931,18 +1342,18 @@ abstract class ProductPrice implements ActiveRecordInterface
             // method.  This object relates to these object(s) by a
             // foreign key reference.
 
-            if ($this->aProductSaleElements !== null) {
-                if ($this->aProductSaleElements->isModified() || $this->aProductSaleElements->isNew()) {
-                    $affectedRows += $this->aProductSaleElements->save($con);
-                }
-                $this->setProductSaleElements($this->aProductSaleElements);
-            }
-
             if ($this->aCurrency !== null) {
                 if ($this->aCurrency->isModified() || $this->aCurrency->isNew()) {
                     $affectedRows += $this->aCurrency->save($con);
                 }
                 $this->setCurrency($this->aCurrency);
+            }
+
+            if ($this->aProductSaleElements !== null) {
+                if ($this->aProductSaleElements->isModified() || $this->aProductSaleElements->isNew()) {
+                    $affectedRows += $this->aProductSaleElements->save($con);
+                }
+                $this->setProductSaleElements($this->aProductSaleElements);
             }
 
             if ($this->isNew() || $this->isModified()) {
@@ -979,29 +1390,56 @@ abstract class ProductPrice implements ActiveRecordInterface
 
          // check the columns in natural order for more readable SQL queries
         if ($this->isColumnModified(ProductPriceTableMap::PRODUCT_SALE_ELEMENTS_ID)) {
-            $modifiedColumns[':p' . $index++]  = '`PRODUCT_SALE_ELEMENTS_ID`';
+            $modifiedColumns[':p' . $index++]  = 'PRODUCT_SALE_ELEMENTS_ID';
         }
         if ($this->isColumnModified(ProductPriceTableMap::CURRENCY_ID)) {
-            $modifiedColumns[':p' . $index++]  = '`CURRENCY_ID`';
+            $modifiedColumns[':p' . $index++]  = 'CURRENCY_ID';
         }
         if ($this->isColumnModified(ProductPriceTableMap::PRICE)) {
-            $modifiedColumns[':p' . $index++]  = '`PRICE`';
+            $modifiedColumns[':p' . $index++]  = 'PRICE';
         }
         if ($this->isColumnModified(ProductPriceTableMap::PROMO_PRICE)) {
-            $modifiedColumns[':p' . $index++]  = '`PROMO_PRICE`';
+            $modifiedColumns[':p' . $index++]  = 'PROMO_PRICE';
         }
         if ($this->isColumnModified(ProductPriceTableMap::FROM_DEFAULT_CURRENCY)) {
-            $modifiedColumns[':p' . $index++]  = '`FROM_DEFAULT_CURRENCY`';
+            $modifiedColumns[':p' . $index++]  = 'FROM_DEFAULT_CURRENCY';
         }
         if ($this->isColumnModified(ProductPriceTableMap::CREATED_AT)) {
-            $modifiedColumns[':p' . $index++]  = '`CREATED_AT`';
+            $modifiedColumns[':p' . $index++]  = 'CREATED_AT';
         }
         if ($this->isColumnModified(ProductPriceTableMap::UPDATED_AT)) {
-            $modifiedColumns[':p' . $index++]  = '`UPDATED_AT`';
+            $modifiedColumns[':p' . $index++]  = 'UPDATED_AT';
+        }
+        if ($this->isColumnModified(ProductPriceTableMap::LISTEN_PRICE)) {
+            $modifiedColumns[':p' . $index++]  = 'LISTEN_PRICE';
+        }
+        if ($this->isColumnModified(ProductPriceTableMap::EK_PREIS_SHT)) {
+            $modifiedColumns[':p' . $index++]  = 'EK_PREIS_SHT';
+        }
+        if ($this->isColumnModified(ProductPriceTableMap::EK_PREIS_GC)) {
+            $modifiedColumns[':p' . $index++]  = 'EK_PREIS_GC';
+        }
+        if ($this->isColumnModified(ProductPriceTableMap::EK_PREIS_OAG)) {
+            $modifiedColumns[':p' . $index++]  = 'EK_PREIS_OAG';
+        }
+        if ($this->isColumnModified(ProductPriceTableMap::EK_PREIS_HOLTER)) {
+            $modifiedColumns[':p' . $index++]  = 'EK_PREIS_HOLTER';
+        }
+        if ($this->isColumnModified(ProductPriceTableMap::EK_PREIS_ODORFER)) {
+            $modifiedColumns[':p' . $index++]  = 'EK_PREIS_ODORFER';
+        }
+        if ($this->isColumnModified(ProductPriceTableMap::PREIS_REUTER)) {
+            $modifiedColumns[':p' . $index++]  = 'PREIS_REUTER';
+        }
+        if ($this->isColumnModified(ProductPriceTableMap::VERGLEICH_EK)) {
+            $modifiedColumns[':p' . $index++]  = 'VERGLEICH_EK';
+        }
+        if ($this->isColumnModified(ProductPriceTableMap::AUFSCHLAG)) {
+            $modifiedColumns[':p' . $index++]  = 'AUFSCHLAG';
         }
 
         $sql = sprintf(
-            'INSERT INTO `product_price` (%s) VALUES (%s)',
+            'INSERT INTO product_price (%s) VALUES (%s)',
             implode(', ', $modifiedColumns),
             implode(', ', array_keys($modifiedColumns))
         );
@@ -1010,26 +1448,53 @@ abstract class ProductPrice implements ActiveRecordInterface
             $stmt = $con->prepare($sql);
             foreach ($modifiedColumns as $identifier => $columnName) {
                 switch ($columnName) {
-                    case '`PRODUCT_SALE_ELEMENTS_ID`':
+                    case 'PRODUCT_SALE_ELEMENTS_ID':
                         $stmt->bindValue($identifier, $this->product_sale_elements_id, PDO::PARAM_INT);
                         break;
-                    case '`CURRENCY_ID`':
+                    case 'CURRENCY_ID':
                         $stmt->bindValue($identifier, $this->currency_id, PDO::PARAM_INT);
                         break;
-                    case '`PRICE`':
+                    case 'PRICE':
                         $stmt->bindValue($identifier, $this->price, PDO::PARAM_STR);
                         break;
-                    case '`PROMO_PRICE`':
+                    case 'PROMO_PRICE':
                         $stmt->bindValue($identifier, $this->promo_price, PDO::PARAM_STR);
                         break;
-                    case '`FROM_DEFAULT_CURRENCY`':
+                    case 'FROM_DEFAULT_CURRENCY':
                         $stmt->bindValue($identifier, (int) $this->from_default_currency, PDO::PARAM_INT);
                         break;
-                    case '`CREATED_AT`':
+                    case 'CREATED_AT':
                         $stmt->bindValue($identifier, $this->created_at ? $this->created_at->format("Y-m-d H:i:s") : null, PDO::PARAM_STR);
                         break;
-                    case '`UPDATED_AT`':
+                    case 'UPDATED_AT':
                         $stmt->bindValue($identifier, $this->updated_at ? $this->updated_at->format("Y-m-d H:i:s") : null, PDO::PARAM_STR);
+                        break;
+                    case 'LISTEN_PRICE':
+                        $stmt->bindValue($identifier, $this->listen_price, PDO::PARAM_STR);
+                        break;
+                    case 'EK_PREIS_SHT':
+                        $stmt->bindValue($identifier, $this->ek_preis_sht, PDO::PARAM_STR);
+                        break;
+                    case 'EK_PREIS_GC':
+                        $stmt->bindValue($identifier, $this->ek_preis_gc, PDO::PARAM_STR);
+                        break;
+                    case 'EK_PREIS_OAG':
+                        $stmt->bindValue($identifier, $this->ek_preis_oag, PDO::PARAM_STR);
+                        break;
+                    case 'EK_PREIS_HOLTER':
+                        $stmt->bindValue($identifier, $this->ek_preis_holter, PDO::PARAM_STR);
+                        break;
+                    case 'EK_PREIS_ODORFER':
+                        $stmt->bindValue($identifier, $this->ek_preis_odorfer, PDO::PARAM_STR);
+                        break;
+                    case 'PREIS_REUTER':
+                        $stmt->bindValue($identifier, $this->preis_reuter, PDO::PARAM_STR);
+                        break;
+                    case 'VERGLEICH_EK':
+                        $stmt->bindValue($identifier, $this->vergleich_ek, PDO::PARAM_STR);
+                        break;
+                    case 'AUFSCHLAG':
+                        $stmt->bindValue($identifier, $this->aufschlag, PDO::PARAM_STR);
                         break;
                 }
             }
@@ -1107,6 +1572,33 @@ abstract class ProductPrice implements ActiveRecordInterface
             case 6:
                 return $this->getUpdatedAt();
                 break;
+            case 7:
+                return $this->getListenPrice();
+                break;
+            case 8:
+                return $this->getEkPreisSht();
+                break;
+            case 9:
+                return $this->getEkPreisGc();
+                break;
+            case 10:
+                return $this->getEkPreisOag();
+                break;
+            case 11:
+                return $this->getEkPreisHolter();
+                break;
+            case 12:
+                return $this->getEkPreisOdorfer();
+                break;
+            case 13:
+                return $this->getPreisReuter();
+                break;
+            case 14:
+                return $this->getVergleichEk();
+                break;
+            case 15:
+                return $this->getAufschlag();
+                break;
             default:
                 return null;
                 break;
@@ -1143,6 +1635,15 @@ abstract class ProductPrice implements ActiveRecordInterface
             $keys[4] => $this->getFromDefaultCurrency(),
             $keys[5] => $this->getCreatedAt(),
             $keys[6] => $this->getUpdatedAt(),
+            $keys[7] => $this->getListenPrice(),
+            $keys[8] => $this->getEkPreisSht(),
+            $keys[9] => $this->getEkPreisGc(),
+            $keys[10] => $this->getEkPreisOag(),
+            $keys[11] => $this->getEkPreisHolter(),
+            $keys[12] => $this->getEkPreisOdorfer(),
+            $keys[13] => $this->getPreisReuter(),
+            $keys[14] => $this->getVergleichEk(),
+            $keys[15] => $this->getAufschlag(),
         );
         $virtualColumns = $this->virtualColumns;
         foreach ($virtualColumns as $key => $virtualColumn) {
@@ -1150,11 +1651,11 @@ abstract class ProductPrice implements ActiveRecordInterface
         }
 
         if ($includeForeignObjects) {
-            if (null !== $this->aProductSaleElements) {
-                $result['ProductSaleElements'] = $this->aProductSaleElements->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
-            }
             if (null !== $this->aCurrency) {
                 $result['Currency'] = $this->aCurrency->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
+            }
+            if (null !== $this->aProductSaleElements) {
+                $result['ProductSaleElements'] = $this->aProductSaleElements->toArray($keyType, $includeLazyLoadColumns,  $alreadyDumpedObjects, true);
             }
         }
 
@@ -1211,6 +1712,33 @@ abstract class ProductPrice implements ActiveRecordInterface
             case 6:
                 $this->setUpdatedAt($value);
                 break;
+            case 7:
+                $this->setListenPrice($value);
+                break;
+            case 8:
+                $this->setEkPreisSht($value);
+                break;
+            case 9:
+                $this->setEkPreisGc($value);
+                break;
+            case 10:
+                $this->setEkPreisOag($value);
+                break;
+            case 11:
+                $this->setEkPreisHolter($value);
+                break;
+            case 12:
+                $this->setEkPreisOdorfer($value);
+                break;
+            case 13:
+                $this->setPreisReuter($value);
+                break;
+            case 14:
+                $this->setVergleichEk($value);
+                break;
+            case 15:
+                $this->setAufschlag($value);
+                break;
         } // switch()
     }
 
@@ -1242,6 +1770,15 @@ abstract class ProductPrice implements ActiveRecordInterface
         if (array_key_exists($keys[4], $arr)) $this->setFromDefaultCurrency($arr[$keys[4]]);
         if (array_key_exists($keys[5], $arr)) $this->setCreatedAt($arr[$keys[5]]);
         if (array_key_exists($keys[6], $arr)) $this->setUpdatedAt($arr[$keys[6]]);
+        if (array_key_exists($keys[7], $arr)) $this->setListenPrice($arr[$keys[7]]);
+        if (array_key_exists($keys[8], $arr)) $this->setEkPreisSht($arr[$keys[8]]);
+        if (array_key_exists($keys[9], $arr)) $this->setEkPreisGc($arr[$keys[9]]);
+        if (array_key_exists($keys[10], $arr)) $this->setEkPreisOag($arr[$keys[10]]);
+        if (array_key_exists($keys[11], $arr)) $this->setEkPreisHolter($arr[$keys[11]]);
+        if (array_key_exists($keys[12], $arr)) $this->setEkPreisOdorfer($arr[$keys[12]]);
+        if (array_key_exists($keys[13], $arr)) $this->setPreisReuter($arr[$keys[13]]);
+        if (array_key_exists($keys[14], $arr)) $this->setVergleichEk($arr[$keys[14]]);
+        if (array_key_exists($keys[15], $arr)) $this->setAufschlag($arr[$keys[15]]);
     }
 
     /**
@@ -1260,6 +1797,15 @@ abstract class ProductPrice implements ActiveRecordInterface
         if ($this->isColumnModified(ProductPriceTableMap::FROM_DEFAULT_CURRENCY)) $criteria->add(ProductPriceTableMap::FROM_DEFAULT_CURRENCY, $this->from_default_currency);
         if ($this->isColumnModified(ProductPriceTableMap::CREATED_AT)) $criteria->add(ProductPriceTableMap::CREATED_AT, $this->created_at);
         if ($this->isColumnModified(ProductPriceTableMap::UPDATED_AT)) $criteria->add(ProductPriceTableMap::UPDATED_AT, $this->updated_at);
+        if ($this->isColumnModified(ProductPriceTableMap::LISTEN_PRICE)) $criteria->add(ProductPriceTableMap::LISTEN_PRICE, $this->listen_price);
+        if ($this->isColumnModified(ProductPriceTableMap::EK_PREIS_SHT)) $criteria->add(ProductPriceTableMap::EK_PREIS_SHT, $this->ek_preis_sht);
+        if ($this->isColumnModified(ProductPriceTableMap::EK_PREIS_GC)) $criteria->add(ProductPriceTableMap::EK_PREIS_GC, $this->ek_preis_gc);
+        if ($this->isColumnModified(ProductPriceTableMap::EK_PREIS_OAG)) $criteria->add(ProductPriceTableMap::EK_PREIS_OAG, $this->ek_preis_oag);
+        if ($this->isColumnModified(ProductPriceTableMap::EK_PREIS_HOLTER)) $criteria->add(ProductPriceTableMap::EK_PREIS_HOLTER, $this->ek_preis_holter);
+        if ($this->isColumnModified(ProductPriceTableMap::EK_PREIS_ODORFER)) $criteria->add(ProductPriceTableMap::EK_PREIS_ODORFER, $this->ek_preis_odorfer);
+        if ($this->isColumnModified(ProductPriceTableMap::PREIS_REUTER)) $criteria->add(ProductPriceTableMap::PREIS_REUTER, $this->preis_reuter);
+        if ($this->isColumnModified(ProductPriceTableMap::VERGLEICH_EK)) $criteria->add(ProductPriceTableMap::VERGLEICH_EK, $this->vergleich_ek);
+        if ($this->isColumnModified(ProductPriceTableMap::AUFSCHLAG)) $criteria->add(ProductPriceTableMap::AUFSCHLAG, $this->aufschlag);
 
         return $criteria;
     }
@@ -1337,6 +1883,15 @@ abstract class ProductPrice implements ActiveRecordInterface
         $copyObj->setFromDefaultCurrency($this->getFromDefaultCurrency());
         $copyObj->setCreatedAt($this->getCreatedAt());
         $copyObj->setUpdatedAt($this->getUpdatedAt());
+        $copyObj->setListenPrice($this->getListenPrice());
+        $copyObj->setEkPreisSht($this->getEkPreisSht());
+        $copyObj->setEkPreisGc($this->getEkPreisGc());
+        $copyObj->setEkPreisOag($this->getEkPreisOag());
+        $copyObj->setEkPreisHolter($this->getEkPreisHolter());
+        $copyObj->setEkPreisOdorfer($this->getEkPreisOdorfer());
+        $copyObj->setPreisReuter($this->getPreisReuter());
+        $copyObj->setVergleichEk($this->getVergleichEk());
+        $copyObj->setAufschlag($this->getAufschlag());
         if ($makeNew) {
             $copyObj->setNew(true);
         }
@@ -1362,57 +1917,6 @@ abstract class ProductPrice implements ActiveRecordInterface
         $this->copyInto($copyObj, $deepCopy);
 
         return $copyObj;
-    }
-
-    /**
-     * Declares an association between this object and a ChildProductSaleElements object.
-     *
-     * @param                  ChildProductSaleElements $v
-     * @return                 \Thelia\Model\ProductPrice The current object (for fluent API support)
-     * @throws PropelException
-     */
-    public function setProductSaleElements(ChildProductSaleElements $v = null)
-    {
-        if ($v === null) {
-            $this->setProductSaleElementsId(NULL);
-        } else {
-            $this->setProductSaleElementsId($v->getId());
-        }
-
-        $this->aProductSaleElements = $v;
-
-        // Add binding for other direction of this n:n relationship.
-        // If this object has already been added to the ChildProductSaleElements object, it will not be re-added.
-        if ($v !== null) {
-            $v->addProductPrice($this);
-        }
-
-
-        return $this;
-    }
-
-
-    /**
-     * Get the associated ChildProductSaleElements object
-     *
-     * @param      ConnectionInterface $con Optional Connection object.
-     * @return                 ChildProductSaleElements The associated ChildProductSaleElements object.
-     * @throws PropelException
-     */
-    public function getProductSaleElements(ConnectionInterface $con = null)
-    {
-        if ($this->aProductSaleElements === null && ($this->product_sale_elements_id !== null)) {
-            $this->aProductSaleElements = ChildProductSaleElementsQuery::create()->findPk($this->product_sale_elements_id, $con);
-            /* The following can be used additionally to
-                guarantee the related object contains a reference
-                to this object.  This level of coupling may, however, be
-                undesirable since it could result in an only partially populated collection
-                in the referenced object.
-                $this->aProductSaleElements->addProductPrices($this);
-             */
-        }
-
-        return $this->aProductSaleElements;
     }
 
     /**
@@ -1467,6 +1971,57 @@ abstract class ProductPrice implements ActiveRecordInterface
     }
 
     /**
+     * Declares an association between this object and a ChildProductSaleElements object.
+     *
+     * @param                  ChildProductSaleElements $v
+     * @return                 \Thelia\Model\ProductPrice The current object (for fluent API support)
+     * @throws PropelException
+     */
+    public function setProductSaleElements(ChildProductSaleElements $v = null)
+    {
+        if ($v === null) {
+            $this->setProductSaleElementsId(NULL);
+        } else {
+            $this->setProductSaleElementsId($v->getId());
+        }
+
+        $this->aProductSaleElements = $v;
+
+        // Add binding for other direction of this n:n relationship.
+        // If this object has already been added to the ChildProductSaleElements object, it will not be re-added.
+        if ($v !== null) {
+            $v->addProductPrice($this);
+        }
+
+
+        return $this;
+    }
+
+
+    /**
+     * Get the associated ChildProductSaleElements object
+     *
+     * @param      ConnectionInterface $con Optional Connection object.
+     * @return                 ChildProductSaleElements The associated ChildProductSaleElements object.
+     * @throws PropelException
+     */
+    public function getProductSaleElements(ConnectionInterface $con = null)
+    {
+        if ($this->aProductSaleElements === null && ($this->product_sale_elements_id !== null)) {
+            $this->aProductSaleElements = ChildProductSaleElementsQuery::create()->findPk($this->product_sale_elements_id, $con);
+            /* The following can be used additionally to
+                guarantee the related object contains a reference
+                to this object.  This level of coupling may, however, be
+                undesirable since it could result in an only partially populated collection
+                in the referenced object.
+                $this->aProductSaleElements->addProductPrices($this);
+             */
+        }
+
+        return $this->aProductSaleElements;
+    }
+
+    /**
      * Clears the current object and sets all attributes to their default values
      */
     public function clear()
@@ -1478,6 +2033,15 @@ abstract class ProductPrice implements ActiveRecordInterface
         $this->from_default_currency = null;
         $this->created_at = null;
         $this->updated_at = null;
+        $this->listen_price = null;
+        $this->ek_preis_sht = null;
+        $this->ek_preis_gc = null;
+        $this->ek_preis_oag = null;
+        $this->ek_preis_holter = null;
+        $this->ek_preis_odorfer = null;
+        $this->preis_reuter = null;
+        $this->vergleich_ek = null;
+        $this->aufschlag = null;
         $this->alreadyInSave = false;
         $this->clearAllReferences();
         $this->applyDefaultValues();
@@ -1500,8 +2064,8 @@ abstract class ProductPrice implements ActiveRecordInterface
         if ($deep) {
         } // if ($deep)
 
-        $this->aProductSaleElements = null;
         $this->aCurrency = null;
+        $this->aProductSaleElements = null;
     }
 
     /**
@@ -1512,20 +2076,6 @@ abstract class ProductPrice implements ActiveRecordInterface
     public function __toString()
     {
         return (string) $this->exportTo(ProductPriceTableMap::DEFAULT_STRING_FORMAT);
-    }
-
-    // timestampable behavior
-
-    /**
-     * Mark the current object so that the update date doesn't get updated during next save
-     *
-     * @return     ChildProductPrice The current object (for fluent API support)
-     */
-    public function keepUpdateDateUnchanged()
-    {
-        $this->modifiedColumns[ProductPriceTableMap::UPDATED_AT] = true;
-
-        return $this;
     }
 
     /**

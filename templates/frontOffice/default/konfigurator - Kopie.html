@@ -242,7 +242,7 @@
                           <div class="fallback">
                               <input name="file" type="file" id="{$label_attr.for}" multiple />
                           </div>
-                          <div class="dz-default dz-message dz-clickable" id="dropzonePreview" >
+                          <div class="dz-default dz-message">
                              <span>Bitte hier Fotos von Ihrem alten Gerät ablegen (optional)</span>
                           </div>
                           <div id="previews" class="dropzone"></div>
@@ -256,7 +256,7 @@
          
                     
    <!--                	<a href="/login"><button type="button" class="fs-submit"style="margin-bottom:20px">Individuelles Angebot</button></a> -->
-					<button type="submit" class="fs-submit" id="fs-submit">Vorschlag sehen</button>
+					<button type="submit" class="fs-submit">Vorschlag sehen</button>
 
 				</form><!-- /fs-form -->
                 {/form}
@@ -298,7 +298,7 @@
 		  addRemoveLinks: true,
 		  parallelUploads: 10,
 		  maxFilesize: 256,
-		  clickable:'#dragdrop',
+		  clickable: false,
 		  previewsContainer: '#previews',
 	      dictDefaultMessage: "Drop files here to upload",
 	      dictFallbackMessage: "Your browser does not support drag'n'drop file uploads.",
@@ -313,10 +313,15 @@
 	      dictMaxFilesExceeded: "You can not upload any more files.",
 	      
 		  init: function() {
-		    var submitButton =document.getElementById("fs-submit");
-         
+              
+		    var submitButton = document.querySelector("#form-konfigurator");
+             
 		        myDropzone = this; // closure
-
+              
+              /*var $loader = $('<div class="loader"></div>');
+            $('body').append($loader);
+               $loader.hide();*/
+              
 		    submitButton.addEventListener("click", function(e) {
                
 		    	e.preventDefault();
@@ -324,9 +329,9 @@
 		      myDropzone.processQueue(); // Tell Dropzone to process all queued files.
                 else {
                     $.ajax({
-                      type: $("#form-konfigurator").attr('method'),
-                      url: $("#form-konfigurator").attr('action'),
-                      data: $("#form-konfigurator").serialize()
+                      type: $(this).attr('method'),
+                      url: $(this).attr('action'),
+                      data: $(this).serialize()
                      })
                      .done(function (data, textStatus, request) {
                       $waermebedarf = request.getResponseHeader('waermebedarf');
@@ -352,6 +357,7 @@
 		    });
 		  },
 	     success: function(file,response, e, xhr){
+             
 
 	   $waermebedarf = xhr.getResponseHeader('waermebedarf');
 		if($waermebedarf != null) 
@@ -360,7 +366,10 @@
 		$("#category-products").empty().append(response);
 	      }
         /*totalUploadProgress: function(totalUploadProgress, totalBytes,totalBytesSent){
-            
+           if(totalUploadProgress==100) $loader.hide();
+            else $loader.show();
+
+        
         }*/
 		};
 </script>

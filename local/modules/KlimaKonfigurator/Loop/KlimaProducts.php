@@ -153,8 +153,8 @@ class KlimaProducts extends BaseI18nLoop implements PropelSearchLoopInterface, S
 		$loopResultRow
 		->set ( "ID", $product->getId () )
 		->set ( "REF", $product->getRef () )
-		->set ( "LOCALE", $this->locale )
-		->set ( "URL", $product->getUrl ( $this->locale ) )
+		->set ( "LOCALE", "de_DE" )
+		->set ( "URL", $product->getUrl ( "de_DE" ) )
 		->set ( "POSITION", $product->getPosition () )
 		->set ( "VIRTUAL", $product->getVirtual () ? "1" : "0" )
 		->set ( "VISIBLE", $product->getVisible () ? "1" : "0" )

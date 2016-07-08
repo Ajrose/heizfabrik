@@ -58,7 +58,7 @@ class ProductPriceTableMap extends TableMap
     /**
      * The total number of columns
      */
-    const NUM_COLUMNS = 7;
+    const NUM_COLUMNS = 16;
 
     /**
      * The number of lazy-loaded columns
@@ -68,7 +68,7 @@ class ProductPriceTableMap extends TableMap
     /**
      * The number of columns to hydrate (NUM_COLUMNS - NUM_LAZY_LOAD_COLUMNS)
      */
-    const NUM_HYDRATE_COLUMNS = 7;
+    const NUM_HYDRATE_COLUMNS = 16;
 
     /**
      * the column name for the PRODUCT_SALE_ELEMENTS_ID field
@@ -106,6 +106,51 @@ class ProductPriceTableMap extends TableMap
     const UPDATED_AT = 'product_price.UPDATED_AT';
 
     /**
+     * the column name for the LISTEN_PRICE field
+     */
+    const LISTEN_PRICE = 'product_price.LISTEN_PRICE';
+
+    /**
+     * the column name for the EK_PREIS_SHT field
+     */
+    const EK_PREIS_SHT = 'product_price.EK_PREIS_SHT';
+
+    /**
+     * the column name for the EK_PREIS_GC field
+     */
+    const EK_PREIS_GC = 'product_price.EK_PREIS_GC';
+
+    /**
+     * the column name for the EK_PREIS_OAG field
+     */
+    const EK_PREIS_OAG = 'product_price.EK_PREIS_OAG';
+
+    /**
+     * the column name for the EK_PREIS_HOLTER field
+     */
+    const EK_PREIS_HOLTER = 'product_price.EK_PREIS_HOLTER';
+
+    /**
+     * the column name for the EK_PREIS_ODORFER field
+     */
+    const EK_PREIS_ODORFER = 'product_price.EK_PREIS_ODORFER';
+
+    /**
+     * the column name for the PREIS_REUTER field
+     */
+    const PREIS_REUTER = 'product_price.PREIS_REUTER';
+
+    /**
+     * the column name for the VERGLEICH_EK field
+     */
+    const VERGLEICH_EK = 'product_price.VERGLEICH_EK';
+
+    /**
+     * the column name for the AUFSCHLAG field
+     */
+    const AUFSCHLAG = 'product_price.AUFSCHLAG';
+
+    /**
      * The default string format for model objects of the related table
      */
     const DEFAULT_STRING_FORMAT = 'YAML';
@@ -117,12 +162,12 @@ class ProductPriceTableMap extends TableMap
      * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
      */
     protected static $fieldNames = array (
-        self::TYPE_PHPNAME       => array('ProductSaleElementsId', 'CurrencyId', 'Price', 'PromoPrice', 'FromDefaultCurrency', 'CreatedAt', 'UpdatedAt', ),
-        self::TYPE_STUDLYPHPNAME => array('productSaleElementsId', 'currencyId', 'price', 'promoPrice', 'fromDefaultCurrency', 'createdAt', 'updatedAt', ),
-        self::TYPE_COLNAME       => array(ProductPriceTableMap::PRODUCT_SALE_ELEMENTS_ID, ProductPriceTableMap::CURRENCY_ID, ProductPriceTableMap::PRICE, ProductPriceTableMap::PROMO_PRICE, ProductPriceTableMap::FROM_DEFAULT_CURRENCY, ProductPriceTableMap::CREATED_AT, ProductPriceTableMap::UPDATED_AT, ),
-        self::TYPE_RAW_COLNAME   => array('PRODUCT_SALE_ELEMENTS_ID', 'CURRENCY_ID', 'PRICE', 'PROMO_PRICE', 'FROM_DEFAULT_CURRENCY', 'CREATED_AT', 'UPDATED_AT', ),
-        self::TYPE_FIELDNAME     => array('product_sale_elements_id', 'currency_id', 'price', 'promo_price', 'from_default_currency', 'created_at', 'updated_at', ),
-        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, )
+        self::TYPE_PHPNAME       => array('ProductSaleElementsId', 'CurrencyId', 'Price', 'PromoPrice', 'FromDefaultCurrency', 'CreatedAt', 'UpdatedAt', 'ListenPrice', 'EkPreisSht', 'EkPreisGc', 'EkPreisOag', 'EkPreisHolter', 'EkPreisOdorfer', 'PreisReuter', 'VergleichEk', 'Aufschlag', ),
+        self::TYPE_STUDLYPHPNAME => array('productSaleElementsId', 'currencyId', 'price', 'promoPrice', 'fromDefaultCurrency', 'createdAt', 'updatedAt', 'listenPrice', 'ekPreisSht', 'ekPreisGc', 'ekPreisOag', 'ekPreisHolter', 'ekPreisOdorfer', 'preisReuter', 'vergleichEk', 'aufschlag', ),
+        self::TYPE_COLNAME       => array(ProductPriceTableMap::PRODUCT_SALE_ELEMENTS_ID, ProductPriceTableMap::CURRENCY_ID, ProductPriceTableMap::PRICE, ProductPriceTableMap::PROMO_PRICE, ProductPriceTableMap::FROM_DEFAULT_CURRENCY, ProductPriceTableMap::CREATED_AT, ProductPriceTableMap::UPDATED_AT, ProductPriceTableMap::LISTEN_PRICE, ProductPriceTableMap::EK_PREIS_SHT, ProductPriceTableMap::EK_PREIS_GC, ProductPriceTableMap::EK_PREIS_OAG, ProductPriceTableMap::EK_PREIS_HOLTER, ProductPriceTableMap::EK_PREIS_ODORFER, ProductPriceTableMap::PREIS_REUTER, ProductPriceTableMap::VERGLEICH_EK, ProductPriceTableMap::AUFSCHLAG, ),
+        self::TYPE_RAW_COLNAME   => array('PRODUCT_SALE_ELEMENTS_ID', 'CURRENCY_ID', 'PRICE', 'PROMO_PRICE', 'FROM_DEFAULT_CURRENCY', 'CREATED_AT', 'UPDATED_AT', 'LISTEN_PRICE', 'EK_PREIS_SHT', 'EK_PREIS_GC', 'EK_PREIS_OAG', 'EK_PREIS_HOLTER', 'EK_PREIS_ODORFER', 'PREIS_REUTER', 'VERGLEICH_EK', 'AUFSCHLAG', ),
+        self::TYPE_FIELDNAME     => array('product_sale_elements_id', 'currency_id', 'price', 'promo_price', 'from_default_currency', 'created_at', 'updated_at', 'listen_price', 'ek_preis_sht', 'ek_preis_gc', 'ek_preis_oag', 'ek_preis_holter', 'ek_preis_odorfer', 'preis_reuter', 'vergleich_ek', 'aufschlag', ),
+        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, )
     );
 
     /**
@@ -132,12 +177,12 @@ class ProductPriceTableMap extends TableMap
      * e.g. self::$fieldKeys[self::TYPE_PHPNAME]['Id'] = 0
      */
     protected static $fieldKeys = array (
-        self::TYPE_PHPNAME       => array('ProductSaleElementsId' => 0, 'CurrencyId' => 1, 'Price' => 2, 'PromoPrice' => 3, 'FromDefaultCurrency' => 4, 'CreatedAt' => 5, 'UpdatedAt' => 6, ),
-        self::TYPE_STUDLYPHPNAME => array('productSaleElementsId' => 0, 'currencyId' => 1, 'price' => 2, 'promoPrice' => 3, 'fromDefaultCurrency' => 4, 'createdAt' => 5, 'updatedAt' => 6, ),
-        self::TYPE_COLNAME       => array(ProductPriceTableMap::PRODUCT_SALE_ELEMENTS_ID => 0, ProductPriceTableMap::CURRENCY_ID => 1, ProductPriceTableMap::PRICE => 2, ProductPriceTableMap::PROMO_PRICE => 3, ProductPriceTableMap::FROM_DEFAULT_CURRENCY => 4, ProductPriceTableMap::CREATED_AT => 5, ProductPriceTableMap::UPDATED_AT => 6, ),
-        self::TYPE_RAW_COLNAME   => array('PRODUCT_SALE_ELEMENTS_ID' => 0, 'CURRENCY_ID' => 1, 'PRICE' => 2, 'PROMO_PRICE' => 3, 'FROM_DEFAULT_CURRENCY' => 4, 'CREATED_AT' => 5, 'UPDATED_AT' => 6, ),
-        self::TYPE_FIELDNAME     => array('product_sale_elements_id' => 0, 'currency_id' => 1, 'price' => 2, 'promo_price' => 3, 'from_default_currency' => 4, 'created_at' => 5, 'updated_at' => 6, ),
-        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, )
+        self::TYPE_PHPNAME       => array('ProductSaleElementsId' => 0, 'CurrencyId' => 1, 'Price' => 2, 'PromoPrice' => 3, 'FromDefaultCurrency' => 4, 'CreatedAt' => 5, 'UpdatedAt' => 6, 'ListenPrice' => 7, 'EkPreisSht' => 8, 'EkPreisGc' => 9, 'EkPreisOag' => 10, 'EkPreisHolter' => 11, 'EkPreisOdorfer' => 12, 'PreisReuter' => 13, 'VergleichEk' => 14, 'Aufschlag' => 15, ),
+        self::TYPE_STUDLYPHPNAME => array('productSaleElementsId' => 0, 'currencyId' => 1, 'price' => 2, 'promoPrice' => 3, 'fromDefaultCurrency' => 4, 'createdAt' => 5, 'updatedAt' => 6, 'listenPrice' => 7, 'ekPreisSht' => 8, 'ekPreisGc' => 9, 'ekPreisOag' => 10, 'ekPreisHolter' => 11, 'ekPreisOdorfer' => 12, 'preisReuter' => 13, 'vergleichEk' => 14, 'aufschlag' => 15, ),
+        self::TYPE_COLNAME       => array(ProductPriceTableMap::PRODUCT_SALE_ELEMENTS_ID => 0, ProductPriceTableMap::CURRENCY_ID => 1, ProductPriceTableMap::PRICE => 2, ProductPriceTableMap::PROMO_PRICE => 3, ProductPriceTableMap::FROM_DEFAULT_CURRENCY => 4, ProductPriceTableMap::CREATED_AT => 5, ProductPriceTableMap::UPDATED_AT => 6, ProductPriceTableMap::LISTEN_PRICE => 7, ProductPriceTableMap::EK_PREIS_SHT => 8, ProductPriceTableMap::EK_PREIS_GC => 9, ProductPriceTableMap::EK_PREIS_OAG => 10, ProductPriceTableMap::EK_PREIS_HOLTER => 11, ProductPriceTableMap::EK_PREIS_ODORFER => 12, ProductPriceTableMap::PREIS_REUTER => 13, ProductPriceTableMap::VERGLEICH_EK => 14, ProductPriceTableMap::AUFSCHLAG => 15, ),
+        self::TYPE_RAW_COLNAME   => array('PRODUCT_SALE_ELEMENTS_ID' => 0, 'CURRENCY_ID' => 1, 'PRICE' => 2, 'PROMO_PRICE' => 3, 'FROM_DEFAULT_CURRENCY' => 4, 'CREATED_AT' => 5, 'UPDATED_AT' => 6, 'LISTEN_PRICE' => 7, 'EK_PREIS_SHT' => 8, 'EK_PREIS_GC' => 9, 'EK_PREIS_OAG' => 10, 'EK_PREIS_HOLTER' => 11, 'EK_PREIS_ODORFER' => 12, 'PREIS_REUTER' => 13, 'VERGLEICH_EK' => 14, 'AUFSCHLAG' => 15, ),
+        self::TYPE_FIELDNAME     => array('product_sale_elements_id' => 0, 'currency_id' => 1, 'price' => 2, 'promo_price' => 3, 'from_default_currency' => 4, 'created_at' => 5, 'updated_at' => 6, 'listen_price' => 7, 'ek_preis_sht' => 8, 'ek_preis_gc' => 9, 'ek_preis_oag' => 10, 'ek_preis_holter' => 11, 'ek_preis_odorfer' => 12, 'preis_reuter' => 13, 'vergleich_ek' => 14, 'aufschlag' => 15, ),
+        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, )
     );
 
     /**
@@ -158,11 +203,20 @@ class ProductPriceTableMap extends TableMap
         // columns
         $this->addForeignPrimaryKey('PRODUCT_SALE_ELEMENTS_ID', 'ProductSaleElementsId', 'INTEGER' , 'product_sale_elements', 'ID', true, null, null);
         $this->addForeignPrimaryKey('CURRENCY_ID', 'CurrencyId', 'INTEGER' , 'currency', 'ID', true, null, null);
-        $this->addColumn('PRICE', 'Price', 'DECIMAL', true, 16, 0);
-        $this->addColumn('PROMO_PRICE', 'PromoPrice', 'DECIMAL', true, 16, 0);
+        $this->addColumn('PRICE', 'Price', 'DECIMAL', false, 16, 0);
+        $this->addColumn('PROMO_PRICE', 'PromoPrice', 'DECIMAL', false, 16, 0);
         $this->addColumn('FROM_DEFAULT_CURRENCY', 'FromDefaultCurrency', 'BOOLEAN', true, 1, true);
         $this->addColumn('CREATED_AT', 'CreatedAt', 'TIMESTAMP', false, null, null);
         $this->addColumn('UPDATED_AT', 'UpdatedAt', 'TIMESTAMP', false, null, null);
+        $this->addColumn('LISTEN_PRICE', 'ListenPrice', 'DECIMAL', false, 16, 0);
+        $this->addColumn('EK_PREIS_SHT', 'EkPreisSht', 'DECIMAL', false, 16, 0);
+        $this->addColumn('EK_PREIS_GC', 'EkPreisGc', 'DECIMAL', false, 16, 0);
+        $this->addColumn('EK_PREIS_OAG', 'EkPreisOag', 'DECIMAL', false, 16, 0);
+        $this->addColumn('EK_PREIS_HOLTER', 'EkPreisHolter', 'DECIMAL', false, 16, 0);
+        $this->addColumn('EK_PREIS_ODORFER', 'EkPreisOdorfer', 'DECIMAL', false, 16, 0);
+        $this->addColumn('PREIS_REUTER', 'PreisReuter', 'DECIMAL', false, 16, 0);
+        $this->addColumn('VERGLEICH_EK', 'VergleichEk', 'DECIMAL', false, 16, 0);
+        $this->addColumn('AUFSCHLAG', 'Aufschlag', 'DECIMAL', false, 16, 0);
     } // initialize()
 
     /**
@@ -170,22 +224,9 @@ class ProductPriceTableMap extends TableMap
      */
     public function buildRelations()
     {
-        $this->addRelation('ProductSaleElements', '\\Thelia\\Model\\ProductSaleElements', RelationMap::MANY_TO_ONE, array('product_sale_elements_id' => 'id', ), 'CASCADE', null);
         $this->addRelation('Currency', '\\Thelia\\Model\\Currency', RelationMap::MANY_TO_ONE, array('currency_id' => 'id', ), 'CASCADE', null);
+        $this->addRelation('ProductSaleElements', '\\Thelia\\Model\\ProductSaleElements', RelationMap::MANY_TO_ONE, array('product_sale_elements_id' => 'id', ), 'CASCADE', null);
     } // buildRelations()
-
-    /**
-     *
-     * Gets the list of behaviors registered for this table
-     *
-     * @return array Associative array (name => parameters) of behaviors
-     */
-    public function getBehaviors()
-    {
-        return array(
-            'timestampable' => array('create_column' => 'created_at', 'update_column' => 'updated_at', ),
-        );
-    } // getBehaviors()
 
     /**
      * Adds an object to the instance pool.
@@ -381,6 +422,15 @@ class ProductPriceTableMap extends TableMap
             $criteria->addSelectColumn(ProductPriceTableMap::FROM_DEFAULT_CURRENCY);
             $criteria->addSelectColumn(ProductPriceTableMap::CREATED_AT);
             $criteria->addSelectColumn(ProductPriceTableMap::UPDATED_AT);
+            $criteria->addSelectColumn(ProductPriceTableMap::LISTEN_PRICE);
+            $criteria->addSelectColumn(ProductPriceTableMap::EK_PREIS_SHT);
+            $criteria->addSelectColumn(ProductPriceTableMap::EK_PREIS_GC);
+            $criteria->addSelectColumn(ProductPriceTableMap::EK_PREIS_OAG);
+            $criteria->addSelectColumn(ProductPriceTableMap::EK_PREIS_HOLTER);
+            $criteria->addSelectColumn(ProductPriceTableMap::EK_PREIS_ODORFER);
+            $criteria->addSelectColumn(ProductPriceTableMap::PREIS_REUTER);
+            $criteria->addSelectColumn(ProductPriceTableMap::VERGLEICH_EK);
+            $criteria->addSelectColumn(ProductPriceTableMap::AUFSCHLAG);
         } else {
             $criteria->addSelectColumn($alias . '.PRODUCT_SALE_ELEMENTS_ID');
             $criteria->addSelectColumn($alias . '.CURRENCY_ID');
@@ -389,6 +439,15 @@ class ProductPriceTableMap extends TableMap
             $criteria->addSelectColumn($alias . '.FROM_DEFAULT_CURRENCY');
             $criteria->addSelectColumn($alias . '.CREATED_AT');
             $criteria->addSelectColumn($alias . '.UPDATED_AT');
+            $criteria->addSelectColumn($alias . '.LISTEN_PRICE');
+            $criteria->addSelectColumn($alias . '.EK_PREIS_SHT');
+            $criteria->addSelectColumn($alias . '.EK_PREIS_GC');
+            $criteria->addSelectColumn($alias . '.EK_PREIS_OAG');
+            $criteria->addSelectColumn($alias . '.EK_PREIS_HOLTER');
+            $criteria->addSelectColumn($alias . '.EK_PREIS_ODORFER');
+            $criteria->addSelectColumn($alias . '.PREIS_REUTER');
+            $criteria->addSelectColumn($alias . '.VERGLEICH_EK');
+            $criteria->addSelectColumn($alias . '.AUFSCHLAG');
         }
     }
 
