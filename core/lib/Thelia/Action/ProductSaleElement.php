@@ -189,6 +189,15 @@ class ProductSaleElement extends BaseAction implements EventSubscriberInterface
                 ;
             }
 
+            $productPrice->setListenPrice($event->getListenPrice())
+            ->setEkPreisGc($event->getEkPreisGc())
+            ->setEkPreisOag($event->getEkPreisOag())
+            ->setEkPreisSht($event->getEkPreisSht())
+            ->setEkPreisHolter($event->getEkPreisHolter())
+            ->setEkPreisOdorfer($event->getEkPreisOdorfer())
+            ->setPreisReuter($event->getPreisReuter())
+            ->setVergleichEk($event->getVergleichEk())
+            ->setAufschlag($event->getAufschlag());
             $productPrice->save($con);
 
             // Store all the stuff !
