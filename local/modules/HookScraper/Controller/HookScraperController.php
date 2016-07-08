@@ -30,6 +30,7 @@ use Thelia\Model\BrandI18nQuery;
 class HookScraperController extends BaseAdminController
 {
 	private $cookiefile;
+    private $brand_id,$category_id;
 	
 	public function scrapeSearch(Request $request){
 		set_time_limit (0);
@@ -42,6 +43,10 @@ class HookScraperController extends BaseAdminController
 			$response = new Response();
 			$loginResponse = $this->login();
 			echo $loginResponse;
+            
+            $this->brand_id =$request->request->get("brand_id");
+            $this->category_id =$request->request->get("category_id");
+            
 			$responsePage =$this->getResults($request);//search results
 			
 			$GCProductKey = $this->getGCProductKey($responsePage);//first result product key
@@ -122,7 +127,8 @@ class HookScraperController extends BaseAdminController
 		
 		
 		$currentDate = date ( "Y-m-d H:i:s" );
-		$productCategoryID = 37;
+        echo "category ".$this->category_id." brand ".$this->brand_id;
+		$productCategoryID = $this->category_id;
 		
 		
 		$productExists = count ( $productQuerry->findByRef ( $productNumber ) );
@@ -134,7 +140,7 @@ class HookScraperController extends BaseAdminController
 			$productThelia->setRef ( $productNumber ); // must be unique
 			$productThelia->setExternId($productNumber);
 			$productThelia->setVisible ( 1 );
-			$productThelia->setBrandId(98);
+			$productThelia->setBrandId($this->brand_id);
 			 
 			$productThelia->setCreatedAt ( $currentDate );
 			$productThelia->setUpdatedAt ( $currentDate );

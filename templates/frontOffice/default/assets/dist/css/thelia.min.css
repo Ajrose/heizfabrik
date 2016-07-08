@@ -11419,7 +11419,7 @@ button.fs-continue,
 }
 .fs-fields > li .radiolabel {
 	position: relative;
-    font-size:2em;
+    font-size: 2vmin;
     font-weight:bold!important;
 }
 .fs-fields > li label.fs-field-label {
@@ -11555,7 +11555,7 @@ label.fs-field-label-sm {
 	margin-right: 3%;
 	padding: 10px;
 	max-width: 200px;
-	width: 20%;
+	width: 17%;
 	text-align: center;
 	font-weight: 700;
 	font-size: 50%;
@@ -11604,18 +11604,21 @@ label.fs-field-label-sm {
 }
 
 .fs-fields .fs-radio-custom label.radio1::after {
-	background-image: url(../img/mobile.svg);
+	background-image: url(../img/konfigurator-icons/erdgas.svg);
 }
 
 .fs-fields .fs-radio-custom label.radio2::after {
-	background-image: url(../img/social.svg);
+	background-image: url(../img/konfigurator-icons/heizoel.svg);
 }
 
 .fs-fields .fs-radio-custom label.radio3::after {
-	background-image: url(../img/conversion.svg);
+	background-image: url(../img/konfigurator-icons/holz.svg);
 }
 .fs-fields .fs-radio-custom label.radio4::after {
-	background-image: url(../img/sonstiges.svg);
+	background-image: url(../img/konfigurator-icons/heatpump.svg);
+}
+.fs-fields .fs-radio-custom label.radio5::after {
+	background-image: url(../img/konfigurator-icons/sonstiges.svg);
 }
 
 .fs-fields .fs-radio-custom label:hover::after,

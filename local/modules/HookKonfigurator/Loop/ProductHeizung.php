@@ -326,15 +326,17 @@ class ProductHeizung extends BaseI18nLoop implements PropelSearchLoopInterface, 
 		$brennstoff_name = "";
 
 
-		
+		/*TODO filter based on energycarrier*/
+        
 
-		if($brennstoff == 4)
+		if($brennstoff == 5)
 			$search
-			->condition('brennstoff_zukunft', 'energy_carrier > ?',3,\PDO::PARAM_INT)
+			->condition('brennstoff_zukunft', 'energy_carrier > ?',$brennstoff-1,\PDO::PARAM_INT)
 			->where ( array ('power_larger_then','power_smaller_then','brennstoff_zukunft' ), Criteria::LOGICAL_AND ); // power_condition
 		else 
 			$search
-			->where ( array ('power_larger_then','power_smaller_then' ), Criteria::LOGICAL_AND );			
+            ->condition('brennstoff_zukunft', 'energy_carrier = ?',$brennstoff,\PDO::PARAM_INT)
+			->where ( array ('power_larger_then','power_smaller_then','brennstoff_zukunft' ), Criteria::LOGICAL_AND );			
 
 		//if ($visible !== Type\BooleanOrBothType::ANY) {
 			$search->filterByVisible(1);

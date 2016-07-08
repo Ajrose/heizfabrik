@@ -305,6 +305,7 @@
 .tab-pane{
 	padding:10px;
 }
+/*
 .nav-tabs {
   display:block;
   border-bottom: none;
@@ -324,7 +325,7 @@
   border-radius: 0;
   cursor:pointer;
 }
-
+*/
 .nav-list { 
 	border-bottom: 1px solid #eee;
 }

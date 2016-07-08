@@ -159,7 +159,8 @@ class Konfiguratoreinstellung
 		switch ($this->baujahr){
 			case 1:$faktor+=15;break;
 			case 2:$faktor+=11;break;
-			case 3:$faktor+=8;
+			case 3:$faktor+=8;break;
+            case 4:$faktor+=5;
 		}
 		switch ($this->lage_des_gebaeudes){
 			case 1:$faktor+=15;break;
