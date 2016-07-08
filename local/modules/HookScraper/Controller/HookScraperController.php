@@ -87,7 +87,7 @@ class HookScraperController extends BaseAdminController
 		$response .= "SupplierProductNumber: ".$supplierProductNumber ." <br>";
 		
 		//product description - locale,title,description,short,post
-		$title = $product["Description1"];
+		$title = $product["Description1"]." ".$product["Description2"];
 		$response .= "Title: ".$title ." <br>";
 		
 		$description = $product["DTN"];
@@ -127,12 +127,8 @@ class HookScraperController extends BaseAdminController
 		
 		
 		$currentDate = date ( "Y-m-d H:i:s" );
-<<<<<<< HEAD
-		$productCategoryID = 30;
-=======
         echo "category ".$this->category_id." brand ".$this->brand_id;
 		$productCategoryID = $this->category_id;
->>>>>>> origin/master
 		
 		
 		$productExists = count ( $productQuerry->findByRef ( $productNumber ) );
@@ -143,13 +139,8 @@ class HookScraperController extends BaseAdminController
 			$productThelia = new Product ();
 			$productThelia->setRef ( $productNumber ); // must be unique
 			$productThelia->setExternId($productNumber);
-<<<<<<< HEAD
-			$productThelia->setVisible ( 0 );
-			$productThelia->setBrandId(97);
-=======
 			$productThelia->setVisible ( 1 );
 			$productThelia->setBrandId($this->brand_id);
->>>>>>> origin/master
 			 
 			$productThelia->setCreatedAt ( $currentDate );
 			$productThelia->setUpdatedAt ( $currentDate );
