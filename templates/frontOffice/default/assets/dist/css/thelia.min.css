@@ -10102,6 +10102,9 @@ td.product .name>a:hover {
     display: block;
     width: 100%
 }
+.price-container small{
+    padding:15px;
+}
 #product-details .product-info {
     border-bottom: 1px solid #e5e5e5;
     margin-bottom: 15px
@@ -11218,7 +11221,9 @@ ul.dropdown-menu li:hover{
 
 /*KONFIGURATOR*/
 
-
+.konfigurator-ergebniss{
+    //margin-top:-100px;
+}
 
 /* Main form wrapper */
 .fs-form-wrap {
@@ -12200,6 +12205,7 @@ input[type=text]::-ms-clear {
 	text-align: left;
 	height: auto!important;
 	//overflow: hidden;
+    padding:5px;
 }
 
 .og-expander-inner {
