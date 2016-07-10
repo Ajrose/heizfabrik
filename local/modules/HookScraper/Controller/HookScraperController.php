@@ -30,41 +30,45 @@ use Thelia\Model\BrandI18nQuery;
 class HookScraperController extends BaseAdminController
 {
 	private $cookiefile;
-    private $brand_id,$category_id;
+    private $request;
 	
 	public function scrapeSearch(Request $request){
+		
+		$this->init();
+		
+		$this->request = $request;
+		
+		if ($request->isXmlHttpRequest ()) {
+			
+			$response = new Response();
+			$loginResponse = $this->login();
+			echo $loginResponse;
+			
+			$responsePage =$this->getResults($request->request->get("product_gc_id"));//search results
+				
+			$GCProductKey = $this->getGCProductKey($responsePage);//first result product key
+				
+			$productDetails = $this->getGCProductDetails($GCProductKey, "");
+			$productDetails = $this->parseGCProductDetails($productDetails);
+		
+			$response->setContent($productDetails);
+				
+			return $response;
+		}
+		else
+			return new JsonResponse ( array ('stuff' => 'more stuff') ); // $productsQuerry->__toString()	
+	}
+	
+	public function init(){
 		set_time_limit (0);
 		$log = Tlog::getInstance ();
 		$log->debug ( "-- hookscraper " );
 		
 		$this->cookiefile = dirname(__FILE__) . '/cookie.txt';
-		
-		if ($request->isXmlHttpRequest ()) {
-			$response = new Response();
-			$loginResponse = $this->login();
-			echo $loginResponse;
-            
-            $this->brand_id =$request->request->get("brand_id");
-            $this->category_id =$request->request->get("category_id");
-            
-			$responsePage =$this->getResults($request);//search results
-			
-			$GCProductKey = $this->getGCProductKey($responsePage);//first result product key
-			
-			$productDetails = $this->getGCProductDetails($GCProductKey, "");
-			$productDetails = $this->parseGCProductDetails($productDetails);
-
-			$response->setContent($productDetails);
-			
-			return $response;
-		}
-		else
-		{
-			return new JsonResponse ( array ('stuff' => 'more stuff') ); // $productsQuerry->__toString()
-		}
 	}
 	
-	private function parseGCProductDetails($productJson){
+	
+	public function parseGCProductDetails($productJson,$info = 1){
 	//$productJson = '{"d":{"__type":"GcOnline.getProductDetailsReturn","Variant":"01","Supplier":"HOMO01","RunNumber":209,"ProductNumber":"CMT907","Key1":"LG","Key2":"J","Key3":"100","Key4":"CMT907","CustomerProductNumber":"","GTIN":"","SupplierProductNumber":"CMT907A1066","Description1":"Honeywell Raumthermostat programmierbar","Description2":"f.Einzelraum- und Zonenregelung digital","DTN":"Der CM907 bietet eine automatische Zeit-\u003cbr /\u003eund Temperatursteuerung in Villen und A\u003cbr /\u003epartments. Er kann in vielfältiger Weise\u003cbr /\u003ezur Raumtemperatur-Regelung von einzeln\u003cbr /\u003een Räumen oder Zonen in Verbindung mit Z\u003cbr /\u003eirkulationspumpen, Thermoantrieben, Zone\u003cbr /\u003enventilen und Elektroerhitzern (\u0026lt;8A) ein\u003cbr /\u003egesetzt werden. In einfachen Fällen ist\u003cbr /\u003esogar die Ansteuerung von kleinen Wärmee\u003cbr /\u003erzeugern mit Ölbrennern oder Gasbrennern\u003cbr /\u003edenkbar. Der CM907 besitzt für die schn\u003cbr /\u003eelle und einfache Installation einen Mon\u003cbr /\u003etagesockel mit Kabelkanälen und Ausbrüch\u003cbr /\u003een.\u003cbr /\u003eMerkmale:\u003cbr /\u003eDynamische Texte in des LCD-Anzeige gebe\u003cbr /\u003en zusätzliche Informationen für den Benu\u003cbr /\u003etzer und Installateur.\u003cbr /\u003eLCD-Hinterleuchtung für bessere Anzeige.\u003cbr /\u003e\u003cbr /\u003eEEPROM speichert das Anwendungsprogramm\u003cbr /\u003ebei Batteriewechsel und dauerhaft.\u003cbr /\u003eInstallateur-Einstellbetrieb erlaubt zus\u003cbr /\u003eätzliche Einstellungen nur durch den Ins\u003cbr /\u003etallateur, um die Anforderungen des Nutz\u003cbr /\u003eers zu erfüllen.\u003cbr /\u003eDiagnosebetrieb zum Auffinden von Fehler\u003cbr /\u003en.\u003cbr /\u003eAbmessungen: 133 x 89 x 26 mm (B x H x T\u003cbr /\u003e)\u003cbr /\u003eBatterien: 2 x 1,5 V IEC LR6 (AA) Alkali\u003cbr /\u003ene Zellen / Min. 2 Jahre\u003cbr /\u003eBelastung: 230 Vac, 50...60 Hz, 0,5...8\u003cbr /\u003eA (Ohm), 24 Vac, 50...60 Hz, 0,5...8 A (\u003cbr /\u003eOhm)\u003cbr /\u003eTemp.-Einstellbereich: Programm: 5...35\u003cbr /\u003eGradC in 0,5 Grad C Schritten\u003cbr /\u003e\u003cbr /\u003e\u003cbr /\u003e\u003cbr /\u003e\u003cbr /\u003e\u003cbr /\u003e\u003cbr /\u003e\u003cbr /\u003e\u003cbr /\u003e\u003cbr /\u003e\u003cbr /\u003e","GrosPrice":"160,50","GrosCurrency":"EUR","NetPrice":"","NetCurrency":"","Unit":"Stück","UnitCode":"ST","PriceUnit":"Per 1","PackageUnit1":"Karton","PackageUnit2":"","PackageUnit3":"","PackageUnit4":"","PackageUnit5":"","PackageUnitFactor1":50.000,"PackageUnitFactor2":0.000,"PackageUnitFactor3":0.000,"PackageUnitFactor4":0.000,"PackageUnitFactor5":0.000,"HintText":"","DiscountGroup":"N3AA","DiscountGroupText":"Centra Regelungen und Mischer C1-C6/C10-C11","DecimalsAllowed":false,"OX_SupplierProductNumber":"CMT907A1066","OX_GTIN":"5025121389846","OX_Supplier":"HOMO01","OX_ModelNumber":"","NF_Variant":"","NF_Supplier":"","NF_RunNumber":0,"NF_ProductNumber":"","NF_Desription1":"","NF_Desription2":"","ALT_Variant":"","ALT_Supplier":"","ALT_RunNumber":0,"ALT_ProductNumber":"","ALT_Desription1":"","ALT_Desription2":"","MeasurementUnit":"Honeywell Raumthermostat programmierbar","ProductType":"1","MarkOrderStock":"L","MFVCentralStock":"","CentralStock":"","ShortCutIGNM":"HY","CaptionProductNumber":"Artikelnummer","CaptionCustomerProductNumber":"Kundeneigene Artikelnummer","CaptionGTIN":"GTIN","CaptionSupplierProductNumber":"Hersteller Artikelnummer","CaptionDescription1":"Bezeichnung 1","CaptionDescription2":"Bezeichnung 2","CaptionDTN":"Langtext","CaptionGrosPrice":"Bruttopreis","CaptionGrosCurrency":"Währung","CaptionUnit":"Mengeneinheit","CaptionPriceUnit":"Preiseinheit","CaptionPackageUnit":"Verpackungseinheit","CaptionPkgUnitFactor":"Verpackungsfaktor","CaptionHinttext":"Hinweis","CaptionNetPrice":"Nettopreis","CaptionNetCurrency":"Währung Nettopreis","CaptionDiscountGroup":"Rabattgruppe","CaptionDiscountGrpText":"Rabattgruppen Beschreibung","TabPictures":"\u003ctable\u003e\u003ctr style=\u0027height:160px;\u0027\u003e\u003ctd class=\u0027dtvtd\u0027 \u003e\u003ctable\u003e\u003ctr\u003e\u003ctd\u003e\u003ca id=\u0027multimedia01HOMO012090\u0027 href=\u0027images/data/AbleX/ProductMedia/at/Mediadata_Archiv/1838/2205/104/104936/jpg/0/.converted_1496/converted_1496_hyb_0368w.jpg.jpg\u0027 rel=\u0027lightbox[01:HOMO01:209]\u0027 title=\u0027Fotorealistisches Bild in Farbe\u0027 class=\u0027fancybox\u0027\u003e\u003cimg id=\u0027multimedia01HOMO012090_img\u0027 src=\u0027images/data/AbleX/ProductMedia/at/Mediadata_Archiv/1838/2205/104/104936/jpg/0/.converted_120/converted_120_hyb_0368w.jpg.jpg\u0027 max-width=\u0027100\u0027 max-height=\u0027100\u0027alt=\u0027Fotorealistisches Bild in Farbe\u0027 \u003e\u003c/img\u003e\u003c/a\u003e\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd align=\u0027center\u0027\u003e\u003ca id=\u0027multimedia01HOMO012090_l\u0027 href=\u0027images/data/AbleX/ProductMedia/at/Mediadata_Archiv/1838/2205/104/104936/jpg/0/.converted_1496/converted_1496_hyb_0368w.jpg.jpg\u0027 rel=\u0027lightbox2[01:HOMO01:209]\u0027 class=\u0027fancybox jqmlink\u0027 data-id=\u00271\u0027 \u003eFotorealistisches Bild in Farbe\u003c/a\u003e\u003c/td\u003e\u003c/tr\u003e\u003c/table\u003e\u003c/td\u003e\u003ctd style=\u0027width:10px;\u0027\u003e\u003c/td\u003e\u003ctd class=\u0027dtvtd\u0027 \u003e\u003ctable\u003e\u003ctr\u003e\u003ctd\u003e\u003ca id=\u0027multimedia01HOMO012091\u0027 href=\u0027images/data/AbleX/ProductMedia/at/Mediadata_Archiv/1838/2205/104/104936/jpg/0/.converted_1496/converted_1496_hys_0369s.jpg.jpg\u0027 rel=\u0027lightbox[01:HOMO01:209]\u0027 title=\u0027Fotorealistisches Schwarz-Weiß-Bild\u0027 class=\u0027fancybox\u0027\u003e\u003cimg id=\u0027multimedia01HOMO012091_img\u0027 src=\u0027images/data/AbleX/ProductMedia/at/Mediadata_Archiv/1838/2205/104/104936/jpg/0/.converted_120/converted_120_hys_0369s.jpg.jpg\u0027 max-width=\u0027100\u0027 max-height=\u0027100\u0027alt=\u0027Fotorealistisches Schwarz-Weiß-Bild\u0027 \u003e\u003c/img\u003e\u003c/a\u003e\u003c/td\u003e\u003c/tr\u003e\u003ctr\u003e\u003ctd align=\u0027center\u0027\u003e\u003ca id=\u0027multimedia01HOMO012091_l\u0027 href=\u0027images/data/AbleX/ProductMedia/at/Mediadata_Archiv/1838/2205/104/104936/jpg/0/.converted_1496/converted_1496_hys_0369s.jpg.jpg\u0027 rel=\u0027lightbox2[01:HOMO01:209]\u0027 class=\u0027fancybox jqmlink\u0027 data-id=\u00272\u0027 \u003eFotorealistisches Schwarz-Weiß-Bild\u003c/a\u003e\u003c/td\u003e\u003c/tr\u003e\u003c/table\u003e\u003c/td\u003e\u003ctd style=\u0027width:10px;\u0027\u003e\u003c/td\u003e\u003c/tr\u003e\u003c/table\u003e","TabPicturePriceList":"\u003ctable\u003e\u003ctr\u003e\u003ctd class=\u0027dxmVerticalMenu jqBPLItem\u0027 style=\u0027cursor:pointer;padding:5px;\u0027\u003eHeizung 852\u003c/td\u003e\u003ctd class=\u0027hidden jqBPLLink\u0027\u003eimages/data/ZENTRAL/Inst_CG/BPL/HTML5/A/ebooks/AT_Heizung/index.html#page/852\u003c/td\u003e\u003c/tr\u003e\u003c/table\u003e","TabOthers":"","Tab3D":"","ShowMultimedia":true,"ShowNet":false,"ShowDTN":true,"ShowStock":false,"ShowBPL":true,"ShowJumbo":false,"ShowNRF":false,"ShowOxomi":false,"MultimediaItems":null,"Attributes":null,"IsAbleX":true,"IsUnlimited":false,"UnlimitedHint":null}}';
 
 	
@@ -123,24 +127,22 @@ class HookScraperController extends BaseAdminController
 		//price
 		$productPriceAndStock = $this->getGCProductPrice($productPriceRequest);
 		$productPriceAndStock = $this->parseGCProductPrice($productPriceAndStock);
-		
-		
-		
+
 		$currentDate = date ( "Y-m-d H:i:s" );
-        echo "category ".$this->category_id." brand ".$this->brand_id;
-		$productCategoryID = $this->category_id;
-		
+
+		$productCategoryID = $this->request->get("category_id");
 		
 		$productExists = count ( $productQuerry->findByRef ( $productNumber ) );
 		
 		if ($productExists == 0) // product_numbers must be unique
 		{
 			$log->debug ( " gc_imported_product is new " );
+			
 			$productThelia = new Product ();
 			$productThelia->setRef ( $productNumber ); // must be unique
 			$productThelia->setExternId($productNumber);
 			$productThelia->setVisible ( 1 );
-			$productThelia->setBrandId($this->brand_id);
+			$productThelia->setBrandId($this->request->get("brand_id"));
 			 
 			$productThelia->setCreatedAt ( $currentDate );
 			$productThelia->setUpdatedAt ( $currentDate );
@@ -311,7 +313,7 @@ class HookScraperController extends BaseAdminController
 		return $response;
 	}
 	
-	private function parseGCProductPrice($productPriceResponse){
+	public function parseGCProductPrice($productPriceResponse){
 		/*
 		{"d":{"__type":"GcOnline.ProductDetailsSet","TabPictures":"","TabOthers":"","Tab3D":"","TabPicturePriceList":"",
 		"FollowUpSymbol":"","FollowUpText":"","AlternateSymbol":"","AlternateText":"",
@@ -341,7 +343,7 @@ class HookScraperController extends BaseAdminController
 		return 0;
 	}
 	
-	private function getGCProductPrice($productDetails){
+	public function getGCProductPrice($productDetails){
 		// send login request
 		//$ch1 = curl_init("localhost/scraper/form.php");
 		$ch1 = curl_init("http://www.gconlineplus.at/ProductDetails2.aspx/getPricesAndStock");
@@ -403,7 +405,7 @@ class HookScraperController extends BaseAdminController
 		return $result1;
 	}
 	
-	private function getGCProductDetails($GCProductKey){
+	public function getGCProductDetails($GCProductKey){
 		$log = Tlog::getInstance ();
 		//	http://www.gconlineplus.at/ProductResultList.aspx/SetSessionProductKeys
 		//6th set product
@@ -483,7 +485,7 @@ class HookScraperController extends BaseAdminController
 	
 	
 	
-	private function login(){
+	public function login($info = 1){
 
 		//first request in order to get some cookies :P
 		$ch1 = curl_init("http://www.gconlineplus.at");
@@ -500,6 +502,7 @@ class HookScraperController extends BaseAdminController
 		if(strpos($result1,"nwing")>0)
 			return true;
 		
+		if($info)
 		echo "first request sent, received cookies <br>";
 		
 		file_put_contents(dirname(__FILE__) .DIRECTORY_SEPARATOR."responses".DIRECTORY_SEPARATOR."1scraper_first.txt", $result1."\n\n");
@@ -530,6 +533,8 @@ class HookScraperController extends BaseAdminController
 		
 		$result1 = curl_exec($ch1);
 		//$full_results .=$result1;
+		
+		if($info)
 		echo "second request sent, received asp hidden fields <br>";
 		
 		//echo $result1;
@@ -572,6 +577,8 @@ class HookScraperController extends BaseAdminController
 		
 		$result1 = curl_exec($ch1);
 		//$full_results .=$result1;
+		
+		if($info)
 		echo "third request sent, user is logged in <br>";
 		
 		file_put_contents(dirname(__FILE__) .DIRECTORY_SEPARATOR."responses".DIRECTORY_SEPARATOR."3scraper_login.txt", $result1."\n\n");
@@ -580,10 +587,10 @@ class HookScraperController extends BaseAdminController
 		curl_close($ch1);	
 	}
 	
-private function getResults(Request $request){
+public function getResults($product_gc_id,$info = 1){
 	
 		//AEEHT100
-	$product_gc_id =$request->request->get("product_gc_id");
+	if($info)
 	echo " Results for ".$product_gc_id."<br>";
 	
 	
@@ -695,7 +702,7 @@ return $result1;
 	
 	}
 	
-	private function getGCProductKey($pageResult){
+	public function getGCProductKey($pageResult){
 		if (!is_null($pageResult)) {
 			
 			$jsonResponse = json_decode($pageResult, true);
@@ -721,7 +728,7 @@ return $result1;
 	}
 
     
-    private function GCproductPageImport($page){
+    public function GCproductPageImport($page){
     	
     	if (!is_null($page)) {
     		$page = str_replace("\u003cbr /\u003e"," ",$page);

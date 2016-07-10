@@ -4,7 +4,7 @@ namespace HookKonfigurator\Import;
 
 use Thelia\Core\FileFormat\Formatting\FormatterData;
 use Thelia\Core\FileFormat\FormatType;
-use Thelia\ImportExport\Import\ImportHandler;
+use Thelia\Handler\ImportHandler;
 use Thelia\Model\ProductSaleElementsQuery;
 use Thelia\Log\Tlog;
 use Thelia\Model\ProductQuery;

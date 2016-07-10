@@ -72,7 +72,6 @@
 				 </description>
 			</import_descriptive>
 		</import>
-		
 		<import id="hookkonfigurator.import.heating" class="HookKonfigurator\Import\HeatingImport" category_id="thelia.import.products">
 			<import_descriptive locale="en_US">
 				<title>Import heating products </title>
@@ -92,7 +91,6 @@
 				 <description> describe service import format </description>
 			</import_descriptive>
 		</import>
-		
 		<import id="hookkonfigurator.import.sanitary" class="HookKonfigurator\Import\SanitaryImport" category_id="thelia.import.products">
 			<import_descriptive locale="en_US">
 				<title>Import sanitary products </title>
@@ -109,6 +107,34 @@
 			</import_descriptive>
 			<import_descriptive locale="de_DE">
 				<title>Sanitär produkte importieren </title>
+				 <description>
+				  <![CDATA[
+                    Importer.1 supports the following structure:</br>
+                    id, ref, name</br>
+                    Indications:
+                    <ul>
+                        <li></li>
+                    </ul>
+                    ]]>
+				 </description>
+			</import_descriptive>
+		</import>
+		<import id="hookkonfigurator.import.updateproducts" class="HookKonfigurator\Import\UpdateProducts" category_id="thelia.import.products">
+			<import_descriptive locale="en_US">
+				<title>Update products</title>
+				 <description>
+				  <![CDATA[
+                    Importer.1 supports the following structure:</br>
+                    id, ref, name</br>
+                    Indications:
+                    <ul>
+                        <li></li>
+                    </ul>
+                    ]]>
+				 </description>
+			</import_descriptive>
+			<import_descriptive locale="de_DE">
+				<title>Aktualisieren Produkte</title>
 				 <description>
 				  <![CDATA[
                     Importer.1 supports the following structure:</br>
