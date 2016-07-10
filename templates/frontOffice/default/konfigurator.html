@@ -29,7 +29,7 @@
           
         {hook name="konfigurator.top"}
             {form name="konfigurator.heizlast.berechnung"}
-				<form id="form-konfigurator" class="form-horizontal fs-form fs-form-full dropzone" action="{url path="/konfigurator/suggestions"}" method="post" autocomplete="off" enctype="multipart/form-data">
+				<form id="form-konfigurator" class="form-horizontal fs-form fs-form-full " action="{url path="/konfigurator/suggestions"}" method="post" autocomplete="off" enctype="multipart/form-data">
                     
                 {form_field field='error_message'}
                 	<input type="hidden" name="{$name}" value="{intl l="missing or invalid data"}" />
@@ -352,7 +352,7 @@
                             {form_field field="anmerkungen"}
 							<label class="fs-field-label fs-anim-upper" for="q15">{$label}</label>
 							<textarea class="fs-anim-lower" id="{$label_attr.for}" name="{$name}" placeholder="Anmerkungen"></textarea>
-                       <div id="dragdrop" class="fs-anim-upper">                     
+                       <!--div id="dragdrop" class="fs-anim-upper">                     
                           <div class="fallback">
                               <input name="file" type="file" id="{$label_attr.for}" multiple />
                           </div>
@@ -360,7 +360,7 @@
                              <span>Bitte hier Fotos von Ihrem alten Gerät ablegen (optional)</span>
                           </div>
                           <div id="previews" class="dropzone"></div>
-                       </div>
+                       </div-->
                             {/form_field}
                             
                             
@@ -369,7 +369,7 @@
 					</ol><!-- /fs-fields -->
          
                     
-   <!--                	<a href="/login"><button type="button" class="fs-submit"style="margin-bottom:20px">Individuelles Angebot</button></a> -->
+               	<button type="button" id="fs-submit-angebot"  class="fs-submit"  style="margin-bottom:20px">Individuelles Angebot</button> 
 					<button type="submit" class="fs-submit" id="fs-submit">Vorschlag sehen</button>
 
 				</form><!-- /fs-form -->
@@ -430,7 +430,7 @@ var radiovaluebrennstoff =  $('.radiovaluebrennstoff:checked').val();
 
 });
     
-        
+         
   /* $("#brennstoff_zukunft").change(function(){
        var radiovaluebrennstoff =  $('.radiovaluebrennstoff:checked').val();
        var radiovalue =  $('.radiovalue:checked').val();
@@ -456,6 +456,69 @@ var radiovaluebrennstoff =  $('.radiovaluebrennstoff:checked').val();
 <!--Dropzone script start-->
 
 <script>
+    
+    $("#fs-submit").click(function(e) {
+        $("#form-personal-data").hide();
+        e.preventDefault();
+    $.ajax({
+                      type: $("#form-konfigurator").attr('method'),
+                      url: $("#form-konfigurator").attr('action'),
+                      data: $("#form-konfigurator").serialize()
+                     })
+                     .done(function (data, textStatus, request) {
+                      $waermebedarf = request.getResponseHeader('waermebedarf');
+                      if($waermebedarf != null) 
+                       $('#waermebedarf').text("Wärmebedarf ist: "+$waermebedarf+"KW");
+
+                      $("#category-products").empty().append(data);
+                     })
+                     .fail(function (jqXHR, textStatus, errorThrown) {
+                      if (typeof jqXHR.responseJSON !== 'undefined') {
+                       if (jqXHR.responseJSON.hasOwnProperty('form')) {
+                        $('#form_body').html(jqXHR.responseJSON.form);
+                       }
+                       $('.form_error').html(jqXHR.responseJSON.message);
+                      } else {
+                       alert(errorThrown);
+                      }
+                     });
+    
+    });
+    /* INDIVIDUELES ANGEBOT */
+    
+   $("#fs-submit-angebot").click(function(e) {
+   
+		    	e.preventDefault();
+                 
+                    $.ajax({
+                      type: $("#form-konfigurator").attr('method'),
+                      url: "/konfigurator/personaldata",
+                      data: $("#form-konfigurator").serialize()
+                     })
+                     .done(function (data, textStatus, request) {
+                      $waermebedarf = request.getResponseHeader('waermebedarf');
+                      if($waermebedarf != null) 
+                       $('#waermebedarf').text("Wärmebedarf ist: "+$waermebedarf+"KW");
+
+                      $("#category-products").empty().append(data);
+                     })
+                     .fail(function (jqXHR, textStatus, errorThrown) {
+                      if (typeof jqXHR.responseJSON !== 'undefined') {
+                       if (jqXHR.responseJSON.hasOwnProperty('form')) {
+                        $('#form_body').html(jqXHR.responseJSON.form);
+                       }
+                       $('.form_error').html(jqXHR.responseJSON.message);
+                      } else {
+                       alert(errorThrown);
+                      }
+                     });
+
+                
+                
+                
+		    });
+		 
+    /*
  Dropzone.options.formKonfigurator = {
 
 		  // Prevents Dropzone from uploading dropped files immediately
@@ -483,6 +546,7 @@ var radiovaluebrennstoff =  $('.radiovaluebrennstoff:checked').val();
          
 		        myDropzone = this; // closure
 
+              
 		    submitButton.addEventListener("click", function(e) {
                
 		    	e.preventDefault();
@@ -527,8 +591,8 @@ var radiovaluebrennstoff =  $('.radiovaluebrennstoff:checked').val();
 	      }
         /*totalUploadProgress: function(totalUploadProgress, totalBytes,totalBytesSent){
             
-        }*/
-		};
+        }
+		};*/
 </script>
 <!--Dropzone script end-->
 

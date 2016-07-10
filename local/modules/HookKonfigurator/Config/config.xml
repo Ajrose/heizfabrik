@@ -11,7 +11,9 @@
 
     <forms>
         <form name="konfigurator.heizlast.berechnung" class="HookKonfigurator\Form\HeizlastBerechnung" />
+        <form name="konfigurator.personal.data" class="HookKonfigurator\Form\PersonalData" />
     </forms>
+
  <!--
     <commands>
         <command class="HookKonfigurator\Command\MySuperCommand" />

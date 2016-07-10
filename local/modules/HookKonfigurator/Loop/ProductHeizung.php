@@ -50,6 +50,9 @@ use Thelia\Model\Map\SaleTableMap;
 use Thelia\Model\Map\ProductSaleElementsTableMap;
 use Thelia\Model\Map\ProductPriceTableMap;
 use Thelia\Model\CurrencyQuery;
+use HookKonfigurator\Model\HeizungkonfiguratorUserdaten;
+use Symfony\Component\HttpFoundation\FileBag;
+use HookKonfigurator\Model\HeizungkonfiguratorImage;
 
 /**
  *
@@ -543,6 +546,76 @@ class ProductHeizung extends BaseI18nLoop implements PropelSearchLoopInterface, 
 		// $this->import_product_heizung_from_hfproducts();
 		//$this->import_montage_from_csv ();
 		//debug
+		$log = Tlog::getInstance ();
+		 
+		$request = $this->getCurrentRequest();
+		
+		$currentCustomer = $this->securityContext->getCustomerUser();
+		if($currentCustomer == null)
+			$currentCustomer	= 0;//$this->getCurrentRequest()->getSession()->getId();
+			else $currentCustomer = $currentCustomer->getId();
+		
+			$log->error(" create userdatenquery ".$currentCustomer);
+			 
+			$userdata = new HeizungkonfiguratorUserdaten();
+			$userdata->setBrennstoffMomentan($request->request->get('konfigurator')['brennstoff_momentan'])
+			->setBrennstoffZukunft($request->request->get('konfigurator')['brennstoff_zukunft'])
+			->setGebaeudeart($request->request->get('konfigurator')['gebaeudeart'])
+			->setPersonenAnzahl($request->request->get('konfigurator')['personen_anzahl'])
+			->setBestehendeGeraetWarmwasser($request->request->get('konfigurator')['bestehendes_geraet_mit_warmwasser'])
+			->setBestehendeGeraetKw($request->request->get('konfigurator')['bestehendes_geraet_kw'])
+			->setBaujahr($request->request->get('konfigurator')['baujahr'])
+			->setGebaeudelage($request->request->get('konfigurator')['lage_des_gebaeudes'])
+			->setWindlage($request->request->get('konfigurator')['windlage_des_gebaudes'])
+			->setAnzahlAussenwaende($request->request->get('konfigurator')['anzahl_aussenwaende'])
+			->setVerglasteFenster($request->request->get('konfigurator')['fenster'])
+			->setWohnraumtemperatur($request->request->get('konfigurator')['wohnraumtemperatur'])
+			->setAussentemperatur($request->request->get('konfigurator')['aussentemperatur'])
+			->setWaermedaemmung($request->request->get('konfigurator')['waermedaemmung'])
+			->setHeizflaeche($request->request->get('konfigurator')['flaeche'])
+			->setAnmerkungen($request->request->get('konfigurator')['anmerkungen'])
+			->setCreatedAt(date ( "Y-m-d H:i:s" ))
+			->setUserId($currentCustomer)
+			->setVersion("1.0")
+			 
+		
+			->save();
+		
+			$log->error(" create userdatenquery ".$userdata);
+			//get images
+			$files = new FileBag();
+			$files = $request->files;
+			 
+			$media_dir = explode("local",dirname(__FILE__));
+			$media_dir = $media_dir[0]."local".DIRECTORY_SEPARATOR."media".DIRECTORY_SEPARATOR."images".DIRECTORY_SEPARATOR."heizungskonfiguratorimages";
+			 
+			$image_save_path = $media_dir .DIRECTORY_SEPARATOR;
+		
+			$log->error(" userdatenquery ".dirname(__FILE__)." ".$image_save_path." ");
+		
+			$i = 0;
+			if($files->get("file")!=NULL)
+				foreach ($files->get("file") as $image){
+					if($image != null){
+						$new_image_name = $image->getClientOriginalName();
+						$image->move( $image_save_path ,$new_image_name);
+		
+						$newImage = new HeizungkonfiguratorImage();
+						$newImage->setHeizungkonfiguratorUserdaten($userdata)
+						->setFile($new_image_name)
+						->setVisible(1)
+						->setPosition($i)
+						->setCreatedAt(date ( "Y-m-d H:i:s" ))
+						->setUpdatedAt(date ( "Y-m-d H:i:s" ))
+						->save();
+						$i++;
+						$userdata->addHeizungkonfiguratorImage($newImage);
+					}
+					 
+					 
+			}
+		
+			$log->error(" create userdatenquery ".$newImage);
 		
 		// there has to be some better way to convert request parameters into an entity
 		$request = $this->request;

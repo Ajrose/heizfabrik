@@ -181,6 +181,14 @@
     <route id="konfigurator.add" path="/konfigurator/add">
         <default key="_controller">Front\Controller\KonfiguratorController::addProductWithServicesAction</default>
     </route>
+    
+    <route id="konfigurator.personaldata" path="/konfigurator/personaldata">
+        <default key="_controller">Front\Controller\KonfiguratorController::personalData</default>
+    </route>
+    
+    <route id="konfigurator.personaldatasendmail" path="/konfigurator/sendmail">
+        <default key="_controller">Front\Controller\KonfiguratorController::sendMail</default>
+    </route>
 	
 	<!-- end konfigurator routes -->
 	
