@@ -97,7 +97,7 @@ web : http://www.hausfabrik.at
     <![endif]-->
    <script src="{javascript file='assets/dist/js/vendors/modernizr.custom.js'}"></script>
 
-   <script src="{javascript file='assets/dist/js/vendors/dropzone.js'}"></script> 
+   <!--script src="{javascript file='assets/dist/js/vendors/dropzone.js'}"></script--> 
     
 <!--Services appointment codes-->
     

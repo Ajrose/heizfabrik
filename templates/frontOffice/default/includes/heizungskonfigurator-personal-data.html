@@ -1,3 +1,4 @@
+
 {* Body Class *}
 
 
@@ -161,7 +162,9 @@
 {/block}
 
 {block name="after-javascript-include"}
+ <script src="{javascript file='assets/dist/js/vendors/dropzone.js'}"></script>
  <script>
+    
  Dropzone.options.formPersonalData = {
 
 		  // Prevents Dropzone from uploading dropped files immediately
@@ -182,12 +185,13 @@
 	      dictResponseError: "Server responded with { { statusCode } } code.",
 	      dictCancelUpload: "Cancel upload",
 	      dictCancelUploadConfirmation: "Are you sure you want to cancel this upload?",
-	      dictRemoveFile: "Remove file",
+	      dictRemoveFile: "Entfernen",
 	      dictRemoveFileConfirmation: null,
 	      dictMaxFilesExceeded: "You can not upload any more files.",
 	      
 		  init: function() {
-               alert("sss");
+            
+           /*    alert("sss");
 		     var submitButton =document.getElementById("fs-submit");
 		        myDropzone = this; // closure
 
@@ -195,7 +199,7 @@
                
 		    	e.preventDefault();
 		      myDropzone.processQueue(); // Tell Dropzone to process all queued files.
-		    });
+		    });*/
 		  }/*,
 	      success: function(file,response){
 	    	  document.open();
@@ -204,6 +208,7 @@
 	    	    window.history.pushState( { "html":response,"pageTitle":response.pageTitle } ,"", "/klimakonfigurator-angebot/success");
 	      }*/
 		};
+  $("#form-personal-data").dropzone();
 </script>
 
 

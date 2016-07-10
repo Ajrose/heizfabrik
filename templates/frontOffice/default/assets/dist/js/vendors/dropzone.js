@@ -25,7 +25,9 @@
  *
  */
 
+
 (function() {
+      
   var Dropzone, Emitter, camelize, contentLoaded, detectVerticalSquash, drawImageIOSFix, noop, without,
     __slice = [].slice,
     __hasProp = {}.hasOwnProperty,
@@ -410,6 +412,7 @@
     };
 
     function Dropzone(element, options) {
+
       var elementOptions, fallback, _ref;
       this.element = element;
       this.version = Dropzone.version;
@@ -1454,6 +1457,8 @@
   Dropzone.autoDiscover = true;
 
   Dropzone.discover = function() {
+
+   
     var checkElements, dropzone, dropzones, _i, _len, _results;
     if (document.querySelectorAll) {
       dropzones = document.querySelectorAll(".dropzone");

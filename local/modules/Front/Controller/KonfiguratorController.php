@@ -158,7 +158,7 @@ $log->error(sprintf('message : %s', $message));
     }
     
     	public function personalData(Request $request) {
-		if ($request->isXmlHttpRequest ()) {
+		//if ($request->isXmlHttpRequest ()) {
 			$view = $request->get ( 'ajax-view', "includes/heizungskonfigurator-personal-data" );
 			
 			//TODO check if it exists
@@ -229,11 +229,11 @@ $log->error(sprintf('message : %s', $message));
 			
 			$this->getSession()->set ( 'heizungkonfiguratoruserdaten', $userdata->getId());
 			$request->attributes->set ( '_view', $view );
-		}
+	/*	}
 		else
 		{
 			return new JsonResponse ( array ('personal-data' => 'imsirunani') ); // $productsQuerry->__toString()
-		}
+		}*/
 	}
     
 	

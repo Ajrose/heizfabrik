@@ -230,6 +230,8 @@
 {/block}
 
 {block name="after-javascript-include"}
+
+<script src="{javascript file='assets/dist/js/vendors/dropzone.js'}"></script>
  <script>
  Dropzone.options.formKlimaangebot = {
 
@@ -251,12 +253,12 @@
 	      dictResponseError: "Server responded with { { statusCode } } code.",
 	      dictCancelUpload: "Cancel upload",
 	      dictCancelUploadConfirmation: "Are you sure you want to cancel this upload?",
-	      dictRemoveFile: "Remove file",
+	      dictRemoveFile: "Entfernen",
 	      dictRemoveFileConfirmation: null,
 	      dictMaxFilesExceeded: "You can not upload any more files.",
 	      
 		  init: function() {
-		    var submitButton = document.querySelector("#form-klimaangebot");
+		   var submitButton =document.getElementById("fs-submit");
 		        myDropzone = this; // closure
 
 		    submitButton.addEventListener("click", function(e) {
@@ -271,10 +273,12 @@
 	    	    window.history.pushState( { "html":response,"pageTitle":response.pageTitle } ,"", "/klimakonfigurator-angebot/success");
 	      }
 		};
+     $("#form-klimaangebot").dropzone();
 </script>
 
 
 {hook name="register.after-javascript-include"}
+ 
 {/block}
 
 {block name="javascript-initialization"}
