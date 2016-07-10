@@ -22,6 +22,7 @@ use Thelia\Model\ConfigQuery;
 use HookKonfigurator\Model\HeizungkonfiguratorUserdaten;
 use HookKonfigurator\Model\HeizungkonfiguratorImage;
 use HookKonfigurator\Model\HeizungkonfiguratorUserdatenQuery;
+use HookKonfigurator\Form\PersonalData;
 
 class KonfiguratorController extends BaseFrontController {
     
@@ -59,7 +60,12 @@ class KonfiguratorController extends BaseFrontController {
         
         
         $contactForm = $this->createForm("konfigurator.personal.data");
-       $form = $this->validateForm($contactForm);
+        
+    //    $contactForm = new PersonalData();
+        
+        $log->error(" formlabeltest ".$contactForm->getLabel('firstname',null));
+        $form = $this->validateForm($contactForm);
+     //  $contactForm
         $subject = "Heizungskonfigurator neue Anfrage ";
         $emailTest = "ani.jalavyan@sepa.at";
         $firstname = $this->getRequest()->get('konfiguratorpersonaldata')['firstname'];
@@ -162,6 +168,8 @@ $log->error(sprintf('message : %s', $message));
 				else $currentCustomer = $currentCustomer->getId();
 				$log = Tlog::getInstance ();
 				$log->error(" create userdatenquery ".$currentCustomer);
+				
+				
 				
 				$userdata = new HeizungkonfiguratorUserdaten();
 				$userdata->setBrennstoffMomentan($request->request->get('konfigurator')['brennstoff_momentan'])

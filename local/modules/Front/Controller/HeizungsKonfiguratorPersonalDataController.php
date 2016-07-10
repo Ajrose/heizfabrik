@@ -42,5 +42,4 @@ class HeizungsKonfiguratorPersonalDataController extends BaseFrontController
     /**
      * send contact message
      */
--
 }

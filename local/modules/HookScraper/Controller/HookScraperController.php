@@ -75,7 +75,7 @@ class HookScraperController extends BaseAdminController
 		$log = Tlog::getInstance ();
 		$log->debug(" gc_scrapper ");
 		$productQuerry = ProductQuery::create ();
-		$brandI18nQuerry = BrandI18nQuery::create ();
+		$brandI18nQuerry = BrandI18nQuery::create();
 		
 		$response = "";
 		$jsonResponse = json_decode($productJson, true);

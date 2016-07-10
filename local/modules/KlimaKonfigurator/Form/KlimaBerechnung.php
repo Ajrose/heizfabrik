@@ -20,6 +20,27 @@ use Thelia\Form\BaseForm;
 
 class KlimaBerechnung extends BaseForm
 {
+	private $formLabels ;
+	
+	public function getLabel($field,$choice = null){
+		if($choice == null)
+			return $this->formLabels[$field];
+		else 
+			return $this->formLabels[$field.$choice];
+	}
+	
+	private function setLabel($field,$choice,$label){
+		if($choice == null)
+		{
+			$this->formLabels[$field]= $label;
+			return $this->formLabels[$field];
+		}
+		else {
+			$this->formLabels[$field.$choice]= $label;
+			return $this->formLabels[$field.$choice];
+		}
+	}
+	 
     protected function buildForm()
     {
          $formBuilder = $this->formBuilder

@@ -12,7 +12,7 @@
 
 namespace HookKonfigurator\Form;
 
-use HookHeizungAngebot\HookHeizungAngebot;
+use HookKonfigurator\HookKonfigurator;
 use Symfony\Component\Validator\Constraints;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Thelia\Core\Translation\Translator;
@@ -20,37 +20,60 @@ use Thelia\Form\BaseForm;
 
 class PersonalData extends BaseForm
 {
+	private $formLabels ;
+	
+	public function getLabel($field,$choice = null){
+		if($choice == null)
+			return $this->formLabels[$field];
+			else
+				return $this->formLabels[$field.$choice];
+	}
+	
+	private function setLabel($field,$choice,$label){
+		Translator::getInstance()->trans($label);
+		if($choice == null)
+		{
+			$this->formLabels[$field]= $label;
+			return $this->formLabels[$field];
+		}
+		else {
+			$this->formLabels[$field.$choice]= $label;
+			return $this->formLabels[$field.$choice];
+		}
+	}
+	
     protected function buildForm()
     {
          $formBuilder = $this->formBuilder
         
            
         ->add("firstname", "text", array(
-         		"label" => Translator::getInstance()->trans("Vorname"),
+        		
+         		"label" => $this->setLabel("firstname",null,"Vorname"),
          		"label_attr" => array(
          				"for" => "firstname",
          		)
          ))
         ->add("lastname", "text", array(
-         		"label" => Translator::getInstance()->trans("Nachname"),
+         		"label" => $this->setLabel("lastname",null,"Nachname"),
          		"label_attr" => array(
          				"for" => "lastname",
          		)
          ))
         ->add("email", "text", array(
-         		"label" => Translator::getInstance()->trans("Email"),
+         		"label" => $this->setLabel("email",null,"Email"),
          		"label_attr" => array(
          				"for" => "email",
          		)
          ))
          ->add("phone", "text", array(
-         		"label" => Translator::getInstance()->trans("Telefon"),
+         		"label" => $this->setLabel("phone",null,"Telefon"),
          		"label_attr" => array(
          				"for" => "email",
          		)
          ))
         ->add("cellphone", "text", array(
-         		"label" => Translator::getInstance()->trans("Mobil"),
+         		"label" => $this->setLabel("cellphone",null,"mobil"),
          		"label_attr" => array(
          				"for" => "cellphone",
          		)
