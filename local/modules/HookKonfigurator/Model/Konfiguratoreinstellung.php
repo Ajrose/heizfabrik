@@ -172,11 +172,12 @@ class Konfiguratoreinstellung
 			case 2:$faktor+=11;break;
 			case 3:$faktor+=8;
 		}
-		/*switch ($this->lage_des_raumes){
+		switch ($this->lage_des_raumes){
+			case 0:$faktor+=15;break;
 			case 1:$faktor+=15;break;
 			case 2:$faktor+=11;break;
-			case 3:$faktor+=8;
-		}*/
+			default :$faktor+=8;
+		}
 		switch ($this->anzahl_aussenwaende){
 			case 1:$faktor+=8;break;
 			case 2:$faktor+=11;break;

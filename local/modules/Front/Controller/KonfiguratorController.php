@@ -38,34 +38,68 @@ class KonfiguratorController extends BaseFrontController {
         
         //$log->error(" heizungskonfiguratorsendmail ".$konfiguratorDaten);
         
-        //$konfiguratorDaten= new HeizungkonfiguratorUserdaten();
+       // $konfiguratorDaten= new HeizungkonfiguratorUserdaten();
+        
+
+            
+        $contactForm = $this->createForm("konfigurator.personal.data");
+            
+        $konfiguratorPersonalDataForm = $this->createForm("konfigurator.heizlast.berechnung");
+        
+    //    $konfiguratorPersonalDataForm = new PersonalData();
+        
+        $form = $this->validateForm($contactForm);
         
         $brennstoffMomentan=$konfiguratorDaten->getBrennstoffMomentan();
+        $brennstoffMomentan = $konfiguratorPersonalDataForm->getLabel('brennstoff_momentan',$brennstoffMomentan);
+            
         $brennstoffZukunft=$konfiguratorDaten->getBrennstoffZukunft();
+        $brennstoffZukunft = $konfiguratorPersonalDataForm->getLabel('brennstoff_zukunft',$brennstoffZukunft);
+            
         $gebaeudeArt=$konfiguratorDaten->getGebaeudeart();
+        $gebaeudeArt = $konfiguratorPersonalDataForm->getLabel('gebaeudeart',$gebaeudeArt);
+            
         $personenAnzahl=$konfiguratorDaten->getPersonenAnzahl();
+        //$personenAnzahl = $konfiguratorPersonalDataForm->getLabel('personen_anzahl',$personenAnzahl);
+            
+            
         $baujahr=$konfiguratorDaten->getBaujahr();
+        $baujahr = $konfiguratorPersonalDataForm->getLabel('baujahr',$baujahr);
+            
+        
         $gebaeudelage=$konfiguratorDaten->getGebaeudelage();
+        $gebaeudelage = $konfiguratorPersonalDataForm->getLabel('lage_des_gebaeudes',$gebaeudelage);
+            
         $windlage=$konfiguratorDaten->getWindlage();
+        $windlage = $konfiguratorPersonalDataForm->getLabel('windlage_des_gebaudes',$windlage);
+            
+        
         $anzahlAussenwaende=$konfiguratorDaten->getAnzahlAussenwaende();
+        //$anzahlAussenwaende = $konfiguratorPersonalDataForm->getLabel('anzahl_aussenwaende',$anzahlAussenwaende);
+            
         $verglasteFenster=$konfiguratorDaten->getVerglasteFenster();
+        $verglasteFenster = $konfiguratorPersonalDataForm->getLabel('fenster',$verglasteFenster);
+            
         $wohnraumtemperatur=$konfiguratorDaten->getWohnraumtemperatur();
+        $wohnraumtemperatur = $konfiguratorPersonalDataForm->getLabel('wohnraumtemperatur',$wohnraumtemperatur);
+            
         $aussentemperatur=$konfiguratorDaten->getAussentemperatur();
+        $aussentemperatur = $konfiguratorPersonalDataForm->getLabel('aussentemperatur',$aussentemperatur);
+            
         $waermedaemmung=$konfiguratorDaten->getWaermedaemmung();
+        $waermedaemmung = $konfiguratorPersonalDataForm->getLabel('waermedaemmung',$waermedaemmung);
+            
         $heizflaeche=$konfiguratorDaten->getHeizflaeche();
+        //$heizflaeche = $konfiguratorPersonalDataForm->getLabel('flaeche',$heizflaeche);
+            
         $anmerkungen=$konfiguratorDaten->getAnmerkungen();
+        //$anmerkungen = $konfiguratorPersonalDataForm->getLabel('anmerkungen',$anmerkungen);
         
         
         
         
-        
-        $contactForm = $this->createForm("konfigurator.personal.data");
-        
-    //    $contactForm = new PersonalData();
-        
-        $log->error(" formlabeltest ".$contactForm->getLabel('firstname',null));
-        $form = $this->validateForm($contactForm);
-     //  $contactForm
+
+     //  $konfiguratorPersonalDataForm
         $subject = "Heizungskonfigurator neue Anfrage ";
         $emailTest = "ani.jalavyan@sepa.at";
         $firstname = $this->getRequest()->get('konfiguratorpersonaldata')['firstname'];
@@ -74,7 +108,7 @@ class KonfiguratorController extends BaseFrontController {
         $cellphone = $this->getRequest()->get('konfiguratorpersonaldata')['cellphone'];
         $email = $this->getRequest()->get('konfiguratorpersonaldata')['email'];
         //$building_etage = $this->getRequest()->get('konfiguratorpersonaldata')['building_etage'];
-        //$etage = $this->getRequest()->get('konfiguratorpersonaldata')['etage'];
+        //$etagen = $this->getRequest()->get('konfiguratorpersonaldata')['etagen'];
         //§gebaeudeart = $this->getRequest()->get('klimaangebot')['gebaeudeart'];
         //§marke = $this->getRequest()->get('klimaangebot')['marke'];
         //§geraetetyp = $this->getRequest()->get('klimaangebot')['geraetetyp'];
@@ -101,7 +135,7 @@ class KonfiguratorController extends BaseFrontController {
         
         $imagesHTML = "";
         $new_image_path = THELIA_ROOT .ConfigQuery::read('images_library_path')."/imani";
-        
+        if($files!=null){
         foreach ($files->get("file") as $image){
         	if($image != null){
         		$new_image_name = $image->getClientOriginalName();
@@ -113,30 +147,32 @@ class KonfiguratorController extends BaseFrontController {
         	
         	if($image_full_path != "no_image")$instance->attach(\Swift_Attachment::fromPath($new_image_path."/".$new_image_name));
         }
+        }
         	//Bilder<img src=".$image_upload.">"
         
        // $image_upload = $files->get("file")["image_upload"];
         
 		if($imagesHTML != "")$imagesHTML = "Bilder ".$imagesHTML;
-        $message = "Vorname:".$firstname.
-        "<br>Nachname:".$lastname.
-        "<br>Telefon: ".$phone.
-        "<br>Mobil: ".$cellphone.
-        "<br>Email: ".$email.
-        "<br>Womit heizen Sie momentan? ".$brennstoffMomentan.
-        "<br>Womit werden Sie in Zukunft heizen? ".$brennstoffZukunft.
-        "<br>Um was für ein Gebäude handelt es sich? ".$gebaeudeArt.
-        "<br>Wie viele Personen leben im Haushalt? ".$personenAnzahl.
-        "<br>Wann wurde das Gebäude gebaut? ".$baujahr.
-        "<br>Lage des Gebäudes? ". $gebaeudelage.
-        "<br>Windlage des Gebäudes? ". $windlage.
-        "<br>Wie viel ist die Anzahl der Außenwände? ". $anzahlAussenwaende.
-        "<br>Wie sind Ihre Fenster verglast? ". $verglasteFenster.
-        "<br>Wie hoch ist die Wohnraumtemperatur? ". $wohnraumtemperatur.
-        "<br>Wie kalt kann bei ihnen im Winter die Außentemperatur werden? ". $aussentemperatur.
-        "<br>Ist eine Wärmedämmung vorhanden? ".  $waermedaemmung.
-        "<br>Wie groß ist die zu beheizende Fläche? ".  $heizflaeche.
-        "<br>".$imagesHTML;
+        $message = "Vorname:".$firstname."</strong>
+        <br>Nachname: <strong>".$lastname."</strong>
+        <br>Telefon: <strong>".$phone."</strong>
+        <br>Mobil: <strong>".$cellphone."</strong>
+        <br>Email: <strong>".$email."</strong>
+        <br>Womit heizen Sie momentan? <strong>".$brennstoffMomentan."</strong>
+        <br>Womit werden Sie in Zukunft heizen? <strong>".$brennstoffZukunft."</strong>
+        <br>Um was für ein Gebäude handelt es sich? <strong>".$gebaeudeArt."</strong>
+        <br>Wie viele Personen leben im Haushalt? <strong>".$personenAnzahl."</strong>
+        <br>Wann wurde das Gebäude gebaut? <strong>".$baujahr."</strong>
+        <br>Lage des Gebäudes? <strong>". $gebaeudelage."</strong>
+        <br>Windlage des Gebäudes? <strong>". $windlage."</strong>
+        <br>Wie viel ist die Anzahl der Außenwände? <strong>". $anzahlAussenwaende."</strong>
+        <br>Wie sind Ihre Fenster verglast? <strong>". $verglasteFenster."</strong>
+        <br>Wie hoch ist die Wohnraumtemperatur? <strong>". $wohnraumtemperatur."</strong>
+        <br>Wie kalt kann bei ihnen im Winter die Außentemperatur werden? <strong>". $aussentemperatur."</strong>
+        <br>Ist eine Wärmedämmung vorhanden? <strong>".  $waermedaemmung."</strong>
+        <br>Wie groß ist die zu beheizende Fläche? <strong>".  $heizflaeche."</strong>
+        <br>Anmerkungen <strong>".  $anmerkungen."</strong>
+        <br>".$imagesHTML;
        
         
         
@@ -154,7 +190,7 @@ $log->error(sprintf('message : %s', $message));
                 $log->error(sprintf('message : %s', $ex->getMessage()));
             }
 
-           return $this->generateRedirectFromRoute('klima.angebot.success');
+           return $this->generateRedirectFromRoute('konfigurator.success');
     }
     
     	public function personalData(Request $request) {

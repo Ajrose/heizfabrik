@@ -189,14 +189,18 @@
     <route id="konfigurator.personaldatasendmail" path="/konfigurator/sendmail">
         <default key="_controller">Front\Controller\KonfiguratorController::sendMail</default>
     </route>
-	
+    <route id="konfigurator.success" path="/konfigurator/success">
+        <default key="_controller">Thelia\Controller\Front\DefaultController::noAction</default>
+        <default key="_view">konfigurator-success</default>
+    </route> 
+    
 	<!-- end konfigurator routes -->
 	
 	<!-- klimakonfigurator routes -->
 	
 	<route id="klimakonfigurator.suggestions" path="/klimakonfigurator/suggestions">
         <default key="_controller">Front\Controller\KlimaKonfiguratorController::suggestionsAction</default>
-    </route>	
+    </route>
 	
 	<!-- end klimakonfigurator routes -->
 	
@@ -288,7 +292,7 @@
         <default key="_controller">Thelia\Controller\Front\DefaultController::noAction</default>
         <default key="_view">klima-angebot-success</default>
     </route>
-     <route id="klima.angebot.send" path="/klimakonfigurator-angebot/sendmail" methods="post">
+    <route id="klima.angebot.send" path="/klimakonfigurator-angebot/sendmail" methods="post">
         <default key="_controller">Front\Controller\KlimaAngebotController::sendAction</default>
         <default key="_view">klima-angebot</default>
     </route>

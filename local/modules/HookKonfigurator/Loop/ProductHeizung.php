@@ -562,6 +562,7 @@ class ProductHeizung extends BaseI18nLoop implements PropelSearchLoopInterface, 
 			->setBrennstoffZukunft($request->request->get('konfigurator')['brennstoff_zukunft'])
 			->setGebaeudeart($request->request->get('konfigurator')['gebaeudeart'])
 			->setPersonenAnzahl($request->request->get('konfigurator')['personen_anzahl'])
+			->setEtagen($request->request->get('konfigurator')['etagen'])
 			->setBestehendeGeraetWarmwasser($request->request->get('konfigurator')['bestehendes_geraet_mit_warmwasser'])
 			->setBestehendeGeraetKw($request->request->get('konfigurator')['bestehendes_geraet_kw'])
 			->setBaujahr($request->request->get('konfigurator')['baujahr'])
