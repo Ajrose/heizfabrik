@@ -130,6 +130,9 @@ class HookScraperController extends BaseAdminController
 
 		$currentDate = date ( "Y-m-d H:i:s" );
 
+		$category_id = $this->request->get("category_id");
+		$productCategoryID = 10;
+		if($category_id != null)
 		$productCategoryID = $this->request->get("category_id");
 		
 		$productExists = count ( $productQuerry->findByRef ( $productNumber ) );
@@ -142,8 +145,10 @@ class HookScraperController extends BaseAdminController
 			$productThelia->setRef ( $productNumber ); // must be unique
 			$productThelia->setExternId($productNumber);
 			$productThelia->setVisible ( 1 );
-			$productThelia->setBrandId($this->request->get("brand_id"));
-			 
+			$brand_id = $this->request->get("brand_id");
+			if($brand_id != null && $brand_id != "")
+			$productThelia->setBrandId($brand_id);
+			else $productThelia->setBrandId(1);
 			$productThelia->setCreatedAt ( $currentDate );
 			$productThelia->setUpdatedAt ( $currentDate );
 			$productThelia->setVersion ( 1 );

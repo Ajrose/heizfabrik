@@ -16,6 +16,8 @@ use HookKonfigurator\Model\Constraints;
 use Thelia\Model\ProductImage;
 use Thelia\ImportExport\Import\AbstractImport;
 use HookScraper\Controller\HookScraperController;
+use Thelia\Model\ProductPriceQuery;
+use Thelia\Model\ProductPrice;
 
 /**
  * Class UpdateProducts
@@ -24,7 +26,7 @@ use HookScraper\Controller\HookScraperController;
  */
 class UpdateProducts extends AbstractImport
 {
-	public $scraper,$productQuerry;
+	public $scraper,$productQuerry,$priceQuerry,$productSaleElementQuerry;
 	
 	
 	protected $mandatoryColumns = [
@@ -33,12 +35,20 @@ class UpdateProducts extends AbstractImport
 	
 	public function importData(array $data)
 	{
+		$errors = null;
 		if($this->scraper == null)
 		{
 			$this->scraper = new HookScraperController();
 			$this->scraper->init();
 			$this->scraper->login(1);
 			$this->productQuerry = ProductQuery::create();
+			$this->priceQuerry = ProductPriceQuery::create();
+			$this->productSaleElementQuerry = ProductSaleElementsQuery::create();
+		}
+		else{
+			$this->productQuerry->clear();
+			$this->priceQuerry->clear();
+			$this->productSaleElementQuerry->clear();
 		}
 		
 		$responsePage =$this->scraper->getResults($data["extern_id"]);
@@ -59,14 +69,29 @@ class UpdateProducts extends AbstractImport
     		
     		$preis = substr_replace($preis, ".", strlen($preis)-2, 0);
 			
-    		$product_id = $this->productQuerry->findByExternId($data["extern_id"]);
+    		$product_id = $this->productQuerry->findOneByExternId($data["extern_id"]);
+    		$product_sale = "";
+    		if($product_id != null){
+    			$product_sale = $this->productSaleElementQuerry->findOneByProductId($product_id->getId());
+    				if($product_sale != null){
+    					$product_price = $this->priceQuerry->findOneByProductSaleElementsId($product_sale->getId());
+    					if($product_price != null){
+    					$product_price->setListenPrice($preis);
+    					$product_price->save();
+    					}
+    					else
+    						$errors =" ".$data["extern_id"]." preis ".$preis." price doesn't exist";
+    				}
+    				else 
+    					$errors =" ".$data["extern_id"]." preis ".$preis." pse doesn't exist";
+    				$errors =" ".$data["extern_id"]." preis ".$preis;
+    		}
+    		else
+    			$errors =" ".$data["extern_id"]." preis ".$preis." not found in db";
 
-    		
-    		
-    		
     		$this->importedRows++;
     		
-		return " product: ".get_class($product_id)." preis:".$preis;
+		return $errors;
 	}
 
 }
