@@ -164,7 +164,7 @@ use Thelia\Model\Map\ProductTableMap;
  * @method     array findByVersion(int $version) Return ChildProduct objects filtered by the version column
  * @method     array findByVersionCreatedAt(string $version_created_at) Return ChildProduct objects filtered by the version_created_at column
  * @method     array findByVersionCreatedBy(string $version_created_by) Return ChildProduct objects filtered by the version_created_by column
- *
+ * 
  */
 abstract class ProductQuery extends ModelCriteria
 {

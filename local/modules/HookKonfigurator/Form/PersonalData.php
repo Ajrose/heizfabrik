@@ -45,7 +45,6 @@ class PersonalData extends BaseForm
     protected function buildForm()
     {
          $formBuilder = $this->formBuilder
-        
            
         ->add("firstname", "text", array(
         		
@@ -78,15 +77,12 @@ class PersonalData extends BaseForm
          				"for" => "cellphone",
          		)
          ))
-             
-     
 
         ->add("image_upload", "file", array(
 		"label" => Translator::getInstance()->trans("upload"),
 		"label_attr" => array(
                     "for" => "upload"
                 )
-            
             /*,
 		"disabled" => true*/
 		))         

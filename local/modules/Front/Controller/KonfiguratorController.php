@@ -55,10 +55,6 @@ class KonfiguratorController extends BaseFrontController {
         $heizflaeche=$konfiguratorDaten->getHeizflaeche();
         $anmerkungen=$konfiguratorDaten->getAnmerkungen();
         
-        
-        
-        
-        
         $contactForm = $this->createForm("konfigurator.personal.data");
         
     //    $contactForm = new PersonalData();
@@ -86,11 +82,9 @@ class KonfiguratorController extends BaseFrontController {
         $headers  = 'MIME-Version: 1.0' . "\r\n";
         $headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
         
-        
         $storeName="Hausfabrik";
         $contactEmail="ani.jalavyan@sepa.at";
         $instance = \Swift_Message::newInstance()
-        
         ->addTo($emailTest, $storeName)
         ->addFrom($contactEmail, $storeName)
         ->setSubject($subject)

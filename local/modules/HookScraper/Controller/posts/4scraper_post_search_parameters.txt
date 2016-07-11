@@ -1,3 +1,3 @@
-{"strSearchText":"A13811","strExcludeText":" ","blnSearchWithOr":false,"strDiscounts":"","strDiscountText":"","strFilterStock":"555104","blnOnlyStock":false,"blnOnlyProductNumber":false,"blnOnlyManufacturerNo":false}
+{"strSearchText":"AEKRU5","strExcludeText":" ","blnSearchWithOr":false,"strDiscounts":"","strDiscountText":"","strFilterStock":"555104","blnOnlyStock":false,"blnOnlyProductNumber":false,"blnOnlyManufacturerNo":false}
 216
 
