@@ -20,16 +20,38 @@ use Thelia\Form\BaseForm;
 
 class HeizlastBerechnung extends BaseForm
 {
+   	private $formLabels ;
+	
+	public function getLabel($field,$choice = null){
+		if($choice == null)
+			return $this->formLabels[$field];
+			else
+				return $this->formLabels[$field.$choice];
+	}
+	
+	private function setLabel($field,$choice,$label){
+		Translator::getInstance()->trans($label);
+		if($choice == null)
+		{
+			$this->formLabels[$field]= $label;
+			return $this->formLabels[$field];
+		}
+		else {
+			$this->formLabels[$field.$choice]= $label;
+			return $this->formLabels[$field.$choice];
+		}
+	}
+
     protected function buildForm()
     {
          $formBuilder = $this->formBuilder
          ->add("brennstoff_momentan", "choice", array(
          		"choices" => array (
-         				1 => Translator::getInstance()->trans("Erdgas"),
-         				2 => Translator::getInstance()->trans("Heizöl"),
-         				3 => Translator::getInstance()->trans("Holz"),
-                        4 => Translator::getInstance()->trans("Wärmepumpe"),
-         				5 => Translator::getInstance()->trans("Sonstiges")
+         				1 => $this->setLabel("brennstoff_momentan",1,"Erdgas"),
+         				2 => $this->setLabel("brennstoff_momentan",2,"Heizöl"),
+         				3 => $this->setLabel("brennstoff_momentan",3,"Holz"),
+                        4 => $this->setLabel("brennstoff_momentan",4,"Wärmepumpe"),
+         				5 => $this->setLabel("brennstoff_momentan",5,"Sonstiges")
          		),
          		"label" => Translator::getInstance()->trans("Womit heizen Sie momentan?"),
          		"label_attr" => array(
@@ -39,11 +61,11 @@ class HeizlastBerechnung extends BaseForm
          ))
          ->add("brennstoff_zukunft", "choice", array(
          		"choices" => array (
-         				1 => Translator::getInstance()->trans("Erdgas"),
-         				2 => Translator::getInstance()->trans("Heizöl"),
-         				3 => Translator::getInstance()->trans("Holz"),
-                        4 => Translator::getInstance()->trans("Wärmepumpe"),
-         				5 => Translator::getInstance()->trans("Sonstiges")
+         				1 => $this->setLabel("brennstoff_zukunft",1,"Erdgas"),
+         				2 => $this->setLabel("brennstoff_zukunft",2,"Heizöl"),
+         				3 => $this->setLabel("brennstoff_zukunft",3,"Holz"),
+                        4 => $this->setLabel("brennstoff_zukunft",4,"Wärmepumpe"),
+         				5 => $this->setLabel("brennstoff_zukunft",5,"Sonstiges")
          		),
          		"label" => Translator::getInstance()->trans("Womit werden Sie in Zukunft heizen?"),
          		"label_attr" => array(
@@ -53,10 +75,10 @@ class HeizlastBerechnung extends BaseForm
          ))
 		->add("gebaeudeart", "choice", array(
 				"choices" => array (
-						1 => Translator::getInstance()->trans("Einfamilienhaus"),
-						2 => Translator::getInstance()->trans("Reihenhaus oder Doppelhaushälfte "),
-						3 => Translator::getInstance()->trans("Mehrfamilienhaus mit Zentralheizung"),
-                        4 => Translator::getInstance()->trans("Wohnung mit eigener Heizung")
+						1 => $this->setLabel("gebaeudeart",1,"Einfamilienhaus"),
+						2 => $this->setLabel("gebaeudeart",2,"Reihenhaus oder Doppelhaushälfte"),
+						3 => $this->setLabel("gebaeudeart",3,"Mehrfamilienhaus mit Zentralheizung"),
+                        4 => $this->setLabel("gebaeudeart",4,"Wohnung mit eigener Heizung")
 				),
 				"label" => Translator::getInstance()->trans("Um was für ein Gebäude handelt es sich?"),
 				"label_attr" => array(
@@ -67,9 +89,9 @@ class HeizlastBerechnung extends BaseForm
              
         ->add("bestehendes_geraet_mit_warmwasser", "choice", array(
 				"choices" => array (
-						1 => Translator::getInstance()->trans("Durchlauf "),
-						2 => Translator::getInstance()->trans("Kleinen Speicher bis 50l"),
-						3 => Translator::getInstance()->trans("Speicher größer 50l")
+						1 => $this->setLabel("bestehendes_geraet_mit_warmwasser",1,"Durchlauf"),
+						2 => $this->setLabel("bestehendes_geraet_mit_warmwasser",2,"Kleinen Speicher bis 50l"),
+						3 => $this->setLabel("bestehendes_geraet_mit_warmwasser",3,"Speicher größer 50l")
 				),
 				"label" => Translator::getInstance()->trans("Ist das bestehende Gerät mit Warmwasser?"),
 				"label_attr" => array(
@@ -80,18 +102,18 @@ class HeizlastBerechnung extends BaseForm
 		
 		
         ->add("bestehendes_geraet_kw", "integer", array(
-				"label" => Translator::getInstance()->trans("Wie viel KW hat das bestehende Gerät?"),
+                "label" => Translator::getInstance()->trans("Wie viel KW hat das bestehende Gerät?"),
 				"label_attr" => array(
 						"for" => "kw",
 				),
-				"data" => 3
+				"data" => 1
 		))
 		->add("baujahr", "choice", array(
 				"choices" => array (
-						1 => Translator::getInstance()->trans("Bis 1960"),
-						2 => Translator::getInstance()->trans("1961-1977"),
-						3 => Translator::getInstance()->trans("1978-1994"),
-                        4 => Translator::getInstance()->trans("Ab 1995")
+						1 => $this->setLabel("baujahr",1,"Bis 1960"),
+						2 => $this->setLabel("baujahr",2,"1961-1977"),
+						3 => $this->setLabel("baujahr",3,"1978-1994"),
+                        4 => $this->setLabel("baujahr",4,"Ab 1995")
 				),
 				"label" => Translator::getInstance()->trans("Wann wurde das Gebäude gebaut?"),
 				"label_attr" => array(
@@ -108,7 +130,7 @@ class HeizlastBerechnung extends BaseForm
 		))
              
        ->add("etagen", "integer", array(
-				"label" => Translator::getInstance()->trans("Wie viele Etagen hat Ihre Gebäude?"),
+				"label" => Translator::getInstance()->trans("Wie viele Etagen hat Ihr Gebäude?"),
 				"label_attr" => array(
 						"for" => "etagen",
 				),
@@ -125,8 +147,8 @@ class HeizlastBerechnung extends BaseForm
 		))
 		->add("lage_des_gebaeudes", "choice", array(
 				"choices" => array (
-						1 => Translator::getInstance()->trans("Frei"),
-						2 => Translator::getInstance()->trans("Normal")
+						1 => $this->setLabel("lage_des_gebaeudes",1,"Frei"),
+						2 =>  $this->setLabel("lage_des_gebaeudes",2,"Normal")
 				),
 				"label" => Translator::getInstance()->trans("Lage des Gebäudes?"),
 				"label_attr" => array(
@@ -136,8 +158,8 @@ class HeizlastBerechnung extends BaseForm
 		))
 		->add("windlage_des_gebaudes", "choice", array(
 				"choices" => array (
-						1 => Translator::getInstance()->trans("Windstark"),
-						2 => Translator::getInstance()->trans("Windschwach")
+						1 => $this->setLabel("windlage_des_gebaudes",1,"Windstark"),
+						2 => $this->setLabel("windlage_des_gebaudes",2,"Windschwach")
 				),
 				"label" => Translator::getInstance()->trans("Windlage des Gebaudes"),
 				"label_attr" => array(
@@ -161,9 +183,9 @@ class HeizlastBerechnung extends BaseForm
 		*/
 		->add("anzahl_aussenwaende", "choice", array(
 				"choices" => array (
-						1 => Translator::getInstance()->trans("1 Wand"),
-						2 => Translator::getInstance()->trans("2 Wände"),
-						3 => Translator::getInstance()->trans("mehr als 3 Wände")
+						1 => $this->setLabel("anzahl_aussenwaende",1,"1 Wand"),
+						2 => $this->setLabel("anzahl_aussenwaende",2,"2 Wände"),
+						3 => $this->setLabel("anzahl_aussenwaende",3,"3 Wände")
 				),
 				"label" => Translator::getInstance()->trans("Wie viel ist die Anzahl der Außenwände?"),
 				"label_attr" => array(
@@ -173,9 +195,9 @@ class HeizlastBerechnung extends BaseForm
 		))
 		->add("fenster", "choice", array(
 				"choices" => array (
-						1 => Translator::getInstance()->trans("Einfach verglast"),
-						2 => Translator::getInstance()->trans("Doppelt verglast"),
-						3 => Translator::getInstance()->trans("Isolierverglast")
+						1 => $this->setLabel("fenster",1,"Einfach verglast"),
+						2 => $this->setLabel("fenster",2,"Doppelt verglast"),
+						3 => $this->setLabel("fenster",3,"Isolierverglast")
 				),
 				"label" => Translator::getInstance()->trans("Wie sind Ihre Fenster verglast?"),
 				"label_attr" => array(
@@ -200,8 +222,8 @@ class HeizlastBerechnung extends BaseForm
          
 		->add("dach_daemmung", "choice", array(
 				"choices" => array (
-						1 => Translator::getInstance()->trans("Ja"),
-						2 => Translator::getInstance()->trans("Nein")
+						1 => $this->setLabel("dach_daemmung",1,"Ja"),
+						2 => $this->setLabel("dach_daemmung",2,"Nein")
 				),
 				"label" => Translator::getInstance()->trans("Ist das Dach gedämmt?"),
 				"label_attr" => array(
@@ -211,10 +233,10 @@ class HeizlastBerechnung extends BaseForm
 		))
 		->add("wohnraumtemperatur", "choice", array(
 				"choices" => array (
-						1 => Translator::getInstance()->trans("15"),
-						2 => Translator::getInstance()->trans("20"),
-                        3 => Translator::getInstance()->trans("22"),
-						4 => Translator::getInstance()->trans("mehr als 22")
+						1 => $this->setLabel("wohnraumtemperatur",1,"15"),
+						2 => $this->setLabel("wohnraumtemperatur",2,"20"),
+                        3 => $this->setLabel("wohnraumtemperatur",3,"22"),
+						4 => $this->setLabel("wohnraumtemperatur",4,"mehr als 22")
 				),
 				"label" => Translator::getInstance()->trans("Wie hoch ist die Wohnraumtemperatur?"),
 				"label_attr" => array(
@@ -224,10 +246,10 @@ class HeizlastBerechnung extends BaseForm
 		))
 		->add("aussentemperatur", "choice", array(
 				"choices" => array (
-						1 => Translator::getInstance()->trans("-10C"),
-						2 => Translator::getInstance()->trans("-14C/-12C"),
-                        3 => Translator::getInstance()->trans("-18C/-16C"),
-						4 => Translator::getInstance()->trans("kälter als -18C")
+						1 => $this->setLabel("aussentemperatur",1,"-10C"),
+						2 => $this->setLabel("aussentemperatur",2,"-14C/-12C"),
+                        3 => $this->setLabel("aussentemperatur",3,"-18C/-16C"),
+						4 => $this->setLabel("aussentemperatur",4,"kälter als -18C")
 				),
 				"label" => Translator::getInstance()->trans("Wie kalt kann bei ihnen im Winter die Außentemperatur werden?"),
 				"label_attr" => array(
@@ -237,9 +259,9 @@ class HeizlastBerechnung extends BaseForm
 		))
 		->add("waermedaemmung", "choice", array(
 				"choices" => array (
-						1 => Translator::getInstance()->trans("Nicht"),
-						2 => Translator::getInstance()->trans("Teilweise"),
-						3 => Translator::getInstance()->trans("Erhöht")
+						1 => $this->setLabel("waermedaemmung",1,"Nicht"),
+						2 => $this->setLabel("waermedaemmung",2,"Teilweise"),
+						3 => $this->setLabel("waermedaemmung",3,"Erhöht")
 				),
 				"label" => Translator::getInstance()->trans("Ist eine Wärmedämmung vorhanden?"),
 				"label_attr" => array(
@@ -253,10 +275,10 @@ class HeizlastBerechnung extends BaseForm
         
         ->add("abgasfuehrung", "choice", array(
 				"choices" => array (
-						1 => Translator::getInstance()->trans("Aussen am Haus "),
-						2 => Translator::getInstance()->trans("Im Kamin "),
-						3 => Translator::getInstance()->trans("Direkt durch das Dach"),
-                        4 => Translator::getInstance()->trans("Ist noch ein zweites Gerät im Kamin eingebunden")
+						1 => $this->setLabel("abgasfuehrung",1,"Aussen am Haus"),
+						2 => $this->setLabel("abgasfuehrung",2,"Im Kamin"),
+						3 => $this->setLabel("abgasfuehrung",3,"Direkt durch das Dach"),
+                        4 => $this->setLabel("abgasfuehrung",4,"Ist noch ein zweites Gerät im Kamin eingebunden")
 				),
 				"label" => Translator::getInstance()->trans("Wie verläuft die Abgasführung heute?"),
 				"label_attr" => array(
@@ -268,10 +290,10 @@ class HeizlastBerechnung extends BaseForm
              
         ->add("waermeabgabe", "choice", array(
 				"choices" => array (
-						1 => Translator::getInstance()->trans("Heizkörper"),
-						2 => Translator::getInstance()->trans("Fußbodenheizung"),
-						3 => Translator::getInstance()->trans("Heizkörper und Fußbodenheizung "),
-                        4 => Translator::getInstance()->trans("Sonstiges ")
+						1 => $this->setLabel("waermeabgabe",1,"Heizkörper"),
+						2 => $this->setLabel("waermeabgabe",2,"Fußbodenheizung"),
+						3 => $this->setLabel("waermeabgabe",3,"Heizkörper und Fußbodenheizung"),
+                        4 => $this->setLabel("waermeabgabe",4,"Sonstiges")
 				),
 				"label" => Translator::getInstance()->trans("Wie erfolgt die Wärmeabgabe?"),
 				"label_attr" => array(
@@ -282,8 +304,8 @@ class HeizlastBerechnung extends BaseForm
              
         ->add("duschwasser", "choice", array(
 				"choices" => array (
-						1 => Translator::getInstance()->trans("Ja"),
-						2 => Translator::getInstance()->trans("Nein")
+						1 => $this->setLabel("duschwasser",1,"Ja"),
+						2 => $this->setLabel("duschwasser",2,"Nein")
 
 				),
 				"label" => Translator::getInstance()->trans("Wird Duschwasser mit der Heizung erwärmt? "),
@@ -296,9 +318,8 @@ class HeizlastBerechnung extends BaseForm
                           
         ->add("wasserabfluss", "choice", array(
 				"choices" => array (
-						1 => Translator::getInstance()->trans("Ja"),
-						2 => Translator::getInstance()->trans("Nein")
-
+						1 => $this->setLabel("wasserabfluss",1,"Ja"),
+						2 => $this->setLabel("wasserabfluss",2,"Nein")
 				),
 				"label" => Translator::getInstance()->trans("Ist ein Wasserabfluss unter der Heizung vorhanden? "),
 				"label_attr" => array(
@@ -309,8 +330,8 @@ class HeizlastBerechnung extends BaseForm
              
         ->add("warmwasserversorgung", "choice", array(
 				"choices" => array (
-						1 => Translator::getInstance()->trans("Ja"),
-						2 => Translator::getInstance()->trans("Nein")
+						1 => $this->setLabel("warmwasserversorgung",1,"Ja"),
+						2 => $this->setLabel("warmwasserversorgung",2,"Nein")
 
 				),
 				"label" => Translator::getInstance()->trans("Soll die Warmwasserversorgung über die Heizung erfolgen? "),
@@ -323,9 +344,9 @@ class HeizlastBerechnung extends BaseForm
                           
         ->add("warmwasserversorgung-extra", "choice", array(
 				"choices" => array (
-						1 => Translator::getInstance()->trans("Warmwasserspeicher"),
-						2 => Translator::getInstance()->trans("Kombigerät / Durchlauferhitzer"),
-                        3 => Translator::getInstance()->trans("Sonstige"),
+						1 => $this->setLabel("warmwasserversorgung-extra",1,"Warmwasserspeicher"),
+						2 => $this->setLabel("warmwasserversorgung-extra",2,"Kombigerät / Durchlauferhitzer"),
+                        3 => $this->setLabel("warmwasserversorgung-extra",3,"Sonstige")
                     
 
 				),
@@ -338,8 +359,8 @@ class HeizlastBerechnung extends BaseForm
              
         ->add("warmwasserversorgung-extra-waermepumpe", "choice", array(
 				"choices" => array (
-						1 => Translator::getInstance()->trans("Warmwasserspeicher"),
-                        2 => Translator::getInstance()->trans("Sonstige")
+						1 => $this->setLabel("warmwasserversorgung-extra-waermepumpe",1,"Warmwasserspeicher"),
+                        2 => $this->setLabel("warmwasserversorgung-extra-waermepumpe",2,"Sonstige")
                     
 
 				),
