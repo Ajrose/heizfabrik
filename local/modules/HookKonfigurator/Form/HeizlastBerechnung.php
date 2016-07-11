@@ -185,7 +185,7 @@ class HeizlastBerechnung extends BaseForm
 				"choices" => array (
 						1 => $this->setLabel("anzahl_aussenwaende",1,"1 Wand"),
 						2 => $this->setLabel("anzahl_aussenwaende",2,"2 Wände"),
-						3 => $this->setLabel("anzahl_aussenwaende",3,"3 Wände")
+						3 => $this->setLabel("anzahl_aussenwaende",3,"Mehr als 3 Wände")
 				),
 				"label" => Translator::getInstance()->trans("Wie viel ist die Anzahl der Außenwände?"),
 				"label_attr" => array(

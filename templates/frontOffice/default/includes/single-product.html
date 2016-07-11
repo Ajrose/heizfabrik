@@ -63,9 +63,18 @@
                     <span class="old-price col-xs-6"><span class="price-label">{intl l="Regular Price:"} </span><span class="price">{format_money number=$TAXED_PRICE}</span></span>
                     {/if}
                 {else}
-                    <span class="regular-price col-xs-12"><span itemprop="price" class="price">{format_money number=$BEST_TAXED_PRICE}</span></span>
+                    
+                <span class=" col-xs-6">
+                    <span itemprop="price" class="listen-price">{if $LISTEN_PRICE!=0} Statt {format_money number=$LISTEN_PRICE}{/if} </span>
+                </span>
+                    
+                <span class="regular-price col-xs-6">
+                    <span itemprop="price"  class="{if $LISTEN_PRICE!=0}verkaufs-price{else}verkaufs-price-black{/if}">{format_money number=$BEST_TAXED_PRICE}</span>
+                </span>
                 {/if}
+                <span class="regular-price col-xs-12">
                 <small>Alle Preise inkl. 20% MwSt.</small>
+                </span>   
             </div>
 
             {if $hasBtn == true}

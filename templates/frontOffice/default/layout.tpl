@@ -195,12 +195,24 @@ type="text/javascript";e.parentNode.insertBefore($,e)})(document,"script");
                 {hook name="main.content-bottom"}
             </div><!-- /.container -->
         </main><!-- /.main-container -->
-
+      <section class="footer-block">
+                    <div class="container">
+                        <div class="col col-sm-12 lieferungbedienungen">
+                                <h6><strong>Alle Preise inkl. 20% MwSt., ggf. zzgl. Versandkosten</strong></h6>  *unverbindliche Preisangabe der Hersteller<br>
+                               <sup>1)</sup>Ab 300 EUR Warenwert versenden wir generell in einer Lieferung versandkostenfrei in folgende Länder : Österreich<br>
+                            <small>Symbolbilder Änderungen Vorbehalten</small>
+                        </div>
+                    </div>
+      </section>
+            
+            
         <section class="footer-container" itemscope itemtype="http://schema.org/WPFooter">
-
+                            
             {ifhook rel="main.footer-top"}
                 <section class="footer-block">
                     <div class="container">
+
+                        
                         <div class="blocks row">
                             {hook name="main.footer-top"}
                         </div>
@@ -208,8 +220,11 @@ type="text/javascript";e.parentNode.insertBefore($,e)})(document,"script");
                 </section>
             {/ifhook}
             {elsehook rel="main.footer-top"}
+                
                 <section class="footer-banner">
+                    
                     <div class="container">
+
                         <div class="banner row banner-col-3">
                             <a href="lieferung">
                                 <div class="col col-sm-4">
@@ -247,13 +262,11 @@ type="text/javascript";e.parentNode.insertBefore($,e)})(document,"script");
             {/elsehook}
 
 {ifhook rel="main.footer-body"}
-                <section class="footer-block">
+
                     
                     <div class="container">
                         <div class="blocks row">
-                            <div class="col col-sm-12 lieferungbedienungen">
-                                Alle Preise inkl. 20% MwSt., ggf. zzgl. Versandkosten  *unverbindliche Preisangabe der Hersteller 1) Ab 300 EUR Warenwert versenden wir generell in einer Lieferung versandkostenfrei in folgende Länder : Österreich
-                            </div>
+
                             {hookblock name="main.footer-body"  fields="id,class,title,content"}
                             {forhook rel="main.footer-body"}
                                 <div class="col col-sm-4">

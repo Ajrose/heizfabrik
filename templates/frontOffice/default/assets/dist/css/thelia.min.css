@@ -1324,7 +1324,7 @@ pre {
 }
 .small,
 small {
-    font-size: 85%
+    font-size: 75%
 }
 .mark,
 mark {
@@ -8712,6 +8712,12 @@ header .header .language-container .language-switch .dropdown-label {
 .footer-container .footer-block {
     background-color: #f5f5f5
 }
+.footer-block .lieferungbedienungen{
+    padding:20px 10px;
+    font-size:12px!important;
+    color:#7a7a7a;
+    border-top:1px solid #e5e5e5;
+}
 .footer-container .footer-info {
     background-color: #444;
     color: #fff;
@@ -8794,7 +8800,7 @@ a {
     vertical-align: middle
 }
 .checkout-progress .btn-step .step-label {
-    font-size: 20px;
+    //font-size: 20px;
     font-weight: 100;
     min-width: 250px;
     padding-left: 6px;
@@ -8826,12 +8832,27 @@ a {
     font-style: italic;
     white-space: nowrap
 }
+.verkaufs-price {
+    color: #F00;
+    font-size: 15px;
+    font-weight: bold!important;
+    white-space: nowrap
+}
+.verkaufs-price-black {
+    color: #000;
+    font-size: 15px;
+    white-space: nowrap
+}
 .old-price .price {
     color: #7a7a7a;
     font-size: 16px;
     font-weight: 600;
     text-decoration: line-through
 }
+.listen-price{
+    font-size: 11px;
+    margin-top:3px;
+}  
 #folder-contents .contents>ul .item {
     padding-bottom: 15px
 }
@@ -10069,7 +10090,8 @@ td.product .name>a:hover {
     display: block
 }
 #category-products .item>article .product-price .price-container {
-    margin-bottom: 10px
+    margin-bottom: 10px;
+    margin-top:10px;
 }
 #category-products .item>article .product-price .price-container .price {
     margin-left: 4px
@@ -10103,7 +10125,9 @@ td.product .name>a:hover {
     width: 100%
 }
 .price-container small{
-    padding:15px;
+    padding-top:5px;
+    margin-top:20px;
+    
 }
 #product-details .product-info {
     border-bottom: 1px solid #e5e5e5;
@@ -12903,3 +12927,8 @@ display: none;
 }
 
 /*CAROUSEL END*/
+
+
+.price-table{
+    margin:10px;
+}

@@ -1,5 +1,6 @@
 {extends file="layout.tpl"}
 
+
 {block name="init"}
     {$product_id={product attr="id"}}
     {$pse_count=1}
@@ -157,12 +158,57 @@
                         {* List of currency : The currency used to describe the product price, in three-letter ISO format. *}
                         <meta itemprop="priceCurrency" content="{currency attr="code"}">
 
+                        {assign var="parent_category" value={category attr="parent"}}
+                        
                         <span id="pse-promo">
                             <span class="special-price">
-                            	<span itemprop="price" class="price-label">{intl l="Special Price:"} </span>
+                            {if $parent_category != #services_category_id# AND $LISTEN_PRICE!=0}
+                            <table class="price-table">
+                                <tr>
+                                    <td>Statt</td>
+                                    <td>
+                                        <span itemprop="price" class="price-label">{intl l="Special Price:"}</span>
                             	<span id="pse-price" style="display: none;" class="price">{format_money number=$TAXED_PROMO_PRICE symbol={currency attr="symbol"}}</span>
-                            	<div name="price_product_{$product_id}" style="font-size:30px; font-weight:bold;float:left" >{$BEST_TAXED_PRICE|string_format:"%d"}</div><div style="float:left;font-size:20px; padding:10px"> €</div><div class="clearfix"></div><small>Alle Preise inkl. 20% MwSt.</small>
-                            {$LISTEN_PRICE}
+                                <div name="price_product_{$product_id}"> {$LISTEN_PRICE|string_format:"%.2f"}€ *</div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Jetzt</td>
+                                    <td><div name="price_product_{$product_id}" style="font-size:20px; font-weight:bold; color:#F00">
+                                {$BEST_TAXED_PRICE|string_format:"%.2f"}€</div></td>
+                                </tr>
+                                <tr>
+                                    <td>Sie sparen</td>
+                                    <td><div name="price_product_{$product_id}">
+                                {$LISTEN_PRICE-$BEST_TAXED_PRICE}€
+                                        ({if $LISTEN_PRICE!=0} 
+                                        {$percent=100-($BEST_TAXED_PRICE*100)/$LISTEN_PRICE }{$percent|string_format:"%d"}%{/if})</div></td>
+                                </tr>
+                                <tr>
+                                    <td ><small><br>Alle Preise inkl. 20% MwSt.</small></td>
+                                </tr>
+                                <tr>
+                                    <td ><small>Ab 300 € Warenwert versandkostenfrei<sup>1)</sup></small></td>
+                                </tr>
+                                
+                            </table>
+                            {else}  
+                                <table class="price-table">
+                                    <tr>
+                                        <td>
+                                        <div name="price_product_{$product_id}" style="font-size:20px; font-weight:bold;">
+                                        {$BEST_TAXED_PRICE|string_format:"%.2f"}€</div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                    <td ><small><br>Alle Preise inkl. 20% MwSt.</small></td>
+                                </tr>
+                                <tr>
+                                    <td ><small>Ab 300 € Warenwert versandkostenfrei<sup>1)</sup></small></td>
+                                </tr>
+                                </table>
+                            {/if}
+                           
                             </span>
                             <meta itemprop="price" content="{$TAXED_PROMO_PRICE}">
                             {if $SHOW_ORIGINAL_PRICE}
@@ -219,7 +265,8 @@
 
                     {/if}
 
-					{assign var="parent_category" value={category attr="parent"}}
+					
+
 					{if $parent_category != #services_category_id#}
 						<div class="products-content">
 							<ul class="thumbnails image_picker_selector">
@@ -231,7 +278,7 @@
  							</ul>
  						</div>
                     
-                {else}
+
                    
   
 					{/if}
