@@ -278,7 +278,8 @@ class Product extends BaseI18nLoop implements PropelSearchLoopInterface, SearchL
                 ->set("IS_NEW", $product->getVirtualColumn('is_new'))
                 ->set("PRODUCT_SALE_ELEMENT", $product->getVirtualColumn('pse_id'))
                 ->set("PSE_COUNT", $product->getVirtualColumn('pse_count'))
-            	/*->set("LISTEN_PRICE",$product->getVirtualColumn('listen_price'))
+            	->set("LISTEN_PRICE",$product->getVirtualColumn('listen_price'))
+            	/*
             	->set("EK_PREIS_GC",$product->getVirtualColumn('ek_preis_gc'))
             	->set("EK_PREIS_SHT",$product->getVirtualColumn('ek_preis_sht'))
             	->set("EK_PREIS_OAG",$product->getVirtualColumn('ek_preis_oag'))
@@ -540,7 +541,8 @@ class Product extends BaseI18nLoop implements PropelSearchLoopInterface, SearchL
 
             $search->addJoinObject($priceJoin, 'price_join')
                 ->addJoinCondition('price_join', '`price`.`currency_id` = ?', $currency->getId(), null, \PDO::PARAM_INT)
-            /*->withColumn ( '`price`.listen_price', 'listen_price' )
+            ->withColumn ( '`price`.listen_price', 'listen_price' )
+            /*
             ->withColumn ( '`price`.ek_preis_gc', 'ek_preis_gc' )
             ->withColumn ( '`price`.ek_preis_sht', 'ek_preis_sht' )
             ->withColumn ( '`price`.ek_preis_oag', 'ek_preis_oag' )
