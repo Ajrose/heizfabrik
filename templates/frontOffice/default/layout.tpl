@@ -97,7 +97,7 @@ web : http://www.hausfabrik.at
     <![endif]-->
    <script src="{javascript file='assets/dist/js/vendors/modernizr.custom.js'}"></script>
 
-   <!--script src="{javascript file='assets/dist/js/vendors/dropzone.js'}"></script--> 
+   <script src="{javascript file='assets/dist/js/vendors/dropzone.js'}"></script> 
     
 <!--Services appointment codes-->
     
@@ -235,20 +235,25 @@ type="text/javascript";e.parentNode.insertBefore($,e)})(document,"script");
                                 </div>
                                 <div>
                                     <h3><strong>{intl l="0800/022573"}</strong></h3>
-                                    <h5>Mo-Fr: 8-20 Uhr</h5>
-                                    <h5>Sa: 11-17 Uhr</h5>
+                                    <h5>Mo-Fr: &nbsp;8-20 Uhr</h5>
+                                    <h5>Sa:&nbsp; 11-17 Uhr</h5>
                                 </div>
                             </div>
                                 </a>
                         </div>
                     </div>
+                   
                 </section><!-- /.footer-banner -->
             {/elsehook}
 
 {ifhook rel="main.footer-body"}
                 <section class="footer-block">
+                    
                     <div class="container">
                         <div class="blocks row">
+                            <div class="col col-sm-12 lieferungbedienungen">
+                                Alle Preise inkl. 20% MwSt., ggf. zzgl. Versandkosten  *unverbindliche Preisangabe der Hersteller 1) Ab 300 EUR Warenwert versenden wir generell in einer Lieferung versandkostenfrei in folgende Länder : Österreich
+                            </div>
                             {hookblock name="main.footer-body"  fields="id,class,title,content"}
                             {forhook rel="main.footer-body"}
                                 <div class="col col-sm-4">
@@ -263,6 +268,7 @@ type="text/javascript";e.parentNode.insertBefore($,e)})(document,"script");
                             {/hookblock}
                         </div>
                     </div>
+                     
                 </section>
             {/ifhook}
 
