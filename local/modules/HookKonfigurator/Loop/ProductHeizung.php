@@ -557,30 +557,34 @@ class ProductHeizung extends BaseI18nLoop implements PropelSearchLoopInterface, 
 		
 			$log->error(" create userdatenquery ".$currentCustomer);
 			 
-			$userdata = new HeizungkonfiguratorUserdaten();
-			$userdata->setBrennstoffMomentan($request->request->get('konfigurator')['brennstoff_momentan'])
-			->setBrennstoffZukunft($request->request->get('konfigurator')['brennstoff_zukunft'])
-			->setGebaeudeart($request->request->get('konfigurator')['gebaeudeart'])
-			->setPersonenAnzahl($request->request->get('konfigurator')['personen_anzahl'])
-			->setEtagen($request->request->get('konfigurator')['etagen'])
-			->setBestehendeGeraetWarmwasser($request->request->get('konfigurator')['bestehendes_geraet_mit_warmwasser'])
-			->setBestehendeGeraetKw($request->request->get('konfigurator')['bestehendes_geraet_kw'])
-			->setBaujahr($request->request->get('konfigurator')['baujahr'])
-			->setGebaeudelage($request->request->get('konfigurator')['lage_des_gebaeudes'])
-			->setWindlage($request->request->get('konfigurator')['windlage_des_gebaudes'])
-			->setAnzahlAussenwaende($request->request->get('konfigurator')['anzahl_aussenwaende'])
-			->setVerglasteFenster($request->request->get('konfigurator')['fenster'])
-			->setWohnraumtemperatur($request->request->get('konfigurator')['wohnraumtemperatur'])
-			->setAussentemperatur($request->request->get('konfigurator')['aussentemperatur'])
-			->setWaermedaemmung($request->request->get('konfigurator')['waermedaemmung'])
-			->setHeizflaeche($request->request->get('konfigurator')['flaeche'])
-			->setAnmerkungen($request->request->get('konfigurator')['anmerkungen'])
-			->setCreatedAt(date ( "Y-m-d H:i:s" ))
-			->setUserId($currentCustomer)
-			->setVersion("1.0")
-			 
-		
-			->save();
+				$userdata = new HeizungkonfiguratorUserdaten();
+				$userdata->setBrennstoffMomentan($request->request->get('konfigurator')['brennstoff_momentan'])
+				->setBrennstoffZukunft($request->request->get('konfigurator')['brennstoff_zukunft'])
+				->setGebaeudeart($request->request->get('konfigurator')['gebaeudeart'])
+				->setPersonenAnzahl($request->request->get('konfigurator')['personen_anzahl'])
+		//		->setBestehendeGeraetWarmwasser($request->request->get('konfigurator')['bestehendes_geraet_mit_warmwasser'])
+		//		->setBestehendeGeraetKw($request->request->get('konfigurator')['bestehendes_geraet_kw'])
+				->setBaujahr($request->request->get('konfigurator')['baujahr'])
+				->setGebaeudelage($request->request->get('konfigurator')['lage_des_gebaeudes'])
+				->setWindlage($request->request->get('konfigurator')['windlage_des_gebaudes'])
+				->setAnzahlAussenwaende($request->request->get('konfigurator')['anzahl_aussenwaende'])
+				->setVerglasteFenster($request->request->get('konfigurator')['fenster'])
+				->setWohnraumtemperatur($request->request->get('konfigurator')['wohnraumtemperatur'])
+				->setAussentemperatur($request->request->get('konfigurator')['aussentemperatur'])
+				->setWaermedaemmung($request->request->get('konfigurator')['waermedaemmung'])
+				->setHeizflaeche($request->request->get('konfigurator')['flaeche'])
+				->setAnmerkungen($request->request->get('konfigurator')['anmerkungen'])
+				->setAbgasfuehrung($request->request->get('konfigurator')['abgasfuehrung'])
+				->setWaermeabgabe($request->request->get('konfigurator')['waermeabgabe'])
+				->setDuschwasser($request->request->get('konfigurator')['duschwasser'])
+				->setWasserabfluss($request->request->get('konfigurator')['wasserabfluss'])
+				->setWarmwasserversorgung($request->request->get('konfigurator')['warmwasserversorgung'])
+				->setWarmwasserversorgungExtra($request->request->get('konfigurator')['warmwasserversorgung-extra'])
+				->setWarmwasserversorgungExtraWaermepumpe($request->request->get('konfigurator')['warmwasserversorgung-extra-waermepumpe'])				
+				->setCreatedAt(date ( "Y-m-d H:i:s" ))
+				->setUserId($currentCustomer)
+				->setVersion("1.0")
+				->save();	
 		
 			$log->error(" create userdatenquery ".$userdata);
 			//get images
@@ -624,7 +628,6 @@ class ProductHeizung extends BaseI18nLoop implements PropelSearchLoopInterface, 
 		$konfigurator->populateKonfiguratorFromRequest ( $request );
 		$waermebedarf = $konfigurator->calculateWaermebedarf () / 1000;
 		header ( 'waermebedarf:' . $waermebedarf );
-		$brennstoff = $konfigurator->getBrennstoffZukunft();
 		
 		
 		$log = Tlog::getInstance ();
@@ -660,6 +663,13 @@ class ProductHeizung extends BaseI18nLoop implements PropelSearchLoopInterface, 
 		$heizungJoin->addExplicitCondition ( ProductTableMap::TABLE_NAME, 'ID', null, ProductHeizungTableMap::TABLE_NAME, 'PRODUCT_ID', 'hz' );
 		$heizungJoin->setJoinType ( Criteria::LEFT_JOIN );
 
+		$brennstoff = $konfigurator->getBrennstoffZukunft();
+		$warm_water = $request->request->get('konfigurator')['warmwasserversorgung'];
+		
+		if($warm_water != 2)
+          $warm_water = $request->request->get('konfigurator')['warmwasserversorgung']+$request->request->get('konfigurator')['warmwasserversorgung-extra'];
+		else $warm_water = 0;
+          $log->error(" warm_water ".$warm_water." ws ".$request->request->get('konfigurator')['warmwasserversorgung']);
 		$search
 		->addJoinObject ( $heizungJoin, 'HeizungProduct' )
 		->withColumn ( '`hz`.grade', 'grade' )
@@ -671,26 +681,18 @@ class ProductHeizung extends BaseI18nLoop implements PropelSearchLoopInterface, 
 		->withColumn ( '`hz`.storage_capacity', 'storage_capacity' )
 		->condition  ( 'same_product_id', 'product.id = `hz`.product_id' )
 		->setJoinCondition ( 'HeizungProduct', 'same_product_id' )
-		->condition ( 'power_larger_then', 'power >= ?', $waermebedarf - 1, \PDO::PARAM_INT )
-		->condition ( 'power_smaller_then', 'power <= ?', $waermebedarf + 4, \PDO::PARAM_INT );
+		->condition ( 'power_larger_then', 'power >= ?', $waermebedarf - 2, \PDO::PARAM_INT )
+		//->condition ( 'power_smaller_then', 'power <= ?', $waermebedarf + 4, \PDO::PARAM_INT )
+		->condition ( 'warmwasserversorgung', 'warm_water = ?', $warm_water, \PDO::PARAM_INT );
 		
-		$brennstoff_name = "";
-		$brennstoff_filter_aktiv = true;
-		switch($brennstoff){
-			case 1: $brennstoff_name="Gas";break;
-			case 2: $brennstoff_name="Öl";break;
-			case 3: $brennstoff_name="Flussiggas";break;
-			case 3: $brennstoff_name="Strom";break;
-			case 4: $brennstoff_filter_aktiv = false;break;
-		}
-
-		if($brennstoff_filter_aktiv)
+		/*if($brennstoff>4)
 			$search
-			->condition('brennstoff_zukunft', 'energy_carrier = ?',$brennstoff_name,\PDO::PARAM_STR)
-			->where ( array ('power_larger_then','power_smaller_then','brennstoff_zukunft' ), Criteria::LOGICAL_AND ); // power_condition
-		else 
+			->condition('brennstoff_zukunft', 'energy_carrier > ?',$brennstoff,\PDO::PARAM_STR)
+			->where ( array ('power_larger_then','brennstoff_zukunft','warmwasserversorgung' ), Criteria::LOGICAL_AND ); // power_condition
+		else */
 			$search
-			->where ( array ('power_larger_then','power_smaller_then' ), Criteria::LOGICAL_AND );			
+			->condition('brennstoff_zukunft', 'energy_carrier = ?',$brennstoff,\PDO::PARAM_INT)
+			->where ( array ('power_larger_then','brennstoff_zukunft','warmwasserversorgung' ), Criteria::LOGICAL_AND );			
 
 		//if ($visible !== Type\BooleanOrBothType::ANY) {
 			$search->filterByVisible(1);
@@ -715,7 +717,6 @@ class ProductHeizung extends BaseI18nLoop implements PropelSearchLoopInterface, 
 		$search->addJoinObject($priceJoin, 'price_join')
 		->addJoinCondition('price_join', '`price`.`currency_id` = ?', $currency->getId(), null, \PDO::PARAM_INT);
 		*/
-		
 		return $search;
 	}
 }

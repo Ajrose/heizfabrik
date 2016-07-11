@@ -23,7 +23,7 @@ use Propel\Runtime\Map\TableMap;
 use Propel\Runtime\Parser\AbstractParser;
 use Propel\Runtime\Util\PropelDateTime;
 
-abstract class HeizungkonfiguratorUserdaten implements ActiveRecordInterface 
+abstract class HeizungkonfiguratorUserdaten implements ActiveRecordInterface
 {
     /**
      * TableMap class name
@@ -182,6 +182,60 @@ abstract class HeizungkonfiguratorUserdaten implements ActiveRecordInterface
      * @var        string
      */
     protected $created_at;
+
+    /**
+     * The value for the etagen field.
+     * @var        int
+     */
+    protected $etagen;
+
+    /**
+     * The value for the dach_daemmung field.
+     * @var        string
+     */
+    protected $dach_daemmung;
+
+    /**
+     * The value for the abgasfuehrung field.
+     * @var        string
+     */
+    protected $abgasfuehrung;
+
+    /**
+     * The value for the waermeabgabe field.
+     * @var        string
+     */
+    protected $waermeabgabe;
+
+    /**
+     * The value for the duschwasser field.
+     * @var        string
+     */
+    protected $duschwasser;
+
+    /**
+     * The value for the wasserabfluss field.
+     * @var        string
+     */
+    protected $wasserabfluss;
+
+    /**
+     * The value for the warmwasserversorgung field.
+     * @var        string
+     */
+    protected $warmwasserversorgung;
+
+    /**
+     * The value for the warmwasserversorgung_extra field.
+     * @var        string
+     */
+    protected $warmwasserversorgung_extra;
+
+    /**
+     * The value for the warmwasserversorgung_extra_waermepumpe field.
+     * @var        string
+     */
+    protected $warmwasserversorgung_extra_waermepumpe;
 
     /**
      * @var        ObjectCollection|ChildHeizungkonfiguratorImage[] Collection to store aggregation of ChildHeizungkonfiguratorImage objects.
@@ -463,7 +517,7 @@ abstract class HeizungkonfiguratorUserdaten implements ActiveRecordInterface
 
     /**
      * Get the [id] column value.
-     * 
+     *
      * @return   int
      */
     public function getId()
@@ -474,7 +528,7 @@ abstract class HeizungkonfiguratorUserdaten implements ActiveRecordInterface
 
     /**
      * Get the [user_id] column value.
-     * 
+     *
      * @return   int
      */
     public function getUserId()
@@ -485,7 +539,7 @@ abstract class HeizungkonfiguratorUserdaten implements ActiveRecordInterface
 
     /**
      * Get the [brennstoff_momentan] column value.
-     * 
+     *
      * @return   string
      */
     public function getBrennstoffMomentan()
@@ -496,7 +550,7 @@ abstract class HeizungkonfiguratorUserdaten implements ActiveRecordInterface
 
     /**
      * Get the [brennstoff_zukunft] column value.
-     * 
+     *
      * @return   string
      */
     public function getBrennstoffZukunft()
@@ -507,7 +561,7 @@ abstract class HeizungkonfiguratorUserdaten implements ActiveRecordInterface
 
     /**
      * Get the [gebaeudeart] column value.
-     * 
+     *
      * @return   string
      */
     public function getGebaeudeart()
@@ -518,7 +572,7 @@ abstract class HeizungkonfiguratorUserdaten implements ActiveRecordInterface
 
     /**
      * Get the [personen_anzahl] column value.
-     * 
+     *
      * @return   int
      */
     public function getPersonenAnzahl()
@@ -529,7 +583,7 @@ abstract class HeizungkonfiguratorUserdaten implements ActiveRecordInterface
 
     /**
      * Get the [bestehende_geraet_warmwasser] column value.
-     * 
+     *
      * @return   string
      */
     public function getBestehendeGeraetWarmwasser()
@@ -540,7 +594,7 @@ abstract class HeizungkonfiguratorUserdaten implements ActiveRecordInterface
 
     /**
      * Get the [bestehende_geraet_kw] column value.
-     * 
+     *
      * @return   int
      */
     public function getBestehendeGeraetKw()
@@ -551,7 +605,7 @@ abstract class HeizungkonfiguratorUserdaten implements ActiveRecordInterface
 
     /**
      * Get the [baujahr] column value.
-     * 
+     *
      * @return   int
      */
     public function getBaujahr()
@@ -562,7 +616,7 @@ abstract class HeizungkonfiguratorUserdaten implements ActiveRecordInterface
 
     /**
      * Get the [heizflaeche] column value.
-     * 
+     *
      * @return   int
      */
     public function getHeizflaeche()
@@ -573,7 +627,7 @@ abstract class HeizungkonfiguratorUserdaten implements ActiveRecordInterface
 
     /**
      * Get the [waermedaemmung] column value.
-     * 
+     *
      * @return   string
      */
     public function getWaermedaemmung()
@@ -584,7 +638,7 @@ abstract class HeizungkonfiguratorUserdaten implements ActiveRecordInterface
 
     /**
      * Get the [verglaste_fenster] column value.
-     * 
+     *
      * @return   string
      */
     public function getVerglasteFenster()
@@ -595,7 +649,7 @@ abstract class HeizungkonfiguratorUserdaten implements ActiveRecordInterface
 
     /**
      * Get the [gebaeudelage] column value.
-     * 
+     *
      * @return   string
      */
     public function getGebaeudelage()
@@ -606,7 +660,7 @@ abstract class HeizungkonfiguratorUserdaten implements ActiveRecordInterface
 
     /**
      * Get the [windlage] column value.
-     * 
+     *
      * @return   string
      */
     public function getWindlage()
@@ -617,7 +671,7 @@ abstract class HeizungkonfiguratorUserdaten implements ActiveRecordInterface
 
     /**
      * Get the [anzahl_aussenwaende] column value.
-     * 
+     *
      * @return   int
      */
     public function getAnzahlAussenwaende()
@@ -628,7 +682,7 @@ abstract class HeizungkonfiguratorUserdaten implements ActiveRecordInterface
 
     /**
      * Get the [wohnraumtemperatur] column value.
-     * 
+     *
      * @return   int
      */
     public function getWohnraumtemperatur()
@@ -639,7 +693,7 @@ abstract class HeizungkonfiguratorUserdaten implements ActiveRecordInterface
 
     /**
      * Get the [aussentemperatur] column value.
-     * 
+     *
      * @return   int
      */
     public function getAussentemperatur()
@@ -650,7 +704,7 @@ abstract class HeizungkonfiguratorUserdaten implements ActiveRecordInterface
 
     /**
      * Get the [anmerkungen] column value.
-     * 
+     *
      * @return   string
      */
     public function getAnmerkungen()
@@ -661,7 +715,7 @@ abstract class HeizungkonfiguratorUserdaten implements ActiveRecordInterface
 
     /**
      * Get the [foto_id] column value.
-     * 
+     *
      * @return   int
      */
     public function getFotoId()
@@ -672,7 +726,7 @@ abstract class HeizungkonfiguratorUserdaten implements ActiveRecordInterface
 
     /**
      * Get the [version] column value.
-     * 
+     *
      * @return   string
      */
     public function getVersion()
@@ -683,7 +737,7 @@ abstract class HeizungkonfiguratorUserdaten implements ActiveRecordInterface
 
     /**
      * Get the [optionally formatted] temporal [created_at] column value.
-     * 
+     *
      *
      * @param      string $format The date/time format string (either date()-style or strftime()-style).
      *                            If format is NULL, then the raw \DateTime object will be returned.
@@ -702,8 +756,107 @@ abstract class HeizungkonfiguratorUserdaten implements ActiveRecordInterface
     }
 
     /**
+     * Get the [etagen] column value.
+     *
+     * @return   int
+     */
+    public function getEtagen()
+    {
+
+        return $this->etagen;
+    }
+
+    /**
+     * Get the [dach_daemmung] column value.
+     *
+     * @return   string
+     */
+    public function getDachDaemmung()
+    {
+
+        return $this->dach_daemmung;
+    }
+
+    /**
+     * Get the [abgasfuehrung] column value.
+     *
+     * @return   string
+     */
+    public function getAbgasfuehrung()
+    {
+
+        return $this->abgasfuehrung;
+    }
+
+    /**
+     * Get the [waermeabgabe] column value.
+     *
+     * @return   string
+     */
+    public function getWaermeabgabe()
+    {
+
+        return $this->waermeabgabe;
+    }
+
+    /**
+     * Get the [duschwasser] column value.
+     *
+     * @return   string
+     */
+    public function getDuschwasser()
+    {
+
+        return $this->duschwasser;
+    }
+
+    /**
+     * Get the [wasserabfluss] column value.
+     *
+     * @return   string
+     */
+    public function getWasserabfluss()
+    {
+
+        return $this->wasserabfluss;
+    }
+
+    /**
+     * Get the [warmwasserversorgung] column value.
+     *
+     * @return   string
+     */
+    public function getWarmwasserversorgung()
+    {
+
+        return $this->warmwasserversorgung;
+    }
+
+    /**
+     * Get the [warmwasserversorgung_extra] column value.
+     *
+     * @return   string
+     */
+    public function getWarmwasserversorgungExtra()
+    {
+
+        return $this->warmwasserversorgung_extra;
+    }
+
+    /**
+     * Get the [warmwasserversorgung_extra_waermepumpe] column value.
+     *
+     * @return   string
+     */
+    public function getWarmwasserversorgungExtraWaermepumpe()
+    {
+
+        return $this->warmwasserversorgung_extra_waermepumpe;
+    }
+
+    /**
      * Set the value of [id] column.
-     * 
+     *
      * @param      int $v new value
      * @return   \HookKonfigurator\Model\HeizungkonfiguratorUserdaten The current object (for fluent API support)
      */
@@ -724,7 +877,7 @@ abstract class HeizungkonfiguratorUserdaten implements ActiveRecordInterface
 
     /**
      * Set the value of [user_id] column.
-     * 
+     *
      * @param      int $v new value
      * @return   \HookKonfigurator\Model\HeizungkonfiguratorUserdaten The current object (for fluent API support)
      */
@@ -745,7 +898,7 @@ abstract class HeizungkonfiguratorUserdaten implements ActiveRecordInterface
 
     /**
      * Set the value of [brennstoff_momentan] column.
-     * 
+     *
      * @param      string $v new value
      * @return   \HookKonfigurator\Model\HeizungkonfiguratorUserdaten The current object (for fluent API support)
      */
@@ -766,7 +919,7 @@ abstract class HeizungkonfiguratorUserdaten implements ActiveRecordInterface
 
     /**
      * Set the value of [brennstoff_zukunft] column.
-     * 
+     *
      * @param      string $v new value
      * @return   \HookKonfigurator\Model\HeizungkonfiguratorUserdaten The current object (for fluent API support)
      */
@@ -787,7 +940,7 @@ abstract class HeizungkonfiguratorUserdaten implements ActiveRecordInterface
 
     /**
      * Set the value of [gebaeudeart] column.
-     * 
+     *
      * @param      string $v new value
      * @return   \HookKonfigurator\Model\HeizungkonfiguratorUserdaten The current object (for fluent API support)
      */
@@ -808,7 +961,7 @@ abstract class HeizungkonfiguratorUserdaten implements ActiveRecordInterface
 
     /**
      * Set the value of [personen_anzahl] column.
-     * 
+     *
      * @param      int $v new value
      * @return   \HookKonfigurator\Model\HeizungkonfiguratorUserdaten The current object (for fluent API support)
      */
@@ -829,7 +982,7 @@ abstract class HeizungkonfiguratorUserdaten implements ActiveRecordInterface
 
     /**
      * Set the value of [bestehende_geraet_warmwasser] column.
-     * 
+     *
      * @param      string $v new value
      * @return   \HookKonfigurator\Model\HeizungkonfiguratorUserdaten The current object (for fluent API support)
      */
@@ -850,7 +1003,7 @@ abstract class HeizungkonfiguratorUserdaten implements ActiveRecordInterface
 
     /**
      * Set the value of [bestehende_geraet_kw] column.
-     * 
+     *
      * @param      int $v new value
      * @return   \HookKonfigurator\Model\HeizungkonfiguratorUserdaten The current object (for fluent API support)
      */
@@ -871,7 +1024,7 @@ abstract class HeizungkonfiguratorUserdaten implements ActiveRecordInterface
 
     /**
      * Set the value of [baujahr] column.
-     * 
+     *
      * @param      int $v new value
      * @return   \HookKonfigurator\Model\HeizungkonfiguratorUserdaten The current object (for fluent API support)
      */
@@ -892,7 +1045,7 @@ abstract class HeizungkonfiguratorUserdaten implements ActiveRecordInterface
 
     /**
      * Set the value of [heizflaeche] column.
-     * 
+     *
      * @param      int $v new value
      * @return   \HookKonfigurator\Model\HeizungkonfiguratorUserdaten The current object (for fluent API support)
      */
@@ -913,7 +1066,7 @@ abstract class HeizungkonfiguratorUserdaten implements ActiveRecordInterface
 
     /**
      * Set the value of [waermedaemmung] column.
-     * 
+     *
      * @param      string $v new value
      * @return   \HookKonfigurator\Model\HeizungkonfiguratorUserdaten The current object (for fluent API support)
      */
@@ -934,7 +1087,7 @@ abstract class HeizungkonfiguratorUserdaten implements ActiveRecordInterface
 
     /**
      * Set the value of [verglaste_fenster] column.
-     * 
+     *
      * @param      string $v new value
      * @return   \HookKonfigurator\Model\HeizungkonfiguratorUserdaten The current object (for fluent API support)
      */
@@ -955,7 +1108,7 @@ abstract class HeizungkonfiguratorUserdaten implements ActiveRecordInterface
 
     /**
      * Set the value of [gebaeudelage] column.
-     * 
+     *
      * @param      string $v new value
      * @return   \HookKonfigurator\Model\HeizungkonfiguratorUserdaten The current object (for fluent API support)
      */
@@ -976,7 +1129,7 @@ abstract class HeizungkonfiguratorUserdaten implements ActiveRecordInterface
 
     /**
      * Set the value of [windlage] column.
-     * 
+     *
      * @param      string $v new value
      * @return   \HookKonfigurator\Model\HeizungkonfiguratorUserdaten The current object (for fluent API support)
      */
@@ -997,7 +1150,7 @@ abstract class HeizungkonfiguratorUserdaten implements ActiveRecordInterface
 
     /**
      * Set the value of [anzahl_aussenwaende] column.
-     * 
+     *
      * @param      int $v new value
      * @return   \HookKonfigurator\Model\HeizungkonfiguratorUserdaten The current object (for fluent API support)
      */
@@ -1018,7 +1171,7 @@ abstract class HeizungkonfiguratorUserdaten implements ActiveRecordInterface
 
     /**
      * Set the value of [wohnraumtemperatur] column.
-     * 
+     *
      * @param      int $v new value
      * @return   \HookKonfigurator\Model\HeizungkonfiguratorUserdaten The current object (for fluent API support)
      */
@@ -1039,7 +1192,7 @@ abstract class HeizungkonfiguratorUserdaten implements ActiveRecordInterface
 
     /**
      * Set the value of [aussentemperatur] column.
-     * 
+     *
      * @param      int $v new value
      * @return   \HookKonfigurator\Model\HeizungkonfiguratorUserdaten The current object (for fluent API support)
      */
@@ -1060,7 +1213,7 @@ abstract class HeizungkonfiguratorUserdaten implements ActiveRecordInterface
 
     /**
      * Set the value of [anmerkungen] column.
-     * 
+     *
      * @param      string $v new value
      * @return   \HookKonfigurator\Model\HeizungkonfiguratorUserdaten The current object (for fluent API support)
      */
@@ -1081,7 +1234,7 @@ abstract class HeizungkonfiguratorUserdaten implements ActiveRecordInterface
 
     /**
      * Set the value of [foto_id] column.
-     * 
+     *
      * @param      int $v new value
      * @return   \HookKonfigurator\Model\HeizungkonfiguratorUserdaten The current object (for fluent API support)
      */
@@ -1102,7 +1255,7 @@ abstract class HeizungkonfiguratorUserdaten implements ActiveRecordInterface
 
     /**
      * Set the value of [version] column.
-     * 
+     *
      * @param      string $v new value
      * @return   \HookKonfigurator\Model\HeizungkonfiguratorUserdaten The current object (for fluent API support)
      */
@@ -1123,7 +1276,7 @@ abstract class HeizungkonfiguratorUserdaten implements ActiveRecordInterface
 
     /**
      * Sets the value of [created_at] column to a normalized version of the date/time value specified.
-     * 
+     *
      * @param      mixed $v string, integer (timestamp), or \DateTime value.
      *               Empty strings are treated as NULL.
      * @return   \HookKonfigurator\Model\HeizungkonfiguratorUserdaten The current object (for fluent API support)
@@ -1141,6 +1294,195 @@ abstract class HeizungkonfiguratorUserdaten implements ActiveRecordInterface
 
         return $this;
     } // setCreatedAt()
+
+    /**
+     * Set the value of [etagen] column.
+     *
+     * @param      int $v new value
+     * @return   \HookKonfigurator\Model\HeizungkonfiguratorUserdaten The current object (for fluent API support)
+     */
+    public function setEtagen($v)
+    {
+        if ($v !== null) {
+            $v = (int) $v;
+        }
+
+        if ($this->etagen !== $v) {
+            $this->etagen = $v;
+            $this->modifiedColumns[HeizungkonfiguratorUserdatenTableMap::ETAGEN] = true;
+        }
+
+
+        return $this;
+    } // setEtagen()
+
+    /**
+     * Set the value of [dach_daemmung] column.
+     *
+     * @param      string $v new value
+     * @return   \HookKonfigurator\Model\HeizungkonfiguratorUserdaten The current object (for fluent API support)
+     */
+    public function setDachDaemmung($v)
+    {
+        if ($v !== null) {
+            $v = (string) $v;
+        }
+
+        if ($this->dach_daemmung !== $v) {
+            $this->dach_daemmung = $v;
+            $this->modifiedColumns[HeizungkonfiguratorUserdatenTableMap::DACH_DAEMMUNG] = true;
+        }
+
+
+        return $this;
+    } // setDachDaemmung()
+
+    /**
+     * Set the value of [abgasfuehrung] column.
+     *
+     * @param      string $v new value
+     * @return   \HookKonfigurator\Model\HeizungkonfiguratorUserdaten The current object (for fluent API support)
+     */
+    public function setAbgasfuehrung($v)
+    {
+        if ($v !== null) {
+            $v = (string) $v;
+        }
+
+        if ($this->abgasfuehrung !== $v) {
+            $this->abgasfuehrung = $v;
+            $this->modifiedColumns[HeizungkonfiguratorUserdatenTableMap::ABGASFUEHRUNG] = true;
+        }
+
+
+        return $this;
+    } // setAbgasfuehrung()
+
+    /**
+     * Set the value of [waermeabgabe] column.
+     *
+     * @param      string $v new value
+     * @return   \HookKonfigurator\Model\HeizungkonfiguratorUserdaten The current object (for fluent API support)
+     */
+    public function setWaermeabgabe($v)
+    {
+        if ($v !== null) {
+            $v = (string) $v;
+        }
+
+        if ($this->waermeabgabe !== $v) {
+            $this->waermeabgabe = $v;
+            $this->modifiedColumns[HeizungkonfiguratorUserdatenTableMap::WAERMEABGABE] = true;
+        }
+
+
+        return $this;
+    } // setWaermeabgabe()
+
+    /**
+     * Set the value of [duschwasser] column.
+     *
+     * @param      string $v new value
+     * @return   \HookKonfigurator\Model\HeizungkonfiguratorUserdaten The current object (for fluent API support)
+     */
+    public function setDuschwasser($v)
+    {
+        if ($v !== null) {
+            $v = (string) $v;
+        }
+
+        if ($this->duschwasser !== $v) {
+            $this->duschwasser = $v;
+            $this->modifiedColumns[HeizungkonfiguratorUserdatenTableMap::DUSCHWASSER] = true;
+        }
+
+
+        return $this;
+    } // setDuschwasser()
+
+    /**
+     * Set the value of [wasserabfluss] column.
+     *
+     * @param      string $v new value
+     * @return   \HookKonfigurator\Model\HeizungkonfiguratorUserdaten The current object (for fluent API support)
+     */
+    public function setWasserabfluss($v)
+    {
+        if ($v !== null) {
+            $v = (string) $v;
+        }
+
+        if ($this->wasserabfluss !== $v) {
+            $this->wasserabfluss = $v;
+            $this->modifiedColumns[HeizungkonfiguratorUserdatenTableMap::WASSERABFLUSS] = true;
+        }
+
+
+        return $this;
+    } // setWasserabfluss()
+
+    /**
+     * Set the value of [warmwasserversorgung] column.
+     *
+     * @param      string $v new value
+     * @return   \HookKonfigurator\Model\HeizungkonfiguratorUserdaten The current object (for fluent API support)
+     */
+    public function setWarmwasserversorgung($v)
+    {
+        if ($v !== null) {
+            $v = (string) $v;
+        }
+
+        if ($this->warmwasserversorgung !== $v) {
+            $this->warmwasserversorgung = $v;
+            $this->modifiedColumns[HeizungkonfiguratorUserdatenTableMap::WARMWASSERVERSORGUNG] = true;
+        }
+
+
+        return $this;
+    } // setWarmwasserversorgung()
+
+    /**
+     * Set the value of [warmwasserversorgung_extra] column.
+     *
+     * @param      string $v new value
+     * @return   \HookKonfigurator\Model\HeizungkonfiguratorUserdaten The current object (for fluent API support)
+     */
+    public function setWarmwasserversorgungExtra($v)
+    {
+        if ($v !== null) {
+            $v = (string) $v;
+        }
+
+        if ($this->warmwasserversorgung_extra !== $v) {
+            $this->warmwasserversorgung_extra = $v;
+            $this->modifiedColumns[HeizungkonfiguratorUserdatenTableMap::WARMWASSERVERSORGUNG_EXTRA] = true;
+        }
+
+
+        return $this;
+    } // setWarmwasserversorgungExtra()
+
+    /**
+     * Set the value of [warmwasserversorgung_extra_waermepumpe] column.
+     *
+     * @param      string $v new value
+     * @return   \HookKonfigurator\Model\HeizungkonfiguratorUserdaten The current object (for fluent API support)
+     */
+    public function setWarmwasserversorgungExtraWaermepumpe($v)
+    {
+        if ($v !== null) {
+            $v = (string) $v;
+        }
+
+        if ($this->warmwasserversorgung_extra_waermepumpe !== $v) {
+            $this->warmwasserversorgung_extra_waermepumpe = $v;
+            $this->modifiedColumns[HeizungkonfiguratorUserdatenTableMap::WARMWASSERVERSORGUNG_EXTRA_WAERMEPUMPE] = true;
+        }
+
+
+        return $this;
+    } // setWarmwasserversorgungExtraWaermepumpe()
 
     /**
      * Indicates whether the columns in this object are only set to default values.
@@ -1244,6 +1586,33 @@ abstract class HeizungkonfiguratorUserdaten implements ActiveRecordInterface
                 $col = null;
             }
             $this->created_at = (null !== $col) ? PropelDateTime::newInstance($col, null, '\DateTime') : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 21 + $startcol : HeizungkonfiguratorUserdatenTableMap::translateFieldName('Etagen', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->etagen = (null !== $col) ? (int) $col : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 22 + $startcol : HeizungkonfiguratorUserdatenTableMap::translateFieldName('DachDaemmung', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->dach_daemmung = (null !== $col) ? (string) $col : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 23 + $startcol : HeizungkonfiguratorUserdatenTableMap::translateFieldName('Abgasfuehrung', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->abgasfuehrung = (null !== $col) ? (string) $col : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 24 + $startcol : HeizungkonfiguratorUserdatenTableMap::translateFieldName('Waermeabgabe', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->waermeabgabe = (null !== $col) ? (string) $col : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 25 + $startcol : HeizungkonfiguratorUserdatenTableMap::translateFieldName('Duschwasser', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->duschwasser = (null !== $col) ? (string) $col : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 26 + $startcol : HeizungkonfiguratorUserdatenTableMap::translateFieldName('Wasserabfluss', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->wasserabfluss = (null !== $col) ? (string) $col : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 27 + $startcol : HeizungkonfiguratorUserdatenTableMap::translateFieldName('Warmwasserversorgung', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->warmwasserversorgung = (null !== $col) ? (string) $col : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 28 + $startcol : HeizungkonfiguratorUserdatenTableMap::translateFieldName('WarmwasserversorgungExtra', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->warmwasserversorgung_extra = (null !== $col) ? (string) $col : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 29 + $startcol : HeizungkonfiguratorUserdatenTableMap::translateFieldName('WarmwasserversorgungExtraWaermepumpe', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->warmwasserversorgung_extra_waermepumpe = (null !== $col) ? (string) $col : null;
             $this->resetModified();
 
             $this->setNew(false);
@@ -1252,7 +1621,7 @@ abstract class HeizungkonfiguratorUserdaten implements ActiveRecordInterface
                 $this->ensureConsistency();
             }
 
-            return $startcol + 21; // 21 = HeizungkonfiguratorUserdatenTableMap::NUM_HYDRATE_COLUMNS.
+            return $startcol + 30; // 30 = HeizungkonfiguratorUserdatenTableMap::NUM_HYDRATE_COLUMNS.
 
         } catch (Exception $e) {
             throw new PropelException("Error populating \HookKonfigurator\Model\HeizungkonfiguratorUserdaten object", 0, $e);
@@ -1543,6 +1912,33 @@ abstract class HeizungkonfiguratorUserdaten implements ActiveRecordInterface
         if ($this->isColumnModified(HeizungkonfiguratorUserdatenTableMap::CREATED_AT)) {
             $modifiedColumns[':p' . $index++]  = 'CREATED_AT';
         }
+        if ($this->isColumnModified(HeizungkonfiguratorUserdatenTableMap::ETAGEN)) {
+            $modifiedColumns[':p' . $index++]  = 'ETAGEN';
+        }
+        if ($this->isColumnModified(HeizungkonfiguratorUserdatenTableMap::DACH_DAEMMUNG)) {
+            $modifiedColumns[':p' . $index++]  = 'DACH_DAEMMUNG';
+        }
+        if ($this->isColumnModified(HeizungkonfiguratorUserdatenTableMap::ABGASFUEHRUNG)) {
+            $modifiedColumns[':p' . $index++]  = 'ABGASFUEHRUNG';
+        }
+        if ($this->isColumnModified(HeizungkonfiguratorUserdatenTableMap::WAERMEABGABE)) {
+            $modifiedColumns[':p' . $index++]  = 'WAERMEABGABE';
+        }
+        if ($this->isColumnModified(HeizungkonfiguratorUserdatenTableMap::DUSCHWASSER)) {
+            $modifiedColumns[':p' . $index++]  = 'DUSCHWASSER';
+        }
+        if ($this->isColumnModified(HeizungkonfiguratorUserdatenTableMap::WASSERABFLUSS)) {
+            $modifiedColumns[':p' . $index++]  = 'WASSERABFLUSS';
+        }
+        if ($this->isColumnModified(HeizungkonfiguratorUserdatenTableMap::WARMWASSERVERSORGUNG)) {
+            $modifiedColumns[':p' . $index++]  = 'WARMWASSERVERSORGUNG';
+        }
+        if ($this->isColumnModified(HeizungkonfiguratorUserdatenTableMap::WARMWASSERVERSORGUNG_EXTRA)) {
+            $modifiedColumns[':p' . $index++]  = 'WARMWASSERVERSORGUNG_EXTRA';
+        }
+        if ($this->isColumnModified(HeizungkonfiguratorUserdatenTableMap::WARMWASSERVERSORGUNG_EXTRA_WAERMEPUMPE)) {
+            $modifiedColumns[':p' . $index++]  = 'WARMWASSERVERSORGUNG_EXTRA_WAERMEPUMPE';
+        }
 
         $sql = sprintf(
             'INSERT INTO heizungkonfigurator_userdaten (%s) VALUES (%s)',
@@ -1554,68 +1950,95 @@ abstract class HeizungkonfiguratorUserdaten implements ActiveRecordInterface
             $stmt = $con->prepare($sql);
             foreach ($modifiedColumns as $identifier => $columnName) {
                 switch ($columnName) {
-                    case 'ID':                        
+                    case 'ID':
                         $stmt->bindValue($identifier, $this->id, PDO::PARAM_INT);
                         break;
-                    case 'USER_ID':                        
+                    case 'USER_ID':
                         $stmt->bindValue($identifier, $this->user_id, PDO::PARAM_INT);
                         break;
-                    case 'BRENNSTOFF_MOMENTAN':                        
+                    case 'BRENNSTOFF_MOMENTAN':
                         $stmt->bindValue($identifier, $this->brennstoff_momentan, PDO::PARAM_STR);
                         break;
-                    case 'BRENNSTOFF_ZUKUNFT':                        
+                    case 'BRENNSTOFF_ZUKUNFT':
                         $stmt->bindValue($identifier, $this->brennstoff_zukunft, PDO::PARAM_STR);
                         break;
-                    case 'GEBAEUDEART':                        
+                    case 'GEBAEUDEART':
                         $stmt->bindValue($identifier, $this->gebaeudeart, PDO::PARAM_STR);
                         break;
-                    case 'PERSONEN_ANZAHL':                        
+                    case 'PERSONEN_ANZAHL':
                         $stmt->bindValue($identifier, $this->personen_anzahl, PDO::PARAM_INT);
                         break;
-                    case 'BESTEHENDE_GERAET_WARMWASSER':                        
+                    case 'BESTEHENDE_GERAET_WARMWASSER':
                         $stmt->bindValue($identifier, $this->bestehende_geraet_warmwasser, PDO::PARAM_STR);
                         break;
-                    case 'BESTEHENDE_GERAET_KW':                        
+                    case 'BESTEHENDE_GERAET_KW':
                         $stmt->bindValue($identifier, $this->bestehende_geraet_kw, PDO::PARAM_INT);
                         break;
-                    case 'BAUJAHR':                        
+                    case 'BAUJAHR':
                         $stmt->bindValue($identifier, $this->baujahr, PDO::PARAM_INT);
                         break;
-                    case 'HEIZFLAECHE':                        
+                    case 'HEIZFLAECHE':
                         $stmt->bindValue($identifier, $this->heizflaeche, PDO::PARAM_INT);
                         break;
-                    case 'WAERMEDAEMMUNG':                        
+                    case 'WAERMEDAEMMUNG':
                         $stmt->bindValue($identifier, $this->waermedaemmung, PDO::PARAM_STR);
                         break;
-                    case 'VERGLASTE_FENSTER':                        
+                    case 'VERGLASTE_FENSTER':
                         $stmt->bindValue($identifier, $this->verglaste_fenster, PDO::PARAM_STR);
                         break;
-                    case 'GEBAEUDELAGE':                        
+                    case 'GEBAEUDELAGE':
                         $stmt->bindValue($identifier, $this->gebaeudelage, PDO::PARAM_STR);
                         break;
-                    case 'WINDLAGE':                        
+                    case 'WINDLAGE':
                         $stmt->bindValue($identifier, $this->windlage, PDO::PARAM_STR);
                         break;
-                    case 'ANZAHL_AUSSENWAENDE':                        
+                    case 'ANZAHL_AUSSENWAENDE':
                         $stmt->bindValue($identifier, $this->anzahl_aussenwaende, PDO::PARAM_INT);
                         break;
-                    case 'WOHNRAUMTEMPERATUR':                        
+                    case 'WOHNRAUMTEMPERATUR':
                         $stmt->bindValue($identifier, $this->wohnraumtemperatur, PDO::PARAM_INT);
                         break;
-                    case 'AUSSENTEMPERATUR':                        
+                    case 'AUSSENTEMPERATUR':
                         $stmt->bindValue($identifier, $this->aussentemperatur, PDO::PARAM_INT);
                         break;
-                    case 'ANMERKUNGEN':                        
+                    case 'ANMERKUNGEN':
                         $stmt->bindValue($identifier, $this->anmerkungen, PDO::PARAM_STR);
                         break;
-                    case 'FOTO_ID':                        
+                    case 'FOTO_ID':
                         $stmt->bindValue($identifier, $this->foto_id, PDO::PARAM_INT);
                         break;
-                    case 'VERSION':                        
+                    case 'VERSION':
                         $stmt->bindValue($identifier, $this->version, PDO::PARAM_STR);
                         break;
-                    case 'CREATED_AT':                        
+                    case 'CREATED_AT':
                         $stmt->bindValue($identifier, $this->created_at ? $this->created_at->format("Y-m-d H:i:s") : null, PDO::PARAM_STR);
+                        break;
+                    case 'ETAGEN':
+                        $stmt->bindValue($identifier, $this->etagen, PDO::PARAM_INT);
+                        break;
+                    case 'DACH_DAEMMUNG':
+                        $stmt->bindValue($identifier, $this->dach_daemmung, PDO::PARAM_STR);
+                        break;
+                    case 'ABGASFUEHRUNG':
+                        $stmt->bindValue($identifier, $this->abgasfuehrung, PDO::PARAM_STR);
+                        break;
+                    case 'WAERMEABGABE':
+                        $stmt->bindValue($identifier, $this->waermeabgabe, PDO::PARAM_STR);
+                        break;
+                    case 'DUSCHWASSER':
+                        $stmt->bindValue($identifier, $this->duschwasser, PDO::PARAM_STR);
+                        break;
+                    case 'WASSERABFLUSS':
+                        $stmt->bindValue($identifier, $this->wasserabfluss, PDO::PARAM_STR);
+                        break;
+                    case 'WARMWASSERVERSORGUNG':
+                        $stmt->bindValue($identifier, $this->warmwasserversorgung, PDO::PARAM_STR);
+                        break;
+                    case 'WARMWASSERVERSORGUNG_EXTRA':
+                        $stmt->bindValue($identifier, $this->warmwasserversorgung_extra, PDO::PARAM_STR);
+                        break;
+                    case 'WARMWASSERVERSORGUNG_EXTRA_WAERMEPUMPE':
+                        $stmt->bindValue($identifier, $this->warmwasserversorgung_extra_waermepumpe, PDO::PARAM_STR);
                         break;
                 }
             }
@@ -1742,6 +2165,33 @@ abstract class HeizungkonfiguratorUserdaten implements ActiveRecordInterface
             case 20:
                 return $this->getCreatedAt();
                 break;
+            case 21:
+                return $this->getEtagen();
+                break;
+            case 22:
+                return $this->getDachDaemmung();
+                break;
+            case 23:
+                return $this->getAbgasfuehrung();
+                break;
+            case 24:
+                return $this->getWaermeabgabe();
+                break;
+            case 25:
+                return $this->getDuschwasser();
+                break;
+            case 26:
+                return $this->getWasserabfluss();
+                break;
+            case 27:
+                return $this->getWarmwasserversorgung();
+                break;
+            case 28:
+                return $this->getWarmwasserversorgungExtra();
+                break;
+            case 29:
+                return $this->getWarmwasserversorgungExtraWaermepumpe();
+                break;
             default:
                 return null;
                 break;
@@ -1792,12 +2242,21 @@ abstract class HeizungkonfiguratorUserdaten implements ActiveRecordInterface
             $keys[18] => $this->getFotoId(),
             $keys[19] => $this->getVersion(),
             $keys[20] => $this->getCreatedAt(),
+            $keys[21] => $this->getEtagen(),
+            $keys[22] => $this->getDachDaemmung(),
+            $keys[23] => $this->getAbgasfuehrung(),
+            $keys[24] => $this->getWaermeabgabe(),
+            $keys[25] => $this->getDuschwasser(),
+            $keys[26] => $this->getWasserabfluss(),
+            $keys[27] => $this->getWarmwasserversorgung(),
+            $keys[28] => $this->getWarmwasserversorgungExtra(),
+            $keys[29] => $this->getWarmwasserversorgungExtraWaermepumpe(),
         );
         $virtualColumns = $this->virtualColumns;
         foreach ($virtualColumns as $key => $virtualColumn) {
             $result[$key] = $virtualColumn;
         }
-        
+
         if ($includeForeignObjects) {
             if (null !== $this->collHeizungkonfiguratorImages) {
                 $result['HeizungkonfiguratorImages'] = $this->collHeizungkonfiguratorImages->toArray(null, true, $keyType, $includeLazyLoadColumns, $alreadyDumpedObjects);
@@ -1899,6 +2358,33 @@ abstract class HeizungkonfiguratorUserdaten implements ActiveRecordInterface
             case 20:
                 $this->setCreatedAt($value);
                 break;
+            case 21:
+                $this->setEtagen($value);
+                break;
+            case 22:
+                $this->setDachDaemmung($value);
+                break;
+            case 23:
+                $this->setAbgasfuehrung($value);
+                break;
+            case 24:
+                $this->setWaermeabgabe($value);
+                break;
+            case 25:
+                $this->setDuschwasser($value);
+                break;
+            case 26:
+                $this->setWasserabfluss($value);
+                break;
+            case 27:
+                $this->setWarmwasserversorgung($value);
+                break;
+            case 28:
+                $this->setWarmwasserversorgungExtra($value);
+                break;
+            case 29:
+                $this->setWarmwasserversorgungExtraWaermepumpe($value);
+                break;
         } // switch()
     }
 
@@ -1944,6 +2430,15 @@ abstract class HeizungkonfiguratorUserdaten implements ActiveRecordInterface
         if (array_key_exists($keys[18], $arr)) $this->setFotoId($arr[$keys[18]]);
         if (array_key_exists($keys[19], $arr)) $this->setVersion($arr[$keys[19]]);
         if (array_key_exists($keys[20], $arr)) $this->setCreatedAt($arr[$keys[20]]);
+        if (array_key_exists($keys[21], $arr)) $this->setEtagen($arr[$keys[21]]);
+        if (array_key_exists($keys[22], $arr)) $this->setDachDaemmung($arr[$keys[22]]);
+        if (array_key_exists($keys[23], $arr)) $this->setAbgasfuehrung($arr[$keys[23]]);
+        if (array_key_exists($keys[24], $arr)) $this->setWaermeabgabe($arr[$keys[24]]);
+        if (array_key_exists($keys[25], $arr)) $this->setDuschwasser($arr[$keys[25]]);
+        if (array_key_exists($keys[26], $arr)) $this->setWasserabfluss($arr[$keys[26]]);
+        if (array_key_exists($keys[27], $arr)) $this->setWarmwasserversorgung($arr[$keys[27]]);
+        if (array_key_exists($keys[28], $arr)) $this->setWarmwasserversorgungExtra($arr[$keys[28]]);
+        if (array_key_exists($keys[29], $arr)) $this->setWarmwasserversorgungExtraWaermepumpe($arr[$keys[29]]);
     }
 
     /**
@@ -1976,6 +2471,15 @@ abstract class HeizungkonfiguratorUserdaten implements ActiveRecordInterface
         if ($this->isColumnModified(HeizungkonfiguratorUserdatenTableMap::FOTO_ID)) $criteria->add(HeizungkonfiguratorUserdatenTableMap::FOTO_ID, $this->foto_id);
         if ($this->isColumnModified(HeizungkonfiguratorUserdatenTableMap::VERSION)) $criteria->add(HeizungkonfiguratorUserdatenTableMap::VERSION, $this->version);
         if ($this->isColumnModified(HeizungkonfiguratorUserdatenTableMap::CREATED_AT)) $criteria->add(HeizungkonfiguratorUserdatenTableMap::CREATED_AT, $this->created_at);
+        if ($this->isColumnModified(HeizungkonfiguratorUserdatenTableMap::ETAGEN)) $criteria->add(HeizungkonfiguratorUserdatenTableMap::ETAGEN, $this->etagen);
+        if ($this->isColumnModified(HeizungkonfiguratorUserdatenTableMap::DACH_DAEMMUNG)) $criteria->add(HeizungkonfiguratorUserdatenTableMap::DACH_DAEMMUNG, $this->dach_daemmung);
+        if ($this->isColumnModified(HeizungkonfiguratorUserdatenTableMap::ABGASFUEHRUNG)) $criteria->add(HeizungkonfiguratorUserdatenTableMap::ABGASFUEHRUNG, $this->abgasfuehrung);
+        if ($this->isColumnModified(HeizungkonfiguratorUserdatenTableMap::WAERMEABGABE)) $criteria->add(HeizungkonfiguratorUserdatenTableMap::WAERMEABGABE, $this->waermeabgabe);
+        if ($this->isColumnModified(HeizungkonfiguratorUserdatenTableMap::DUSCHWASSER)) $criteria->add(HeizungkonfiguratorUserdatenTableMap::DUSCHWASSER, $this->duschwasser);
+        if ($this->isColumnModified(HeizungkonfiguratorUserdatenTableMap::WASSERABFLUSS)) $criteria->add(HeizungkonfiguratorUserdatenTableMap::WASSERABFLUSS, $this->wasserabfluss);
+        if ($this->isColumnModified(HeizungkonfiguratorUserdatenTableMap::WARMWASSERVERSORGUNG)) $criteria->add(HeizungkonfiguratorUserdatenTableMap::WARMWASSERVERSORGUNG, $this->warmwasserversorgung);
+        if ($this->isColumnModified(HeizungkonfiguratorUserdatenTableMap::WARMWASSERVERSORGUNG_EXTRA)) $criteria->add(HeizungkonfiguratorUserdatenTableMap::WARMWASSERVERSORGUNG_EXTRA, $this->warmwasserversorgung_extra);
+        if ($this->isColumnModified(HeizungkonfiguratorUserdatenTableMap::WARMWASSERVERSORGUNG_EXTRA_WAERMEPUMPE)) $criteria->add(HeizungkonfiguratorUserdatenTableMap::WARMWASSERVERSORGUNG_EXTRA_WAERMEPUMPE, $this->warmwasserversorgung_extra_waermepumpe);
 
         return $criteria;
     }
@@ -2059,6 +2563,15 @@ abstract class HeizungkonfiguratorUserdaten implements ActiveRecordInterface
         $copyObj->setFotoId($this->getFotoId());
         $copyObj->setVersion($this->getVersion());
         $copyObj->setCreatedAt($this->getCreatedAt());
+        $copyObj->setEtagen($this->getEtagen());
+        $copyObj->setDachDaemmung($this->getDachDaemmung());
+        $copyObj->setAbgasfuehrung($this->getAbgasfuehrung());
+        $copyObj->setWaermeabgabe($this->getWaermeabgabe());
+        $copyObj->setDuschwasser($this->getDuschwasser());
+        $copyObj->setWasserabfluss($this->getWasserabfluss());
+        $copyObj->setWarmwasserversorgung($this->getWarmwasserversorgung());
+        $copyObj->setWarmwasserversorgungExtra($this->getWarmwasserversorgungExtra());
+        $copyObj->setWarmwasserversorgungExtraWaermepumpe($this->getWarmwasserversorgungExtraWaermepumpe());
 
         if ($deepCopy) {
             // important: temporarily setNew(false) because this affects the behavior of
@@ -2234,7 +2747,7 @@ abstract class HeizungkonfiguratorUserdaten implements ActiveRecordInterface
     {
         $heizungkonfiguratorImagesToDelete = $this->getHeizungkonfiguratorImages(new Criteria(), $con)->diff($heizungkonfiguratorImages);
 
-        
+
         $this->heizungkonfiguratorImagesScheduledForDeletion = $heizungkonfiguratorImagesToDelete;
 
         foreach ($heizungkonfiguratorImagesToDelete as $heizungkonfiguratorImageRemoved) {
@@ -2361,6 +2874,15 @@ abstract class HeizungkonfiguratorUserdaten implements ActiveRecordInterface
         $this->foto_id = null;
         $this->version = null;
         $this->created_at = null;
+        $this->etagen = null;
+        $this->dach_daemmung = null;
+        $this->abgasfuehrung = null;
+        $this->waermeabgabe = null;
+        $this->duschwasser = null;
+        $this->wasserabfluss = null;
+        $this->warmwasserversorgung = null;
+        $this->warmwasserversorgung_extra = null;
+        $this->warmwasserversorgung_extra_waermepumpe = null;
         $this->alreadyInSave = false;
         $this->clearAllReferences();
         $this->resetModified();

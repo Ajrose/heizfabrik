@@ -182,11 +182,20 @@ $log->error(sprintf('message : %s', $message));
 				->setWaermedaemmung($request->request->get('konfigurator')['waermedaemmung'])
 				->setHeizflaeche($request->request->get('konfigurator')['flaeche'])
 				->setAnmerkungen($request->request->get('konfigurator')['anmerkungen'])
+				->setAbgasfuehrung($request->request->get('konfigurator')['abgasfuehrung'])
+				->setWaermeabgabe($request->request->get('konfigurator')['waermeabgabe'])
+				->setDuschwasser($request->request->get('konfigurator')['duschwasser'])
+				->setWasserabfluss($request->request->get('konfigurator')['wasserabfluss'])
+				->setWarmwasserversorgung($request->request->get('konfigurator')['warmwasserversorgung'])
+				->setWarmwasserversorgungExtra($request->request->get('konfigurator')['warmwasserversorgung-extra'])
+				->setWarmwasserversorgungExtraWaermepumpe($request->request->get('konfigurator')['warmwasserversorgung-extra-waermepumpe'])				
 				->setCreatedAt(date ( "Y-m-d H:i:s" ))
 				->setUserId($currentCustomer)
 				->setVersion("1.0")
-				->save();
-			
+				->save();			
+				
+				
+				
 				$log->error(" create userdatenquery ".$userdata);
 				//get images
 				$files = new FileBag();

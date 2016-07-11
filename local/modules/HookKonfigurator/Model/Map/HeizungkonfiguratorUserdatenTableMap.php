@@ -58,7 +58,7 @@ class HeizungkonfiguratorUserdatenTableMap extends TableMap
     /**
      * The total number of columns
      */
-    const NUM_COLUMNS = 21;
+    const NUM_COLUMNS = 30;
 
     /**
      * The number of lazy-loaded columns
@@ -68,7 +68,7 @@ class HeizungkonfiguratorUserdatenTableMap extends TableMap
     /**
      * The number of columns to hydrate (NUM_COLUMNS - NUM_LAZY_LOAD_COLUMNS)
      */
-    const NUM_HYDRATE_COLUMNS = 21;
+    const NUM_HYDRATE_COLUMNS = 30;
 
     /**
      * the column name for the ID field
@@ -176,6 +176,51 @@ class HeizungkonfiguratorUserdatenTableMap extends TableMap
     const CREATED_AT = 'heizungkonfigurator_userdaten.CREATED_AT';
 
     /**
+     * the column name for the ETAGEN field
+     */
+    const ETAGEN = 'heizungkonfigurator_userdaten.ETAGEN';
+
+    /**
+     * the column name for the DACH_DAEMMUNG field
+     */
+    const DACH_DAEMMUNG = 'heizungkonfigurator_userdaten.DACH_DAEMMUNG';
+
+    /**
+     * the column name for the ABGASFUEHRUNG field
+     */
+    const ABGASFUEHRUNG = 'heizungkonfigurator_userdaten.ABGASFUEHRUNG';
+
+    /**
+     * the column name for the WAERMEABGABE field
+     */
+    const WAERMEABGABE = 'heizungkonfigurator_userdaten.WAERMEABGABE';
+
+    /**
+     * the column name for the DUSCHWASSER field
+     */
+    const DUSCHWASSER = 'heizungkonfigurator_userdaten.DUSCHWASSER';
+
+    /**
+     * the column name for the WASSERABFLUSS field
+     */
+    const WASSERABFLUSS = 'heizungkonfigurator_userdaten.WASSERABFLUSS';
+
+    /**
+     * the column name for the WARMWASSERVERSORGUNG field
+     */
+    const WARMWASSERVERSORGUNG = 'heizungkonfigurator_userdaten.WARMWASSERVERSORGUNG';
+
+    /**
+     * the column name for the WARMWASSERVERSORGUNG_EXTRA field
+     */
+    const WARMWASSERVERSORGUNG_EXTRA = 'heizungkonfigurator_userdaten.WARMWASSERVERSORGUNG_EXTRA';
+
+    /**
+     * the column name for the WARMWASSERVERSORGUNG_EXTRA_WAERMEPUMPE field
+     */
+    const WARMWASSERVERSORGUNG_EXTRA_WAERMEPUMPE = 'heizungkonfigurator_userdaten.WARMWASSERVERSORGUNG_EXTRA_WAERMEPUMPE';
+
+    /**
      * The default string format for model objects of the related table
      */
     const DEFAULT_STRING_FORMAT = 'YAML';
@@ -187,12 +232,12 @@ class HeizungkonfiguratorUserdatenTableMap extends TableMap
      * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
      */
     protected static $fieldNames = array (
-        self::TYPE_PHPNAME       => array('Id', 'UserId', 'BrennstoffMomentan', 'BrennstoffZukunft', 'Gebaeudeart', 'PersonenAnzahl', 'BestehendeGeraetWarmwasser', 'BestehendeGeraetKw', 'Baujahr', 'Heizflaeche', 'Waermedaemmung', 'VerglasteFenster', 'Gebaeudelage', 'Windlage', 'AnzahlAussenwaende', 'Wohnraumtemperatur', 'Aussentemperatur', 'Anmerkungen', 'FotoId', 'Version', 'CreatedAt', ),
-        self::TYPE_STUDLYPHPNAME => array('id', 'userId', 'brennstoffMomentan', 'brennstoffZukunft', 'gebaeudeart', 'personenAnzahl', 'bestehendeGeraetWarmwasser', 'bestehendeGeraetKw', 'baujahr', 'heizflaeche', 'waermedaemmung', 'verglasteFenster', 'gebaeudelage', 'windlage', 'anzahlAussenwaende', 'wohnraumtemperatur', 'aussentemperatur', 'anmerkungen', 'fotoId', 'version', 'createdAt', ),
-        self::TYPE_COLNAME       => array(HeizungkonfiguratorUserdatenTableMap::ID, HeizungkonfiguratorUserdatenTableMap::USER_ID, HeizungkonfiguratorUserdatenTableMap::BRENNSTOFF_MOMENTAN, HeizungkonfiguratorUserdatenTableMap::BRENNSTOFF_ZUKUNFT, HeizungkonfiguratorUserdatenTableMap::GEBAEUDEART, HeizungkonfiguratorUserdatenTableMap::PERSONEN_ANZAHL, HeizungkonfiguratorUserdatenTableMap::BESTEHENDE_GERAET_WARMWASSER, HeizungkonfiguratorUserdatenTableMap::BESTEHENDE_GERAET_KW, HeizungkonfiguratorUserdatenTableMap::BAUJAHR, HeizungkonfiguratorUserdatenTableMap::HEIZFLAECHE, HeizungkonfiguratorUserdatenTableMap::WAERMEDAEMMUNG, HeizungkonfiguratorUserdatenTableMap::VERGLASTE_FENSTER, HeizungkonfiguratorUserdatenTableMap::GEBAEUDELAGE, HeizungkonfiguratorUserdatenTableMap::WINDLAGE, HeizungkonfiguratorUserdatenTableMap::ANZAHL_AUSSENWAENDE, HeizungkonfiguratorUserdatenTableMap::WOHNRAUMTEMPERATUR, HeizungkonfiguratorUserdatenTableMap::AUSSENTEMPERATUR, HeizungkonfiguratorUserdatenTableMap::ANMERKUNGEN, HeizungkonfiguratorUserdatenTableMap::FOTO_ID, HeizungkonfiguratorUserdatenTableMap::VERSION, HeizungkonfiguratorUserdatenTableMap::CREATED_AT, ),
-        self::TYPE_RAW_COLNAME   => array('ID', 'USER_ID', 'BRENNSTOFF_MOMENTAN', 'BRENNSTOFF_ZUKUNFT', 'GEBAEUDEART', 'PERSONEN_ANZAHL', 'BESTEHENDE_GERAET_WARMWASSER', 'BESTEHENDE_GERAET_KW', 'BAUJAHR', 'HEIZFLAECHE', 'WAERMEDAEMMUNG', 'VERGLASTE_FENSTER', 'GEBAEUDELAGE', 'WINDLAGE', 'ANZAHL_AUSSENWAENDE', 'WOHNRAUMTEMPERATUR', 'AUSSENTEMPERATUR', 'ANMERKUNGEN', 'FOTO_ID', 'VERSION', 'CREATED_AT', ),
-        self::TYPE_FIELDNAME     => array('id', 'user_id', 'brennstoff_momentan', 'brennstoff_zukunft', 'gebaeudeart', 'personen_anzahl', 'bestehende_geraet_warmwasser', 'bestehende_geraet_kw', 'baujahr', 'heizflaeche', 'waermedaemmung', 'verglaste_fenster', 'gebaeudelage', 'windlage', 'anzahl_aussenwaende', 'wohnraumtemperatur', 'aussentemperatur', 'anmerkungen', 'foto_id', 'version', 'created_at', ),
-        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, )
+        self::TYPE_PHPNAME       => array('Id', 'UserId', 'BrennstoffMomentan', 'BrennstoffZukunft', 'Gebaeudeart', 'PersonenAnzahl', 'BestehendeGeraetWarmwasser', 'BestehendeGeraetKw', 'Baujahr', 'Heizflaeche', 'Waermedaemmung', 'VerglasteFenster', 'Gebaeudelage', 'Windlage', 'AnzahlAussenwaende', 'Wohnraumtemperatur', 'Aussentemperatur', 'Anmerkungen', 'FotoId', 'Version', 'CreatedAt', 'Etagen', 'DachDaemmung', 'Abgasfuehrung', 'Waermeabgabe', 'Duschwasser', 'Wasserabfluss', 'Warmwasserversorgung', 'WarmwasserversorgungExtra', 'WarmwasserversorgungExtraWaermepumpe', ),
+        self::TYPE_STUDLYPHPNAME => array('id', 'userId', 'brennstoffMomentan', 'brennstoffZukunft', 'gebaeudeart', 'personenAnzahl', 'bestehendeGeraetWarmwasser', 'bestehendeGeraetKw', 'baujahr', 'heizflaeche', 'waermedaemmung', 'verglasteFenster', 'gebaeudelage', 'windlage', 'anzahlAussenwaende', 'wohnraumtemperatur', 'aussentemperatur', 'anmerkungen', 'fotoId', 'version', 'createdAt', 'etagen', 'dachDaemmung', 'abgasfuehrung', 'waermeabgabe', 'duschwasser', 'wasserabfluss', 'warmwasserversorgung', 'warmwasserversorgungExtra', 'warmwasserversorgungExtraWaermepumpe', ),
+        self::TYPE_COLNAME       => array(HeizungkonfiguratorUserdatenTableMap::ID, HeizungkonfiguratorUserdatenTableMap::USER_ID, HeizungkonfiguratorUserdatenTableMap::BRENNSTOFF_MOMENTAN, HeizungkonfiguratorUserdatenTableMap::BRENNSTOFF_ZUKUNFT, HeizungkonfiguratorUserdatenTableMap::GEBAEUDEART, HeizungkonfiguratorUserdatenTableMap::PERSONEN_ANZAHL, HeizungkonfiguratorUserdatenTableMap::BESTEHENDE_GERAET_WARMWASSER, HeizungkonfiguratorUserdatenTableMap::BESTEHENDE_GERAET_KW, HeizungkonfiguratorUserdatenTableMap::BAUJAHR, HeizungkonfiguratorUserdatenTableMap::HEIZFLAECHE, HeizungkonfiguratorUserdatenTableMap::WAERMEDAEMMUNG, HeizungkonfiguratorUserdatenTableMap::VERGLASTE_FENSTER, HeizungkonfiguratorUserdatenTableMap::GEBAEUDELAGE, HeizungkonfiguratorUserdatenTableMap::WINDLAGE, HeizungkonfiguratorUserdatenTableMap::ANZAHL_AUSSENWAENDE, HeizungkonfiguratorUserdatenTableMap::WOHNRAUMTEMPERATUR, HeizungkonfiguratorUserdatenTableMap::AUSSENTEMPERATUR, HeizungkonfiguratorUserdatenTableMap::ANMERKUNGEN, HeizungkonfiguratorUserdatenTableMap::FOTO_ID, HeizungkonfiguratorUserdatenTableMap::VERSION, HeizungkonfiguratorUserdatenTableMap::CREATED_AT, HeizungkonfiguratorUserdatenTableMap::ETAGEN, HeizungkonfiguratorUserdatenTableMap::DACH_DAEMMUNG, HeizungkonfiguratorUserdatenTableMap::ABGASFUEHRUNG, HeizungkonfiguratorUserdatenTableMap::WAERMEABGABE, HeizungkonfiguratorUserdatenTableMap::DUSCHWASSER, HeizungkonfiguratorUserdatenTableMap::WASSERABFLUSS, HeizungkonfiguratorUserdatenTableMap::WARMWASSERVERSORGUNG, HeizungkonfiguratorUserdatenTableMap::WARMWASSERVERSORGUNG_EXTRA, HeizungkonfiguratorUserdatenTableMap::WARMWASSERVERSORGUNG_EXTRA_WAERMEPUMPE, ),
+        self::TYPE_RAW_COLNAME   => array('ID', 'USER_ID', 'BRENNSTOFF_MOMENTAN', 'BRENNSTOFF_ZUKUNFT', 'GEBAEUDEART', 'PERSONEN_ANZAHL', 'BESTEHENDE_GERAET_WARMWASSER', 'BESTEHENDE_GERAET_KW', 'BAUJAHR', 'HEIZFLAECHE', 'WAERMEDAEMMUNG', 'VERGLASTE_FENSTER', 'GEBAEUDELAGE', 'WINDLAGE', 'ANZAHL_AUSSENWAENDE', 'WOHNRAUMTEMPERATUR', 'AUSSENTEMPERATUR', 'ANMERKUNGEN', 'FOTO_ID', 'VERSION', 'CREATED_AT', 'ETAGEN', 'DACH_DAEMMUNG', 'ABGASFUEHRUNG', 'WAERMEABGABE', 'DUSCHWASSER', 'WASSERABFLUSS', 'WARMWASSERVERSORGUNG', 'WARMWASSERVERSORGUNG_EXTRA', 'WARMWASSERVERSORGUNG_EXTRA_WAERMEPUMPE', ),
+        self::TYPE_FIELDNAME     => array('id', 'user_id', 'brennstoff_momentan', 'brennstoff_zukunft', 'gebaeudeart', 'personen_anzahl', 'bestehende_geraet_warmwasser', 'bestehende_geraet_kw', 'baujahr', 'heizflaeche', 'waermedaemmung', 'verglaste_fenster', 'gebaeudelage', 'windlage', 'anzahl_aussenwaende', 'wohnraumtemperatur', 'aussentemperatur', 'anmerkungen', 'foto_id', 'version', 'created_at', 'etagen', 'dach_daemmung', 'abgasfuehrung', 'waermeabgabe', 'duschwasser', 'wasserabfluss', 'warmwasserversorgung', 'warmwasserversorgung_extra', 'warmwasserversorgung_extra_waermepumpe', ),
+        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, )
     );
 
     /**
@@ -202,12 +247,12 @@ class HeizungkonfiguratorUserdatenTableMap extends TableMap
      * e.g. self::$fieldKeys[self::TYPE_PHPNAME]['Id'] = 0
      */
     protected static $fieldKeys = array (
-        self::TYPE_PHPNAME       => array('Id' => 0, 'UserId' => 1, 'BrennstoffMomentan' => 2, 'BrennstoffZukunft' => 3, 'Gebaeudeart' => 4, 'PersonenAnzahl' => 5, 'BestehendeGeraetWarmwasser' => 6, 'BestehendeGeraetKw' => 7, 'Baujahr' => 8, 'Heizflaeche' => 9, 'Waermedaemmung' => 10, 'VerglasteFenster' => 11, 'Gebaeudelage' => 12, 'Windlage' => 13, 'AnzahlAussenwaende' => 14, 'Wohnraumtemperatur' => 15, 'Aussentemperatur' => 16, 'Anmerkungen' => 17, 'FotoId' => 18, 'Version' => 19, 'CreatedAt' => 20, ),
-        self::TYPE_STUDLYPHPNAME => array('id' => 0, 'userId' => 1, 'brennstoffMomentan' => 2, 'brennstoffZukunft' => 3, 'gebaeudeart' => 4, 'personenAnzahl' => 5, 'bestehendeGeraetWarmwasser' => 6, 'bestehendeGeraetKw' => 7, 'baujahr' => 8, 'heizflaeche' => 9, 'waermedaemmung' => 10, 'verglasteFenster' => 11, 'gebaeudelage' => 12, 'windlage' => 13, 'anzahlAussenwaende' => 14, 'wohnraumtemperatur' => 15, 'aussentemperatur' => 16, 'anmerkungen' => 17, 'fotoId' => 18, 'version' => 19, 'createdAt' => 20, ),
-        self::TYPE_COLNAME       => array(HeizungkonfiguratorUserdatenTableMap::ID => 0, HeizungkonfiguratorUserdatenTableMap::USER_ID => 1, HeizungkonfiguratorUserdatenTableMap::BRENNSTOFF_MOMENTAN => 2, HeizungkonfiguratorUserdatenTableMap::BRENNSTOFF_ZUKUNFT => 3, HeizungkonfiguratorUserdatenTableMap::GEBAEUDEART => 4, HeizungkonfiguratorUserdatenTableMap::PERSONEN_ANZAHL => 5, HeizungkonfiguratorUserdatenTableMap::BESTEHENDE_GERAET_WARMWASSER => 6, HeizungkonfiguratorUserdatenTableMap::BESTEHENDE_GERAET_KW => 7, HeizungkonfiguratorUserdatenTableMap::BAUJAHR => 8, HeizungkonfiguratorUserdatenTableMap::HEIZFLAECHE => 9, HeizungkonfiguratorUserdatenTableMap::WAERMEDAEMMUNG => 10, HeizungkonfiguratorUserdatenTableMap::VERGLASTE_FENSTER => 11, HeizungkonfiguratorUserdatenTableMap::GEBAEUDELAGE => 12, HeizungkonfiguratorUserdatenTableMap::WINDLAGE => 13, HeizungkonfiguratorUserdatenTableMap::ANZAHL_AUSSENWAENDE => 14, HeizungkonfiguratorUserdatenTableMap::WOHNRAUMTEMPERATUR => 15, HeizungkonfiguratorUserdatenTableMap::AUSSENTEMPERATUR => 16, HeizungkonfiguratorUserdatenTableMap::ANMERKUNGEN => 17, HeizungkonfiguratorUserdatenTableMap::FOTO_ID => 18, HeizungkonfiguratorUserdatenTableMap::VERSION => 19, HeizungkonfiguratorUserdatenTableMap::CREATED_AT => 20, ),
-        self::TYPE_RAW_COLNAME   => array('ID' => 0, 'USER_ID' => 1, 'BRENNSTOFF_MOMENTAN' => 2, 'BRENNSTOFF_ZUKUNFT' => 3, 'GEBAEUDEART' => 4, 'PERSONEN_ANZAHL' => 5, 'BESTEHENDE_GERAET_WARMWASSER' => 6, 'BESTEHENDE_GERAET_KW' => 7, 'BAUJAHR' => 8, 'HEIZFLAECHE' => 9, 'WAERMEDAEMMUNG' => 10, 'VERGLASTE_FENSTER' => 11, 'GEBAEUDELAGE' => 12, 'WINDLAGE' => 13, 'ANZAHL_AUSSENWAENDE' => 14, 'WOHNRAUMTEMPERATUR' => 15, 'AUSSENTEMPERATUR' => 16, 'ANMERKUNGEN' => 17, 'FOTO_ID' => 18, 'VERSION' => 19, 'CREATED_AT' => 20, ),
-        self::TYPE_FIELDNAME     => array('id' => 0, 'user_id' => 1, 'brennstoff_momentan' => 2, 'brennstoff_zukunft' => 3, 'gebaeudeart' => 4, 'personen_anzahl' => 5, 'bestehende_geraet_warmwasser' => 6, 'bestehende_geraet_kw' => 7, 'baujahr' => 8, 'heizflaeche' => 9, 'waermedaemmung' => 10, 'verglaste_fenster' => 11, 'gebaeudelage' => 12, 'windlage' => 13, 'anzahl_aussenwaende' => 14, 'wohnraumtemperatur' => 15, 'aussentemperatur' => 16, 'anmerkungen' => 17, 'foto_id' => 18, 'version' => 19, 'created_at' => 20, ),
-        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, )
+        self::TYPE_PHPNAME       => array('Id' => 0, 'UserId' => 1, 'BrennstoffMomentan' => 2, 'BrennstoffZukunft' => 3, 'Gebaeudeart' => 4, 'PersonenAnzahl' => 5, 'BestehendeGeraetWarmwasser' => 6, 'BestehendeGeraetKw' => 7, 'Baujahr' => 8, 'Heizflaeche' => 9, 'Waermedaemmung' => 10, 'VerglasteFenster' => 11, 'Gebaeudelage' => 12, 'Windlage' => 13, 'AnzahlAussenwaende' => 14, 'Wohnraumtemperatur' => 15, 'Aussentemperatur' => 16, 'Anmerkungen' => 17, 'FotoId' => 18, 'Version' => 19, 'CreatedAt' => 20, 'Etagen' => 21, 'DachDaemmung' => 22, 'Abgasfuehrung' => 23, 'Waermeabgabe' => 24, 'Duschwasser' => 25, 'Wasserabfluss' => 26, 'Warmwasserversorgung' => 27, 'WarmwasserversorgungExtra' => 28, 'WarmwasserversorgungExtraWaermepumpe' => 29, ),
+        self::TYPE_STUDLYPHPNAME => array('id' => 0, 'userId' => 1, 'brennstoffMomentan' => 2, 'brennstoffZukunft' => 3, 'gebaeudeart' => 4, 'personenAnzahl' => 5, 'bestehendeGeraetWarmwasser' => 6, 'bestehendeGeraetKw' => 7, 'baujahr' => 8, 'heizflaeche' => 9, 'waermedaemmung' => 10, 'verglasteFenster' => 11, 'gebaeudelage' => 12, 'windlage' => 13, 'anzahlAussenwaende' => 14, 'wohnraumtemperatur' => 15, 'aussentemperatur' => 16, 'anmerkungen' => 17, 'fotoId' => 18, 'version' => 19, 'createdAt' => 20, 'etagen' => 21, 'dachDaemmung' => 22, 'abgasfuehrung' => 23, 'waermeabgabe' => 24, 'duschwasser' => 25, 'wasserabfluss' => 26, 'warmwasserversorgung' => 27, 'warmwasserversorgungExtra' => 28, 'warmwasserversorgungExtraWaermepumpe' => 29, ),
+        self::TYPE_COLNAME       => array(HeizungkonfiguratorUserdatenTableMap::ID => 0, HeizungkonfiguratorUserdatenTableMap::USER_ID => 1, HeizungkonfiguratorUserdatenTableMap::BRENNSTOFF_MOMENTAN => 2, HeizungkonfiguratorUserdatenTableMap::BRENNSTOFF_ZUKUNFT => 3, HeizungkonfiguratorUserdatenTableMap::GEBAEUDEART => 4, HeizungkonfiguratorUserdatenTableMap::PERSONEN_ANZAHL => 5, HeizungkonfiguratorUserdatenTableMap::BESTEHENDE_GERAET_WARMWASSER => 6, HeizungkonfiguratorUserdatenTableMap::BESTEHENDE_GERAET_KW => 7, HeizungkonfiguratorUserdatenTableMap::BAUJAHR => 8, HeizungkonfiguratorUserdatenTableMap::HEIZFLAECHE => 9, HeizungkonfiguratorUserdatenTableMap::WAERMEDAEMMUNG => 10, HeizungkonfiguratorUserdatenTableMap::VERGLASTE_FENSTER => 11, HeizungkonfiguratorUserdatenTableMap::GEBAEUDELAGE => 12, HeizungkonfiguratorUserdatenTableMap::WINDLAGE => 13, HeizungkonfiguratorUserdatenTableMap::ANZAHL_AUSSENWAENDE => 14, HeizungkonfiguratorUserdatenTableMap::WOHNRAUMTEMPERATUR => 15, HeizungkonfiguratorUserdatenTableMap::AUSSENTEMPERATUR => 16, HeizungkonfiguratorUserdatenTableMap::ANMERKUNGEN => 17, HeizungkonfiguratorUserdatenTableMap::FOTO_ID => 18, HeizungkonfiguratorUserdatenTableMap::VERSION => 19, HeizungkonfiguratorUserdatenTableMap::CREATED_AT => 20, HeizungkonfiguratorUserdatenTableMap::ETAGEN => 21, HeizungkonfiguratorUserdatenTableMap::DACH_DAEMMUNG => 22, HeizungkonfiguratorUserdatenTableMap::ABGASFUEHRUNG => 23, HeizungkonfiguratorUserdatenTableMap::WAERMEABGABE => 24, HeizungkonfiguratorUserdatenTableMap::DUSCHWASSER => 25, HeizungkonfiguratorUserdatenTableMap::WASSERABFLUSS => 26, HeizungkonfiguratorUserdatenTableMap::WARMWASSERVERSORGUNG => 27, HeizungkonfiguratorUserdatenTableMap::WARMWASSERVERSORGUNG_EXTRA => 28, HeizungkonfiguratorUserdatenTableMap::WARMWASSERVERSORGUNG_EXTRA_WAERMEPUMPE => 29, ),
+        self::TYPE_RAW_COLNAME   => array('ID' => 0, 'USER_ID' => 1, 'BRENNSTOFF_MOMENTAN' => 2, 'BRENNSTOFF_ZUKUNFT' => 3, 'GEBAEUDEART' => 4, 'PERSONEN_ANZAHL' => 5, 'BESTEHENDE_GERAET_WARMWASSER' => 6, 'BESTEHENDE_GERAET_KW' => 7, 'BAUJAHR' => 8, 'HEIZFLAECHE' => 9, 'WAERMEDAEMMUNG' => 10, 'VERGLASTE_FENSTER' => 11, 'GEBAEUDELAGE' => 12, 'WINDLAGE' => 13, 'ANZAHL_AUSSENWAENDE' => 14, 'WOHNRAUMTEMPERATUR' => 15, 'AUSSENTEMPERATUR' => 16, 'ANMERKUNGEN' => 17, 'FOTO_ID' => 18, 'VERSION' => 19, 'CREATED_AT' => 20, 'ETAGEN' => 21, 'DACH_DAEMMUNG' => 22, 'ABGASFUEHRUNG' => 23, 'WAERMEABGABE' => 24, 'DUSCHWASSER' => 25, 'WASSERABFLUSS' => 26, 'WARMWASSERVERSORGUNG' => 27, 'WARMWASSERVERSORGUNG_EXTRA' => 28, 'WARMWASSERVERSORGUNG_EXTRA_WAERMEPUMPE' => 29, ),
+        self::TYPE_FIELDNAME     => array('id' => 0, 'user_id' => 1, 'brennstoff_momentan' => 2, 'brennstoff_zukunft' => 3, 'gebaeudeart' => 4, 'personen_anzahl' => 5, 'bestehende_geraet_warmwasser' => 6, 'bestehende_geraet_kw' => 7, 'baujahr' => 8, 'heizflaeche' => 9, 'waermedaemmung' => 10, 'verglaste_fenster' => 11, 'gebaeudelage' => 12, 'windlage' => 13, 'anzahl_aussenwaende' => 14, 'wohnraumtemperatur' => 15, 'aussentemperatur' => 16, 'anmerkungen' => 17, 'foto_id' => 18, 'version' => 19, 'created_at' => 20, 'etagen' => 21, 'dach_daemmung' => 22, 'abgasfuehrung' => 23, 'waermeabgabe' => 24, 'duschwasser' => 25, 'wasserabfluss' => 26, 'warmwasserversorgung' => 27, 'warmwasserversorgung_extra' => 28, 'warmwasserversorgung_extra_waermepumpe' => 29, ),
+        self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, )
     );
 
     /**
@@ -247,6 +292,15 @@ class HeizungkonfiguratorUserdatenTableMap extends TableMap
         $this->addColumn('FOTO_ID', 'FotoId', 'INTEGER', true, null, null);
         $this->addColumn('VERSION', 'Version', 'VARCHAR', true, 100, null);
         $this->addColumn('CREATED_AT', 'CreatedAt', 'TIMESTAMP', true, null, null);
+        $this->addColumn('ETAGEN', 'Etagen', 'INTEGER', false, 3, null);
+        $this->addColumn('DACH_DAEMMUNG', 'DachDaemmung', 'VARCHAR', false, 45, null);
+        $this->addColumn('ABGASFUEHRUNG', 'Abgasfuehrung', 'VARCHAR', false, 255, null);
+        $this->addColumn('WAERMEABGABE', 'Waermeabgabe', 'VARCHAR', false, 255, null);
+        $this->addColumn('DUSCHWASSER', 'Duschwasser', 'VARCHAR', false, 45, null);
+        $this->addColumn('WASSERABFLUSS', 'Wasserabfluss', 'VARCHAR', false, 45, null);
+        $this->addColumn('WARMWASSERVERSORGUNG', 'Warmwasserversorgung', 'VARCHAR', false, 45, null);
+        $this->addColumn('WARMWASSERVERSORGUNG_EXTRA', 'WarmwasserversorgungExtra', 'VARCHAR', false, 45, null);
+        $this->addColumn('WARMWASSERVERSORGUNG_EXTRA_WAERMEPUMPE', 'WarmwasserversorgungExtraWaermepumpe', 'VARCHAR', false, 45, null);
     } // initialize()
 
     /**
@@ -308,7 +362,7 @@ class HeizungkonfiguratorUserdatenTableMap extends TableMap
                             : self::translateFieldName('Id', TableMap::TYPE_PHPNAME, $indexType)
                         ];
     }
-    
+
     /**
      * The class that the tableMap will make instances of.
      *
@@ -368,7 +422,7 @@ class HeizungkonfiguratorUserdatenTableMap extends TableMap
     public static function populateObjects(DataFetcherInterface $dataFetcher)
     {
         $results = array();
-    
+
         // set the class once to avoid overhead in the loop
         $cls = static::getOMClass(false);
         // populate the object(s)
@@ -425,6 +479,15 @@ class HeizungkonfiguratorUserdatenTableMap extends TableMap
             $criteria->addSelectColumn(HeizungkonfiguratorUserdatenTableMap::FOTO_ID);
             $criteria->addSelectColumn(HeizungkonfiguratorUserdatenTableMap::VERSION);
             $criteria->addSelectColumn(HeizungkonfiguratorUserdatenTableMap::CREATED_AT);
+            $criteria->addSelectColumn(HeizungkonfiguratorUserdatenTableMap::ETAGEN);
+            $criteria->addSelectColumn(HeizungkonfiguratorUserdatenTableMap::DACH_DAEMMUNG);
+            $criteria->addSelectColumn(HeizungkonfiguratorUserdatenTableMap::ABGASFUEHRUNG);
+            $criteria->addSelectColumn(HeizungkonfiguratorUserdatenTableMap::WAERMEABGABE);
+            $criteria->addSelectColumn(HeizungkonfiguratorUserdatenTableMap::DUSCHWASSER);
+            $criteria->addSelectColumn(HeizungkonfiguratorUserdatenTableMap::WASSERABFLUSS);
+            $criteria->addSelectColumn(HeizungkonfiguratorUserdatenTableMap::WARMWASSERVERSORGUNG);
+            $criteria->addSelectColumn(HeizungkonfiguratorUserdatenTableMap::WARMWASSERVERSORGUNG_EXTRA);
+            $criteria->addSelectColumn(HeizungkonfiguratorUserdatenTableMap::WARMWASSERVERSORGUNG_EXTRA_WAERMEPUMPE);
         } else {
             $criteria->addSelectColumn($alias . '.ID');
             $criteria->addSelectColumn($alias . '.USER_ID');
@@ -447,6 +510,15 @@ class HeizungkonfiguratorUserdatenTableMap extends TableMap
             $criteria->addSelectColumn($alias . '.FOTO_ID');
             $criteria->addSelectColumn($alias . '.VERSION');
             $criteria->addSelectColumn($alias . '.CREATED_AT');
+            $criteria->addSelectColumn($alias . '.ETAGEN');
+            $criteria->addSelectColumn($alias . '.DACH_DAEMMUNG');
+            $criteria->addSelectColumn($alias . '.ABGASFUEHRUNG');
+            $criteria->addSelectColumn($alias . '.WAERMEABGABE');
+            $criteria->addSelectColumn($alias . '.DUSCHWASSER');
+            $criteria->addSelectColumn($alias . '.WASSERABFLUSS');
+            $criteria->addSelectColumn($alias . '.WARMWASSERVERSORGUNG');
+            $criteria->addSelectColumn($alias . '.WARMWASSERVERSORGUNG_EXTRA');
+            $criteria->addSelectColumn($alias . '.WARMWASSERVERSORGUNG_EXTRA_WAERMEPUMPE');
         }
     }
 

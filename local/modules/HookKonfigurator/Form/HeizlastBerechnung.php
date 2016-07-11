@@ -219,7 +219,6 @@ class HeizlastBerechnung extends BaseForm
 				"data" => 1
 		))
 		*/
-         
 		->add("dach_daemmung", "choice", array(
 				"choices" => array (
 						1 => $this->setLabel("dach_daemmung",1,"Ja"),
@@ -268,9 +267,7 @@ class HeizlastBerechnung extends BaseForm
                     "for" => "waermedaemmung"
                 ),
 				"data" => 1
-		))
-             
-             
+		)) 
          /* slide 7 */    
         
         ->add("abgasfuehrung", "choice", array(
@@ -285,9 +282,7 @@ class HeizlastBerechnung extends BaseForm
                     "for" => "abgasfuehrung"
                 ),
 				"data" => 1
-		))
-
-             
+		))   
         ->add("waermeabgabe", "choice", array(
 				"choices" => array (
 						1 => $this->setLabel("waermeabgabe",1,"Heizkörper"),
@@ -300,8 +295,7 @@ class HeizlastBerechnung extends BaseForm
                     "for" => "waermeabgabe"
                 ),
 				"data" => 1
-		))
-             
+		)) 
         ->add("duschwasser", "choice", array(
 				"choices" => array (
 						1 => $this->setLabel("duschwasser",1,"Ja"),
@@ -313,9 +307,7 @@ class HeizlastBerechnung extends BaseForm
                     "for" => "duschwasser"
                 ),
 				"data" => 1
-		))
-             
-                          
+		))                
         ->add("wasserabfluss", "choice", array(
 				"choices" => array (
 						1 => $this->setLabel("wasserabfluss",1,"Ja"),
@@ -327,7 +319,6 @@ class HeizlastBerechnung extends BaseForm
                 ),
 				"data" => 1
 		))
-             
         ->add("warmwasserversorgung", "choice", array(
 				"choices" => array (
 						1 => $this->setLabel("warmwasserversorgung",1,"Ja"),
@@ -338,10 +329,8 @@ class HeizlastBerechnung extends BaseForm
 				"label_attr" => array(
                     "for" => "warmwasserversorgung"
                 ),
-				"data" => 2
-		))
-             
-                          
+				"data" => 1
+		))                 
         ->add("warmwasserversorgung-extra", "choice", array(
 				"choices" => array (
 						1 => $this->setLabel("warmwasserversorgung-extra",1,"Warmwasserspeicher"),
@@ -356,7 +345,6 @@ class HeizlastBerechnung extends BaseForm
                 ),
 				"data" => 1
 		))
-             
         ->add("warmwasserversorgung-extra-waermepumpe", "choice", array(
 				"choices" => array (
 						1 => $this->setLabel("warmwasserversorgung-extra-waermepumpe",1,"Warmwasserspeicher"),
@@ -369,9 +357,7 @@ class HeizlastBerechnung extends BaseForm
                     "for" => "warmwasserversorgung"
                 ),
 				"data" => 1
-		))
-             
-             
+		))     
 		->add("anmerkungen", "text", array(
 		"label" => Translator::getInstance()->trans("Anmerkungen zu Ihrer Heizung"),
 		"label_attr" => array(

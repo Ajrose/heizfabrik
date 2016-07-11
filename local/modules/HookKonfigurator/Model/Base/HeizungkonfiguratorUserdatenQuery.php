@@ -19,7 +19,7 @@ use Propel\Runtime\Exception\PropelException;
 /**
  * Base class that represents a query for the 'heizungkonfigurator_userdaten' table.
  *
- * 
+ *
  *
  * @method     ChildHeizungkonfiguratorUserdatenQuery orderById($order = Criteria::ASC) Order by the id column
  * @method     ChildHeizungkonfiguratorUserdatenQuery orderByUserId($order = Criteria::ASC) Order by the user_id column
@@ -42,6 +42,15 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildHeizungkonfiguratorUserdatenQuery orderByFotoId($order = Criteria::ASC) Order by the foto_id column
  * @method     ChildHeizungkonfiguratorUserdatenQuery orderByVersion($order = Criteria::ASC) Order by the version column
  * @method     ChildHeizungkonfiguratorUserdatenQuery orderByCreatedAt($order = Criteria::ASC) Order by the created_at column
+ * @method     ChildHeizungkonfiguratorUserdatenQuery orderByEtagen($order = Criteria::ASC) Order by the etagen column
+ * @method     ChildHeizungkonfiguratorUserdatenQuery orderByDachDaemmung($order = Criteria::ASC) Order by the dach_daemmung column
+ * @method     ChildHeizungkonfiguratorUserdatenQuery orderByAbgasfuehrung($order = Criteria::ASC) Order by the abgasfuehrung column
+ * @method     ChildHeizungkonfiguratorUserdatenQuery orderByWaermeabgabe($order = Criteria::ASC) Order by the waermeabgabe column
+ * @method     ChildHeizungkonfiguratorUserdatenQuery orderByDuschwasser($order = Criteria::ASC) Order by the duschwasser column
+ * @method     ChildHeizungkonfiguratorUserdatenQuery orderByWasserabfluss($order = Criteria::ASC) Order by the wasserabfluss column
+ * @method     ChildHeizungkonfiguratorUserdatenQuery orderByWarmwasserversorgung($order = Criteria::ASC) Order by the warmwasserversorgung column
+ * @method     ChildHeizungkonfiguratorUserdatenQuery orderByWarmwasserversorgungExtra($order = Criteria::ASC) Order by the warmwasserversorgung_extra column
+ * @method     ChildHeizungkonfiguratorUserdatenQuery orderByWarmwasserversorgungExtraWaermepumpe($order = Criteria::ASC) Order by the warmwasserversorgung_extra_waermepumpe column
  *
  * @method     ChildHeizungkonfiguratorUserdatenQuery groupById() Group by the id column
  * @method     ChildHeizungkonfiguratorUserdatenQuery groupByUserId() Group by the user_id column
@@ -64,6 +73,15 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildHeizungkonfiguratorUserdatenQuery groupByFotoId() Group by the foto_id column
  * @method     ChildHeizungkonfiguratorUserdatenQuery groupByVersion() Group by the version column
  * @method     ChildHeizungkonfiguratorUserdatenQuery groupByCreatedAt() Group by the created_at column
+ * @method     ChildHeizungkonfiguratorUserdatenQuery groupByEtagen() Group by the etagen column
+ * @method     ChildHeizungkonfiguratorUserdatenQuery groupByDachDaemmung() Group by the dach_daemmung column
+ * @method     ChildHeizungkonfiguratorUserdatenQuery groupByAbgasfuehrung() Group by the abgasfuehrung column
+ * @method     ChildHeizungkonfiguratorUserdatenQuery groupByWaermeabgabe() Group by the waermeabgabe column
+ * @method     ChildHeizungkonfiguratorUserdatenQuery groupByDuschwasser() Group by the duschwasser column
+ * @method     ChildHeizungkonfiguratorUserdatenQuery groupByWasserabfluss() Group by the wasserabfluss column
+ * @method     ChildHeizungkonfiguratorUserdatenQuery groupByWarmwasserversorgung() Group by the warmwasserversorgung column
+ * @method     ChildHeizungkonfiguratorUserdatenQuery groupByWarmwasserversorgungExtra() Group by the warmwasserversorgung_extra column
+ * @method     ChildHeizungkonfiguratorUserdatenQuery groupByWarmwasserversorgungExtraWaermepumpe() Group by the warmwasserversorgung_extra_waermepumpe column
  *
  * @method     ChildHeizungkonfiguratorUserdatenQuery leftJoin($relation) Adds a LEFT JOIN clause to the query
  * @method     ChildHeizungkonfiguratorUserdatenQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
@@ -97,6 +115,15 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildHeizungkonfiguratorUserdaten findOneByFotoId(int $foto_id) Return the first ChildHeizungkonfiguratorUserdaten filtered by the foto_id column
  * @method     ChildHeizungkonfiguratorUserdaten findOneByVersion(string $version) Return the first ChildHeizungkonfiguratorUserdaten filtered by the version column
  * @method     ChildHeizungkonfiguratorUserdaten findOneByCreatedAt(string $created_at) Return the first ChildHeizungkonfiguratorUserdaten filtered by the created_at column
+ * @method     ChildHeizungkonfiguratorUserdaten findOneByEtagen(int $etagen) Return the first ChildHeizungkonfiguratorUserdaten filtered by the etagen column
+ * @method     ChildHeizungkonfiguratorUserdaten findOneByDachDaemmung(string $dach_daemmung) Return the first ChildHeizungkonfiguratorUserdaten filtered by the dach_daemmung column
+ * @method     ChildHeizungkonfiguratorUserdaten findOneByAbgasfuehrung(string $abgasfuehrung) Return the first ChildHeizungkonfiguratorUserdaten filtered by the abgasfuehrung column
+ * @method     ChildHeizungkonfiguratorUserdaten findOneByWaermeabgabe(string $waermeabgabe) Return the first ChildHeizungkonfiguratorUserdaten filtered by the waermeabgabe column
+ * @method     ChildHeizungkonfiguratorUserdaten findOneByDuschwasser(string $duschwasser) Return the first ChildHeizungkonfiguratorUserdaten filtered by the duschwasser column
+ * @method     ChildHeizungkonfiguratorUserdaten findOneByWasserabfluss(string $wasserabfluss) Return the first ChildHeizungkonfiguratorUserdaten filtered by the wasserabfluss column
+ * @method     ChildHeizungkonfiguratorUserdaten findOneByWarmwasserversorgung(string $warmwasserversorgung) Return the first ChildHeizungkonfiguratorUserdaten filtered by the warmwasserversorgung column
+ * @method     ChildHeizungkonfiguratorUserdaten findOneByWarmwasserversorgungExtra(string $warmwasserversorgung_extra) Return the first ChildHeizungkonfiguratorUserdaten filtered by the warmwasserversorgung_extra column
+ * @method     ChildHeizungkonfiguratorUserdaten findOneByWarmwasserversorgungExtraWaermepumpe(string $warmwasserversorgung_extra_waermepumpe) Return the first ChildHeizungkonfiguratorUserdaten filtered by the warmwasserversorgung_extra_waermepumpe column
  *
  * @method     array findById(int $id) Return ChildHeizungkonfiguratorUserdaten objects filtered by the id column
  * @method     array findByUserId(int $user_id) Return ChildHeizungkonfiguratorUserdaten objects filtered by the user_id column
@@ -119,11 +146,20 @@ use Propel\Runtime\Exception\PropelException;
  * @method     array findByFotoId(int $foto_id) Return ChildHeizungkonfiguratorUserdaten objects filtered by the foto_id column
  * @method     array findByVersion(string $version) Return ChildHeizungkonfiguratorUserdaten objects filtered by the version column
  * @method     array findByCreatedAt(string $created_at) Return ChildHeizungkonfiguratorUserdaten objects filtered by the created_at column
+ * @method     array findByEtagen(int $etagen) Return ChildHeizungkonfiguratorUserdaten objects filtered by the etagen column
+ * @method     array findByDachDaemmung(string $dach_daemmung) Return ChildHeizungkonfiguratorUserdaten objects filtered by the dach_daemmung column
+ * @method     array findByAbgasfuehrung(string $abgasfuehrung) Return ChildHeizungkonfiguratorUserdaten objects filtered by the abgasfuehrung column
+ * @method     array findByWaermeabgabe(string $waermeabgabe) Return ChildHeizungkonfiguratorUserdaten objects filtered by the waermeabgabe column
+ * @method     array findByDuschwasser(string $duschwasser) Return ChildHeizungkonfiguratorUserdaten objects filtered by the duschwasser column
+ * @method     array findByWasserabfluss(string $wasserabfluss) Return ChildHeizungkonfiguratorUserdaten objects filtered by the wasserabfluss column
+ * @method     array findByWarmwasserversorgung(string $warmwasserversorgung) Return ChildHeizungkonfiguratorUserdaten objects filtered by the warmwasserversorgung column
+ * @method     array findByWarmwasserversorgungExtra(string $warmwasserversorgung_extra) Return ChildHeizungkonfiguratorUserdaten objects filtered by the warmwasserversorgung_extra column
+ * @method     array findByWarmwasserversorgungExtraWaermepumpe(string $warmwasserversorgung_extra_waermepumpe) Return ChildHeizungkonfiguratorUserdaten objects filtered by the warmwasserversorgung_extra_waermepumpe column
  *
  */
 abstract class HeizungkonfiguratorUserdatenQuery extends ModelCriteria
 {
-    
+
     /**
      * Initializes internal state of \HookKonfigurator\Model\Base\HeizungkonfiguratorUserdatenQuery object.
      *
@@ -207,9 +243,9 @@ abstract class HeizungkonfiguratorUserdatenQuery extends ModelCriteria
      */
     protected function findPkSimple($key, $con)
     {
-        $sql = 'SELECT ID, USER_ID, BRENNSTOFF_MOMENTAN, BRENNSTOFF_ZUKUNFT, GEBAEUDEART, PERSONEN_ANZAHL, BESTEHENDE_GERAET_WARMWASSER, BESTEHENDE_GERAET_KW, BAUJAHR, HEIZFLAECHE, WAERMEDAEMMUNG, VERGLASTE_FENSTER, GEBAEUDELAGE, WINDLAGE, ANZAHL_AUSSENWAENDE, WOHNRAUMTEMPERATUR, AUSSENTEMPERATUR, ANMERKUNGEN, FOTO_ID, VERSION, CREATED_AT FROM heizungkonfigurator_userdaten WHERE ID = :p0';
+        $sql = 'SELECT ID, USER_ID, BRENNSTOFF_MOMENTAN, BRENNSTOFF_ZUKUNFT, GEBAEUDEART, PERSONEN_ANZAHL, BESTEHENDE_GERAET_WARMWASSER, BESTEHENDE_GERAET_KW, BAUJAHR, HEIZFLAECHE, WAERMEDAEMMUNG, VERGLASTE_FENSTER, GEBAEUDELAGE, WINDLAGE, ANZAHL_AUSSENWAENDE, WOHNRAUMTEMPERATUR, AUSSENTEMPERATUR, ANMERKUNGEN, FOTO_ID, VERSION, CREATED_AT, ETAGEN, DACH_DAEMMUNG, ABGASFUEHRUNG, WAERMEABGABE, DUSCHWASSER, WASSERABFLUSS, WARMWASSERVERSORGUNG, WARMWASSERVERSORGUNG_EXTRA, WARMWASSERVERSORGUNG_EXTRA_WAERMEPUMPE FROM heizungkonfigurator_userdaten WHERE ID = :p0';
         try {
-            $stmt = $con->prepare($sql);            
+            $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
             $stmt->execute();
         } catch (Exception $e) {
@@ -1040,6 +1076,279 @@ abstract class HeizungkonfiguratorUserdatenQuery extends ModelCriteria
     }
 
     /**
+     * Filter the query on the etagen column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByEtagen(1234); // WHERE etagen = 1234
+     * $query->filterByEtagen(array(12, 34)); // WHERE etagen IN (12, 34)
+     * $query->filterByEtagen(array('min' => 12)); // WHERE etagen > 12
+     * </code>
+     *
+     * @param     mixed $etagen The value to use as filter.
+     *              Use scalar values for equality.
+     *              Use array values for in_array() equivalent.
+     *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return ChildHeizungkonfiguratorUserdatenQuery The current query, for fluid interface
+     */
+    public function filterByEtagen($etagen = null, $comparison = null)
+    {
+        if (is_array($etagen)) {
+            $useMinMax = false;
+            if (isset($etagen['min'])) {
+                $this->addUsingAlias(HeizungkonfiguratorUserdatenTableMap::ETAGEN, $etagen['min'], Criteria::GREATER_EQUAL);
+                $useMinMax = true;
+            }
+            if (isset($etagen['max'])) {
+                $this->addUsingAlias(HeizungkonfiguratorUserdatenTableMap::ETAGEN, $etagen['max'], Criteria::LESS_EQUAL);
+                $useMinMax = true;
+            }
+            if ($useMinMax) {
+                return $this;
+            }
+            if (null === $comparison) {
+                $comparison = Criteria::IN;
+            }
+        }
+
+        return $this->addUsingAlias(HeizungkonfiguratorUserdatenTableMap::ETAGEN, $etagen, $comparison);
+    }
+
+    /**
+     * Filter the query on the dach_daemmung column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByDachDaemmung('fooValue');   // WHERE dach_daemmung = 'fooValue'
+     * $query->filterByDachDaemmung('%fooValue%'); // WHERE dach_daemmung LIKE '%fooValue%'
+     * </code>
+     *
+     * @param     string $dachDaemmung The value to use as filter.
+     *              Accepts wildcards (* and % trigger a LIKE)
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return ChildHeizungkonfiguratorUserdatenQuery The current query, for fluid interface
+     */
+    public function filterByDachDaemmung($dachDaemmung = null, $comparison = null)
+    {
+        if (null === $comparison) {
+            if (is_array($dachDaemmung)) {
+                $comparison = Criteria::IN;
+            } elseif (preg_match('/[\%\*]/', $dachDaemmung)) {
+                $dachDaemmung = str_replace('*', '%', $dachDaemmung);
+                $comparison = Criteria::LIKE;
+            }
+        }
+
+        return $this->addUsingAlias(HeizungkonfiguratorUserdatenTableMap::DACH_DAEMMUNG, $dachDaemmung, $comparison);
+    }
+
+    /**
+     * Filter the query on the abgasfuehrung column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByAbgasfuehrung('fooValue');   // WHERE abgasfuehrung = 'fooValue'
+     * $query->filterByAbgasfuehrung('%fooValue%'); // WHERE abgasfuehrung LIKE '%fooValue%'
+     * </code>
+     *
+     * @param     string $abgasfuehrung The value to use as filter.
+     *              Accepts wildcards (* and % trigger a LIKE)
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return ChildHeizungkonfiguratorUserdatenQuery The current query, for fluid interface
+     */
+    public function filterByAbgasfuehrung($abgasfuehrung = null, $comparison = null)
+    {
+        if (null === $comparison) {
+            if (is_array($abgasfuehrung)) {
+                $comparison = Criteria::IN;
+            } elseif (preg_match('/[\%\*]/', $abgasfuehrung)) {
+                $abgasfuehrung = str_replace('*', '%', $abgasfuehrung);
+                $comparison = Criteria::LIKE;
+            }
+        }
+
+        return $this->addUsingAlias(HeizungkonfiguratorUserdatenTableMap::ABGASFUEHRUNG, $abgasfuehrung, $comparison);
+    }
+
+    /**
+     * Filter the query on the waermeabgabe column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByWaermeabgabe('fooValue');   // WHERE waermeabgabe = 'fooValue'
+     * $query->filterByWaermeabgabe('%fooValue%'); // WHERE waermeabgabe LIKE '%fooValue%'
+     * </code>
+     *
+     * @param     string $waermeabgabe The value to use as filter.
+     *              Accepts wildcards (* and % trigger a LIKE)
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return ChildHeizungkonfiguratorUserdatenQuery The current query, for fluid interface
+     */
+    public function filterByWaermeabgabe($waermeabgabe = null, $comparison = null)
+    {
+        if (null === $comparison) {
+            if (is_array($waermeabgabe)) {
+                $comparison = Criteria::IN;
+            } elseif (preg_match('/[\%\*]/', $waermeabgabe)) {
+                $waermeabgabe = str_replace('*', '%', $waermeabgabe);
+                $comparison = Criteria::LIKE;
+            }
+        }
+
+        return $this->addUsingAlias(HeizungkonfiguratorUserdatenTableMap::WAERMEABGABE, $waermeabgabe, $comparison);
+    }
+
+    /**
+     * Filter the query on the duschwasser column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByDuschwasser('fooValue');   // WHERE duschwasser = 'fooValue'
+     * $query->filterByDuschwasser('%fooValue%'); // WHERE duschwasser LIKE '%fooValue%'
+     * </code>
+     *
+     * @param     string $duschwasser The value to use as filter.
+     *              Accepts wildcards (* and % trigger a LIKE)
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return ChildHeizungkonfiguratorUserdatenQuery The current query, for fluid interface
+     */
+    public function filterByDuschwasser($duschwasser = null, $comparison = null)
+    {
+        if (null === $comparison) {
+            if (is_array($duschwasser)) {
+                $comparison = Criteria::IN;
+            } elseif (preg_match('/[\%\*]/', $duschwasser)) {
+                $duschwasser = str_replace('*', '%', $duschwasser);
+                $comparison = Criteria::LIKE;
+            }
+        }
+
+        return $this->addUsingAlias(HeizungkonfiguratorUserdatenTableMap::DUSCHWASSER, $duschwasser, $comparison);
+    }
+
+    /**
+     * Filter the query on the wasserabfluss column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByWasserabfluss('fooValue');   // WHERE wasserabfluss = 'fooValue'
+     * $query->filterByWasserabfluss('%fooValue%'); // WHERE wasserabfluss LIKE '%fooValue%'
+     * </code>
+     *
+     * @param     string $wasserabfluss The value to use as filter.
+     *              Accepts wildcards (* and % trigger a LIKE)
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return ChildHeizungkonfiguratorUserdatenQuery The current query, for fluid interface
+     */
+    public function filterByWasserabfluss($wasserabfluss = null, $comparison = null)
+    {
+        if (null === $comparison) {
+            if (is_array($wasserabfluss)) {
+                $comparison = Criteria::IN;
+            } elseif (preg_match('/[\%\*]/', $wasserabfluss)) {
+                $wasserabfluss = str_replace('*', '%', $wasserabfluss);
+                $comparison = Criteria::LIKE;
+            }
+        }
+
+        return $this->addUsingAlias(HeizungkonfiguratorUserdatenTableMap::WASSERABFLUSS, $wasserabfluss, $comparison);
+    }
+
+    /**
+     * Filter the query on the warmwasserversorgung column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByWarmwasserversorgung('fooValue');   // WHERE warmwasserversorgung = 'fooValue'
+     * $query->filterByWarmwasserversorgung('%fooValue%'); // WHERE warmwasserversorgung LIKE '%fooValue%'
+     * </code>
+     *
+     * @param     string $warmwasserversorgung The value to use as filter.
+     *              Accepts wildcards (* and % trigger a LIKE)
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return ChildHeizungkonfiguratorUserdatenQuery The current query, for fluid interface
+     */
+    public function filterByWarmwasserversorgung($warmwasserversorgung = null, $comparison = null)
+    {
+        if (null === $comparison) {
+            if (is_array($warmwasserversorgung)) {
+                $comparison = Criteria::IN;
+            } elseif (preg_match('/[\%\*]/', $warmwasserversorgung)) {
+                $warmwasserversorgung = str_replace('*', '%', $warmwasserversorgung);
+                $comparison = Criteria::LIKE;
+            }
+        }
+
+        return $this->addUsingAlias(HeizungkonfiguratorUserdatenTableMap::WARMWASSERVERSORGUNG, $warmwasserversorgung, $comparison);
+    }
+
+    /**
+     * Filter the query on the warmwasserversorgung_extra column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByWarmwasserversorgungExtra('fooValue');   // WHERE warmwasserversorgung_extra = 'fooValue'
+     * $query->filterByWarmwasserversorgungExtra('%fooValue%'); // WHERE warmwasserversorgung_extra LIKE '%fooValue%'
+     * </code>
+     *
+     * @param     string $warmwasserversorgungExtra The value to use as filter.
+     *              Accepts wildcards (* and % trigger a LIKE)
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return ChildHeizungkonfiguratorUserdatenQuery The current query, for fluid interface
+     */
+    public function filterByWarmwasserversorgungExtra($warmwasserversorgungExtra = null, $comparison = null)
+    {
+        if (null === $comparison) {
+            if (is_array($warmwasserversorgungExtra)) {
+                $comparison = Criteria::IN;
+            } elseif (preg_match('/[\%\*]/', $warmwasserversorgungExtra)) {
+                $warmwasserversorgungExtra = str_replace('*', '%', $warmwasserversorgungExtra);
+                $comparison = Criteria::LIKE;
+            }
+        }
+
+        return $this->addUsingAlias(HeizungkonfiguratorUserdatenTableMap::WARMWASSERVERSORGUNG_EXTRA, $warmwasserversorgungExtra, $comparison);
+    }
+
+    /**
+     * Filter the query on the warmwasserversorgung_extra_waermepumpe column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByWarmwasserversorgungExtraWaermepumpe('fooValue');   // WHERE warmwasserversorgung_extra_waermepumpe = 'fooValue'
+     * $query->filterByWarmwasserversorgungExtraWaermepumpe('%fooValue%'); // WHERE warmwasserversorgung_extra_waermepumpe LIKE '%fooValue%'
+     * </code>
+     *
+     * @param     string $warmwasserversorgungExtraWaermepumpe The value to use as filter.
+     *              Accepts wildcards (* and % trigger a LIKE)
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return ChildHeizungkonfiguratorUserdatenQuery The current query, for fluid interface
+     */
+    public function filterByWarmwasserversorgungExtraWaermepumpe($warmwasserversorgungExtraWaermepumpe = null, $comparison = null)
+    {
+        if (null === $comparison) {
+            if (is_array($warmwasserversorgungExtraWaermepumpe)) {
+                $comparison = Criteria::IN;
+            } elseif (preg_match('/[\%\*]/', $warmwasserversorgungExtraWaermepumpe)) {
+                $warmwasserversorgungExtraWaermepumpe = str_replace('*', '%', $warmwasserversorgungExtraWaermepumpe);
+                $comparison = Criteria::LIKE;
+            }
+        }
+
+        return $this->addUsingAlias(HeizungkonfiguratorUserdatenTableMap::WARMWASSERVERSORGUNG_EXTRA_WAERMEPUMPE, $warmwasserversorgungExtraWaermepumpe, $comparison);
+    }
+
+    /**
      * Filter the query by a related \HookKonfigurator\Model\HeizungkonfiguratorImage object
      *
      * @param \HookKonfigurator\Model\HeizungkonfiguratorImage|ObjectCollection $heizungkonfiguratorImage  the related object to use as filter
@@ -1188,10 +1497,10 @@ abstract class HeizungkonfiguratorUserdatenQuery extends ModelCriteria
             // use transaction because $criteria could contain info
             // for more than one table or we could emulating ON DELETE CASCADE, etc.
             $con->beginTransaction();
-            
+
 
         HeizungkonfiguratorUserdatenTableMap::removeInstanceFromPool($criteria);
-        
+
             $affectedRows += ModelCriteria::delete($con);
             HeizungkonfiguratorUserdatenTableMap::clearRelatedInstancePool();
             $con->commit();
