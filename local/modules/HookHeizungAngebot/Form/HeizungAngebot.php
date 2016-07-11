@@ -250,19 +250,7 @@ class HeizungAngebot extends BaseForm
 				"data" => 1
 		))
        
-        ->add("lage", "choice", array(
-				"choices" => array (
-						1 => Translator::getInstance()->trans("Küche"),
-						2 => Translator::getInstance()->trans("Vorraum"),
-                        3 => Translator::getInstance()->trans("Sonstiges")
-						
-				),
-				"label" => Translator::getInstance()->trans("In welchem Raum soll die Therme installiert werden?"),
-				"label_attr" => array(
-                    "for" => "lage",
-                ),
-				"data" => 1
-		))
+
              
         ->add("anzahl_aussenwaende", "choice", array(
 				"choices" => array (
@@ -291,136 +279,88 @@ class HeizungAngebot extends BaseForm
 				"data" => 1
 		))
 
-             
-        ->add("thermoregulator", "choice", array(
+         ->add("heizungsmethode", "choice", array(
 				"choices" => array (
-						1 => Translator::getInstance()->trans("Ja"),
-						2 => Translator::getInstance()->trans("Nein")
-						
+						1 => $this->setLabel("heizungsmethode",1,"Heizkörper"),
+						2 => $this->setLabel("heizungsmethode",2,"Fußbodenheizung"),
+						3 => $this->setLabel("heizungsmethode",3,"Heizkörper und Fußbodenheizung"),
+                        4 => $this->setLabel("heizungsmethode",4,"Sonstiges")
 				),
-				"label" => Translator::getInstance()->trans("Wird es einen Thermoregulator geben oder nicht?"),
+				"label" => Translator::getInstance()->trans("Wie erfolgt die Wärmeabgabe?"),
 				"label_attr" => array(
-                    "for" => "lage",
+                    "for" => "heizungsmethode"
                 ),
 				"data" => 1
-		))
-        ->add("marke", "text", array(
-         		"label" => Translator::getInstance()->trans("Welche Marke von Thermen hätten Sie gerne"),
-         		"label_attr" => array(
-         				"for" => "marke",
-         		)
-         ))
+		)) 
              
-        ->add("radiatortyp", "choice", array(
+        ->add("warmwasserversorgung", "choice", array(
 				"choices" => array (
-						1 => Translator::getInstance()->trans("Alumin"),
-						2 => Translator::getInstance()->trans("Edelstahl"),
-						3 => Translator::getInstance()->trans("Integrierbare Konvektoren"),
-                        3 => Translator::getInstance()->trans("Designer Heizkörper"),
-                        4 => Translator::getInstance()->trans("Bodenkonvektoren")
-				),
-				"label" => Translator::getInstance()->trans("Welchen Heizkörpertyp hätten Sie gerne?"),
-				"label_attr" => array(
-                    "for" => "radiatortyp",
-                ),
-				"data" => 1
-		))
-             
-         ->add("heizkoerpermarke", "choice", array(
-				"choices" => array (
-						1 => Translator::getInstance()->trans("Buderus"),
-						2 => Translator::getInstance()->trans("Giese"),
-                        3=> Translator::getInstance()->trans("Heimeier"),
-                        4=> Translator::getInstance()->trans("HSK"),
-                        5=> Translator::getInstance()->trans("Kermi"),
-						6 => Translator::getInstance()->trans("Sonstige")
-				),
-				"label" => Translator::getInstance()->trans("Wie hätten Sie Ihren Heizkörper gerne installiert?"),
-				"label_attr" => array(
-                    "for" => "heizkoerpermarke",
-                ),
-				"data" => 1
-		))
-             
-        ->add("anschlussarten", "choice", array(
-				"choices" => array (
-						1 => Translator::getInstance()->trans("In der Wand"),
-						2 => Translator::getInstance()->trans("An der Wand")
-                        
-				),
-				"label" => Translator::getInstance()->trans("Wie hätten Sie Ihren Heizkörper gerne installiert??"),
-				"label_attr" => array(
-                    "for" => "anschlussarten",
-                ),
-				"data" => 1
-		))
-             
-        ->add("waermepumpe", "choice", array(
-				"choices" => array (
-						1 => Translator::getInstance()->trans("ja"),
-						2 => Translator::getInstance()->trans("nein")
-                        
-				),
-				"label" => Translator::getInstance()->trans("Haben Sie früher eine Wärmepumpe gehabt?"),
-				"label_attr" => array(
-                    "for" => "waermepumpe",
-                ),
-				"data" => 1
-		))
+						1 => $this->setLabel("warmwasserversorgung",1,"Ja"),
+						2 => $this->setLabel("warmwasserversorgung",2,"Nein")
 
+				),
+				"label" => Translator::getInstance()->trans("Planen Sie auch eine Warmwasserversorgung? "),
+				"label_attr" => array(
+                    "for" => "warmwasserversorgung"
+                ),
+				"data" => 1
+		))
+             
+                     
+        ->add("wasserabfluss", "choice", array(
+				"choices" => array (
+						1 => $this->setLabel("wasserabfluss",1,"Ja"),
+						2 => $this->setLabel("wasserabfluss",2,"Nein")
 
-                    
-        ->add("ausgaenge", "text", array(
-         		"label" => Translator::getInstance()->trans("Wie viele Wasserausgänge soll es geben?"),
-         		"label_attr" => array(
-         				"for" => "ausgaenge",
-         		)
-         )) 
-             
-        ->add("roehrenheizkoerper", "choice", array(
-				"choices" => array (
-						1 => Translator::getInstance()->trans("ja"),
-						2 => Translator::getInstance()->trans("nein")
-                        
 				),
-				"label" => Translator::getInstance()->trans("Möchten Sie noch einen Röhrenheizkörper haben?"),
+				"label" => Translator::getInstance()->trans("Ist ein Wasserabfluss unter der Heizung vorhanden? "),
 				"label_attr" => array(
-                    "for" => "roehrenheizkoerper",
+                    "for" => "wasserabfluss"
+                ),
+				"data" => 2
+		))
+             
+         ->add("solaranlage", "choice", array(
+				"choices" => array (
+						1 => $this->setLabel("solaranlage",1,"Ja"),
+						2 => $this->setLabel("solaranlage",2,"Nein")
+
+				),
+				"label" => Translator::getInstance()->trans("Planen Sie auch eine Solaranlage? "),
+				"label_attr" => array(
+                    "for" => "warmwasserversorgung"
+                ),
+				"data" => 2
+		))
+             
+         ->add("solaranlageextra", "choice", array(
+				"choices" => array (
+						1 => $this->setLabel("solaranlageextra",1,"Nur für Warmwasser"),
+						2 => $this->setLabel("solaranlageextra",2,"Für Warmwasser und Heizung")
+
+				),
+				
+				"label_attr" => array(
+                    "for" => "solaranlageextra"
                 ),
 				"data" => 1
 		))
-             
-        ->add("fittings", "choice", array(
+                     
+         ->add("photovoltaik", "choice", array(
 				"choices" => array (
-						1 => Translator::getInstance()->trans("Pressfitting"),
-						2 => Translator::getInstance()->trans("Steckfitting"),
-                        3 => Translator::getInstance()->trans("Polypropylen"),
-                        
+						1 => $this->setLabel("photovoltaik",1,"Ja"),
+						2 => $this->setLabel("photovoltaik",2,"Nein")
+
 				),
-				"label" => Translator::getInstance()->trans("Röhre und Fittings?"),
+				"label" => Translator::getInstance()->trans("Planen Sie auch eine Photovoltaik"),
 				"label_attr" => array(
-                    "for" => "fittings",
+                    "for" => "photovoltaik"
                 ),
-				"data" => 1
+				"data" => 2
 		))
-             
-        ->add("roehremarke", "choice", array(
-				"choices" => array (
-						1 => Translator::getInstance()->trans("Buderus"),
-						2 => Translator::getInstance()->trans("Boffi"),
-                        3 => Translator::getInstance()->trans("Bette"),
-                        4 => Translator::getInstance()->trans("Decor Walter"),
-                        5 => Translator::getInstance()->trans("Dornbracht")
-                        
-				),
-				"label" => Translator::getInstance()->trans("Marke der Röhre?"),
-				"label_attr" => array(
-                    "for" => "fittings",
-                ),
-				"data" => 1
-		))
-		
-        
+       
+      
+      
 		
 		->add("anmerkungen", "text", array(
 		"label" => Translator::getInstance()->trans("anmerkungen"),
