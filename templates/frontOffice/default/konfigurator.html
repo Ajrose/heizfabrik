@@ -492,7 +492,7 @@
                      })
                      .done(function (data, textStatus, request) {
                       $waermebedarf = request.getResponseHeader('waermebedarf');
-                      if($waermebedarf != null) 
+                      //if($waermebedarf != null) 
                       // $('#waermebedarf').text("Wärmebedarf ist: "+$waermebedarf+"KW");
 
                       $("#category-products").empty().append(data);
