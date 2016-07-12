@@ -578,6 +578,7 @@ class ProductHeizung extends BaseI18nLoop implements PropelSearchLoopInterface, 
 				->setWaermeabgabe($request->request->get('konfigurator')['waermeabgabe'])
 				->setDuschwasser($request->request->get('konfigurator')['duschwasser'])
 				->setWasserabfluss($request->request->get('konfigurator')['wasserabfluss'])
+				->setDachDaemmung($request->request->get('konfigurator')['dach_daemmung'])
 				->setWarmwasserversorgung($request->request->get('konfigurator')['warmwasserversorgung'])
 				->setWarmwasserversorgungExtra($request->request->get('konfigurator')['warmwasserversorgung-extra'])
 				->setWarmwasserversorgungExtraWaermepumpe($request->request->get('konfigurator')['warmwasserversorgung-extra-waermepumpe'])				
@@ -664,6 +665,9 @@ class ProductHeizung extends BaseI18nLoop implements PropelSearchLoopInterface, 
 		$heizungJoin->setJoinType ( Criteria::LEFT_JOIN );
 
 		$brennstoff = $konfigurator->getBrennstoffZukunft();
+		if($brennstoff == 4)$brennstoff == 99;//no products
+		
+		
 		$warm_water = $request->request->get('konfigurator')['warmwasserversorgung'];
 		
 		if($warm_water != 2)

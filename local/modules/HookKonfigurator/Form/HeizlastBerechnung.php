@@ -329,7 +329,7 @@ class HeizlastBerechnung extends BaseForm
 				"label_attr" => array(
                     "for" => "warmwasserversorgung"
                 ),
-				"data" => 1
+				"data" => 2
 		))                 
         ->add("warmwasserversorgung-extra", "choice", array(
 				"choices" => array (

@@ -399,15 +399,13 @@
  <script src="{javascript file='assets/dist/js/vendors/classie.js'}"></script>
  <script src="{javascript file='assets/dist/js/vendors/selectFx.js'}"></script>
  <script src="{javascript file='assets/dist/js/vendors/fullscreenForm.js'}"></script>
-<script>
-    
-    
+<script> 
     
    $("#warmwasserversorgung").change(function(){
        var radiovalue =  $('.radiovalue:checked').val();
        var radiovaluebrennstoff =  $('.radiovaluebrennstoff:checked').val();
       
-       if(radiovaluebrennstoff==4){
+       if((radiovaluebrennstoff==4) || (radiovaluebrennstoff==2) || (radiovaluebrennstoff==3)){
         if(radiovalue==1){
           
         $("#warmwasserversorgung-extra").hide();
@@ -426,10 +424,8 @@
             else{
            $("#warmwasserversorgung-extra-waermepumpe").hide();
             $("#warmwasserversorgung-extra").hide();
-            }   
-
+            }  
 });
-    
          
   /* $("#brennstoff_zukunft").change(function(){
        var radiovaluebrennstoff =  $('.radiovaluebrennstoff:checked').val();
@@ -446,12 +442,8 @@
         $("#warmwasserversorgung-extra-waermepumpe").hide();
         $("#warmwasserversorgung-extra").hide();
             }
-
 });*/
-    
 </script>
-
-
 
 <!--Dropzone script start-->
 
@@ -468,9 +460,12 @@
                      .done(function (data, textStatus, request) {
                       $waermebedarf = request.getResponseHeader('waermebedarf');
                       if($waermebedarf != null) 
-                       $('#waermebedarf').text("Wärmebedarf ist: "+$waermebedarf+"KW");
+                       //$('#waermebedarf').text("Wärmebedarf ist: "+$waermebedarf+"KW");
 
+                      
+                      if(data.indexOf("product-info")>0)
                       $("#category-products").empty().append(data);
+                      else $("#category-products").empty().append('Kein Ergebniss, versuchen Sie bitte ein individuelle Angebot');
                      })
                      .fail(function (jqXHR, textStatus, errorThrown) {
                       if (typeof jqXHR.responseJSON !== 'undefined') {
@@ -498,7 +493,7 @@
                      .done(function (data, textStatus, request) {
                       $waermebedarf = request.getResponseHeader('waermebedarf');
                       if($waermebedarf != null) 
-                       $('#waermebedarf').text("Wärmebedarf ist: "+$waermebedarf+"KW");
+                      // $('#waermebedarf').text("Wärmebedarf ist: "+$waermebedarf+"KW");
 
                       $("#category-products").empty().append(data);
                      })

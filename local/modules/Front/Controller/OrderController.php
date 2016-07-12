@@ -428,7 +428,7 @@ class OrderController extends BaseFrontController
     protected function getOrderEvent()
     {
         $order = $this->getOrder($this->getRequest());
-
+        Tlog::getInstance()->error(" orderdebug ordercontroller ".$order);
         return new OrderEvent($order);
     }
 
@@ -439,6 +439,7 @@ class OrderController extends BaseFrontController
         if (null !== $order = $session->getOrder()) {
             return $order;
         }
+        Tlog::getInstance()->error(" orderdebug order not in session ");
 
         $order = new Order();
 

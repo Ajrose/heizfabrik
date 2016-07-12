@@ -32,6 +32,7 @@ use Thelia\Model\ConfigQuery;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\FileBag;
+use HookKonfigurator\Model\HeizungkonfiguratorAngebot;
 /**
  * Class ContactController
  * @package Thelia\Controller\Front
@@ -45,6 +46,15 @@ class HeizungAngebotController extends BaseFrontController
     public function sendAction()
     {
         $log = Tlog::getInstance();
+        
+        $request = $this->getRequest();
+        
+        $currentCustomer = $this->getSecurityContext()->getCustomerUser();
+        if($currentCustomer == null)
+        	$currentCustomer	= 0;//$this->getCurrentRequest()->getSession()->getId();
+        else $currentCustomer = $currentCustomer->getId();
+        
+        
         $contactForm = $this->createForm("heizung.angebot");
         $form = $this->validateForm($contactForm);
         $subject = "Heizung Individuelles Angebot";
@@ -54,63 +64,176 @@ class HeizungAngebotController extends BaseFrontController
         $phone =  $this->getRequest()->get('heizungangebot')['phone'];
         $cellphone = $this->getRequest()->get('heizungangebot')['cellphone'];
         $building_etage = $this->getRequest()->get('heizungangebot')['building_etage'];
-        $etage = $this->getRequest()->get('heizungangebot')['etage'];
+        $email = $this->getRequest()->get('heizungangebot')['email'];
         
-        //§gebaeudeart = $this->getRequest()->get('klimaangebot')['gebaeudeart'];
-        //§marke = $this->getRequest()->get('klimaangebot')['marke'];
-        //§geraetetyp = $this->getRequest()->get('klimaangebot')['geraetetyp'];
-        //§distance = $this->getRequest()->get('klimaangebot')['distance'];
+        
+        $brennstoffZukunft = $request->request->get('heizungangebot')['brennstoff_zukunft'];
+        $brennstoffZukunft = $contactForm->getLabel("brennstoff_zukunft",$brennstoffZukunft);
+        
+        $gebaudeart = $request->request->get('heizungangebot')['gebaeudeart'];
+        $gebaudeart = $contactForm->getLabel("gebaeudeart",$gebaudeart);
+        
+        $baujahr = $request->request->get('heizungangebot')['baujahr'];
+        $baujahr = $contactForm->getLabel("baujahr",$baujahr);
+        
+        $personen_anzahl = $request->request->get('heizungangebot')['personen_anzahl'];
+        //$personen_anzahl = $contactForm->getLabel("personen_anzahl",$personen_anzahl);       
+        
+        $lage_des_gebaeudes = $request->request->get('heizungangebot')['lage_des_gebaeudes'];
+        $lage_des_gebaeudes = $contactForm->getLabel("lage_des_gebaeudes",$lage_des_gebaeudes);        
+        
+        $building_etage = $request->request->get('heizungangebot')['building_etage'];
+        
+        $windlage_des_gebaudes = $request->request->get('heizungangebot')['windlage_des_gebaudes'];
+        $windlage_des_gebaudes = $contactForm->getLabel("windlage_des_gebaudes",$windlage_des_gebaudes);
+        
+        $anzahl_aussenwaende = $request->request->get('heizungangebot')['anzahl_aussenwaende'];
+        $anzahl_aussenwaende = $contactForm->getLabel("anzahl_aussenwaende",$anzahl_aussenwaende);
+        
+        $abgasfuehrung = $request->request->get('heizungangebot')['abgasfuehrung'];
+        $abgasfuehrung = $contactForm->getLabel("abgasfuehrung",$abgasfuehrung);
+        
+        $dach_daemmung = $request->request->get('heizungangebot')['dach_daemmung'];
+        $dach_daemmung = $contactForm->getLabel("dach_daemmung",$dach_daemmung);
+        
+        $fenster = $request->request->get('heizungangebot')['fenster'];
+        $fenster = $contactForm->getLabel("fenster",$fenster); 
+        
+        $wohnraumtemperatur = $request->request->get('heizungangebot')['wohnraumtemperatur'];
+        $wohnraumtemperatur = $contactForm->getLabel("wohnraumtemperatur",$wohnraumtemperatur); 
+        
+        $aussentemperatur = $request->request->get('heizungangebot')['aussentemperatur'];
+        $aussentemperatur = $contactForm->getLabel("aussentemperatur",$aussentemperatur);
+        
+        $waermedaemmung = $request->request->get('heizungangebot')['waermedaemmung'];
+        $waermedaemmung = $contactForm->getLabel("waermedaemmung",$waermedaemmung);
+        
+        $flaeche = $request->request->get('heizungangebot')['flaeche'];
+        //$flaeche = $contactForm->getLabel("flaeche",$flaeche);
+        
+        $warmwasserversorgung = $request->request->get('heizungangebot')['warmwasserversorgung'];
+        $warmwasserversorgung = $contactForm->getLabel("warmwasserversorgung",$warmwasserversorgung);
+        
+        $anmerkungen = $request->request->get('heizungangebot')['anmerkungen'];
+        //$anmerkungen = $contactForm->getLabel("anmerkungen",$anmerkungen);
+        
+        $wasserabfluss = $request->request->get('heizungangebot')['wasserabfluss'];
+        $wasserabfluss = $contactForm->getLabel("wasserabfluss",$wasserabfluss);
+        
+        $plan_heizung = $request->request->get('heizungangebot')['plan_heizung'];
+        $plan_heizung = $contactForm->getLabel("plan_heizung",$plan_heizung);
+        
+        $building_etage = $request->request->get('heizungangebot')['building_etage'];
+        //$building_etage = $contactForm->getLabel("building_etage",$building_etage);
+        
+        $heizungsmethode = $request->request->get('heizungangebot')['heizungsmethode'];
+        $heizungsmethode = $contactForm->getLabel("heizungsmethode",$heizungsmethode);
+        
+        $solaranlage = $request->request->get('heizungangebot')['solaranlage'];
+        $solaranlage = $contactForm->getLabel("solaranlage",$solaranlage);
+        
+        $solaranlageextra = $request->request->get('heizungangebot')['solaranlageextra'];
+        $solaranlageextra = $contactForm->getLabel("solaranlageextra",$solaranlageextra);
+        
+        $photovoltaik = $request->request->get('heizungangebot')['photovoltaik'];
+        $photovoltaik = $contactForm->getLabel("photovoltaik",$photovoltaik);
 
+        $heizungsAngebot = new HeizungkonfiguratorAngebot();
+        $heizungsAngebot
+        ->setBrennstoffZukunft($brennstoffZukunft)
+        ->setGebaeudeart($gebaudeart)
+        ->setBaujahr($baujahr)
+        ->setPersonenAnzahl($personen_anzahl)        
+        ->setGebaeudelage($lage_des_gebaeudes)
+        ->setWindlage($windlage_des_gebaudes)
+        ->setAnzahlAussenwaende($anzahl_aussenwaende)
+        ->setAbgasfuehrung($abgasfuehrung)        
+        ->setDachDaemmung($dach_daemmung)        
+        ->setVerglasteFenster($fenster)
+        ->setWohnraumtemperatur($wohnraumtemperatur)
+        ->setAussentemperatur($aussentemperatur)
+        ->setWaermedaemmung($waermedaemmung)
+        ->setFlaeche($flaeche)
+        ->setWarmwasserversorgung($warmwasserversorgung)
+        ->setAnmerkungen($anmerkungen)
+        ->setWasserabfluss($wasserabfluss)
+        ->setPlanHeizung($plan_heizung)
+        ->setBuildingEtagen($building_etage)
+        ->setHeizungsmethode($heizungsmethode)
+        ->setSolaranlage($solaranlage)
+        ->setSolaranlageextra($solaranlageextra)
+        ->setPhotovoltaik($photovoltaik)
+        ->setCreatedAt(date ( "Y-m-d H:i:s" ))
+        ->setUserId($currentCustomer)
+        ->setVersion("1.0")
+        ->save();
 
-        
-        $headers  = 'MIME-Version: 1.0' . "\r\n";
-        $headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
-        
-     //   $image_upload =  $this->getRequest()->get('customservices')['image_upload'];
-        // $image_upload = new UploadedFile();
-       //  $image_upload->getClientOriginalName()
-        // $image_upload->
         $files = new FileBag();
         $files = $this->getRequest()->files;
         
-       // $image_upload_name = implode(" ",$files->keys());
-        //$image_upload = new UploadedFile();
-        $image_upload = $files->get("heizungangebot")["image_upload"];
+        $storeName="Hausfabrik";
+        $contactEmail="ani.jalavyan@sepa.at";
+        $instance = \Swift_Message::newInstance()
+        ->addTo($emailTest, $storeName)
+        ->addFrom($contactEmail, $storeName)
+        ->setSubject($subject)
+        ->setContentType("text/html");  
         
-        //$image_upload->mov   e($directory)
+        $imagesHTML = "";
         $new_image_path = THELIA_ROOT .ConfigQuery::read('images_library_path')."/imani";
-        if($image_upload != null){
-        $new_image_name = $image_upload->getClientOriginalName();
-        $image_upload->move($new_image_path ,$new_image_name);
-        $image_full_path = $new_image_path."/".$new_image_name;
-        }else {
-        	$image_upload = "no_image";
-        	$image_full_path = "no_image";
-        }
-        $message = "Vorname:".$firstname."<br>Nachname:".$lastname."<br>Telefon".$phone."<br>Mobil".$cellphone."<br>Wie viele Stöcke hat das Gebäude?".$building_etage." <br>In welchem Stock befindet sich Ihre Wohnung?".$etage."<br>Art des Gebäudes?<br>Marke des Gerätes?<br>Gerätetyp?<br>Wegstrecke vom Innenteil zum Außenteil?<br>Bilder<img src=".$image_upload.">";
         
-$log->error(sprintf('message : %s', $message));
-            $htmlMessage = "<p>$message</p>";
-$storeName="Hausfabrik";
-$contactEmail="ani.jalavyan@sepa.at";
-            $instance = \Swift_Message::newInstance()
-            
-                ->addTo($emailTest, $storeName)
-                ->addFrom($contactEmail, $storeName)
-                ->setSubject($subject)
-                ->setBody($message, 'text/plain')
-                ->setBody($htmlMessage, 'text/html')
-                ->setContentType("text/html")
-            ;
-            if($image_full_path != "no_image")$instance->attach(\Swift_Attachment::fromPath($new_image_path."/".$new_image_name));
-
-            try {
-                $this->getMailer()->send($instance);
-                
-            } catch (\Exception $ex) {
-               
-                $log->error(sprintf('message : %s', $ex->getMessage()));
-            }
+        if($files->get("file")!=NULL)
+        foreach ($files->get("file") as $image){
+        	if($image != null){
+        		$new_image_name = $image->getClientOriginalName();
+        		$image->move($new_image_path ,$new_image_name);
+        		$image_full_path = $new_image_path."/".$new_image_name;
+        		$imagesHTML.= '<img src="'.$image.'">"';
+        	}else 
+        		$image_full_path = "no_image";
+        	
+        	if($image_full_path != "no_image")$instance->attach(\Swift_Attachment::fromPath($new_image_path."/".$new_image_name));
+        }
+        //$message = "Vorname:".$firstname."<br>Nachname:".$lastname."<br>Telefon".$phone."<br>Mobil".$cellphone."<br>Wie viele Stöcke hat das Gebäude?".$building_etage." <br>In welchem Stock befindet sich Ihre Wohnung?<br>Art des Gebäudes?<br>Marke des Gerätes?<br>Gerätetyp?<br>Wegstrecke vom Innenteil zum Außenteil?<br>Bilder<img src=".$image_upload.">";
+        
+        if($imagesHTML != "")$imagesHTML = "Bilder ".$imagesHTML;
+        $message = "Vorname:".$firstname.
+        "<br>Nachname:".$lastname.
+        "<br>Telefon: ".$phone.
+        "<br>Mobil: ".$cellphone.
+        "<br>Email: ".$email.
+        "<br>Womit werden Sie in Zukunft heizen? ".$brennstoffZukunft.
+        "<br>Um was für ein Gebäude handelt es sich? ".$gebaudeart.
+        "<br>Wie viele Personen leben im Haushalt? ".$personen_anzahl.
+        "<br>Wann wurde das Gebäude gebaut? ".$baujahr.
+        "<br>Lage des Gebäudes? ". $lage_des_gebaeudes.
+        "<br>Windlage des Gebäudes? ". $windlage_des_gebaudes.
+        "<br>Wie viel ist die Anzahl der Außenwände? ". $anzahl_aussenwaende.
+        "<br>Wie sind Ihre Fenster verglast? ". $fenster.
+        "<br>Wie hoch ist die Wohnraumtemperatur? ". $wohnraumtemperatur.
+        "<br>Wie kalt kann bei ihnen im Winter die Außentemperatur werden? ". $aussentemperatur.
+        "<br>Ist eine Wärmedämmung vorhanden? ".  $waermedaemmung.
+        "<br>Wie viele Etagen hat Ihr Gebäude? ".$building_etage.
+        "<br>Ist das Dach gedämmt?".$dach_daemmung.
+        "<br>Wie verläuft die Abgasführung heute? ".$abgasfuehrung.
+        "<br>Ist ein Wasserabfluss unter der Heizung vorhanden? ".$wasserabfluss.
+        "<br>Soll die Warmwasserversorgung über die Heizung erfolgen? ".$warmwasserversorgung.
+        "<br>Anmerkungen zu Ihrer Heizung ".$anmerkungen.
+        "<br>Wie groß ist die zu beheizende Fläche? ".  $flaeche.
+        "<br>".$imagesHTML;
+        
+        
+        $log->error(sprintf('message : %s', $message));
+        $htmlMessage = "<p>$message</p>";
+        
+        $instance->setBody($message, 'text/plain')
+        ->setBody($htmlMessage, 'text/html');
+        
+        try {
+        	$this->getMailer()->send($instance);
+        } catch (\Exception $ex) {
+        	$log->error(sprintf('message : %s', $ex->getMessage()));
+        }
 
 
            return $this->generateRedirectFromRoute('heizung.angebot.success');

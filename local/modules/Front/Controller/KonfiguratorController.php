@@ -38,29 +38,83 @@ class KonfiguratorController extends BaseFrontController {
         
         //$log->error(" heizungskonfiguratorsendmail ".$konfiguratorDaten);
         
-        //$konfiguratorDaten= new HeizungkonfiguratorUserdaten();
+        //$konfiguratorDaten = new HeizungkonfiguratorUserdaten();
+        $heizungskonfiguratorForm = $this->createForm("konfigurator.heizlast.berechnung");
         
-        $brennstoffMomentan=$konfiguratorDaten->getBrennstoffMomentan();
-        $brennstoffZukunft=$konfiguratorDaten->getBrennstoffZukunft();
-        $gebaeudeArt=$konfiguratorDaten->getGebaeudeart();
-        $personenAnzahl=$konfiguratorDaten->getPersonenAnzahl();
-        $baujahr=$konfiguratorDaten->getBaujahr();
-        $gebaeudelage=$konfiguratorDaten->getGebaeudelage();
-        $windlage=$konfiguratorDaten->getWindlage();
-        $anzahlAussenwaende=$konfiguratorDaten->getAnzahlAussenwaende();
-        $verglasteFenster=$konfiguratorDaten->getVerglasteFenster();
-        $wohnraumtemperatur=$konfiguratorDaten->getWohnraumtemperatur();
-        $aussentemperatur=$konfiguratorDaten->getAussentemperatur();
-        $waermedaemmung=$konfiguratorDaten->getWaermedaemmung();
-        $heizflaeche=$konfiguratorDaten->getHeizflaeche();
-        $anmerkungen=$konfiguratorDaten->getAnmerkungen();
+        $brennstoffMomentan = $konfiguratorDaten->getBrennstoffMomentan();
+        $brennstoffMomentan = $heizungskonfiguratorForm->getLabel("brennstoff_momentan",$brennstoffMomentan);
         
-        $contactForm = $this->createForm("konfigurator.personal.data");
+        $brennstoffZukunft = $konfiguratorDaten->getBrennstoffZukunft();
+        $brennstoffZukunft = $heizungskonfiguratorForm->getLabel("brennstoff_zukunft",$brennstoffZukunft);
+        
+        $gebaeudeArt = $konfiguratorDaten->getGebaeudeart();
+        $gebaeudeArt = $heizungskonfiguratorForm->getLabel("gebaeudeart",$gebaeudeArt);
+        
+        $personenAnzahl = $konfiguratorDaten->getPersonenAnzahl();
+        //$personenAnzahl = $heizungskonfiguratorForm->getLabel("personen_anzahl",null);
+        
+        $baujahr = $konfiguratorDaten->getBaujahr();
+        $baujahr = $heizungskonfiguratorForm->getLabel("baujahr",$baujahr);
+        
+        $gebaeudelage = $konfiguratorDaten->getGebaeudelage();
+        $gebaeudelage = $heizungskonfiguratorForm->getLabel("lage_des_gebaeudes",$gebaeudelage);
+        
+        $windlage = $konfiguratorDaten->getWindlage();
+        $windlage = $heizungskonfiguratorForm->getLabel("windlage_des_gebaudes",$windlage);
+        
+        $anzahlAussenwaende = $konfiguratorDaten->getAnzahlAussenwaende();
+        $anzahlAussenwaende = $heizungskonfiguratorForm->getLabel("anzahl_aussenwaende",$anzahlAussenwaende);
+        
+        $verglasteFenster = $konfiguratorDaten->getVerglasteFenster();
+        $verglasteFenster = $heizungskonfiguratorForm->getLabel("fenster",$verglasteFenster);
+        
+        $wohnraumtemperatur = $konfiguratorDaten->getWohnraumtemperatur();
+        $wohnraumtemperatur = $heizungskonfiguratorForm->getLabel("wohnraumtemperatur",$wohnraumtemperatur);
+        
+        $aussentemperatur = $konfiguratorDaten->getAussentemperatur();
+        $aussentemperatur = $heizungskonfiguratorForm->getLabel("aussentemperatur",$aussentemperatur);
+        
+        $waermedaemmung = $konfiguratorDaten->getWaermedaemmung();
+        $waermedaemmung = $heizungskonfiguratorForm->getLabel("waermedaemmung",$waermedaemmung);
+        
+        $heizflaeche = $konfiguratorDaten->getHeizflaeche();
+        //$heizflaeche = $heizungskonfiguratorForm->getLabel("flaeche",$heizflaeche);
+        
+        $anmerkungen = $konfiguratorDaten->getAnmerkungen();
+        //$anmerkungen = $heizungskonfiguratorForm->getLabel("anmerkungen",$anmerkungen);
+        
+        $etagen = $konfiguratorDaten->getEtagen();
+        //$etagen = $heizungskonfiguratorForm->getLabel("", $etagen);
+        
+        $abgasfuehrung = $konfiguratorDaten->getAbgasfuehrung();
+        $abgasfuehrung = $heizungskonfiguratorForm->getLabel("abgasfuehrung",$abgasfuehrung);
+        
+        $waermeabgabe = $konfiguratorDaten->getWaermeabgabe();
+        $waermeabgabe = $heizungskonfiguratorForm->getLabel("waermeabgabe",$waermeabgabe);
+        
+        $duschwasser = $konfiguratorDaten->getDuschwasser();
+        $duschwasser = $heizungskonfiguratorForm->getLabel("duschwasser",$duschwasser);
+        
+        $dachDaemmung = $konfiguratorDaten->getDachDaemmung();
+        $dachDaemmung = $heizungskonfiguratorForm->getLabel("dach_daemmung",$dachDaemmung);
+        
+        $wasserabfluss = $konfiguratorDaten->getWasserabfluss();
+        $wasserabfluss = $heizungskonfiguratorForm->getLabel("wasserabfluss",$wasserabfluss);
+        
+        $warmwasserversorgung = $konfiguratorDaten->getWarmwasserversorgung();
+        $warmwasserversorgung = $heizungskonfiguratorForm->getLabel("warmwasserversorgung",$warmwasserversorgung);
+        
+        $warmwasserversorgungExtra = $konfiguratorDaten->getWarmwasserversorgungExtra();
+        $warmwasserversorgungExtra = $heizungskonfiguratorForm->getLabel("warmwasserversorgung-extra",$warmwasserversorgungExtra);
+        
+        $warmwasserversorgungExtraWaermepumpe = $konfiguratorDaten->getWarmwasserversorgungExtraWaermepumpe();
+        $warmwasserversorgungExtraWaermepumpe = $heizungskonfiguratorForm->getLabel("warmwasserversorgung-extra-waermepumpe",$warmwasserversorgungExtraWaermepumpe);
+        
+        
+     //   $contactForm = $this->createForm("konfigurator.personal.data");
         
     //    $contactForm = new PersonalData();
-        
-        $log->error(" formlabeltest ".$contactForm->getLabel('firstname',null));
-        $form = $this->validateForm($contactForm);
+   //     $form = $this->validateForm($contactForm);
      //  $contactForm
         $subject = "Heizungskonfigurator neue Anfrage ";
         $emailTest = "ani.jalavyan@sepa.at";
@@ -110,7 +164,6 @@ class KonfiguratorController extends BaseFrontController {
         	//Bilder<img src=".$image_upload.">"
         
        // $image_upload = $files->get("file")["image_upload"];
-        
 		if($imagesHTML != "")$imagesHTML = "Bilder ".$imagesHTML;
         $message = "Vorname:".$firstname.
         "<br>Nachname:".$lastname.
@@ -129,15 +182,22 @@ class KonfiguratorController extends BaseFrontController {
         "<br>Wie hoch ist die Wohnraumtemperatur? ". $wohnraumtemperatur.
         "<br>Wie kalt kann bei ihnen im Winter die Außentemperatur werden? ". $aussentemperatur.
         "<br>Ist eine Wärmedämmung vorhanden? ".  $waermedaemmung.
+        "<br>Wie viele Etagen hat Ihr Gebäude? ".$etagen.
+        "<br>Ist das Dach gedämmt?".$dachDaemmung.
+        "<br>Wie verläuft die Abgasführung heute? ".$abgasfuehrung.
+        "<br>Wie erfolgt die Wärmeabgabe?".$waermeabgabe.
+        "<br>Wird Duschwasser mit der Heizung erwärmt? ".$duschwasser.
+        "<br>Ist ein Wasserabfluss unter der Heizung vorhanden? ".$wasserabfluss.
+        "<br>Soll die Warmwasserversorgung über die Heizung erfolgen? ".$warmwasserversorgung.
+        "<br>Wie wollen Sie die Warmwasserversorgung haben mit einem? ".$warmwasserversorgungExtra.
+        "<br>Wie wollen Sie die Warmwasserversorgung haben mit einem? ".$warmwasserversorgungExtraWaermepumpe.
+        "<br>Anmerkungen zu Ihrer Heizung ".$anmerkungen.
         "<br>Wie groß ist die zu beheizende Fläche? ".  $heizflaeche.
         "<br>".$imagesHTML;
-       
         
         
-$log->error(sprintf('message : %s', $message));
+			$log->error(sprintf('message : %s', $message));
             $htmlMessage = "<p>$message</p>";
-
-            
 
             $instance->setBody($message, 'text/plain')
             ->setBody($htmlMessage, 'text/html');
@@ -161,12 +221,10 @@ $log->error(sprintf('message : %s', $message));
 				$currentCustomer	= 0;//$this->getCurrentRequest()->getSession()->getId();
 				else $currentCustomer = $currentCustomer->getId();
 				$log = Tlog::getInstance ();
-				$log->error(" create userdatenquery ".$currentCustomer);
-				
-				
+				$log->error(" create userdatenquery ".$currentCustomer);				
 				
 				$userdata = new HeizungkonfiguratorUserdaten();
-				$userdata->setBrennstoffMomentan($request->request->get('konfigurator')['brennstoff_momentan'])
+				$userdata //->setBrennstoffMomentan($request->request->get('konfigurator')['brennstoff_momentan'])
 				->setBrennstoffZukunft($request->request->get('konfigurator')['brennstoff_zukunft'])
 				->setGebaeudeart($request->request->get('konfigurator')['gebaeudeart'])
 				->setPersonenAnzahl($request->request->get('konfigurator')['personen_anzahl'])
@@ -185,10 +243,12 @@ $log->error(sprintf('message : %s', $message));
 				->setAbgasfuehrung($request->request->get('konfigurator')['abgasfuehrung'])
 				->setWaermeabgabe($request->request->get('konfigurator')['waermeabgabe'])
 				->setDuschwasser($request->request->get('konfigurator')['duschwasser'])
+				->setDachDaemmung($request->request->get('konfigurator')['dach_daemmung'])
 				->setWasserabfluss($request->request->get('konfigurator')['wasserabfluss'])
 				->setWarmwasserversorgung($request->request->get('konfigurator')['warmwasserversorgung'])
 				->setWarmwasserversorgungExtra($request->request->get('konfigurator')['warmwasserversorgung-extra'])
-				->setWarmwasserversorgungExtraWaermepumpe($request->request->get('konfigurator')['warmwasserversorgung-extra-waermepumpe'])				
+				->setWarmwasserversorgungExtraWaermepumpe($request->request->get('konfigurator')['warmwasserversorgung-extra-waermepumpe'])		
+				->setEtagen($request->request->get('konfigurator')['etagen'])
 				->setCreatedAt(date ( "Y-m-d H:i:s" ))
 				->setUserId($currentCustomer)
 				->setVersion("1.0")

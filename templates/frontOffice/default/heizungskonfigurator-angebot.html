@@ -20,12 +20,7 @@
             {form name="heizung.angebot"}
 				<form id="form-heizungangebot"   
      class="form-horizontal fs-form fs-form-full dropzone" action="{url path="/heizungskonfigurator-angebot/sendmail"}" method="post" autocomplete="off" enctype="multipart/form-data">
-             <!--     <div class="dropzone" id="my-awesome-dropzone" style="background:#666;" class="" style="height:150px; border:dotted 2px #CCC">
-                </div>
-                <div class="fallback">
-    <input name="file" type="file" multiple />
-  </div>
-                -->
+
                 {form_field field='error_message'}
                 	<input type="hidden" name="{$name}" value="{intl l="missing or invalid data"}" />
                 {/form_field} 
@@ -111,7 +106,7 @@
                      <div class="panel-heading">
                         2. {intl l="Fotobegehung"}
                     </div>
-                    <div class="panel-body">
+                    <div class="panel-body" id="imsirun">
                        
                     {form_field field="image_upload"}
                         <div id="dragdrop" class="fs-anim-upper">                     
@@ -395,16 +390,29 @@
                             		
                             </div><!--/.form-group-->
                         {/form_field}
-
+                        
+                        
                         {form_field field="photovoltaik"}
-							<label class="fs-field-label" for="q15">Anmerkungen zu Ihrer Heizung</label><br>
-							<textarea id="q15" name="q15" placeholder="Anmerkungen" style="width: 90%;height: 120px;"></textarea>
+                            <div class="group-cellphone{if $error} has-error{/if}" id="photovoltaik">
+                                <label class="control-label " for="{$label_attr.for}">{$label}</label><br>
+    				                 
+                              		    {foreach $choices as $choice}
+                                		<span><input id="{$label_attr.for}{$choice->value}" name="{$name}" type="radio" value="{$choice->value}"{if $value === {$choice->value}} checked{/if}><label for="q7b" class="fs-field-label-sm">{$choice->label}</label></span>
+                                	   {/foreach}
+                            		
+                            </div><!--/.form-group-->
+                        {/form_field}
+
+
+                        {form_field field="anmerkungen"}
+							<label class="fs-field-label" for="{$label_attr.for}">Anmerkungen zu Ihrer Heizung</label><br>
+							<textarea id="{$label_attr.for}" name="{$name}" placeholder="Anmerkungen" style="width: 90%;height: 120px;"></textarea>
 						
 						
                         
                             <div class="form-group group-btn">
                             <div class="control-btn col-sm-5 col-sm-offset-3">
-                                <button type="submit" class="btn btn-primary"><i class="fa fa-chevron-right"></i> {intl l="Senden"}</button>
+                                <button type="submit" class="btn btn-primary" id="btn-submit"><i class="fa fa-chevron-right"></i> {intl l="Senden"}</button>
                             </div>
                         </div><!--/.form-group-->
                         {/form_field}
@@ -444,10 +452,9 @@
 {/block}
 
 {block name="after-javascript-include"}
-<script src="{javascript file='assets/dist/js/vendors/dropzone.js'}"></script>
+ <script src="{javascript file='assets/dist/js/vendors/dropzone.js'}"></script>
+
  <script>
-    
-     
 $("#solaranlage").change(function(){
 
      var radiovalue =  $('.radiovalue:checked').val();
@@ -488,7 +495,7 @@ $("#solaranlage").change(function(){
 		        myDropzone = this; // closure
 
 		    submitButton.addEventListener("click", function(e) {
-               
+		    	
 		    	e.preventDefault();
 		      myDropzone.processQueue(); // Tell Dropzone to process all queued files.
 		    });

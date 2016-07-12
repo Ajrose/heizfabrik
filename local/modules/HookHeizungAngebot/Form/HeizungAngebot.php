@@ -358,10 +358,7 @@ class HeizungAngebot extends BaseForm
                 ),
 				"data" => 2
 		))
-       
-      
-      
-		
+ 
 		->add("anmerkungen", "text", array(
 		"label" => Translator::getInstance()->trans("anmerkungen"),
 		"label_attr" => array(
