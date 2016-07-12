@@ -10,18 +10,18 @@ class pjBaseCalendar
     private $dayNames = array("S", "M", "T", "W", "T", "F", "S");
 
     private $monthNames = array(
-    	1 => "January",
-    	2 => "February",
-    	3 => "March",
+    	1 => "Januar",
+    	2 => "Februar",
+    	3 => "März",
     	4 => "April",
-    	5 => "May",
-    	6 => "June",
-    	7 => "July",
+    	5 => "Mai",
+    	6 => "Juni",
+    	7 => "Juli",
     	8 => "August",
     	9 => "September",
     	10 => "October",
     	11 => "November",
-    	12 => "December"
+    	12 => "Dezember"
     );
 
     private $daysInMonth = array(31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31);
@@ -310,7 +310,7 @@ class pjBaseCalendar
     	{
     		$str .= '<a class="btn btn-primary btn-sm pull-left '.$this->classMonthPrev.'" data-direction="prev" data-month="'.$prev_month.'" data-year="'.$prev_year.'" href="#"><span class="glyphicon glyphicon-chevron-left"></span></a>';
     	}
-    	$str .= '<div class="pj-calendar-ym">KW '.$header.'</div>';
+    	$str .= '<div class="pj-calendar-ym">Kalenderwoche '.$header.' </div>';
     	if($this->getShowNextLink())
     	{
     		$str .= '<a class="btn btn-primary btn-sm pull-right '.$this->classMonthNext.'" data-direction="next" data-month="'.$next_month.'" data-year="'.$next_year.'" href="#"><span class="glyphicon glyphicon-chevron-right"></span></a>';
@@ -348,6 +348,7 @@ class pjBaseCalendar
     	$search = array('Month', 'Year');
     	$replace = array($week, $showYear > 0 ? $year : "");//.' '.$monthName
     	$header = str_replace($search, $replace, $option_arr['o_month_year_format']);
+    	$header.=" ".$monthName;
     	 
     	$prevW = ((int) $week - 1) < 1 ? 52 : (int) $week - 1;
     	$prevY = ((int) $week - 1) < 1 ? (int) $year - 1 : (int) $year;

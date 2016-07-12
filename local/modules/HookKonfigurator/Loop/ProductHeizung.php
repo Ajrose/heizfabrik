@@ -126,6 +126,8 @@ class ProductHeizung extends BaseI18nLoop implements PropelSearchLoopInterface, 
 		/** @var \Thelia\Core\Security\SecurityContext $securityContext */
 		$securityContext = $this->container->get ( 'thelia.securityContext' );
 
+		$taxCountry = $this->container->get('thelia.taxEngine')->getDeliveryCountry();
+		
 		/** @var \Thelia\Model\Product $product */
 		foreach ( $loopResult->getResultDataCollection () as $product ) {
 			
@@ -133,11 +135,31 @@ class ProductHeizung extends BaseI18nLoop implements PropelSearchLoopInterface, 
 			
             // Find previous and next product, in the default category.
             $default_category_id = $product->getDefaultCategoryId();
+            
+            $price = $product->getProductSaleElementss () [0]->getProductPrices () [0]->getPrice ();//should be this -> $product->getVirtualColumn('price')
+            	
+            if ($securityContext->hasCustomerUser() && $securityContext->getCustomerUser()->getDiscount() > 0) {
+            	$price = $price * (1-($securityContext->getCustomerUser()->getDiscount()/100));
+            }
+            	
+            try {
+            	$taxedPrice = $product->getTaxedPrice(
+            			$taxCountry,
+            			$price
+            			);
+            } catch (TaxEngineException $e) {
+            	$taxedPrice = null;
+            }
+            
 
             $loopResultRow
                 ->set("PRODUCT_SALE_ELEMENT", $product->getVirtualColumn('pse_id'))
                 ->set("PSE_COUNT", $product->getVirtualColumn('pse_count'))
                 ->set("QUANTITY", $product->getVirtualColumn('quantity'))
+                ->set("PRICE", $price)
+                ->set("PRICE_TAX", $taxedPrice - $price)
+                ->set("TAXED_PRICE", $taxedPrice)
+                ->set("BEST_TAXED_PRICE",  $taxedPrice)
             ;
            //   	$log->debug ( "prod ".$product->getId()." pse count ".$product->getVirtualColumn('pse_count')." quantity ".$product->getVirtualColumn('quantity'));
 			$this->addOutputFields ( $loopResultRow, $product );
@@ -176,7 +198,7 @@ class ProductHeizung extends BaseI18nLoop implements PropelSearchLoopInterface, 
 		->set ( "TAX_RULE_ID", $product->getTaxRuleId () )
 		->set ( "BRAND_ID", $product->getBrandId () ?: 0 )
 		->set ( "TITLE", $product->getTitle () )// $product->getTitle())
-		->set ( "BEST_TAXED_PRICE", $product->getProductSaleElementss () [0]->getProductPrices () [0]->getPrice ()*1.2 )
+		//->set ( "BEST_TAXED_PRICE", $product->getProductSaleElementss () [0]->getProductPrices () [0]->getPrice ()*1.2 )
 		//->set ( "CHAPO",  ) // $product->getProductI18ns()[0]->getChapo())
 		->set ( "DESCRIPTION", $product->getDescription())
 		->set ( "POWER", $product->getVirtualColumn ( 'power' ) )

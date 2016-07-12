@@ -87,6 +87,10 @@ class Service extends BaseI18nLoop implements PropelSearchLoopInterface, SearchL
 		
 		/** @var \Thelia\Core\Security\SecurityContext $securityContext */
 		$securityContext = $this->container->get ( 'thelia.securityContext' );
+		
+		$taxCountry = $this->container->get('thelia.taxEngine')->getDeliveryCountry();
+		
+		
 		$i = 1;
 		/** @var \Thelia\Model\Product $product */
 		foreach ( $loopResult->getResultDataCollection () as $product ) {
@@ -94,11 +98,29 @@ class Service extends BaseI18nLoop implements PropelSearchLoopInterface, SearchL
 			$loopResultRow = new LoopResultRow ( $product );
 			
 			//$log->debug ( "serviceloop pse_id " . $product->getVirtualColumn('pse_id')." product_id ".$product->getId() );
+			$price = $product->getProductSaleElementss () [0]->getProductPrices () [0]->getPrice ();
+			
+			if ($securityContext->hasCustomerUser() && $securityContext->getCustomerUser()->getDiscount() > 0) {
+				$price = $price * (1-($securityContext->getCustomerUser()->getDiscount()/100));
+			}
+			
+			try {
+				$taxedPrice = $product->getTaxedPrice(
+						$taxCountry,
+						$price
+						);
+			} catch (TaxEngineException $e) {
+				$taxedPrice = null;
+			}
 			
 			$loopResultRow
 			->set("SERVICE_SALE_ELEMENT", $product->getVirtualColumn('pse_id'))
 			->set("SERVICE_PSE_COUNT", $product->getVirtualColumn('pse_count'))
 			->set("SERVICE_QUANTITY", $product->getVirtualColumn('quantity'))
+			->set("SERVICE_PRICE", $price)
+			->set("SERVICE_PRICE_TAX", $taxedPrice - $price)
+			->set("SERVICE_TAXED_PRICE", $taxedPrice)
+			->set("SERVICE_BEST_TAXED_PRICE",  $taxedPrice)
 			->set("RESULT_NUMBER", $i)
 			;
 			
@@ -136,15 +158,13 @@ class Service extends BaseI18nLoop implements PropelSearchLoopInterface, SearchL
 		->set ( "SERVICE_TAX_RULE_ID", $product->getTaxRuleId () )
 		->set ( "SERVICE_BRAND_ID", $product->getBrandId () ?: 0 )
 		->set ( "SERVICE_TITLE", $product->getTitle () )// $product->getTitle())
-		->set ( "SERVICE_BEST_TAXED_PRICE", $product->getProductSaleElementss () [0]->getProductPrices () [0]->getPrice () )
+	//	->set ( "SERVICE_BEST_TAXED_PRICE", $product->getProductSaleElementss () [0]->getProductPrices () [0]->getPrice ()*1.2 )
 		//->set ( "CHAPO",  ) // $product->getProductI18ns()[0]->getChapo())
 		->set ( "SERVICE_DESCRIPTION", $product->getDescription())
 		;
 		
 		return $loopResultRow;
 	}
-
-
 	
 	public function buildModelCriteria() {
 		
