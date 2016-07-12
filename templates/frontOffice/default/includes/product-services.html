@@ -13,7 +13,7 @@
 
 	{hook name="singleproduct.top" product="{$service_id}"} 
 	
-	<a href="{$SERVICE_URL nofilter}" itemprop="url" tabindex="-1" class="product-image{if $hasQuickView == true} product-quickview{/if}  col-sm-4">
+	<a href="{$SERVICE_URL nofilter}" itemprop="url" tabindex="-1" class="product-image{if $hasQuickView == true} product-quickview{/if}  col-sm-6">
 	{loop name="product_thumbnail" type="image" product=$service_id  resize_mode="borders" limit="1"}
 		<img itemprop="image" src="{$IMAGE_URL nofilter}" class="img-responsive" alt="{$serviceTitle}">
 	{/loop}
@@ -21,7 +21,7 @@
 	{/elseloop}
 	
 	</a>
-			<div class="product-info col-sm-4">
+			<div class="product-info col-sm-6">
 				<h3 class="name">
 					<a href="{$SERVICE_URL nofilter}"><span itemprop="name">{$serviceTitle}</span></a>
 				</h3>
@@ -74,6 +74,7 @@
 						<span itemprop="price" class="price" name="price_service" >
 						{format_money number=$SERVICE_BEST_TAXED_PRICE symbol={currency attr="symbol"}}
 						</span>
+                        <small><br></small>
 						<div name="price_service_o" product="{$product_id}" style="display:none;">{$SERVICE_BEST_TAXED_PRICE}</div>
 						</span>
 						{/if}

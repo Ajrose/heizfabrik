@@ -169,20 +169,28 @@
                                     <td>
                                         <span itemprop="price" class="price-label">{intl l="Special Price:"}</span>
                             	<span id="pse-price" style="display: none;" class="price">{format_money number=$TAXED_PROMO_PRICE symbol={currency attr="symbol"}}</span>
-                                <div name="price_product_{$product_id}"> {$LISTEN_PRICE|string_format:"%.2f"}€ *</div>
+                                <div> {$LISTEN_PRICE|string_format:"%.2f"}€</div>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>Jetzt</td>
-                                    <td><div name="price_product_{$product_id}" style="font-size:20px; font-weight:bold; color:#F00">
+                                    <td><div style="font-size:20px; font-weight:bold; color:#F00">
                                 {$BEST_TAXED_PRICE|string_format:"%.2f"}€</div></td>
                                 </tr>
                                 <tr>
                                     <td>Sie sparen</td>
-                                    <td><div name="price_product_{$product_id}">
+                                    <td><div>
                                 {$LISTEN_PRICE-$BEST_TAXED_PRICE}€
                                         ({if $LISTEN_PRICE!=0} 
                                         {$percent=100-($BEST_TAXED_PRICE*100)/$LISTEN_PRICE }{$percent|string_format:"%d"}%{/if})</div></td>
+                                </tr>
+                                <tr>
+                                    <td style="height:50px" colspan="2"></td>
+                                </tr>
+                                
+                                <tr id="zwischensumme" style="display:none">
+                                     <td><div>Zwischensumme</div></td>
+                                    <td style="font-size:20px; font-weight:bold; color:#000;"><span name="price_product_{$product_id}" >{$BEST_TAXED_PRICE|string_format:"%.2f"}</span><span>€</span></td>
                                 </tr>
                                 <tr>
                                     <td ><small><br>Alle Preise inkl. 20% MwSt.</small></td>
@@ -191,9 +199,13 @@
                                     <td ><small>Ab 300 € Warenwert versandkostenfrei<sup>1)</sup></small></td>
                                 </tr>
                                 
+                                <!--tr>
+                                    <td><br><em>Folgende Services sind mit diesem Produkt verfügbar:</em></td>
+                                </tr-->
                             </table>
                             {else}  
                                 <table class="price-table">
+                                    
                                     <tr>
                                         <td>
                                         <div name="price_product_{$product_id}" style="font-size:20px; font-weight:bold;">
@@ -202,10 +214,10 @@
                                     </tr>
                                     <tr>
                                     <td ><small><br>Alle Preise inkl. 20% MwSt.</small></td>
-                                </tr>
-                                <tr>
+                                    </tr>
+                                    <tr>
                                     <td ><small>Ab 300 € Warenwert versandkostenfrei<sup>1)</sup></small></td>
-                                </tr>
+                                    </tr>
                                 </table>
                             {/if}
                            
@@ -268,7 +280,7 @@
 					
 
 					{if $parent_category != #services_category_id#}
-						<div class="products-content">
+						<div class="products-content services-checkbox">
 							<ul class="thumbnails image_picker_selector">
 								{loop type="service"  name="services_list" product_id=$product_id limit="8"}
                                {assign var="service_for_appointment" value = $SERVICE_ID} 
@@ -532,10 +544,10 @@ $('.products-content').on('click', '.thumbnail', function (event) {
 
 <script>     
 $('.products-content').on('click', '.thumbnail', function (event) {
-    
+            $("#zwischensumme").show();
 	if($(this).hasClass("selected")){
         $("#services-appointments").hide();
-   
+
 	$(this).removeClass("selected");
     //now disable inputs
      $(this).find($("[name^=service]")).prop('disabled',true);
@@ -545,7 +557,7 @@ $('.products-content').on('click', '.thumbnail', function (event) {
 	    $serviceObject = $(this).find($("[name=price_service_o]"));
 	    $productid = $serviceObject.attr('product');
 	    $productObject = $("[name=price_product_"+$productid+"]");
-	    $productObject.text(parseInt($productObject.text())-parseInt($serviceObject.text()) );
+	    $productObject.text(parseFloat($productObject.text())-parseFloat($serviceObject.text()) );
 	}
 	else  {
         $("#services-appointments").show();
@@ -555,7 +567,7 @@ $('.products-content').on('click', '.thumbnail', function (event) {
 	    $serviceObject = $(this).find($("[name=price_service_o]"));
 	    $productid = $serviceObject.attr('product');
 	    $productObject = $("[name=price_product_"+$productid+"]");
-	    $productObject.text(parseInt($productObject.text())+parseInt($serviceObject.text()) );
+	    $productObject.text(parseFloat($productObject.text())+parseFloat($serviceObject.text()) );
 	}
 });
 </script>

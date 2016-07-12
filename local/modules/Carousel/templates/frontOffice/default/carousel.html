@@ -8,14 +8,16 @@
                     {if $URL}<a href="{$URL|default:'#'}">{/if}
                     <img src="{$IMAGE_URL}" alt="{$ALT}">
                     {if $URL}</a>{/if}
-
+ <a href="{$URL|default:'#'}">
                     <div class="carousel-caption">
                         <div class="banner-title">{if $TITLE}{$TITLE nofilter}{/if}</div>
-                        <a href="{$URL|default:'#'}">
-                        <button class="btn btn-1 btn-1-banner btn-1-responsive">{if $DESCRIPTION}{$DESCRIPTION nofilter}{/if}</button>
-                        </a>
+                        {if $DESCRIPTION!=""}
+                       
+                        <button class="btn btn-1 btn-1-banner btn-1-responsive">{$DESCRIPTION nofilter}</button>
+                        
+                        {/if}
                     </div>
-
+</a>
                     
                 </figure>
                 {/loop}

@@ -5702,9 +5702,9 @@ button.list-group-item-danger.active:hover {
     font-weight:bold;
 }
 .banner-title{
-    text-shadow: 0px 4px 3px rgba(0,0,0,0.2),
+    /*text-shadow: 0px 4px 3px rgba(0,0,0,0.2),
              0px 8px 13px rgba(0,0,0,0.1),
-             0px 18px 23px rgba(0,0,0,0.1);
+             0px 18px 23px rgba(0,0,0,0.1);*/
 }
 .close:focus,
 .close:hover {
@@ -10130,7 +10130,7 @@ td.product .name>a:hover {
     
 }
 #product-details .product-info {
-    border-bottom: 1px solid #e5e5e5;
+   // border-bottom: 1px solid #e5e5e5;
     margin-bottom: 15px
 }
 #product-details .product-info .sku {
@@ -12189,7 +12189,7 @@ input[type=text]::-ms-clear {
 
 .og-grid li {
 	display: inline-block;
-	margin: 50px 35px 0 5px;
+	margin: 85px 35px 0 5px;
 	vertical-align: top;
 	//height: 250px;
     max-width:350px;
@@ -12931,4 +12931,14 @@ display: none;
 
 .price-table{
     margin:10px;
+}
+.services-checkbox{
+    max-width:320px;
+}
+.services-checkbox .name{
+    font-size:15px!important;
+}
+.zwischensumme{
+    padding-top:5px;
+    border-top:1px solid #e5e5e5;
 }
