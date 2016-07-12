@@ -186,8 +186,10 @@
 
 		    submitButton.addEventListener("click", function(e) {
                
-		    	e.preventDefault();
-		      myDropzone.processQueue(); // Tell Dropzone to process all queued files.
+                if(myDropzone.files.length!=0){
+                	e.preventDefault();
+                	  myDropzone.processQueue();// Tell Dropzone to process all queued files.
+                }
 		    });
 		  },
 	      success: function(file,response){

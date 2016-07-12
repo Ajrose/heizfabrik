@@ -496,28 +496,12 @@ $("#solaranlage").change(function(){
 
 		    submitButton.addEventListener("click", function(e) {
 		    	
-		    	e.preventDefault();
+		    	
 		      //myDropzone.processQueue(); // Tell Dropzone to process all queued files.
                 
-                if(myDropzone.files.length!=0)
-		      myDropzone.processQueue(); // Tell Dropzone to process all queued files.
-                else {
-    
-                    $.ajax({
-                      type: $("#form-heizungangebot").attr('method'),
-                      url: $("#form-heizungangebot").attr('action'),
-                      data: $("#form-heizungangebot").serialize()
-                     })
-                     .fail(function (jqXHR, textStatus, errorThrown) {
-                      if (typeof jqXHR.responseJSON !== 'undefined') {
-                       if (jqXHR.responseJSON.hasOwnProperty('form')) {
-                        $('#form_body').html(jqXHR.responseJSON.form);
-                       }
-                       $('.form_error').html(jqXHR.responseJSON.message);
-                      } else {
-                       alert(errorThrown);
-                      }
-                     });
+                if(myDropzone.files.length!=0){
+                	e.preventDefault();
+                	  myDropzone.processQueue();
                 }
                 
 		    });
