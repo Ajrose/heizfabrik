@@ -6,4 +6,3 @@ web/install/*
 log/*
 local/session
 web/schedule/app/config/config.inc.php
-web/schedule/app/config/config.inc.php
