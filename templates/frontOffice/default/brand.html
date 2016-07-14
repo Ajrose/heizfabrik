@@ -63,7 +63,7 @@
 
             {loop name="brand.info" type="brand" id=$brand_id limit="1"}
                 <section class="brand-description">
-                    <h1 id="main-label" class="page-header">{$TITLE}</h1>
+                    <!-- <h1 id="main-label" class="page-header">{$TITLE}</h1> -->
 
                     {loop name="brand.image" type="image" source="brand" id={$LOGO_IMAGE_ID} width=218 height=146 resize_mode="borders"}
                         <p><img itemprop="image" src="{$IMAGE_URL nofilter}" alt="{$TITLE}"></p>

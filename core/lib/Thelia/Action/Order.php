@@ -49,6 +49,7 @@ use Thelia\Model\TaxRuleI18n;
 use Thelia\Module\PaymentModuleInterface;
 use Thelia\Tools\I18n;
 use Thelia\Log\Tlog;
+use Thelia\Model\OrderQuery;
 
 /**
  *
@@ -175,8 +176,6 @@ class Order extends BaseAction implements EventSubscriberInterface
         $con->beginTransaction();
 
         $placedOrder = $sessionOrder->copy();
-
-        $log =Tlog::getInstance();
         
         // Be sure to create a brand new order, as copy raises the modified flag for all fields
         // and will also copy order reference and id.
@@ -423,24 +422,37 @@ class Order extends BaseAction implements EventSubscriberInterface
     {
         $session = $this->getSession();
 
-        $order = $event->getOrder();
+        $order = $event->getOrder();      
+        Tlog::getInstance()->error(" orderdebug ordercontroller ".$order);
         $paymentModule = ModuleQuery::create()->findPk($order->getPaymentModuleId());
 
         /** @var \Thelia\Module\PaymentModuleInterface $paymentModuleInstance */
         $paymentModuleInstance = $paymentModule->createInstance();
 
+        //check if there is an existing order with the current cart
+        $cart = $session->getSessionCart($dispatcher);
+        //$cart = new Cart();
+        $existingOrders = OrderQuery::create()->findOneByCartId($cart->getId());
+        
+       if($existingOrders == null)
         $placedOrder = $this->createOrder(
             $dispatcher,
             $event->getOrder(),
             $session->getCurrency(),
             $session->getLang(),
-            $session->getSessionCart($dispatcher),
+            $cart,
             $this->securityContext->getCustomerUser(),
             $this->isModuleManageStockOnCreation(
                 $dispatcher,
                 $paymentModuleInstance
             )
         );
+        else {
+        	Tlog::getInstance()->error(" orderdebug ordercontroller found existing order ".$existingOrders);
+        	$placedOrder = $existingOrders;
+        	$placedOrder->setDiscount($cart->getDiscount())
+        	->save();
+        }
 
         $dispatcher->dispatch(TheliaEvents::ORDER_BEFORE_PAYMENT, new OrderEvent($placedOrder));
 

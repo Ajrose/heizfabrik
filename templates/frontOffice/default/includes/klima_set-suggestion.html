@@ -11,7 +11,7 @@
 		{hook name="klimaset.top" set="$SET_ID"} 
 		<table border="0" cellpadding="1" celspacing="0" >	
 			<tbody >
-			<p>Set id {$SET_ID} {$SET_PSE_COUNT}, priority {$PRIORITY},efficiency {$EFFICIENCY}, complete power {$POWER}, composed image {$COMPOSED_IMAGE}, storage {$STORAGE}</p>
+			<!-- <p>Set id {$SET_ID} {$SET_PSE_COUNT}, priority {$PRIORITY},efficiency {$EFFICIENCY}, complete power {$POWER}, composed image {$COMPOSED_IMAGE}, storage {$STORAGE}</p> -->
 				{loop type="klima_products" name="product_list" setid=$SET_ID limit="8" }
 					{include file="includes/klima_product-suggestion.html" product=$ID hasBtn=true hasDescription=true hasQuickView=true width="300" height="230"}
 				{/loop}
@@ -95,7 +95,7 @@
 				 		{else}
 							<div>
 								<div class="product-btn">
-									<a href="{$URL nofilter}" class="btn btn-primary btn-block">
+									<a href="/?view=product&lang=de_DE&product_id=2301" class="btn btn-primary btn-block">
 									<i class="fa fa-eye"></i> {intl l="View product"}
 									</a>
 								</div>

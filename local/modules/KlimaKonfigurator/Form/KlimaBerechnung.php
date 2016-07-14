@@ -50,7 +50,7 @@ class KlimaBerechnung extends BaseForm
 				"label_attr" => array(
 						"for" => "grundflaeche"
 				),
-				"data" => 110
+				"data" => 10
 		))
              
             ->add("raumhoehe", "integer", array(

@@ -124,7 +124,7 @@ class OrderController extends BaseFrontController
         $this->getDispatcher()->dispatch(TheliaEvents::ORDER_SET_DELIVERY_ADDRESS, $orderEvent);
         $this->getDispatcher()->dispatch(TheliaEvents::ORDER_SET_DELIVERY_MODULE, $orderEvent);
         $this->getDispatcher()->dispatch(TheliaEvents::ORDER_SET_POSTAGE, $orderEvent);
-
+        
         return $this->generateRedirectFromRoute("order.invoice");
     }
 
@@ -331,9 +331,8 @@ class OrderController extends BaseFrontController
         $this->checkValidInvoice();
 
         $orderEvent = $this->getOrderEvent();
-
         $this->getDispatcher()->dispatch(TheliaEvents::ORDER_PAY, $orderEvent);
-
+      
         $placedOrder = $orderEvent->getPlacedOrder();
 
         if (null !== $placedOrder && null !== $placedOrder->getId()) {
@@ -428,7 +427,6 @@ class OrderController extends BaseFrontController
     protected function getOrderEvent()
     {
         $order = $this->getOrder($this->getRequest());
-        Tlog::getInstance()->error(" orderdebug ordercontroller ".$order);
         return new OrderEvent($order);
     }
 
@@ -439,7 +437,7 @@ class OrderController extends BaseFrontController
         if (null !== $order = $session->getOrder()) {
             return $order;
         }
-        Tlog::getInstance()->error(" orderdebug order not in session ");
+
 
         $order = new Order();
 

@@ -124,6 +124,9 @@ class KlimaSets extends BaseI18nLoop implements PropelSearchLoopInterface, Searc
 	 */
 	private function associateValues($loopResultRow, $set) {
 
+	//	$set = new Sets();
+		
+		
 		$loopResultRow
 		//product
 		->set ( "REF", $set->getRef () )
@@ -136,7 +139,7 @@ class KlimaSets extends BaseI18nLoop implements PropelSearchLoopInterface, Searc
 		->set ( "TAX_RULE_ID", $set->getTaxRuleId () )
 		->set ( "BRAND_ID", $set->getBrandId () ?: 0 )
 		->set ( "TITLE", $set->getTitle () )// $product->getTitle())
-		->set ( "SET_BEST_TAXED_PRICE", $set->getProductSaleElementss () [0]->getProductPrices () [0]->getPrice () )
+		->set ( "SET_BEST_TAXED_PRICE", $set->getVirtualColumn('efficiency'))//$set->getProduct()->getProductSaleElementss () [0]->getProductPrices () [0]->getPrice () *1.2)
 		//sets
 		->set ( "SET_ID", $set->getId() )
 		->set ( "PRIORITY", $set->getVirtualColumn('priority'))
@@ -150,7 +153,7 @@ class KlimaSets extends BaseI18nLoop implements PropelSearchLoopInterface, Searc
 	
 	public function buildModelCriteria() {
 		
-		$set_category = $this->getCategory();
+		$set_category = 25;//$this->getCategory();
 		
 		$request = $this->request;
 		$konfigurator = new KlimaKonfiguratorEinstellungen();
@@ -160,7 +163,7 @@ class KlimaSets extends BaseI18nLoop implements PropelSearchLoopInterface, Searc
 		
 		//$klimabedarf = $this->getPower();
 		$log = Tlog::getInstance ();
-		$log->debug(" building modelCriteria for Klima sets ".$klimabedarf);
+		$log->debug(" building modelCriteria for Klima sets ".$klimabedarf." ".$set_category);
 
 		$search = ProductQuery::create();
 		
@@ -206,10 +209,10 @@ class KlimaSets extends BaseI18nLoop implements PropelSearchLoopInterface, Searc
 		
 		$search
 		->condition ( 'power_larger_then', 'power >= ?', $klimabedarf - 1500, \PDO::PARAM_INT )
-		->condition ( 'power_smaller_then', 'power <= ?', $klimabedarf + 1500, \PDO::PARAM_INT )
+		//->condition ( 'power_smaller_then', 'power <= ?', $klimabedarf + 1500, \PDO::PARAM_INT )
 		//->where ( 'set_id = ?', 1866, \PDO::PARAM_INT );
-		->condition ( 'klima_category', 'category_id = ?', $set_category, \PDO::PARAM_INT )
-		->where ( array ('power_larger_then','power_smaller_then','klima_category' ), Criteria::LOGICAL_AND );
+		//->condition ( 'klima_category', 'category_id = ?', $set_category, \PDO::PARAM_INT )
+		->where ( array ('power_larger_then' ), Criteria::LOGICAL_AND );//,'power_smaller_then'
 
 		return $search;
 	}
