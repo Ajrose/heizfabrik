@@ -232,10 +232,10 @@ class HeizlastBerechnung extends BaseForm
 		))
 		->add("wohnraumtemperatur", "choice", array(
 				"choices" => array (
-						1 => $this->setLabel("wohnraumtemperatur",1,"15"),
-						2 => $this->setLabel("wohnraumtemperatur",2,"20"),
-                        3 => $this->setLabel("wohnraumtemperatur",3,"22"),
-						4 => $this->setLabel("wohnraumtemperatur",4,"mehr als 22")
+						1 => $this->setLabel("wohnraumtemperatur",1,"15°C"),
+						2 => $this->setLabel("wohnraumtemperatur",2,"20°C"),
+                        3 => $this->setLabel("wohnraumtemperatur",3,"22°C"),
+						4 => $this->setLabel("wohnraumtemperatur",4,"mehr als 22°C")
 				),
 				"label" => Translator::getInstance()->trans("Wie hoch ist die Wohnraumtemperatur?"),
 				"label_attr" => array(
@@ -245,10 +245,10 @@ class HeizlastBerechnung extends BaseForm
 		))
 		->add("aussentemperatur", "choice", array(
 				"choices" => array (
-						1 => $this->setLabel("aussentemperatur",1,"-10C"),
-						2 => $this->setLabel("aussentemperatur",2,"-14C/-12C"),
-                        3 => $this->setLabel("aussentemperatur",3,"-18C/-16C"),
-						4 => $this->setLabel("aussentemperatur",4,"kälter als -18C")
+						1 => $this->setLabel("aussentemperatur",1,"-10°C"),
+						2 => $this->setLabel("aussentemperatur",2,"-14°C/-12°C"),
+                        3 => $this->setLabel("aussentemperatur",3,"-18°C/-16°C"),
+						4 => $this->setLabel("aussentemperatur",4,"kälter als -18°C")
 				),
 				"label" => Translator::getInstance()->trans("Wie kalt kann bei ihnen im Winter die Außentemperatur werden?"),
 				"label_attr" => array(

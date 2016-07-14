@@ -12942,3 +12942,12 @@ display: none;
     padding-top:5px;
     border-top:1px solid #e5e5e5;
 }
+
+#form-heizungangebot span label, #form-heizungangebot select{
+    font-size:13px;
+ }  
+
+
+#form-heizungangebot input[type=checkbox], input[type=radio]{
+    margin:10px 3px 10px 10px;
+ }  
