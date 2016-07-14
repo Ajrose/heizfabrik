@@ -107,6 +107,7 @@ class MailerFactory
         // Always add the customer ID to the parameters
         $messageParameters['customer_id'] = $customer->getId();
 
+        Tlog::getInstance()->error(" sendEmailToCustomer ".$customer->getEmail()." lang ".$customer->getCustomerLang()->getLocale()." messagecode ".$messageCode);
         $this->sendEmailMessage(
             $messageCode,
             [ ConfigQuery::getStoreEmail() => ConfigQuery::getStoreName() ],
