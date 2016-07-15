@@ -13,7 +13,7 @@
 
 	{hook name="singleproduct.top" product="{$service_id}"} 
 	
-	<a href="{$SERVICE_URL nofilter}" itemprop="url" tabindex="-1" class="product-image{if $hasQuickView == true} product-quickview{/if}  col-sm-6">
+	<a href="{$SERVICE_URL nofilter}" itemprop="url" tabindex="-1" class="product-image{if $hasQuickView == true} product-quickview{/if}  col-sm-12">
 	{loop name="product_thumbnail" type="image" product=$service_id  resize_mode="borders" limit="1"}
 		<img itemprop="image" src="{$IMAGE_URL nofilter}" class="img-responsive" alt="{$serviceTitle}">
 	{/loop}
@@ -21,7 +21,7 @@
 	{/elseloop}
 	
 	</a>
-			<div class="product-info col-sm-6">
+			<div class="product-info col-sm-12">
 				<h3 class="name">
 					<a href="{$SERVICE_URL nofilter}"><span itemprop="name">{$serviceTitle}</span></a>
 				</h3>
@@ -41,7 +41,7 @@
 				{/if}
 			{/if}
 
-			<div class="product-price col-sm-6">
+			<div class="product-price col-sm-12">
 				<div class="price-container row" itemprop="offers" itemscope itemtype="http://schema.org/Offer">
 					<meta itemprop="category" content="{category attr="title"}">
 					{* List of condition : NewCondition, DamagedCondition,UsedCondition, RefurbishedCondition *}
