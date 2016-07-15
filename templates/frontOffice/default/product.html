@@ -475,7 +475,7 @@
 </script>
 
 <script>
-$('.products-content').on('click', '.thumbnail', function (event) {
+/*$('.products-content').on('click', '.thumbnail', function (event) {
     
 	if($(this).hasClass("selected")){
    
@@ -501,7 +501,7 @@ $('.products-content').on('click', '.thumbnail', function (event) {
 	    
 	   // alert($("[name=price_product_"+$productid+"]").text());
 	 //   alert($(this).find($("[name=price_product_o]")).text()+"   "+$(this).find($("[name=price_service_o]")).attr('product'));
-	}
+	}*/
 	
 //	if($(this).hasClass("selected")){
 	
@@ -548,6 +548,7 @@ $('.products-content').on('click', '.thumbnail', function (event) {
             $("#zwischensumme").show();
 	if($(this).hasClass("selected")){
         $("#services-appointments").hide();
+        $(".product-service-calendar").hide();
 
 	$(this).removeClass("selected");
     //now disable inputs
@@ -564,6 +565,7 @@ $('.products-content').on('click', '.thumbnail', function (event) {
 	}
 	else  {
         $("#services-appointments").show();
+        $(".product-service-calendar").show();
 		$(this).addClass("selected");
 	    $(this).find($("[name^=service]")).prop('disabled',false);
 	    //add service price to product

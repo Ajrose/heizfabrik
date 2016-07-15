@@ -306,7 +306,7 @@ type="text/javascript";e.parentNode.insertBefore($,e)})(document,"script");
                         <div class="info row">
                             <nav class="nav-footer col-lg-9" role="navigation">
                                 <ul class="list-unstyled list-inline">
-                                    <li><a href="agb">AGB</a></li>
+                                    <li><a href="?view=content&lang=de_DE&content_id=14">AGB</a></li>
                                     <li><a href="impressum">Impressum</a></li>
                                     <li><a href="widerruf">Widerrufsrerklärung</a></li>
                                     <li><a href="faq">Häufige Fragen (FAQ)</a></li>

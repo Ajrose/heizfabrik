@@ -29,7 +29,7 @@ class CustomServicesController extends BaseFrontController
         $form = $this->validateForm($contactForm);
         
         $subject = "Individuelle Services Anfrage";
-        $emailTest = "ani.jalavyan@sepa.at";
+        $emailTest = "angebote@hausfabrik.at";
         $project_art = $this->getRequest()->get('customservices')['projekt-art'];
         $marke =  $this->getRequest()->get('customservices')['marke'];
         $oel_gas =  $this->getRequest()->get('customservices')['oel-gas'];
@@ -68,7 +68,7 @@ class CustomServicesController extends BaseFrontController
 $log->error(sprintf('message : %s', $message));
             $htmlMessage = "<p>$message</p>";
 $storeName="Hausfabrik";
-$contactEmail="ani.jalavyan@sepa.at";
+$contactEmail="angebote@hausfabrik.at";
             $instance = \Swift_Message::newInstance()
             
                 ->addTo($emailTest, $storeName)

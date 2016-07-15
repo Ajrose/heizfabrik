@@ -110,14 +110,13 @@ class KonfiguratorController extends BaseFrontController {
         $warmwasserversorgungExtraWaermepumpe = $konfiguratorDaten->getWarmwasserversorgungExtraWaermepumpe();
         $warmwasserversorgungExtraWaermepumpe = $heizungskonfiguratorForm->getLabel("warmwasserversorgung-extra-waermepumpe",$warmwasserversorgungExtraWaermepumpe);
         
-        
-     //   $contactForm = $this->createForm("konfigurator.personal.data");
+     	//$contactForm = $this->createForm("konfigurator.personal.data");
         
     //    $contactForm = new PersonalData();
    //     $form = $this->validateForm($contactForm);
      //  $contactForm
         $subject = "Heizungskonfigurator neue Anfrage ";
-        $emailTest = "ani.jalavyan@sepa.at";
+        $emailTest = "angebote@hausfabrik.at";
         $firstname = $this->getRequest()->get('konfiguratorpersonaldata')['firstname'];
         $lastname =  $this->getRequest()->get('konfiguratorpersonaldata')['lastname'];
         $phone =  $this->getRequest()->get('konfiguratorpersonaldata')['phone'];
@@ -137,7 +136,7 @@ class KonfiguratorController extends BaseFrontController {
         $headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
         
         $storeName="Hausfabrik";
-        $contactEmail="ani.jalavyan@sepa.at";
+        $contactEmail="angebote@hausfabrik.at";
         $instance = \Swift_Message::newInstance()
         ->addTo($emailTest, $storeName)
         ->addFrom($contactEmail, $storeName)

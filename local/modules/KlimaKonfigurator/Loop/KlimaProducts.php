@@ -174,7 +174,7 @@ class KlimaProducts extends BaseI18nLoop implements PropelSearchLoopInterface, S
 	public function buildModelCriteria() {
 		
 		// there has to be some better way to convert request parameters into an entity
-		$request = $this->request;
+		//$request = $this->getCurrentRequest();
 		$setid = $this->getSetid();
 		
 		

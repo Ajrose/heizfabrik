@@ -58,7 +58,7 @@ class HeizungAngebotController extends BaseFrontController
         $contactForm = $this->createForm("heizung.angebot");
         $form = $this->validateForm($contactForm);
         $subject = "Heizung Individuelles Angebot";
-        $emailTest = "ani.jalavyan@sepa.at";
+        $emailTest = "angebote@hausfabrik.at";
         $firstname = $this->getRequest()->get('heizungangebot')['firstname'];
         $lastname =  $this->getRequest()->get('heizungangebot')['lastname'];
         $phone =  $this->getRequest()->get('heizungangebot')['phone'];
@@ -172,7 +172,7 @@ class HeizungAngebotController extends BaseFrontController
         $files = $this->getRequest()->files;
         
         $storeName="Hausfabrik";
-        $contactEmail="ani.jalavyan@sepa.at";
+        $contactEmail="angebote@hausfabrik.at";
         $instance = \Swift_Message::newInstance()
         ->addTo($emailTest, $storeName)
         ->addFrom($contactEmail, $storeName)
