@@ -284,16 +284,14 @@
 						<div class="products-content services-checkbox">
 							<ul class="thumbnails image_picker_selector">
 								{loop type="service"  name="services_list" product_id=$product_id limit="8"}
-                               {assign var="service_for_appointment" value = $SERVICE_ID} 
+                               	{assign var="service_for_appointment" value = $SERVICE_ID} 
  									{include file="includes/product-services.html"  hasServiceDescription=false hasQuickView=true width="200" height="100"}
+ 										<span class="product-service-calendar">
+											{hook name="productservice.bottom" service="{$SERVICE_ID}"}
+										</span>
 								{/loop}	
-                               
  							</ul>
  						</div>
-                    
-
-                   
-  
 					{/if}
                     
 					
@@ -456,10 +454,6 @@
     
 
     
-    
-    
-    
-    
     // Product sale elements
     var PSE_FORM = true;
     var PSE_COUNT = {$pse_count};
@@ -501,11 +495,11 @@
 	    
 	   // alert($("[name=price_product_"+$productid+"]").text());
 	 //   alert($(this).find($("[name=price_product_o]")).text()+"   "+$(this).find($("[name=price_service_o]")).attr('product'));
-	}*/
+	}
 	
 //	if($(this).hasClass("selected")){
 	
-});
+});*/
 </script>
         </article><!-- /#product -->
 

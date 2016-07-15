@@ -10,8 +10,8 @@ class Front extends BaseHook{
 
     public function onMainHeadBottom(HookRenderEvent $event)
     {
-        // $content = $this->addCSS('assets/css/styles.css');
-        // $event->add($content);
+         $content = $this->addCSS('assets/css/calendar.css');
+         $event->add($content);
 		//$content = $this->addJS('asssets/js/script.js');
 		//$event->add($content);
 	}

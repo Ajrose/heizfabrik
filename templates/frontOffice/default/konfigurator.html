@@ -58,10 +58,8 @@
 							<h3>Brennstoff</h3>
                             <div id="brennstoff_zukunft">
                             {form_field field="brennstoff_zukunft"} 
-                            <div><label class="fs-field-label fs-anim-upper" for="q2">{$label}</label></div>
+                            <div><label class="fs-field-label fs-anim-upper" for="q2">{$label}</label></div> 
                             <div class="fs-radio-group fs-radio-custom clearfix fs-anim-lower">
-								
-                                
                              			
 									<div class="fs-radio-group fs-radio-normal clearfix fs-anim-lower">
                                 	{foreach $choices as $choice}
@@ -153,22 +151,24 @@
                             			{/form_field}    
                             		</div>
                             	</div>
-                            
 							</div>
-                            
 						</li>
-                        
-                        
+
 						<li>
                             <h3 class="fs-anim-upper">Aktueller Wärmeschutz</h3>
                                 {form_field field="waermedaemmung"}
+
 								<label class="fs-field-label-sm fs-anim-upper" for="q7" >{$label}</label>
                             	
 									<div class="fs-radio-group fs-radio-normal clearfix fs-anim-lower">
                                 	{foreach $choices as $choice}
-                                		<span><input id="{$label_attr.for}{$choice->value}" name="{$name}" type="radio" value="{$choice->value}"{if $value === {$choice->value}} checked{/if}><label for="q7b" class="radio-conversion fs-field-label-sm">{$choice->label}</label></span>
+                                		<span>
+                                			<input id="{$label_attr.for}{$choice->value}" name="{$name}" type="radio" value="{$choice->value}"{if $value === {$choice->value}} checked{/if}>
+                                			<label for="q7b" class="radio-conversion fs-field-label-sm">{$choice->label}</label>
+                                		</span>
                                 	{/foreach}
                             		</div>
+
                             	{/form_field}
                             
                                 {form_field field="fenster"}
@@ -601,7 +601,7 @@
 	
 });*/
     
-    
+
 (function() {
 	var formWrap = document.getElementById( 'fs-form-wrap' );
 
@@ -616,6 +616,7 @@
 
 	new FForm( formWrap, {
 		onReview : function() {
+			$form = $.("#form-konfigurator")
 			//classie.add( document.body, 'overview' ); // for demo purposes only
 		}
 	} );

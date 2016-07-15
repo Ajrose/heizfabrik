@@ -1,3 +1,5 @@
+{$locale = setlocale(LC_ALL, array('de_DE.utf8', 'de_DE', 'de'))}
+
 <div class="container-fluid">
 	<div class="row">
 		<div class="col-lg-12 col-md-12 col-sm-12">
@@ -9,7 +11,127 @@
 				</div><!-- /.panel-heading pjAsHead -->
 
 				<div class="panel-body pjAsCalendarInline">
-					<?php include PJ_VIEWS_PATH . 'pjFrontEnd/elements/calendar.php'; ?>
+					<div class="pjIcCalendar">
+						<div class="pj-calendar">
+
+						<div class="form-horizontal asEmployeeInfo">
+    						<div class="form-group" style="display: block">
+								<div class="col-lg-12 col-md-12 col-sm-12 col-sx-12">
+									<div class="pjAsTableTimes">
+									
+									
+									<div class="pj-calendar-actions">
+								  		<a class="btn btn-primary btn-sm pull-left pjAsCalendarLinkMonth" data-direction="prev" data-month="27" data-year="2016">
+											<span class="glyphicon glyphicon-chevron-left"></span>
+										</a>
+											<div class="pj-calendar-ym">
+											<span>Kalenderwoche</span>
+												<span id="calendar_week_number">{$smarty.now|date_format:"%W"}</span>
+												<span id="calendar_year">{$smarty.now|date_format:"%Y"}</span>
+												<span id="calendar_month">{$smarty.now|date_format:"%B"}</span>
+												<span id="calendar_time_reference" style="display:none;">{$smarty.now}</span>
+											</div>
+								
+										<a class="btn btn-primary btn-sm pull-right pjAsCalendarLinkMonth" data-direction="next" data-month="29" data-year="2016">
+										<span class="glyphicon glyphicon-chevron-right"></span>
+										</a>
+									</div>
+						{$currentDay = {$smarty.now|date_format}}	
+										<div class="pj-calendar-head pj-calendar-7-columns">
+								    		<div class="pj-calendar-day-header"><p>{mktime(0, 0, 0, 0, 6, 0)|date_format:"%a"}</p></div>
+								    		<div class="pj-calendar-day-header"><p>{mktime(0, 0, 0, 0, 7, 0)|date_format:"%a"}</p></div>
+								    		<div class="pj-calendar-day-header"><p>{mktime(0, 0, 0, 0, 8, 0)|date_format:"%a"}</p></div>
+								    		<div class="pj-calendar-day-header"><p>{mktime(0, 0, 0, 0, 9, 0)|date_format:"%a"}</p></div>
+								    		<div class="pj-calendar-day-header"><p>{mktime(0, 0, 0, 0, 10, 0)|date_format:"%a"}</p></div>
+								    		<div class="pj-calendar-day-header"><p>{mktime(0, 0, 0, 0, 11, 0)|date_format:"%a"}</p></div>
+								    		<div class="pj-calendar-day-header"><p>{mktime(0, 0, 0, 0, 12, 0)|date_format:"%a"}</p></div>
+							    		</div>
+				
+					
+		<div class="pj-calendar-body pj-calendar-7-columns"><div class="pj-calendar-day pj-calendar-day-past" data-iso="2016-07-11" data-time="1468195200"><p>11</p><table class="table" border="0" cellpadding="0" cellspacing="0" width="100%">
+							<tbody>						
+    							<tr><td class="text-uppercase pjAsTime pjAsTimeUnavailable"><a href="#" class="asSlotBlock " data-tsid="01" data-date="11-07-2016" data-end="07:00 AM" data-start_ts="1468220400" data-end_ts="1468227600" data-employee_id="1" data-service_id="">7:00-9:00</a></td></tr>
+								<tr><td class="text-uppercase pjAsTime pjAsTimeUnavailable"><a href="#" class="asSlotBlock " data-tsid="02" data-date="11-07-2016" data-end="09:30 PM" data-start_ts="1468229400" data-end_ts="1468236600" data-employee_id="1" data-service_id="">9:30-11:30</a></td></tr>
+								<tr><td class="text-uppercase pjAsTime pjAsTimeUnavailable"><a href="#" class="asSlotBlock " data-tsid="03" data-date="11-07-2016" data-end="12:00 PM" data-start_ts="1468238400" data-end_ts="1468245600" data-employee_id="1" data-service_id="">12:00-14:00</a></td></tr>
+    							<tr><td class="text-uppercase pjAsTime pjAsTimeUnavailable"><a href="#" class="asSlotBlock " data-tsid="03" data-date="11-07-2016" data-end="14:30 PM" data-start_ts="1468247400" data-end_ts="1468254600" data-employee_id="1" data-service_id="">14:30-16:30</a></td></tr>
+    							<tr><td class="text-uppercase pjAsTime pjAsTimeUnavailable"><a href="#" class="asSlotBlock " data-tsid="03" data-date="11-07-2016" data-end="17:00 PM" data-start_ts="1468256400" data-end_ts="1468263600" data-employee_id="1" data-service_id="">17:00-19:00</a></td></tr>
+							</tbody>
+						</table>
+					</div><div class="pj-calendar-day pj-calendar-day-past" data-iso="2016-07-12" data-time="1468281600"><p>12</p><table class="table" border="0" cellpadding="0" cellspacing="0" width="100%">
+							<tbody>						
+    							<tr><td class="text-uppercase pjAsTime pjAsTimeUnavailable"><a href="#" class="asSlotBlock " data-tsid="11" data-date="12-07-2016" data-end="07:00 AM" data-start_ts="1468306800" data-end_ts="1468314000" data-employee_id="1" data-service_id="">7:00-9:00</a></td></tr>
+								<tr><td class="text-uppercase pjAsTime pjAsTimeUnavailable"><a href="#" class="asSlotBlock " data-tsid="12" data-date="12-07-2016" data-end="09:30 PM" data-start_ts="1468315800" data-end_ts="1468323000" data-employee_id="1" data-service_id="">9:30-11:30</a></td></tr>
+								<tr><td class="text-uppercase pjAsTime pjAsTimeUnavailable"><a href="#" class="asSlotBlock " data-tsid="13" data-date="12-07-2016" data-end="12:00 PM" data-start_ts="1468324800" data-end_ts="1468332000" data-employee_id="1" data-service_id="">12:00-14:00</a></td></tr>
+    							<tr><td class="text-uppercase pjAsTime pjAsTimeUnavailable"><a href="#" class="asSlotBlock " data-tsid="13" data-date="12-07-2016" data-end="14:30 PM" data-start_ts="1468333800" data-end_ts="1468341000" data-employee_id="1" data-service_id="">14:30-16:30</a></td></tr>
+    							<tr><td class="text-uppercase pjAsTime pjAsTimeUnavailable"><a href="#" class="asSlotBlock " data-tsid="13" data-date="12-07-2016" data-end="17:00 PM" data-start_ts="1468342800" data-end_ts="1468350000" data-employee_id="1" data-service_id="">17:00-19:00</a></td></tr>
+							</tbody>
+						</table>
+					</div><div class="pj-calendar-day pj-calendar-day-past" data-iso="2016-07-13" data-time="1468368000"><p>13</p><table class="table" border="0" cellpadding="0" cellspacing="0" width="100%">
+							<tbody>						
+    							<tr><td class="text-uppercase pjAsTime pjAsTimeUnavailable"><a href="#" class="asSlotBlock " data-tsid="21" data-date="13-07-2016" data-end="07:00 AM" data-start_ts="1468393200" data-end_ts="1468400400" data-employee_id="1" data-service_id="">7:00-9:00</a></td></tr>
+								<tr><td class="text-uppercase pjAsTime pjAsTimeUnavailable"><a href="#" class="asSlotBlock " data-tsid="22" data-date="13-07-2016" data-end="09:30 PM" data-start_ts="1468402200" data-end_ts="1468409400" data-employee_id="1" data-service_id="">9:30-11:30</a></td></tr>
+								<tr><td class="text-uppercase pjAsTime pjAsTimeUnavailable"><a href="#" class="asSlotBlock " data-tsid="23" data-date="13-07-2016" data-end="12:00 PM" data-start_ts="1468411200" data-end_ts="1468418400" data-employee_id="1" data-service_id="">12:00-14:00</a></td></tr>
+    							<tr><td class="text-uppercase pjAsTime pjAsTimeUnavailable"><a href="#" class="asSlotBlock " data-tsid="23" data-date="13-07-2016" data-end="14:30 PM" data-start_ts="1468420200" data-end_ts="1468427400" data-employee_id="1" data-service_id="">14:30-16:30</a></td></tr>
+    							<tr><td class="text-uppercase pjAsTime pjAsTimeUnavailable"><a href="#" class="asSlotBlock " data-tsid="23" data-date="13-07-2016" data-end="17:00 PM" data-start_ts="1468429200" data-end_ts="1468436400" data-employee_id="1" data-service_id="">17:00-19:00</a></td></tr>
+							</tbody>
+						</table>
+					</div><div class="pj-calendar-day pj-calendar-day-past" data-iso="2016-07-14" data-time="1468454400"><p>14</p><table class="table" border="0" cellpadding="0" cellspacing="0" width="100%">
+							<tbody>						
+    							<tr><td class="text-uppercase pjAsTime pjAsTimeUnavailable"><a href="#" class="asSlotBlock " data-tsid="31" data-date="14-07-2016" data-end="07:00 AM" data-start_ts="1468479600" data-end_ts="1468486800" data-employee_id="1" data-service_id="">7:00-9:00</a></td></tr>
+								<tr><td class="text-uppercase pjAsTime pjAsTimeUnavailable"><a href="#" class="asSlotBlock " data-tsid="32" data-date="14-07-2016" data-end="09:30 PM" data-start_ts="1468488600" data-end_ts="1468495800" data-employee_id="1" data-service_id="">9:30-11:30</a></td></tr>
+								<tr><td class="text-uppercase pjAsTime pjAsTimeUnavailable"><a href="#" class="asSlotBlock " data-tsid="33" data-date="14-07-2016" data-end="12:00 PM" data-start_ts="1468497600" data-end_ts="1468504800" data-employee_id="1" data-service_id="">12:00-14:00</a></td></tr>
+    							<tr><td class="text-uppercase pjAsTime pjAsTimeUnavailable"><a href="#" class="asSlotBlock " data-tsid="33" data-date="14-07-2016" data-end="14:30 PM" data-start_ts="1468506600" data-end_ts="1468513800" data-employee_id="1" data-service_id="">14:30-16:30</a></td></tr>
+    							<tr><td class="text-uppercase pjAsTime pjAsTimeUnavailable"><a href="#" class="asSlotBlock " data-tsid="33" data-date="14-07-2016" data-end="17:00 PM" data-start_ts="1468515600" data-end_ts="1468522800" data-employee_id="1" data-service_id="">17:00-19:00</a></td></tr>
+							</tbody>
+						</table>
+					</div><div class="pj-calendar-day pjAsCalendarDate pj-calendar-day-today pj-calendar-day-selected" data-iso="2016-07-15" data-time="1468540800"><p>15</p><table class="table" border="0" cellpadding="0" cellspacing="0" width="100%">
+							<tbody>						
+    							<tr><td class="text-uppercase pjAsTime pjAsTimeAvailable"><a href="#" class="asSlotBlock asSlotAvailable" data-tsid="41" data-date="15-07-2016" data-end="07:00 AM" data-start_ts="1468566000" data-end_ts="1468573200" data-employee_id="1" data-service_id="">7:00-9:00</a></td></tr>
+								<tr><td class="text-uppercase pjAsTime pjAsTimeAvailable"><a href="#" class="asSlotBlock asSlotAvailable" data-tsid="42" data-date="15-07-2016" data-end="09:30 PM" data-start_ts="1468575000" data-end_ts="1468582200" data-employee_id="1" data-service_id="">9:30-11:30</a></td></tr>
+								<tr><td class="text-uppercase pjAsTime pjAsTimeAvailable"><a href="#" class="asSlotBlock asSlotAvailable" data-tsid="43" data-date="15-07-2016" data-end="12:00 PM" data-start_ts="1468584000" data-end_ts="1468591200" data-employee_id="1" data-service_id="">12:00-14:00</a></td></tr>
+    							<tr><td class="text-uppercase pjAsTime pjAsTimeAvailable"><a href="#" class="asSlotBlock asSlotAvailable" data-tsid="43" data-date="15-07-2016" data-end="14:30 PM" data-start_ts="1468593000" data-end_ts="1468600200" data-employee_id="1" data-service_id="">14:30-16:30</a></td></tr>
+    							<tr><td class="text-uppercase pjAsTime pjAsTimeAvailable"><a href="#" class="asSlotBlock asSlotAvailable" data-tsid="43" data-date="15-07-2016" data-end="17:00 PM" data-start_ts="1468602000" data-end_ts="1468609200" data-employee_id="1" data-service_id="">17:00-19:00</a></td></tr>
+							</tbody>
+						</table>
+					</div><div class="pj-calendar-day pj-calendar-day-inactive" data-iso="2016-07-16" data-time="1468627200"><p>16</p><table class="table" border="0" cellpadding="0" cellspacing="0" width="100%">
+							<tbody>						
+    							<tr><td class="text-uppercase pjAsTime pjAsTimeUnavailable"><a href="#" class="asSlotBlock " data-tsid="51" data-date="16-07-2016" data-end="07:00 AM" data-start_ts="1468652400" data-end_ts="1468659600" data-employee_id="1" data-service_id="">7:00-9:00</a></td></tr>
+								<tr><td class="text-uppercase pjAsTime pjAsTimeUnavailable"><a href="#" class="asSlotBlock " data-tsid="52" data-date="16-07-2016" data-end="09:30 PM" data-start_ts="1468661400" data-end_ts="1468668600" data-employee_id="1" data-service_id="">9:30-11:30</a></td></tr>
+								<tr><td class="text-uppercase pjAsTime pjAsTimeUnavailable"><a href="#" class="asSlotBlock " data-tsid="53" data-date="16-07-2016" data-end="12:00 PM" data-start_ts="1468670400" data-end_ts="1468677600" data-employee_id="1" data-service_id="">12:00-14:00</a></td></tr>
+    							<tr><td class="text-uppercase pjAsTime pjAsTimeUnavailable"><a href="#" class="asSlotBlock " data-tsid="53" data-date="16-07-2016" data-end="14:30 PM" data-start_ts="1468679400" data-end_ts="1468686600" data-employee_id="1" data-service_id="">14:30-16:30</a></td></tr>
+    							<tr><td class="text-uppercase pjAsTime pjAsTimeUnavailable"><a href="#" class="asSlotBlock " data-tsid="53" data-date="16-07-2016" data-end="17:00 PM" data-start_ts="1468688400" data-end_ts="1468695600" data-employee_id="1" data-service_id="">17:00-19:00</a></td></tr>
+							</tbody>
+						</table>
+					</div><div class="pj-calendar-day pj-calendar-day-inactive" data-iso="2016-07-17" data-time="1468713600"><p>17</p><table class="table" border="0" cellpadding="0" cellspacing="0" width="100%">
+							<tbody>						
+    							<tr><td class="text-uppercase pjAsTime pjAsTimeUnavailable"><a href="#" class="asSlotBlock " data-tsid="61" data-date="17-07-2016" data-end="07:00 AM" data-start_ts="1468738800" data-end_ts="1468746000" data-employee_id="1" data-service_id="">7:00-9:00</a></td></tr>
+								<tr><td class="text-uppercase pjAsTime pjAsTimeUnavailable"><a href="#" class="asSlotBlock " data-tsid="62" data-date="17-07-2016" data-end="09:30 PM" data-start_ts="1468747800" data-end_ts="1468755000" data-employee_id="1" data-service_id="">9:30-11:30</a></td></tr>
+								<tr><td class="text-uppercase pjAsTime pjAsTimeUnavailable"><a href="#" class="asSlotBlock " data-tsid="63" data-date="17-07-2016" data-end="12:00 PM" data-start_ts="1468756800" data-end_ts="1468764000" data-employee_id="1" data-service_id="">12:00-14:00</a></td></tr>
+    							<tr><td class="text-uppercase pjAsTime pjAsTimeUnavailable"><a href="#" class="asSlotBlock " data-tsid="63" data-date="17-07-2016" data-end="14:30 PM" data-start_ts="1468765800" data-end_ts="1468773000" data-employee_id="1" data-service_id="">14:30-16:30</a></td></tr>
+    							<tr><td class="text-uppercase pjAsTime pjAsTimeUnavailable"><a href="#" class="asSlotBlock " data-tsid="63" data-date="17-07-2016" data-end="17:00 PM" data-start_ts="1468774800" data-end_ts="1468782000" data-employee_id="1" data-service_id="">17:00-19:00</a></td></tr>
+							</tbody>
+						</table>
+					</div></div>			
+		    		
+					    				<input type="hidden" name="employee_id" value="'.$this->employeeId.'">
+					    				<input type="hidden" name="date" value="'.$selected_date.'">
+					    				<input type="hidden" name="service_id" value="'.$this->serviceId.'">
+										<input type="hidden" name="start_ts" value="'.$start_ts.'">
+										<input type="hidden" name="end_ts" value="'.$end_ts.'">
+    				
+				    				</div><!-- /.pjAsTableTimes -->
+								</div><!-- /.col-lg-8 col-md-8 col-sm-8 col-sx-12 -->
+							</div><!-- /.form-group -->
+				    		
+							<div class="form-group">
+								<div class="col-lg-9 col-lg-offset-3 col-md-9 col-md-offset-3 col-sm-9 col-sm-offset-3 col-sx-12">  
+									<input class="btn btn-default pjAsBtn pjAsBtnPrimary pjAsBtnAppointment" value="den Termin buchen" type="submit" '.($start_ts != 0 ? "" : 'disabled="disabled"' ).'">
+										<a href="#" class="btn btn-default pjAsBtn pjAsBtnSecondary pjAsBtnBackToServices">Cancel</a>
+								</div><!-- /.col-lg-8 col-lg-offset-4 col-md-8 col-md-offset-4 col-sm-8 col-sm-offset-4 col-sx-12 -->
+							</div><!-- /.form-group -->
+						</div>							
+						</div>
+					</div>
 				</div><!-- /.panel-body pjAsCalendarInline -->
 
 				<ul id="pjAsAsideCart" class="list-group pjAsAsideServices">
@@ -27,3 +149,42 @@
 
 	</div><!-- /.row -->
 </div><!-- /.container-fluid -->
+
+
+<script>
+getWeek = function(time) {
+	  var date = new Date(time);
+
+	   date.setHours(0, 0, 0, 0);
+	  // Thursday in current week decides the year.
+	  date.setDate(date.getDate() + 3 - (date.getDay() + 6) % 7);
+	  // January 4 is always in week 1.
+	  var week1 = new Date(date.getFullYear(), 0, 4);
+	  // Adjust to Thursday in week 1 and count number of weeks from date to week1.
+	  return 1 + Math.round(((date.getTime() - week1.getTime()) / 86400000
+	                        - 3 + (week1.getDay() + 6) % 7) / 7);
+	};
+
+	function(){
+	monthChangers = document.getElementsByClassName("pjAsCalendarLinkMonth");
+	alert(monthChangers.length);
+	for(var i=0;i<monthChangers.length;i++){
+		monthChangers[i].onclick = function(e) {
+			e.preventDefault();
+
+			calendar_reference = document.getElementById('calendar_time_reference');
+			calendar_week_nr = document.getElementById('calendar_week_number');
+			
+			if(this.getAttribute("data-direction") == "next")
+				calendar_reference.innerHTML = calendar_reference.innerHTML+2592000; 
+			if(this.getAttribute("data-direction") == "prev") 
+				calendar_reference.innerHTML = calendar_reference.innerHTML-2592000;  
+			alert(calendar_reference.innerHTML);
+			calendar_week_nr.innerHTML =getWeek(calendar_reference);
+		};
+	}
+				
+	};
+
+</script>
+
