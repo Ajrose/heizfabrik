@@ -200,7 +200,7 @@ type="text/javascript";e.parentNode.insertBefore($,e)})(document,"script");
                         <div class="col col-sm-12 lieferungbedienungen">
                                 <h6><strong>Alle Preise inkl. 20% MwSt., ggf. zzgl. Versandkosten</strong></h6>  *unverbindliche Preisangabe der Hersteller<br>
                                <sup>1)</sup>Ab 300 EUR Warenwert versenden wir generell in einer Lieferung versandkostenfrei in folgende Länder : Österreich<br>
-                            <small>Symbolbilder Änderungen Vorbehalten</small>
+                            <small>Die Abbildungen müssen nicht den tatsächlichen Produkten entsprechen</small>
                         </div>
                     </div>
       </section>
