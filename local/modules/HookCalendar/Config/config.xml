@@ -27,19 +27,10 @@
 
     </services>
     -->
-
-    <!--
-    <hooks>
-        <hook id="hookcalendar.hook" class="HookCalendar\Hook\MySuperHook">
-            <tag name="hook.event_listener" event="main.body.bottom" type="front|back|pdf|email" method="onMainBodyBottom" />
-        </hook>
-    </hooks>
-    productservice.bottom
-    -->
     
 	<hooks>
             <hook id="hookcalendar.hook.front" class="HookCalendar\Hook\Front" scope="request">
-                <tag name="hook.event_listener" event="main.head-bottom"  active="1" />
+                <tag name="hook.event_listener" event="main.head-bottom"  active="1"/>
                <!--  <tag name="hook.event_listener" event="product.after.javascript.initialization"/> -->
                 <tag name="hook.event_listener" event="productservice.bottom"  active="1" />
                 

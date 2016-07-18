@@ -1,8 +1,23 @@
 {$locale = setlocale(LC_ALL, array('de_DE.utf8', 'de_DE', 'de'))}
+{function name=timeslottype slot=1}
+	{if $slot == 1}pjAsTimeAvailable
+		{elseif $slot == 2}pjAsTimeBooked
+		{elseif $slot == 3} pjAsTimeSelected
+		{elseif $slot == 4} pjAsTimeBooked
+		{elseif $slot == 5} pjAsTimeUnavailable
+		{elseif $slot == 6} pjAsTimeUnavailable
+	{/if}
+{/function}
 
-<div class="container-fluid">
-	<div class="row">
-		<div class="col-lg-12 col-md-12 col-sm-12">
+{function name=daytype day=1}         
+	{if $day == 1}pj-calendar-day-past
+		{elseif $day == 2}pj-calendar-day-selected
+		{elseif $day == 3}pj-calendar-day-today
+		{elseif $day == 4}pj-calendar-day-inactive
+		{elseif $day == 5}pjAsCalendarDate
+	{/if}
+{/function}
+
 			<div class="panel panel-default pjAsContainer pjAsAside">
 				<div class="panel-heading pjAsHead">
 					<h2 class="pjAsHeadTitle">Planen Sie Ihren Termin</h2><!-- /.pjAsHeadTitle -->
@@ -18,14 +33,13 @@
     						<div class="form-group" style="display: block">
 								<div class="col-lg-12 col-md-12 col-sm-12 col-sx-12">
 									<div class="pjAsTableTimes">
-									
-									
+
 									<div class="pj-calendar-actions">
 								  		<a class="btn btn-primary btn-sm pull-left pjAsCalendarLinkMonth" data-direction="prev" data-month="27" data-year="2016">
 											<span class="glyphicon glyphicon-chevron-left"></span>
 										</a>
 											<div class="pj-calendar-ym">
-											<span>Kalenderwoche</span>
+												<span>Kalenderwoche</span>
 												<span id="calendar_week_number">{$smarty.now|date_format:"%W"}</span>
 												<span id="calendar_year">{$smarty.now|date_format:"%Y"}</span>
 												<span id="calendar_month">{$smarty.now|date_format:"%B"}</span>
@@ -36,88 +50,35 @@
 										<span class="glyphicon glyphicon-chevron-right"></span>
 										</a>
 									</div>
-						{$currentDay = {$smarty.now|date_format}}	
-										<div class="pj-calendar-head pj-calendar-7-columns">
-								    		<div class="pj-calendar-day-header"><p>{mktime(0, 0, 0, 0, 6, 0)|date_format:"%a"}</p></div>
-								    		<div class="pj-calendar-day-header"><p>{mktime(0, 0, 0, 0, 7, 0)|date_format:"%a"}</p></div>
-								    		<div class="pj-calendar-day-header"><p>{mktime(0, 0, 0, 0, 8, 0)|date_format:"%a"}</p></div>
-								    		<div class="pj-calendar-day-header"><p>{mktime(0, 0, 0, 0, 9, 0)|date_format:"%a"}</p></div>
-								    		<div class="pj-calendar-day-header"><p>{mktime(0, 0, 0, 0, 10, 0)|date_format:"%a"}</p></div>
-								    		<div class="pj-calendar-day-header"><p>{mktime(0, 0, 0, 0, 11, 0)|date_format:"%a"}</p></div>
-								    		<div class="pj-calendar-day-header"><p>{mktime(0, 0, 0, 0, 12, 0)|date_format:"%a"}</p></div>
-							    		</div>
-				
-					
-		<div class="pj-calendar-body pj-calendar-7-columns"><div class="pj-calendar-day pj-calendar-day-past" data-iso="2016-07-11" data-time="1468195200"><p>11</p><table class="table" border="0" cellpadding="0" cellspacing="0" width="100%">
-							<tbody>						
-    							<tr><td class="text-uppercase pjAsTime pjAsTimeUnavailable"><a href="#" class="asSlotBlock " data-tsid="01" data-date="11-07-2016" data-end="07:00 AM" data-start_ts="1468220400" data-end_ts="1468227600" data-employee_id="1" data-service_id="">7:00-9:00</a></td></tr>
-								<tr><td class="text-uppercase pjAsTime pjAsTimeUnavailable"><a href="#" class="asSlotBlock " data-tsid="02" data-date="11-07-2016" data-end="09:30 PM" data-start_ts="1468229400" data-end_ts="1468236600" data-employee_id="1" data-service_id="">9:30-11:30</a></td></tr>
-								<tr><td class="text-uppercase pjAsTime pjAsTimeUnavailable"><a href="#" class="asSlotBlock " data-tsid="03" data-date="11-07-2016" data-end="12:00 PM" data-start_ts="1468238400" data-end_ts="1468245600" data-employee_id="1" data-service_id="">12:00-14:00</a></td></tr>
-    							<tr><td class="text-uppercase pjAsTime pjAsTimeUnavailable"><a href="#" class="asSlotBlock " data-tsid="03" data-date="11-07-2016" data-end="14:30 PM" data-start_ts="1468247400" data-end_ts="1468254600" data-employee_id="1" data-service_id="">14:30-16:30</a></td></tr>
-    							<tr><td class="text-uppercase pjAsTime pjAsTimeUnavailable"><a href="#" class="asSlotBlock " data-tsid="03" data-date="11-07-2016" data-end="17:00 PM" data-start_ts="1468256400" data-end_ts="1468263600" data-employee_id="1" data-service_id="">17:00-19:00</a></td></tr>
+	
+									<div class="pj-calendar-head pj-calendar-7-columns">
+										{for $day_nr=6 to 12}
+								    		<div class="pj-calendar-day-header"><p>{mktime(0, 0, 0, 0, $day_nr, 0)|date_format:"%a"}</p></div>
+										{/for}
+							    	</div>
+							    	
+							    	
+									  	
+
+		<div class="pj-calendar-body pj-calendar-7-columns">
+		{foreach from=$week_available item=day}	  
+		<div class="pj-calendar-day {{daytype day=$day.type}|regex_replace:'/[\r\t\n]/':''}" data-iso="2016-07-11" data-time="1468195200"><p>{$day.nr}</p>
+		
+		<table class="table" border="0" cellpadding="0" cellspacing="0" width="100%">
+							<tbody>		
+								{foreach from=$day.ts item=timeslot}				
+    							<tr><td class="text-uppercase pjAsTime {{timeslottype slot=$timeslot.type}|regex_replace:'/[\r\t\n ]/':''}"><a href="#" class="asSlotBlock asSlotAvailable" data-start="{$timeslot.start}" data-start_ts="{$timeslot.start_ts}" data-end="{$timeslot.end}" data-end_ts="{$timeslot.end_ts}" data-employee_id="{$timeslot.employee_id}" data-service_id="{$service_id}">{$timeslot.start}-{$timeslot.end}</a></td></tr>
+								{/foreach}
 							</tbody>
 						</table>
-					</div><div class="pj-calendar-day pj-calendar-day-past" data-iso="2016-07-12" data-time="1468281600"><p>12</p><table class="table" border="0" cellpadding="0" cellspacing="0" width="100%">
-							<tbody>						
-    							<tr><td class="text-uppercase pjAsTime pjAsTimeUnavailable"><a href="#" class="asSlotBlock " data-tsid="11" data-date="12-07-2016" data-end="07:00 AM" data-start_ts="1468306800" data-end_ts="1468314000" data-employee_id="1" data-service_id="">7:00-9:00</a></td></tr>
-								<tr><td class="text-uppercase pjAsTime pjAsTimeUnavailable"><a href="#" class="asSlotBlock " data-tsid="12" data-date="12-07-2016" data-end="09:30 PM" data-start_ts="1468315800" data-end_ts="1468323000" data-employee_id="1" data-service_id="">9:30-11:30</a></td></tr>
-								<tr><td class="text-uppercase pjAsTime pjAsTimeUnavailable"><a href="#" class="asSlotBlock " data-tsid="13" data-date="12-07-2016" data-end="12:00 PM" data-start_ts="1468324800" data-end_ts="1468332000" data-employee_id="1" data-service_id="">12:00-14:00</a></td></tr>
-    							<tr><td class="text-uppercase pjAsTime pjAsTimeUnavailable"><a href="#" class="asSlotBlock " data-tsid="13" data-date="12-07-2016" data-end="14:30 PM" data-start_ts="1468333800" data-end_ts="1468341000" data-employee_id="1" data-service_id="">14:30-16:30</a></td></tr>
-    							<tr><td class="text-uppercase pjAsTime pjAsTimeUnavailable"><a href="#" class="asSlotBlock " data-tsid="13" data-date="12-07-2016" data-end="17:00 PM" data-start_ts="1468342800" data-end_ts="1468350000" data-employee_id="1" data-service_id="">17:00-19:00</a></td></tr>
-							</tbody>
-						</table>
-					</div><div class="pj-calendar-day pj-calendar-day-past" data-iso="2016-07-13" data-time="1468368000"><p>13</p><table class="table" border="0" cellpadding="0" cellspacing="0" width="100%">
-							<tbody>						
-    							<tr><td class="text-uppercase pjAsTime pjAsTimeUnavailable"><a href="#" class="asSlotBlock " data-tsid="21" data-date="13-07-2016" data-end="07:00 AM" data-start_ts="1468393200" data-end_ts="1468400400" data-employee_id="1" data-service_id="">7:00-9:00</a></td></tr>
-								<tr><td class="text-uppercase pjAsTime pjAsTimeUnavailable"><a href="#" class="asSlotBlock " data-tsid="22" data-date="13-07-2016" data-end="09:30 PM" data-start_ts="1468402200" data-end_ts="1468409400" data-employee_id="1" data-service_id="">9:30-11:30</a></td></tr>
-								<tr><td class="text-uppercase pjAsTime pjAsTimeUnavailable"><a href="#" class="asSlotBlock " data-tsid="23" data-date="13-07-2016" data-end="12:00 PM" data-start_ts="1468411200" data-end_ts="1468418400" data-employee_id="1" data-service_id="">12:00-14:00</a></td></tr>
-    							<tr><td class="text-uppercase pjAsTime pjAsTimeUnavailable"><a href="#" class="asSlotBlock " data-tsid="23" data-date="13-07-2016" data-end="14:30 PM" data-start_ts="1468420200" data-end_ts="1468427400" data-employee_id="1" data-service_id="">14:30-16:30</a></td></tr>
-    							<tr><td class="text-uppercase pjAsTime pjAsTimeUnavailable"><a href="#" class="asSlotBlock " data-tsid="23" data-date="13-07-2016" data-end="17:00 PM" data-start_ts="1468429200" data-end_ts="1468436400" data-employee_id="1" data-service_id="">17:00-19:00</a></td></tr>
-							</tbody>
-						</table>
-					</div><div class="pj-calendar-day pj-calendar-day-past" data-iso="2016-07-14" data-time="1468454400"><p>14</p><table class="table" border="0" cellpadding="0" cellspacing="0" width="100%">
-							<tbody>						
-    							<tr><td class="text-uppercase pjAsTime pjAsTimeUnavailable"><a href="#" class="asSlotBlock " data-tsid="31" data-date="14-07-2016" data-end="07:00 AM" data-start_ts="1468479600" data-end_ts="1468486800" data-employee_id="1" data-service_id="">7:00-9:00</a></td></tr>
-								<tr><td class="text-uppercase pjAsTime pjAsTimeUnavailable"><a href="#" class="asSlotBlock " data-tsid="32" data-date="14-07-2016" data-end="09:30 PM" data-start_ts="1468488600" data-end_ts="1468495800" data-employee_id="1" data-service_id="">9:30-11:30</a></td></tr>
-								<tr><td class="text-uppercase pjAsTime pjAsTimeUnavailable"><a href="#" class="asSlotBlock " data-tsid="33" data-date="14-07-2016" data-end="12:00 PM" data-start_ts="1468497600" data-end_ts="1468504800" data-employee_id="1" data-service_id="">12:00-14:00</a></td></tr>
-    							<tr><td class="text-uppercase pjAsTime pjAsTimeUnavailable"><a href="#" class="asSlotBlock " data-tsid="33" data-date="14-07-2016" data-end="14:30 PM" data-start_ts="1468506600" data-end_ts="1468513800" data-employee_id="1" data-service_id="">14:30-16:30</a></td></tr>
-    							<tr><td class="text-uppercase pjAsTime pjAsTimeUnavailable"><a href="#" class="asSlotBlock " data-tsid="33" data-date="14-07-2016" data-end="17:00 PM" data-start_ts="1468515600" data-end_ts="1468522800" data-employee_id="1" data-service_id="">17:00-19:00</a></td></tr>
-							</tbody>
-						</table>
-					</div><div class="pj-calendar-day pjAsCalendarDate pj-calendar-day-today pj-calendar-day-selected" data-iso="2016-07-15" data-time="1468540800"><p>15</p><table class="table" border="0" cellpadding="0" cellspacing="0" width="100%">
-							<tbody>						
-    							<tr><td class="text-uppercase pjAsTime pjAsTimeAvailable"><a href="#" class="asSlotBlock asSlotAvailable" data-tsid="41" data-date="15-07-2016" data-end="07:00 AM" data-start_ts="1468566000" data-end_ts="1468573200" data-employee_id="1" data-service_id="">7:00-9:00</a></td></tr>
-								<tr><td class="text-uppercase pjAsTime pjAsTimeAvailable"><a href="#" class="asSlotBlock asSlotAvailable" data-tsid="42" data-date="15-07-2016" data-end="09:30 PM" data-start_ts="1468575000" data-end_ts="1468582200" data-employee_id="1" data-service_id="">9:30-11:30</a></td></tr>
-								<tr><td class="text-uppercase pjAsTime pjAsTimeAvailable"><a href="#" class="asSlotBlock asSlotAvailable" data-tsid="43" data-date="15-07-2016" data-end="12:00 PM" data-start_ts="1468584000" data-end_ts="1468591200" data-employee_id="1" data-service_id="">12:00-14:00</a></td></tr>
-    							<tr><td class="text-uppercase pjAsTime pjAsTimeAvailable"><a href="#" class="asSlotBlock asSlotAvailable" data-tsid="43" data-date="15-07-2016" data-end="14:30 PM" data-start_ts="1468593000" data-end_ts="1468600200" data-employee_id="1" data-service_id="">14:30-16:30</a></td></tr>
-    							<tr><td class="text-uppercase pjAsTime pjAsTimeAvailable"><a href="#" class="asSlotBlock asSlotAvailable" data-tsid="43" data-date="15-07-2016" data-end="17:00 PM" data-start_ts="1468602000" data-end_ts="1468609200" data-employee_id="1" data-service_id="">17:00-19:00</a></td></tr>
-							</tbody>
-						</table>
-					</div><div class="pj-calendar-day pj-calendar-day-inactive" data-iso="2016-07-16" data-time="1468627200"><p>16</p><table class="table" border="0" cellpadding="0" cellspacing="0" width="100%">
-							<tbody>						
-    							<tr><td class="text-uppercase pjAsTime pjAsTimeUnavailable"><a href="#" class="asSlotBlock " data-tsid="51" data-date="16-07-2016" data-end="07:00 AM" data-start_ts="1468652400" data-end_ts="1468659600" data-employee_id="1" data-service_id="">7:00-9:00</a></td></tr>
-								<tr><td class="text-uppercase pjAsTime pjAsTimeUnavailable"><a href="#" class="asSlotBlock " data-tsid="52" data-date="16-07-2016" data-end="09:30 PM" data-start_ts="1468661400" data-end_ts="1468668600" data-employee_id="1" data-service_id="">9:30-11:30</a></td></tr>
-								<tr><td class="text-uppercase pjAsTime pjAsTimeUnavailable"><a href="#" class="asSlotBlock " data-tsid="53" data-date="16-07-2016" data-end="12:00 PM" data-start_ts="1468670400" data-end_ts="1468677600" data-employee_id="1" data-service_id="">12:00-14:00</a></td></tr>
-    							<tr><td class="text-uppercase pjAsTime pjAsTimeUnavailable"><a href="#" class="asSlotBlock " data-tsid="53" data-date="16-07-2016" data-end="14:30 PM" data-start_ts="1468679400" data-end_ts="1468686600" data-employee_id="1" data-service_id="">14:30-16:30</a></td></tr>
-    							<tr><td class="text-uppercase pjAsTime pjAsTimeUnavailable"><a href="#" class="asSlotBlock " data-tsid="53" data-date="16-07-2016" data-end="17:00 PM" data-start_ts="1468688400" data-end_ts="1468695600" data-employee_id="1" data-service_id="">17:00-19:00</a></td></tr>
-							</tbody>
-						</table>
-					</div><div class="pj-calendar-day pj-calendar-day-inactive" data-iso="2016-07-17" data-time="1468713600"><p>17</p><table class="table" border="0" cellpadding="0" cellspacing="0" width="100%">
-							<tbody>						
-    							<tr><td class="text-uppercase pjAsTime pjAsTimeUnavailable"><a href="#" class="asSlotBlock " data-tsid="61" data-date="17-07-2016" data-end="07:00 AM" data-start_ts="1468738800" data-end_ts="1468746000" data-employee_id="1" data-service_id="">7:00-9:00</a></td></tr>
-								<tr><td class="text-uppercase pjAsTime pjAsTimeUnavailable"><a href="#" class="asSlotBlock " data-tsid="62" data-date="17-07-2016" data-end="09:30 PM" data-start_ts="1468747800" data-end_ts="1468755000" data-employee_id="1" data-service_id="">9:30-11:30</a></td></tr>
-								<tr><td class="text-uppercase pjAsTime pjAsTimeUnavailable"><a href="#" class="asSlotBlock " data-tsid="63" data-date="17-07-2016" data-end="12:00 PM" data-start_ts="1468756800" data-end_ts="1468764000" data-employee_id="1" data-service_id="">12:00-14:00</a></td></tr>
-    							<tr><td class="text-uppercase pjAsTime pjAsTimeUnavailable"><a href="#" class="asSlotBlock " data-tsid="63" data-date="17-07-2016" data-end="14:30 PM" data-start_ts="1468765800" data-end_ts="1468773000" data-employee_id="1" data-service_id="">14:30-16:30</a></td></tr>
-    							<tr><td class="text-uppercase pjAsTime pjAsTimeUnavailable"><a href="#" class="asSlotBlock " data-tsid="63" data-date="17-07-2016" data-end="17:00 PM" data-start_ts="1468774800" data-end_ts="1468782000" data-employee_id="1" data-service_id="">17:00-19:00</a></td></tr>
-							</tbody>
-						</table>
-					</div></div>			
+		</div>
+		{/foreach}
+</div>			
 		    		
-					    				<input type="hidden" name="employee_id" value="'.$this->employeeId.'">
-					    				<input type="hidden" name="date" value="'.$selected_date.'">
-					    				<input type="hidden" name="service_id" value="'.$this->serviceId.'">
-										<input type="hidden" name="start_ts" value="'.$start_ts.'">
-										<input type="hidden" name="end_ts" value="'.$end_ts.'">
+					    				<input type="hidden" name="selected_employee_id">
+					    				<input type="hidden" name="service_id">
+										<input type="hidden" name="selected_start_ts">
+										<input type="hidden" name="selected_end_ts">
     				
 				    				</div><!-- /.pjAsTableTimes -->
 								</div><!-- /.col-lg-8 col-md-8 col-sm-8 col-sx-12 -->
@@ -125,7 +86,7 @@
 				    		
 							<div class="form-group">
 								<div class="col-lg-9 col-lg-offset-3 col-md-9 col-md-offset-3 col-sm-9 col-sm-offset-3 col-sx-12">  
-									<input class="btn btn-default pjAsBtn pjAsBtnPrimary pjAsBtnAppointment" value="den Termin buchen" type="submit" '.($start_ts != 0 ? "" : 'disabled="disabled"' ).'">
+									<input class="btn btn-default pjAsBtn pjAsBtnPrimary pjAsBtnAppointment"  id="pjAsBtnAppointment" value="den Termin buchen" type="submit" '.($start_ts != 0 ? "" : 'disabled="disabled"' ).'">
 										<a href="#" class="btn btn-default pjAsBtn pjAsBtnSecondary pjAsBtnBackToServices">Cancel</a>
 								</div><!-- /.col-lg-8 col-lg-offset-4 col-md-8 col-md-offset-4 col-sm-8 col-sm-offset-4 col-sx-12 -->
 							</div><!-- /.form-group -->
@@ -134,25 +95,63 @@
 					</div>
 				</div><!-- /.panel-body pjAsCalendarInline -->
 
+
+<div class="panel-body pjAsCalendarInline">
 				<ul id="pjAsAsideCart" class="list-group pjAsAsideServices">
-					<!--<?php
-					$cart = $controller->cart->getAll();
-					$cart_arr = $tpl['cart_arr'];
-					include PJ_VIEWS_PATH . 'pjFrontPublic/elements/cart_layout2.php';
-					?>-->
+					
+					<li class="list-group-item pjAsAsideService">
+						<h3 class="pjAsAsideTitle">Gewähltes Datum</h3><!-- /.pjAsAsideTitle -->
+					</li><!-- /.list-group-item pjAsAsideService -->	
+					
+					
+					<li class="list-group-item pjAsAsideService" id="selected-service_1">
+						<dl>
+							<dd>
+								<p><strong>Priorität1</strong> selected date </p>
+								<p>start time - end time</p>
+							</dd>
+						</dl>
+		
+						<button class="pjAsBtn pjAsBtnRemove pjAsBtnRemoveSelectedAppointment" id="selected-service_1">
+							<span class="glyphicon glyphicon-remove"></span>
+						</button>
+					</li><!-- /.list-group-item pjAsAsideService -->
+					
+					<li class="list-group-item pjAsAsideService" id="selected-service_2">
+						<dl>
+							<dd>
+								<p><strong>Priorität2</strong> selected date </p>
+								<p>start time - end time</p>
+							</dd>
+						</dl>
+		
+						<button class="pjAsBtn pjAsBtnRemove pjAsBtnRemoveSelectedAppointment" id="selected-service_2">
+							<span class="glyphicon glyphicon-remove"></span>
+						</button>
+					</li><!-- /.list-group-item pjAsAsideService -->
+					
+					<li class="list-group-item pjAsAsideService" id="selected-service_3">
+						<dl>
+							<dd>
+								<p><strong>Priorität3</strong> selected date </p>
+								<p>start time - end time</p>
+							</dd>
+						</dl>
+		
+						<button class="pjAsBtn pjAsBtnRemove pjAsBtnRemoveSelectedAppointment" id="selected-service_3">
+							<span class="glyphicon glyphicon-remove"></span>
+						</button>
+					</li><!-- /.list-group-item pjAsAsideService -->					
+					
 				</ul><!-- /.list-group pjAsAsideServices -->
                 
+                <span id="calendar_debug"></span>
                 
 			</div><!-- /.panel panel-default pjAsContainer pjAsAside -->
-		</div><!-- /.col-lg-4 col-md-4 col-sm-12 col-xs-12 -->
-
-
-	</div><!-- /.row -->
-</div><!-- /.container-fluid -->
-
+</div>
 
 <script>
-getWeek = function(time) {
+/*getWeek = function(time) {
 	  var date = new Date(time);
 
 	   date.setHours(0, 0, 0, 0);
@@ -163,15 +162,86 @@ getWeek = function(time) {
 	  // Adjust to Thursday in week 1 and count number of weeks from date to week1.
 	  return 1 + Math.round(((date.getTime() - week1.getTime()) / 86400000
 	                        - 3 + (week1.getDay() + 6) % 7) / 7);
-	};
+	};*/
 
-	function(){
+	//navigation previous/next month
 	monthChangers = document.getElementsByClassName("pjAsCalendarLinkMonth");
-	alert(monthChangers.length);
 	for(var i=0;i<monthChangers.length;i++){
 		monthChangers[i].onclick = function(e) {
 			e.preventDefault();
+			
+			$.ajax({
+				type: "post",
+				url: "calendar/",
+				data: $(this).serialize()
+			})
+			.done(function (data, textStatus, request) {
+				$debug = $("#calendar_debug");
+				$debug.empty().append(data);
+			})
+			.fail(function (jqXHR, textStatus, errorThrown) {
+				if (typeof jqXHR.responseJSON !== 'undefined') {
+					if (jqXHR.responseJSON.hasOwnProperty('form')) {
+						$('#form_body').html(jqXHR.responseJSON.form);
+					}
+					$('.form_error').html(jqXHR.responseJSON.message);
+				} else {
+					alert(errorThrown);
+				}
+			});
+		}
+	};
+	//selecting a timeslot
+	timeSlots = document.getElementsByClassName("asSlotBlock");
+	var selectedStartTs = document.getElementsByName("selected_start_ts")[0];
+	var selectedEndTs = document.getElementsByName("selected_end_ts")[0];
+	var selectedEmployeeId = document.getElementsByName("selected_employee_id")[0];
+	var selectedServiceId = document.getElementsByName("service_id")[0];
+	
+	for(var i=0;i<timeSlots.length;i++){
+		timeSlots[i].onclick = function(e){
+			e.preventDefault();
+//alert(this.getAttribute("data-start")+" "+this.getAttribute("data-end")+this.getAttribute("data-service_id"));
+			selectedStartTs.value = this.getAttribute("data-start_ts");
+			selectedEndTs.value = this.getAttribute("data-end_ts");
+			selectedEmployeeId.value = this.getAttribute("data-employee_id");
+			selectedServiceId.value = this.getAttribute("data-service_id");
+			className = this.parentNode.className;
+			if(className.indexOf("pjAsTimeAvailable")>-1)
+			if(!className.indexOf("pjAsTimeSelected")>-1)
+				this.parentNode.className =className+ " pjAsTimeSelected";
+		}
+	};
+			
+	//schedule appointment TODO populate list also from controller
+	scheduleAppointmentButton = document.getElementById("pjAsBtnAppointment");
+	scheduleAppointmentButton.onclick = function(e){
+		e.preventDefault();
+		alert(selectedStartTs.value+" "+selectedEndTs.value+" "+selectedEmployeeId.value+" "+selectedServiceId.value);
+	}
+	
+	//remove selected appointment
+	removeSelectedAppointmentButtons = document.getElementsByClassName("pjAsBtnRemoveSelectedAppointment");
+	for(var i=0;i<removeSelectedAppointmentButtons.length;i++){
+		removeSelectedAppointmentButtons[i].onclick = function(e){
+			e.preventDefault();
+			
+		}
+	}
+		
+/*
+		<dl>
+			<dd>
+				<p><strong>Priorität<?php echo $counter; ?></strong> <?php echo  date($tpl['option_arr']['o_date_format'], strtotime($date));?></p>
+				<p><?php echo date($tpl['option_arr']['o_time_format'], $fixed_start_ts);?> - <?php echo date($tpl['option_arr']['o_time_format'], $fixed_end_ts);?></p>
+			</dd>
+		</dl>
 
+<button class="pjAsBtn pjAsBtnRemove pjAsBtnRemoveFromCart" data-start_ts="<?php echo $start_ts; ?>" data-end_ts="<?php echo $end_ts; ?>" data-date="<?php echo $date; ?>" data-service_id="<?php echo $service_id; ?>" data-employee_id="<?php echo $employee_id; ?>">
+<span class="glyphicon glyphicon-remove"></span>
+</button>*/
+	
+/*
 			calendar_reference = document.getElementById('calendar_time_reference');
 			calendar_week_nr = document.getElementById('calendar_week_number');
 			
@@ -180,11 +250,9 @@ getWeek = function(time) {
 			if(this.getAttribute("data-direction") == "prev") 
 				calendar_reference.innerHTML = calendar_reference.innerHTML-2592000;  
 			alert(calendar_reference.innerHTML);
-			calendar_week_nr.innerHTML =getWeek(calendar_reference);
-		};
-	}
+			calendar_week_nr.innerHTML =getWeek(calendar_reference);*/
 				
-	};
+
 
 </script>
 

@@ -97,13 +97,8 @@ web : http://www.hausfabrik.at
     <![endif]-->
    <script src="{javascript file='assets/dist/js/vendors/modernizr.custom.js'}"></script>
 
-   <script src="{javascript file='assets/dist/js/vendors/dropzone.js'}"></script> 
-    
-<!--Services appointment codes-->
-    
-     
-     <link rel="stylesheet" href="/schedule/index.php?controller=pjFrontEnd&action=pjActionLoadCss">
-     <link rel="stylesheet" href="/schedule/core/framework/libs/pj/css/pj.bootstrap.min.css">
+   <script src="{javascript file='assets/dist/js/vendors/dropzone.js'}"></script>
+
    
     <!--Start of Zopim Live Chat Script-->
      {literal} 

@@ -27,5 +27,10 @@
     ...
     </route>
     -->
+    
+    <route id="calendar.get.appointments" path="/calendar">
+        <default key="_controller">HookCalendar\Controller\CalendarController::getAppointments</default>
+    </route>    
+    
 
 </routes>
