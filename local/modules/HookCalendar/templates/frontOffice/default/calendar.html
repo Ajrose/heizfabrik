@@ -74,9 +74,9 @@
 							{/foreach}
 						</div>			
 		    		
-	    				<span name="selected_employee_id" style="display:none;"></span>
-						<span name="selected_start_ts" style="display:none;"></span>
-						<span name="selected_end_ts" style="display:none;"></span>
+	    				<span class="selected_employee_id" style="display:none;"></span>
+						<span class="selected_start_ts" {$service_id} style="display:none;"></span>
+						<span class="selected_end_ts" style="display:none;"></span>
 										
     				
 	    				</div><!-- /.pjAsTableTimes -->
@@ -85,7 +85,7 @@
 				    		
 				<div class="form-group">
 					<div class="col-lg-9 col-lg-offset-3 col-md-9 col-md-offset-3 col-sm-9 col-sm-offset-3 col-sx-12">  
-						<input class="btn btn-default pjAsBtn pjAsBtnPrimary pjAsBtnAppointment"  id="pjAsBtnAppointment" value="den Termin buchen" type="submit" '.($start_ts != 0 ? "" : 'disabled="disabled"' ).'">
+						<input class="btn btn-default pjAsBtn pjAsBtnPrimary pjAsBtnAppointment" {$service_id} value="den Termin buchen" type="submit" '.($start_ts != 0 ? "" : 'disabled="disabled"' ).'">
 							<a href="#" class="btn btn-default pjAsBtn pjAsBtnSecondary pjAsBtnBackToServices">Cancel</a>
 					</div><!-- /.col-lg-8 col-lg-offset-4 col-md-8 col-md-offset-4 col-sm-8 col-sm-offset-4 col-sx-12 -->
 				</div><!-- /.form-group -->
@@ -95,7 +95,7 @@
 	</div><!-- /.panel-body pjAsCalendarInline -->
 
 
-	<div class="panel-body pjAsCalendarInline" id="selectedTimeSlotsList" style="display:none;">
+	<div class="panel-body pjAsCalendarInline selectedTimeSlotsList" {$service_id} style="display:none;">
 				<ul id="pjAsAsideCart" class="list-group pjAsAsideServices">
 					
 					<li class="list-group-item pjAsAsideService"  >
@@ -161,181 +161,183 @@
 
 <script>
 /*getWeek = function(time) {
-	  var date = new Date(time);
+var date = new Date(time);
 
-	   date.setHours(0, 0, 0, 0);
-	  // Thursday in current week decides the year.
-	  date.setDate(date.getDate() + 3 - (date.getDay() + 6) % 7);
-	  // January 4 is always in week 1.
-	  var week1 = new Date(date.getFullYear(), 0, 4);
-	  // Adjust to Thursday in week 1 and count number of weeks from date to week1.
-	  return 1 + Math.round(((date.getTime() - week1.getTime()) / 86400000
-	                        - 3 + (week1.getDay() + 6) % 7) / 7);
-	};*/
+ date.setHours(0, 0, 0, 0);
+// Thursday in current week decides the year.
+date.setDate(date.getDate() + 3 - (date.getDay() + 6) % 7);
+// January 4 is always in week 1.
+var week1 = new Date(date.getFullYear(), 0, 4);
+// Adjust to Thursday in week 1 and count number of weeks from date to week1.
+return 1 + Math.round(((date.getTime() - week1.getTime()) / 86400000
+                      - 3 + (week1.getDay() + 6) % 7) / 7);
+};*/
 //assumption - there can be more then one calendar on the page
-	//navigation previous/next month
-	calendarFor{$service_id} = "aa";
-	alert(calendarFor{$service_id});
-	monthChangers = document.getElementsByClassName("pjAsCalendarLinkMonth");
-	for(var i=0;i<monthChangers.length;i++){
-		monthChangers[i].onclick = function(e) {
-			e.preventDefault();
-			
-			$.ajax({
-				type: "post",
-				url: "calendar/",
-				data: $(this).serialize()
-			})
-			.done(function (data, textStatus, request) {
-				$debug = $("#calendar_debug");
-				$debug.empty().append(data);
-			})
-			.fail(function (jqXHR, textStatus, errorThrown) {
-				if (typeof jqXHR.responseJSON !== 'undefined') {
-					if (jqXHR.responseJSON.hasOwnProperty('form')) {
-						$('#form_body').html(jqXHR.responseJSON.form);
-					}
-					$('.form_error').html(jqXHR.responseJSON.message);
-				} else {
-					alert(errorThrown);
-				}
-			});
-		}
-	};
-	//selecting a timeslot
-	timeSlots = document.getElementsByClassName("asSlotBlock");
-	var selectedStartTs = document.getElementsByName("selected_start_ts")[0];
-	var selectedEndTs = document.getElementsByName("selected_end_ts")[0];
-	var selectedEmployeeId = document.getElementsByName("selected_employee_id")[0];
-	
-	for(var i=0;i<timeSlots.length;i++){
-		timeSlots[i].onclick = function(e){
-			e.preventDefault();
-			
-			//TODO remove lastSelectedTimeSlot if not in the list
-			//TODO remove timeSlot selected when it is removed from the list
+//navigation previous/next month
 
-			selectedStartTs.textContent = this.getAttribute("data-start_ts");
-			selectedEndTs.textContent = this.getAttribute("data-end_ts");
-			selectedEmployeeId.textContent = this.getAttribute("data-employee_id");
-			className = this.parentNode.className;
-			if(className.indexOf("pjAsTimeAvailable")>-1)
-			if(!className.indexOf("pjAsTimeSelected")>-1)
-				this.parentNode.className =className+ " pjAsTimeSelected";
-			var lastSelectedTimeSlot = this;
-		}
-	};
-	
-	//get selected appointments
-	var selectedTimeSlotsList = document.getElementById("selectedTimeSlotsList");
-	var selectedTimeSlotItems = document.getElementsByClassName("selectedTimeSlotItem");
+(function(service_id){
 
-	for(var i=0;i<selectedTimeSlotItems.length;i++){
-		selectedTimeSlotItems[i].setAttribute("priority",i+1);
-	}
-	
-	setAppointmentValues = function(st_pos,priority,start_ts,end_ts,employee_id){
-		timeslot = selectedTimeSlotItems[st_pos];
-		if(timeslot != null){
-			timeslot.style.display = "";
-			slot_date = new Date(start_ts*1000);
-			console.log(st_pos);
-			timeslot.getElementsByClassName("selectedTimeSlotPriority")[0].textContent = priority;
-			timeslot.getElementsByClassName("selectedTimeSlotDate")[0].textContent = slot_date.toLocaleDateString('de-DE');
-			start_time = slot_date.toLocaleTimeString('de-DE');
-			timeslot.getElementsByClassName("selectedTimeSlotStartTime")[0].textContent = start_time.substring(0,start_time.length-3);
-			end_time = (new Date(end_ts*1000)).toLocaleTimeString('de-DE');
-			timeslot.getElementsByClassName("selectedTimeSlotEndTime")[0].textContent = end_time.substring(0,end_time.length-3);
-			
-			timeslot.getElementsByClassName("ca_priority")[0].value = priority;
-			timeslot.getElementsByClassName("ca_start_ts")[0].value = start_ts;
-			timeslot.getElementsByClassName("ca_end_ts")[0].value = end_ts;
-			timeslot.getElementsByClassName("ca_employee_id")[0].value = employee_id;
-		}
-	}
-	
-	setAppointmentEmpty = function(st_pos){
-		timeslot = selectedTimeSlotItems[st_pos];
-		if(timeslot != null){
-			timeslot.getElementsByClassName("selectedTimeSlotPriority")[0].textContent = "";
-			timeslot.getElementsByClassName("selectedTimeSlotDate")[0].textContent = "";
-			timeslot.getElementsByClassName("selectedTimeSlotStartTime")[0].textContent = "";
-			timeslot.getElementsByClassName("selectedTimeSlotEndTime")[0].textContent = "";
-			
-			timeslot.getElementsByClassName("ca_priority")[0].value = "";
-			timeslot.getElementsByClassName("ca_start_ts")[0].value = "";
-			timeslot.getElementsByClassName("ca_end_ts")[0].value = "";
-			timeslot.getElementsByClassName("ca_employee_id")[0].value = "";
-			timeslot.style.display = "none";
-		}
-	}
-	
-	removeAppointmentValues = function(st_pos){
-		timeSlotEmpty = 0;
-		for(j=parseInt(st_pos);j<selectedTimeSlotItems.length-1;j++){ //move each appointment one slot lower => 2->1 1->0
-			timeslot = selectedTimeSlotItems[j+1];
-
-			if(timeslot.style.display != "none"){ //if we reach a slot that is not shown go to the end and set slot with id st_pos as empty
-			
-			setAppointmentValues(j,j+1,
-					timeslot.getElementsByClassName("ca_start_ts")[0].value,
-					timeslot.getElementsByClassName("ca_end_ts")[0].value,
-					timeslot.getElementsByClassName("ca_employee_id")[0].value);
-			timeSlotEmpty = j+1;
-			}
-			else {
-				j = selectedTimeSlotItems.length;
-				timeSlotEmpty = st_pos;
-			}
-		}
-		setAppointmentEmpty(timeSlotEmpty);
-	}
-	
-	//schedule appointment TODO populate list also from controller
-	scheduleAppointmentButton = document.getElementById("pjAsBtnAppointment");
-	scheduleAppointmentButton.onclick = function(e){
+var calendar = document.getElementsByClassName("calendarFor"+service_id)[0];
+var monthChangers = calendar.getElementsByClassName("pjAsCalendarLinkMonth");
+for(var i=0;i<monthChangers.length;i++){
+	monthChangers[i].onclick = function(e) {
 		e.preventDefault();
 		
-		//find an empty slot
-		selected_timeslots_nr = -1;
-		for(i=0;i<selectedTimeSlotItems.length;i++){
-			if(selectedTimeSlotItems[i].style.display == "none"){
-				selected_timeslots_nr = i;
-				i = selectedTimeSlotItems.length; //exit for
-			}	
-		};
+		$.ajax({
+			type: "post",
+			url: "calendar/",
+			data: $(this).serialize()
+		})
+		.done(function (data, textStatus, request) {
+			$debug = $("#calendar_debug");
+			$debug.empty().append(data);
+		})
+		.fail(function (jqXHR, textStatus, errorThrown) {
+			if (typeof jqXHR.responseJSON !== 'undefined') {
+				if (jqXHR.responseJSON.hasOwnProperty('form')) {
+					$('#form_body').html(jqXHR.responseJSON.form);
+				}
+				$('.form_error').html(jqXHR.responseJSON.message);
+			} else {
+				alert(errorThrown);
+			}
+		});
+	}
+};
+//selecting a timeslot
+var timeSlots = calendar.getElementsByClassName("asSlotBlock");
+var selectedStartTs = calendar.getElementsByClassName("selected_start_ts")[0];
+var selectedEndTs = calendar.getElementsByClassName("selected_end_ts")[0];
+var selectedEmployeeId = calendar.getElementsByClassName("selected_employee_id")[0];
+
+
+for(var i=0;i<timeSlots.length;i++){
+	timeSlots[i].onclick = function(e){
+		e.preventDefault();
 		
-		selectedTimeSlotsList.style.display = "";
+		//TODO remove lastSelectedTimeSlot if not in the list
+		//TODO remove timeSlot selected when it is removed from the list
+
+		selectedStartTs.textContent = this.getAttribute("data-start_ts");
+		selectedEndTs.textContent = this.getAttribute("data-end_ts");
+		selectedEmployeeId.textContent = this.getAttribute("data-employee_id");
+
+		className = this.parentNode.className;
+		if(className.indexOf("pjAsTimeAvailable")>-1)
+		if(!className.indexOf("pjAsTimeSelected")>-1)
+			this.parentNode.className =className+ " pjAsTimeSelected";
+		var lastSelectedTimeSlot = this;
+	}
+};
+
+//get selected appointments
+var selectedTimeSlotsList = calendar.getElementsByClassName("selectedTimeSlotsList")[0];
+var selectedTimeSlotItems = calendar.getElementsByClassName("selectedTimeSlotItem");
+
+for(var i=0;i<selectedTimeSlotItems.length;i++){
+	selectedTimeSlotItems[i].setAttribute("priority",i+1);
+}
+
+var setAppointmentValues = function(st_pos,priority,start_ts,end_ts,employee_id){
+	timeslot = selectedTimeSlotItems[st_pos];
+
+	if(timeslot != null){
+		timeslot.style.display = "";
+		slot_date = new Date(start_ts*1000);
+		timeslot.getElementsByClassName("selectedTimeSlotPriority")[0].textContent = priority;
+		timeslot.getElementsByClassName("selectedTimeSlotDate")[0].textContent = slot_date.toLocaleDateString('de-DE');
+		start_time = slot_date.toLocaleTimeString('de-DE');
+		timeslot.getElementsByClassName("selectedTimeSlotStartTime")[0].textContent = start_time.substring(0,start_time.length-3);
+		end_time = (new Date(end_ts*1000)).toLocaleTimeString('de-DE');
+		timeslot.getElementsByClassName("selectedTimeSlotEndTime")[0].textContent = end_time.substring(0,end_time.length-3);
 		
-		if(selected_timeslots_nr == -1){ //3 choices have already been made remove the first one
-			removeAppointmentValues(0);
-			setAppointmentValues(selected_timeslots_nr,selected_timeslots_nr+1,selectedStartTs.textContent,selectedEndTs.textContent,selectedEmployeeId.textContent);
+		timeslot.getElementsByClassName("ca_priority")[0].value = priority;
+		timeslot.getElementsByClassName("ca_start_ts")[0].value = start_ts;
+		timeslot.getElementsByClassName("ca_end_ts")[0].value = end_ts;
+		timeslot.getElementsByClassName("ca_employee_id")[0].value = employee_id;
+	}
+}
+
+var setAppointmentEmpty = function(st_pos){
+	timeslot = selectedTimeSlotItems[st_pos];
+	if(timeslot != null){
+		timeslot.getElementsByClassName("selectedTimeSlotPriority")[0].textContent = "";
+		timeslot.getElementsByClassName("selectedTimeSlotDate")[0].textContent = "";
+		timeslot.getElementsByClassName("selectedTimeSlotStartTime")[0].textContent = "";
+		timeslot.getElementsByClassName("selectedTimeSlotEndTime")[0].textContent = "";
+		
+		timeslot.getElementsByClassName("ca_priority")[0].value = "";
+		timeslot.getElementsByClassName("ca_start_ts")[0].value = "";
+		timeslot.getElementsByClassName("ca_end_ts")[0].value = "";
+		timeslot.getElementsByClassName("ca_employee_id")[0].value = "";
+		timeslot.style.display = "none";
+	}
+}
+
+var removeAppointmentValues = function(st_pos){
+	timeSlotEmpty = 0;
+	for(j=parseInt(st_pos);j<selectedTimeSlotItems.length-1;j++){ //move each appointment one slot lower => 2->1 1->0
+		timeslot = selectedTimeSlotItems[j+1];
+
+		if(timeslot.style.display != "none"){ //if we reach a slot that is not shown go to the end and set slot with id st_pos as empty
+		
+		setAppointmentValues(j,j+1,
+				timeslot.getElementsByClassName("ca_start_ts")[0].value,
+				timeslot.getElementsByClassName("ca_end_ts")[0].value,
+				timeslot.getElementsByClassName("ca_employee_id")[0].value);
+		timeSlotEmpty = j+1;
 		}
-		else{ //there is still at least one more choice 
-		//	console.log("selected timeslot nr "+selected_timeslots_nr);
-		if(selectedStartTs.textContent != "" && selectedEndTs.textContent != "" && selectedEmployeeId.textContent != "")
-			setAppointmentValues(selected_timeslots_nr,selected_timeslots_nr+1,selectedStartTs.textContent,selectedEndTs.textContent,selectedEmployeeId.textContent);
-		else alert("please select a time slot");
+		else {
+			j = selectedTimeSlotItems.length;
+			timeSlotEmpty = st_pos;
 		}
-		
-		
-		
-		
-		//clear selected 
-		selectedStartTs.textContent = "";
-		selectedEndTs.textContent = "";
-		selectedEmployeeId.textContent = "";
+	}
+	setAppointmentEmpty(timeSlotEmpty);
+}
+
+//schedule appointment TODO populate list also from controller
+var scheduleAppointmentButton = calendar.getElementsByClassName("pjAsBtnAppointment")[0];
+scheduleAppointmentButton.onclick = function(e){
+	e.preventDefault();
+
+	//find an empty slot
+	selected_timeslots_nr = -1;
+	for(i=0;i<selectedTimeSlotItems.length;i++){
+		if(selectedTimeSlotItems[i].style.display == "none"){
+			selected_timeslots_nr = i;
+			i = selectedTimeSlotItems.length; //exit for
+		}	
+	};
+
+	selectedTimeSlotsList.style.display = "";
+	
+	if(selected_timeslots_nr == -1){ //3 choices have already been made remove the first one
+		removeAppointmentValues(0);
+		setAppointmentValues(selected_timeslots_nr,selected_timeslots_nr+1,selectedStartTs.textContent,selectedEndTs.textContent,selectedEmployeeId.textContent);
+	}
+	else{ //there is still at least one more choice 
+
+	if(selectedStartTs.textContent != "" && selectedEndTs.textContent != "" && selectedEmployeeId.textContent != "")
+		setAppointmentValues(selected_timeslots_nr,selected_timeslots_nr+1,selectedStartTs.textContent,selectedEndTs.textContent,selectedEmployeeId.textContent);
+	else alert("please select a time slot");
 	}
 	
-	//remove selected appointment
-	removeSelectedAppointmentButtons = document.getElementsByClassName("pjAsBtnRemoveSelectedAppointment");
-	for(var i=0;i<removeSelectedAppointmentButtons.length;i++){
-		removeSelectedAppointmentButtons[i].onclick = function(e){
-			e.preventDefault();
-			removeAppointmentValues(this.getAttribute("id"));
-		}
+	//clear selected 
+	selectedStartTs.textContent = "";
+	selectedEndTs.textContent = "";
+	selectedEmployeeId.textContent = "";
+}
+
+//remove selected appointment
+var removeSelectedAppointmentButtons = calendar.getElementsByClassName("pjAsBtnRemoveSelectedAppointment");
+for(var i=0;i<removeSelectedAppointmentButtons.length;i++){
+	removeSelectedAppointmentButtons[i].onclick = function(e){
+		e.preventDefault();
+		removeAppointmentValues(this.getAttribute("id"));
 	}
+}	
+})({$service_id});
 
-
+//var calendar_for_{$service_id} = attachToCalendar({$service_id});
 </script>
 

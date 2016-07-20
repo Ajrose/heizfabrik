@@ -326,7 +326,7 @@ type="text/javascript";e.parentNode.insertBefore($,e)})(document,"script");
 
     </div><!-- /.page -->
 	
-	<div class="sehrgut"><img src={image file='assets/dist/img/sehrgut.png'}></div>
+	<!--<div class="sehrgut"><img src={image file='assets/dist/img/sehrgut.png'}></div>-->
 
     {block name="before-javascript-include"}{/block}
     <!-- JavaScript -->

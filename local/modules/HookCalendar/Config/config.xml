@@ -31,8 +31,7 @@
 	<hooks>
             <hook id="hookcalendar.hook.front" class="HookCalendar\Hook\Front" scope="request">
                 <tag name="hook.event_listener" event="main.head-bottom"  active="1"/>
-               <!--  <tag name="hook.event_listener" event="product.after.javascript.initialization"/> -->
-                <tag name="hook.event_listener" event="productservice.bottom"  active="1" />
+                <tag name="hook.event_listener" event="productservice.bottom"  active="1"/>
                 
                 
              <!--    <tag name="hook.event_listener" event="product.additional" type="front" method="onProductAdditionalContents" /> -->
