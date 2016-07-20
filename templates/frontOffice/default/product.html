@@ -286,6 +286,7 @@
                                	{assign var="service_for_appointment" value = $SERVICE_ID} 
  									{include file="includes/product-services.html"  hasServiceDescription=false hasQuickView=true width="200" height="100"}
  										<span class="product-service-calendar">
+											{hook name="productservice.bottom" service="{$SERVICE_ID}" week="{$smarty.now|date_format:"%W"}" year={$smarty.now|date_format:"%Y"}}
 										</span>
 								{/loop}	
  							</ul>

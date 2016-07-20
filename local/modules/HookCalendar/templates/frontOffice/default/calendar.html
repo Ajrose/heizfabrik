@@ -1,4 +1,4 @@
-{$locale = setlocale(LC_ALL, array('de_DE.utf8', 'de_DE', 'de'))}
+{$locale = setlocale( $smarty.const.LC_ALL, array("de_DE.utf8", "de_DE", "de"))|intval}
 {function name=timeslottype slot=1}
 	{if $slot == 1}pjAsTimeAvailable
 		{elseif $slot == 2}pjAsTimeBooked
@@ -17,131 +17,140 @@
 		{elseif $day == 5}pjAsCalendarDate
 	{/if}
 {/function}
+<div class="panel panel-default pjAsContainer pjAsAside calendarFor{$service_id}">
+	<div class="panel-heading pjAsHead">
+		<h2 class="pjAsHeadTitle">Planen Sie Ihren Termin</h2><!-- /.pjAsHeadTitle -->
+        	<h4>Wählen Sie 3 bevorzugte Termine</h4>
+            <p style="text-transform: none;">Unser Mitarbeiter wird Ihnen einen Termin innerhalb 24 Stunden per E-mail bestätigen.</p>
+	</div><!-- /.panel-heading pjAsHead -->
 
-			<div class="panel panel-default pjAsContainer pjAsAside">
-				<div class="panel-heading pjAsHead">
-					<h2 class="pjAsHeadTitle">Planen Sie Ihren Termin</h2><!-- /.pjAsHeadTitle -->
-                    <h4>Wählen Sie 3 bevorzugte Termine</h4>
-                     <p style="text-transform: none;">Unser Mitarbeiter wird Ihnen einen Termin innerhalb 24 Stunden per E-mail bestätigen.</p>
-				</div><!-- /.panel-heading pjAsHead -->
+	<div class="panel-body pjAsCalendarInline">
+		<div class="pjIcCalendar">
+			<div class="pj-calendar">
 
-				<div class="panel-body pjAsCalendarInline">
-					<div class="pjIcCalendar">
-						<div class="pj-calendar">
+			<div class="form-horizontal asEmployeeInfo">
+ 						<div class="form-group" style="display: block">
+					<div class="col-lg-12 col-md-12 col-sm-12 col-sx-12">
+						<div class="pjAsTableTimes">
 
-						<div class="form-horizontal asEmployeeInfo">
-    						<div class="form-group" style="display: block">
-								<div class="col-lg-12 col-md-12 col-sm-12 col-sx-12">
-									<div class="pjAsTableTimes">
+						<div class="pj-calendar-actions">
+					  		<a class="btn btn-primary btn-sm pull-left pjAsCalendarLinkMonth" data-direction="prev" data-month="27" data-year="2016">
+								<span class="glyphicon glyphicon-chevron-left"></span>
+							</a>
+								<div class="pj-calendar-ym">
+									<span>Kalenderwoche</span>
+									<span id="calendar_week_number">{$smarty.now|date_format:"%W"}</span>
+									<span id="calendar_year">{$smarty.now|date_format:"%Y"}</span>
+									<span id="calendar_month">{$smarty.now|date_format:"%B"}</span>
+									<span id="calendar_time_reference" style="display:none;">{$smarty.now}</span>
+								</div>
+					
+							<a class="btn btn-primary btn-sm pull-right pjAsCalendarLinkMonth" data-direction="next" data-month="29" data-year="2016">
+							<span class="glyphicon glyphicon-chevron-right"></span>
+							</a>
+						</div>
 
-									<div class="pj-calendar-actions">
-								  		<a class="btn btn-primary btn-sm pull-left pjAsCalendarLinkMonth" data-direction="prev" data-month="27" data-year="2016">
-											<span class="glyphicon glyphicon-chevron-left"></span>
-										</a>
-											<div class="pj-calendar-ym">
-												<span>Kalenderwoche</span>
-												<span id="calendar_week_number">{$smarty.now|date_format:"%W"}</span>
-												<span id="calendar_year">{$smarty.now|date_format:"%Y"}</span>
-												<span id="calendar_month">{$smarty.now|date_format:"%B"}</span>
-												<span id="calendar_time_reference" style="display:none;">{$smarty.now}</span>
-											</div>
-								
-										<a class="btn btn-primary btn-sm pull-right pjAsCalendarLinkMonth" data-direction="next" data-month="29" data-year="2016">
-										<span class="glyphicon glyphicon-chevron-right"></span>
-										</a>
-									</div>
-	
-									<div class="pj-calendar-head pj-calendar-7-columns">
-										{for $day_nr=6 to 12}
-								    		<div class="pj-calendar-day-header"><p>{mktime(0, 0, 0, 0, $day_nr, 0)|date_format:"%a"}</p></div>
-										{/for}
-							    	</div>
+						<div class="pj-calendar-head pj-calendar-7-columns">
+							{for $day_nr=6 to 12}
+					    		<div class="pj-calendar-day-header"><p>{mktime(0, 0, 0, 0, $day_nr, 0)|date_format:"%a"}</p></div>
+							{/for}
+				    	</div>
 							    	
 							    	
 									  	
-
-		<div class="pj-calendar-body pj-calendar-7-columns">
-		{foreach from=$week_available item=day}	  
-		<div class="pj-calendar-day {{daytype day=$day.type}|regex_replace:'/[\r\t\n]/':''}" data-iso="2016-07-11" data-time="1468195200"><p>{$day.nr}</p>
-		
-		<table class="table" border="0" cellpadding="0" cellspacing="0" width="100%">
-							<tbody>		
-								{foreach from=$day.ts item=timeslot}				
-    							<tr><td class="text-uppercase pjAsTime {{timeslottype slot=$timeslot.type}|regex_replace:'/[\r\t\n ]/':''}"><a href="#" class="asSlotBlock asSlotAvailable" data-start="{$timeslot.start}" data-start_ts="{$timeslot.start_ts}" data-end="{$timeslot.end}" data-end_ts="{$timeslot.end_ts}" data-employee_id="{$timeslot.employee_id}" data-service_id="{$service_id}">{$timeslot.start}-{$timeslot.end}</a></td></tr>
-								{/foreach}
-							</tbody>
-						</table>
-		</div>
-		{/foreach}
-</div>			
+					
+						<div class="pj-calendar-body pj-calendar-7-columns">
+							{foreach from=$week_available item=day}	  
+							<div class="pj-calendar-day {{daytype day=$day.type}|regex_replace:'/[\r\t\n]/':''}" data-iso="2016-07-11" data-time="1468195200"><p>{$day.nr}</p>
+							
+								<table class="table" border="0" cellpadding="0" cellspacing="0" width="100%">
+									<tbody>		
+										{foreach from=$day.ts item=timeslot}				
+					    					<tr><td class="text-uppercase pjAsTime {{timeslottype slot=$timeslot.type}|regex_replace:'/[\r\t\n ]/':''}"><a href="#" class="asSlotBlock asSlotAvailable" data-start="{$timeslot.start}" data-start_ts="{$timeslot.start_ts}" data-end="{$timeslot.end}" data-end_ts="{$timeslot.end_ts}" data-employee_id="{$timeslot.employee_id}" data-service_id="{$service_id}">{$timeslot.start}-{$timeslot.end}</a></td></tr>
+										{/foreach}
+									</tbody>
+								</table>
+							</div>
+							{/foreach}
+						</div>			
 		    		
-					    				<input type="hidden" name="selected_employee_id">
-					    				<input type="hidden" name="service_id">
-										<input type="hidden" name="selected_start_ts">
-										<input type="hidden" name="selected_end_ts">
+	    				<span name="selected_employee_id" style="display:none;"></span>
+						<span name="selected_start_ts" style="display:none;"></span>
+						<span name="selected_end_ts" style="display:none;"></span>
+										
     				
-				    				</div><!-- /.pjAsTableTimes -->
-								</div><!-- /.col-lg-8 col-md-8 col-sm-8 col-sx-12 -->
-							</div><!-- /.form-group -->
+	    				</div><!-- /.pjAsTableTimes -->
+					</div><!-- /.col-lg-8 col-md-8 col-sm-8 col-sx-12 -->
+				</div><!-- /.form-group -->
 				    		
-							<div class="form-group">
-								<div class="col-lg-9 col-lg-offset-3 col-md-9 col-md-offset-3 col-sm-9 col-sm-offset-3 col-sx-12">  
-									<input class="btn btn-default pjAsBtn pjAsBtnPrimary pjAsBtnAppointment"  id="pjAsBtnAppointment" value="den Termin buchen" type="submit" '.($start_ts != 0 ? "" : 'disabled="disabled"' ).'">
-										<a href="#" class="btn btn-default pjAsBtn pjAsBtnSecondary pjAsBtnBackToServices">Cancel</a>
-								</div><!-- /.col-lg-8 col-lg-offset-4 col-md-8 col-md-offset-4 col-sm-8 col-sm-offset-4 col-sx-12 -->
-							</div><!-- /.form-group -->
-						</div>							
-						</div>
-					</div>
-				</div><!-- /.panel-body pjAsCalendarInline -->
+				<div class="form-group">
+					<div class="col-lg-9 col-lg-offset-3 col-md-9 col-md-offset-3 col-sm-9 col-sm-offset-3 col-sx-12">  
+						<input class="btn btn-default pjAsBtn pjAsBtnPrimary pjAsBtnAppointment"  id="pjAsBtnAppointment" value="den Termin buchen" type="submit" '.($start_ts != 0 ? "" : 'disabled="disabled"' ).'">
+							<a href="#" class="btn btn-default pjAsBtn pjAsBtnSecondary pjAsBtnBackToServices">Cancel</a>
+					</div><!-- /.col-lg-8 col-lg-offset-4 col-md-8 col-md-offset-4 col-sm-8 col-sm-offset-4 col-sx-12 -->
+				</div><!-- /.form-group -->
+			</div>							
+			</div>
+		</div>
+	</div><!-- /.panel-body pjAsCalendarInline -->
 
 
-<div class="panel-body pjAsCalendarInline">
+	<div class="panel-body pjAsCalendarInline" id="selectedTimeSlotsList" style="display:none;">
 				<ul id="pjAsAsideCart" class="list-group pjAsAsideServices">
 					
-					<li class="list-group-item pjAsAsideService">
+					<li class="list-group-item pjAsAsideService"  >
 						<h3 class="pjAsAsideTitle">Gewähltes Datum</h3><!-- /.pjAsAsideTitle -->
 					</li><!-- /.list-group-item pjAsAsideService -->	
 					
 					
-					<li class="list-group-item pjAsAsideService" id="selected-service_1">
+					<li class="list-group-item pjAsAsideService selectedTimeSlotItem" style="display:none;">
 						<dl>
 							<dd>
-								<p><strong>Priorität1</strong> selected date </p>
-								<p>start time - end time</p>
+								<p><strong>Priorität<span class="selectedTimeSlotPriority"></span></strong> <span class="selectedTimeSlotDate"></span></p>
+								<p><span class="selectedTimeSlotStartTime"></span> - <span class="selectedTimeSlotEndTime"></span></p>
 							</dd>
 						</dl>
-		
-						<button class="pjAsBtn pjAsBtnRemove pjAsBtnRemoveSelectedAppointment" id="selected-service_1">
+						<input type="hidden" name="ca_end_ts[{$service_id}][1]" class="ca_end_ts">
+						<input type="hidden" name="ca_start_ts[{$service_id}][1]" class="ca_start_ts">
+						<input type="hidden" name="ca_priority[{$service_id}][1]" class="ca_priority">
+						<input type="hidden" name="ca_employee_id[{$service_id}][1]" class="ca_employee_id">
+						<button class="pjAsBtn pjAsBtnRemove pjAsBtnRemoveSelectedAppointment" id="0">
 							<span class="glyphicon glyphicon-remove"></span>
 						</button>
 					</li><!-- /.list-group-item pjAsAsideService -->
 					
-					<li class="list-group-item pjAsAsideService" id="selected-service_2">
+					<li class="list-group-item pjAsAsideService selectedTimeSlotItem" style="display:none;">
 						<dl>
 							<dd>
-								<p><strong>Priorität2</strong> selected date </p>
-								<p>start time - end time</p>
+								<p><strong>Priorität<span class="selectedTimeSlotPriority"></span></strong> <span class="selectedTimeSlotDate"></span></p>
+								<p><span class="selectedTimeSlotStartTime"></span> - <span class="selectedTimeSlotEndTime"></span></p>
 							</dd>
 						</dl>
-		
-						<button class="pjAsBtn pjAsBtnRemove pjAsBtnRemoveSelectedAppointment" id="selected-service_2">
+						<input type="hidden" name="ca_end_ts[{$service_id}][2]" class="ca_end_ts">
+						<input type="hidden" name="ca_start_ts[{$service_id}][2]" class="ca_start_ts">
+						<input type="hidden" name="ca_priority[{$service_id}][2]" class="ca_priority">
+						<input type="hidden" name="ca_employee_id[{$service_id}][2]" class="ca_employee_id">
+						<button class="pjAsBtn pjAsBtnRemove pjAsBtnRemoveSelectedAppointment" id="1">
 							<span class="glyphicon glyphicon-remove"></span>
 						</button>
 					</li><!-- /.list-group-item pjAsAsideService -->
 					
-					<li class="list-group-item pjAsAsideService" id="selected-service_3">
+					<li class="list-group-item pjAsAsideService selectedTimeSlotItem" style="display:none;">
 						<dl>
 							<dd>
-								<p><strong>Priorität3</strong> selected date </p>
-								<p>start time - end time</p>
+								<p><strong>Priorität<span class="selectedTimeSlotPriority"></span></strong> <span class="selectedTimeSlotDate"></span></p>
+								<p><span class="selectedTimeSlotStartTime"></span> - <span class="selectedTimeSlotEndTime"></span></p>
 							</dd>
 						</dl>
-		
-						<button class="pjAsBtn pjAsBtnRemove pjAsBtnRemoveSelectedAppointment" id="selected-service_3">
+						<input type="hidden" name="ca_end_ts[{$service_id}][3]" class="ca_end_ts">
+						<input type="hidden" name="ca_start_ts[{$service_id}][3]" class="ca_start_ts">
+						<input type="hidden" name="ca_priority[{$service_id}][3]" class="ca_priority">
+						<input type="hidden" name="ca_employee_id[{$service_id}][3]" class="ca_employee_id">
+						<button class="pjAsBtn pjAsBtnRemove pjAsBtnRemoveSelectedAppointment" id="2">
 							<span class="glyphicon glyphicon-remove"></span>
 						</button>
-					</li><!-- /.list-group-item pjAsAsideService -->					
+					</li><!-- /.list-group-item pjAsAsideService -->
+								
 					
 				</ul><!-- /.list-group pjAsAsideServices -->
                 
@@ -163,8 +172,10 @@
 	  return 1 + Math.round(((date.getTime() - week1.getTime()) / 86400000
 	                        - 3 + (week1.getDay() + 6) % 7) / 7);
 	};*/
-
+//assumption - there can be more then one calendar on the page
 	//navigation previous/next month
+	calendarFor{$service_id} = "aa";
+	alert(calendarFor{$service_id});
 	monthChangers = document.getElementsByClassName("pjAsCalendarLinkMonth");
 	for(var i=0;i<monthChangers.length;i++){
 		monthChangers[i].onclick = function(e) {
@@ -196,28 +207,124 @@
 	var selectedStartTs = document.getElementsByName("selected_start_ts")[0];
 	var selectedEndTs = document.getElementsByName("selected_end_ts")[0];
 	var selectedEmployeeId = document.getElementsByName("selected_employee_id")[0];
-	var selectedServiceId = document.getElementsByName("service_id")[0];
 	
 	for(var i=0;i<timeSlots.length;i++){
 		timeSlots[i].onclick = function(e){
 			e.preventDefault();
-//alert(this.getAttribute("data-start")+" "+this.getAttribute("data-end")+this.getAttribute("data-service_id"));
-			selectedStartTs.value = this.getAttribute("data-start_ts");
-			selectedEndTs.value = this.getAttribute("data-end_ts");
-			selectedEmployeeId.value = this.getAttribute("data-employee_id");
-			selectedServiceId.value = this.getAttribute("data-service_id");
+			
+			//TODO remove lastSelectedTimeSlot if not in the list
+			//TODO remove timeSlot selected when it is removed from the list
+
+			selectedStartTs.textContent = this.getAttribute("data-start_ts");
+			selectedEndTs.textContent = this.getAttribute("data-end_ts");
+			selectedEmployeeId.textContent = this.getAttribute("data-employee_id");
 			className = this.parentNode.className;
 			if(className.indexOf("pjAsTimeAvailable")>-1)
 			if(!className.indexOf("pjAsTimeSelected")>-1)
 				this.parentNode.className =className+ " pjAsTimeSelected";
+			var lastSelectedTimeSlot = this;
 		}
 	};
+	
+	//get selected appointments
+	var selectedTimeSlotsList = document.getElementById("selectedTimeSlotsList");
+	var selectedTimeSlotItems = document.getElementsByClassName("selectedTimeSlotItem");
+
+	for(var i=0;i<selectedTimeSlotItems.length;i++){
+		selectedTimeSlotItems[i].setAttribute("priority",i+1);
+	}
+	
+	setAppointmentValues = function(st_pos,priority,start_ts,end_ts,employee_id){
+		timeslot = selectedTimeSlotItems[st_pos];
+		if(timeslot != null){
+			timeslot.style.display = "";
+			slot_date = new Date(start_ts*1000);
+			console.log(st_pos);
+			timeslot.getElementsByClassName("selectedTimeSlotPriority")[0].textContent = priority;
+			timeslot.getElementsByClassName("selectedTimeSlotDate")[0].textContent = slot_date.toLocaleDateString('de-DE');
+			start_time = slot_date.toLocaleTimeString('de-DE');
+			timeslot.getElementsByClassName("selectedTimeSlotStartTime")[0].textContent = start_time.substring(0,start_time.length-3);
+			end_time = (new Date(end_ts*1000)).toLocaleTimeString('de-DE');
+			timeslot.getElementsByClassName("selectedTimeSlotEndTime")[0].textContent = end_time.substring(0,end_time.length-3);
 			
+			timeslot.getElementsByClassName("ca_priority")[0].value = priority;
+			timeslot.getElementsByClassName("ca_start_ts")[0].value = start_ts;
+			timeslot.getElementsByClassName("ca_end_ts")[0].value = end_ts;
+			timeslot.getElementsByClassName("ca_employee_id")[0].value = employee_id;
+		}
+	}
+	
+	setAppointmentEmpty = function(st_pos){
+		timeslot = selectedTimeSlotItems[st_pos];
+		if(timeslot != null){
+			timeslot.getElementsByClassName("selectedTimeSlotPriority")[0].textContent = "";
+			timeslot.getElementsByClassName("selectedTimeSlotDate")[0].textContent = "";
+			timeslot.getElementsByClassName("selectedTimeSlotStartTime")[0].textContent = "";
+			timeslot.getElementsByClassName("selectedTimeSlotEndTime")[0].textContent = "";
+			
+			timeslot.getElementsByClassName("ca_priority")[0].value = "";
+			timeslot.getElementsByClassName("ca_start_ts")[0].value = "";
+			timeslot.getElementsByClassName("ca_end_ts")[0].value = "";
+			timeslot.getElementsByClassName("ca_employee_id")[0].value = "";
+			timeslot.style.display = "none";
+		}
+	}
+	
+	removeAppointmentValues = function(st_pos){
+		timeSlotEmpty = 0;
+		for(j=parseInt(st_pos);j<selectedTimeSlotItems.length-1;j++){ //move each appointment one slot lower => 2->1 1->0
+			timeslot = selectedTimeSlotItems[j+1];
+
+			if(timeslot.style.display != "none"){ //if we reach a slot that is not shown go to the end and set slot with id st_pos as empty
+			
+			setAppointmentValues(j,j+1,
+					timeslot.getElementsByClassName("ca_start_ts")[0].value,
+					timeslot.getElementsByClassName("ca_end_ts")[0].value,
+					timeslot.getElementsByClassName("ca_employee_id")[0].value);
+			timeSlotEmpty = j+1;
+			}
+			else {
+				j = selectedTimeSlotItems.length;
+				timeSlotEmpty = st_pos;
+			}
+		}
+		setAppointmentEmpty(timeSlotEmpty);
+	}
+	
 	//schedule appointment TODO populate list also from controller
 	scheduleAppointmentButton = document.getElementById("pjAsBtnAppointment");
 	scheduleAppointmentButton.onclick = function(e){
 		e.preventDefault();
-		alert(selectedStartTs.value+" "+selectedEndTs.value+" "+selectedEmployeeId.value+" "+selectedServiceId.value);
+		
+		//find an empty slot
+		selected_timeslots_nr = -1;
+		for(i=0;i<selectedTimeSlotItems.length;i++){
+			if(selectedTimeSlotItems[i].style.display == "none"){
+				selected_timeslots_nr = i;
+				i = selectedTimeSlotItems.length; //exit for
+			}	
+		};
+		
+		selectedTimeSlotsList.style.display = "";
+		
+		if(selected_timeslots_nr == -1){ //3 choices have already been made remove the first one
+			removeAppointmentValues(0);
+			setAppointmentValues(selected_timeslots_nr,selected_timeslots_nr+1,selectedStartTs.textContent,selectedEndTs.textContent,selectedEmployeeId.textContent);
+		}
+		else{ //there is still at least one more choice 
+		//	console.log("selected timeslot nr "+selected_timeslots_nr);
+		if(selectedStartTs.textContent != "" && selectedEndTs.textContent != "" && selectedEmployeeId.textContent != "")
+			setAppointmentValues(selected_timeslots_nr,selected_timeslots_nr+1,selectedStartTs.textContent,selectedEndTs.textContent,selectedEmployeeId.textContent);
+		else alert("please select a time slot");
+		}
+		
+		
+		
+		
+		//clear selected 
+		selectedStartTs.textContent = "";
+		selectedEndTs.textContent = "";
+		selectedEmployeeId.textContent = "";
 	}
 	
 	//remove selected appointment
@@ -225,33 +332,9 @@
 	for(var i=0;i<removeSelectedAppointmentButtons.length;i++){
 		removeSelectedAppointmentButtons[i].onclick = function(e){
 			e.preventDefault();
-			
+			removeAppointmentValues(this.getAttribute("id"));
 		}
 	}
-		
-/*
-		<dl>
-			<dd>
-				<p><strong>Priorität<?php echo $counter; ?></strong> <?php echo  date($tpl['option_arr']['o_date_format'], strtotime($date));?></p>
-				<p><?php echo date($tpl['option_arr']['o_time_format'], $fixed_start_ts);?> - <?php echo date($tpl['option_arr']['o_time_format'], $fixed_end_ts);?></p>
-			</dd>
-		</dl>
-
-<button class="pjAsBtn pjAsBtnRemove pjAsBtnRemoveFromCart" data-start_ts="<?php echo $start_ts; ?>" data-end_ts="<?php echo $end_ts; ?>" data-date="<?php echo $date; ?>" data-service_id="<?php echo $service_id; ?>" data-employee_id="<?php echo $employee_id; ?>">
-<span class="glyphicon glyphicon-remove"></span>
-</button>*/
-	
-/*
-			calendar_reference = document.getElementById('calendar_time_reference');
-			calendar_week_nr = document.getElementById('calendar_week_number');
-			
-			if(this.getAttribute("data-direction") == "next")
-				calendar_reference.innerHTML = calendar_reference.innerHTML+2592000; 
-			if(this.getAttribute("data-direction") == "prev") 
-				calendar_reference.innerHTML = calendar_reference.innerHTML-2592000;  
-			alert(calendar_reference.innerHTML);
-			calendar_week_nr.innerHTML =getWeek(calendar_reference);*/
-				
 
 
 </script>
