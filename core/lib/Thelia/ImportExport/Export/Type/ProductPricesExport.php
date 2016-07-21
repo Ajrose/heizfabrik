@@ -23,6 +23,15 @@ use Thelia\Model\Map\ProductPriceTableMap;
 use Thelia\Model\Map\ProductSaleElementsTableMap;
 use Thelia\Model\Map\ProductTableMap;
 use Thelia\Model\ProductSaleElementsQuery;
+use Thelia\Model\ProductQuery;
+use Thelia\Model\ProductCategoryQuery;
+use Thelia\Model\Map\ProductCategoryTableMap;
+use Thelia\Model\Map\BrandI18nTableMap;
+use Thelia\Model\Map\BrandTableMap;
+use Thelia\Model\BrandI18n;
+use Thelia\Model\Map\CategoryI18nTableMap;
+use HookCalendar\Model\Base\ProductCategory;
+use Thelia\Model\Map\CategoryTableMap;
 
 /**
  * Class ProductPricesExport
@@ -36,15 +45,21 @@ class ProductPricesExport extends AbstractExport
     const FILE_NAME = 'product_price';
 
     protected $orderAndAliases = [
-        ProductSaleElementsTableMap::ID => 'id',
-        'productID' => 'product_id',
-        'product_i18nTITLE' => 'title',
-        'attribute_av_i18n_ATTRIBUTES' => 'attributes',
-        ProductSaleElementsTableMap::EAN_CODE => 'ean',
-        'product_pricePRICE' => 'price',
-        'product_pricePROMO_PRICE' => 'promo_price',
-        'currencyCODE' => 'currency',
-        ProductSaleElementsTableMap::PROMO => 'promo'
+        ProductSaleElementsTableMap::ID => 'Id',
+        'productID' => 'Product_id',
+        'product_i18nTITLE' => 'Title',
+        'attribute_av_i18n_ATTRIBUTES' => 'Attributes',
+        ProductSaleElementsTableMap::EAN_CODE => 'Ean',
+        'product_pricePRICE' => 'Price',
+        'product_pricePROMO_PRICE' => 'Promo_price',
+        'currencyCODE' => 'Currency',
+        ProductSaleElementsTableMap::PROMO => 'Promo',
+    	'productVISIBLE' => 'Online/offline',
+    	'productREF' => 'Ref_nr',
+    	'product_priceLISTEN_PRICE' => 'Listenpreis',
+    	'weight' => 'Gewicht',
+    	'brand_i18nTITLE' => 'Marke/Anbieter',
+    	'category_i18nTITLE' => 'Standart Produkt Kategorie'
     ];
 
     protected function getData()
@@ -53,6 +68,8 @@ class ProductPricesExport extends AbstractExport
 
         $productJoin = new Join(ProductTableMap::ID, ProductI18nTableMap::ID, Criteria::LEFT_JOIN);
         $attributeAvJoin = new Join(AttributeAvTableMap::ID, AttributeAvI18nTableMap::ID, Criteria::LEFT_JOIN);
+        $brandJoin = new Join(ProductTableMap::ID, BrandI18nTableMap::ID, Criteria::LEFT_JOIN);
+        $categoryJoin = new Join(ProductCategoryTableMap::CATEGORY_ID, CategoryI18nTableMap::ID, Criteria::LEFT_JOIN);
 
         $query = ProductSaleElementsQuery::create()
             ->addSelfSelectColumns()
@@ -62,6 +79,7 @@ class ProductPricesExport extends AbstractExport
                     ->endUse()
                 ->withColumn(ProductPriceTableMap::PRICE)
                 ->withColumn(ProductPriceTableMap::PROMO_PRICE)
+                ->withColumn(ProductPriceTableMap::LISTEN_PRICE)
                 ->endUse()
             ->useProductQuery()
                 ->addJoinObject($productJoin, 'product_join')
@@ -74,7 +92,32 @@ class ProductPricesExport extends AbstractExport
                 )
                 ->withColumn(ProductI18nTableMap::TITLE)
                 ->withColumn(ProductTableMap::ID)
+                ->withColumn(ProductTableMap::REF)
+                ->withColumn(ProductTableMap::VISIBLE)
+                
+                ->addJoinObject($brandJoin, 'brand_join')
+                ->addJoinCondition(
+                		'brand_join',
+                		BrandI18nTableMap::LOCALE . ' = ?',
+                		$locale,
+                		null,
+                		\PDO::PARAM_STR
+                		)
+                		->withColumn(BrandI18nTableMap::TITLE)
+
+               	->useProductCategoryQuery()
+                	->addJoinObject($categoryJoin, 'category_join')
+                	->addJoinCondition(
+                			'category_join',
+                			CategoryI18nTableMap::LOCALE . ' = ?',
+                			$locale,
+                			null,
+                			\PDO::PARAM_STR
+                			)
+                			->withColumn(CategoryI18nTableMap::TITLE)
                 ->endUse()
+            ->endUse()
+            
             ->useAttributeCombinationQuery(null, Criteria::LEFT_JOIN)
                 ->useAttributeAvQuery(null, Criteria::LEFT_JOIN)
                     ->addJoinObject($attributeAvJoin, 'attribute_av_join')

@@ -138,7 +138,7 @@ class Cart extends BaseAction implements EventSubscriberInterface
 
         $event->setCartItem($cartItem);
         
-       // $cartItem->setServiceAppointmentChoices($event->getSpDate(), $event->getSpStartTs(), $event->getSpEndTs());   
+       $cartItem->setServiceAppointmentChoices($event->getSpDate(), $event->getSpStartTs(), $event->getSpEndTs());   
     }
 
     /**

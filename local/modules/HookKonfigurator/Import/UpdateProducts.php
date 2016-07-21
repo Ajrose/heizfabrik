@@ -26,11 +26,12 @@ use Thelia\Model\ProductPrice;
  */
 class UpdateProducts extends AbstractImport
 {
-	public $scraper,$productQuerry,$priceQuerry,$productSaleElementQuerry;
-	
+	public $scraper,$productQuerry,$priceQuerry,$productSaleElementQuerry,$log;
+	/** @var Tlog $log */
+	protected static $logger;
 	
 	protected $mandatoryColumns = [
-			'extern_id'
+			'EXTERN_ID','BRAND_ID','CATEGORY_ID'
 	];
 	
 	public function importData(array $data)
@@ -41,16 +42,41 @@ class UpdateProducts extends AbstractImport
 			$this->scraper = new HookScraperController();
 			$this->scraper->init();
 			$this->scraper->login(1);
-			$this->productQuerry = ProductQuery::create();
-			$this->priceQuerry = ProductPriceQuery::create();
-			$this->productSaleElementQuerry = ProductSaleElementsQuery::create();
+			$this->log = Tlog::getInstance ();
+		//	$this->productQuerry = ProductQuery::create();
+		//	$this->priceQuerry = ProductPriceQuery::create();
+		//	$this->productSaleElementQuerry = ProductSaleElementsQuery::create();
 		}
 		else{
-			$this->productQuerry->clear();
-			$this->priceQuerry->clear();
-			$this->productSaleElementQuerry->clear();
+		//	$this->productQuerry->clear();
+		//	$this->priceQuerry->clear();
+		//	$this->productSaleElementQuerry->clear();
 		}
 		
+		try {
+			$this->scraper->scrapeImportedProduct($data["EXTERN_ID"], $data["BRAND_ID"], $data["CATEGORY_ID"]);
+			$this->getLogger()->error($data["EXTERN_ID"].",".$data["BRAND_ID"].",".$data["CATEGORY_ID"]);
+		} catch (Exception $e) {
+			$this->getLogger()->error(" problem processing GC_ID ".$data["EXTERN_ID"].",".$data["BRAND_ID"].",".$data["CATEGORY_ID"]." message ".$e);
+		}
+	
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		/*
 		$responsePage =$this->scraper->getResults($data["extern_id"]);
 
 		
@@ -89,9 +115,25 @@ class UpdateProducts extends AbstractImport
     		else
     			$errors =" ".$data["extern_id"]." preis ".$preis." not found in db";
 
-    		$this->importedRows++;
     		
+    		*/
+    		$this->importedRows++;
 		return $errors;
+	}
+	
+	public function getLogger()
+	{
+		if (self::$logger == null) {
+			self::$logger = Tlog::getNewInstance();
+	
+			$logFilePath = THELIA_LOG_DIR . DS . "log-product_importer.txt";
+	
+			self::$logger->setPrefix("#LEVEL: #DATE #HOUR: ");
+			self::$logger->setDestinations("\\Thelia\\Log\\Destination\\TlogDestinationRotatingFile");
+			self::$logger->setConfig("\\Thelia\\Log\\Destination\\TlogDestinationRotatingFile", 0, $logFilePath);
+			self::$logger->setLevel(Tlog::ERROR);
+		}
+		return self::$logger;
 	}
 
 }

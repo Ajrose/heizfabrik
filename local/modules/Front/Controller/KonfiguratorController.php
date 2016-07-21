@@ -328,9 +328,9 @@ class KonfiguratorController extends BaseFrontController {
 		}
 	}
 	
-	protected function addServiceToCart($id,$product_sale_id,Request $request){
+	protected function addServiceToCart($id,$product_sale_id,$service_appointments,Request $request){
 		$log = Tlog::getInstance ();
-		$log->debug ( "-- addservices " );
+		$log->debug ( "-- addservices+appointments " );
 		
 		$message = null;
 		
@@ -341,9 +341,16 @@ class KonfiguratorController extends BaseFrontController {
 			$cartEvent->setProductSaleElementsId($product_sale_id);
 			$cartEvent->setQuantity(1);
 			
-			$sp_start_ts = $request->request->get('sp_start_ts_'.$id);
-			$sp_end_ts   = $request->request->get('sp_end_ts_'.$id);
-			$sp_date     = $request->request->get('sp_start_ts_'.$id);
+			if($service_appointments){
+				
+				$log->error("end ts ".implode(" ",$service_appointments["ca_end_ts"]));
+				$sp_start_ts = $service_appointments["ca_start_ts"];
+				$sp_end_ts   = $service_appointments["ca_end_ts"];
+				$sp_date     = array(
+						($sp_start_ts[1] ?date('d', $sp_start_ts[1]) : ""),
+						($sp_start_ts[2] ?date('d', $sp_start_ts[2]) : ""),
+						($sp_start_ts[3] ?date('d', $sp_start_ts[3]) : ""));
+			}
 
 			if(count($sp_start_ts)>0)
 				$cartEvent->setSpStartTs($sp_start_ts);
@@ -380,8 +387,7 @@ class KonfiguratorController extends BaseFrontController {
 	}
 	
 	public function addProductWithServicesAction(Request $request) {
-		//$request = $this->getRequest();
-	//	$cartAdd = new CartAdd();
+
 		$cartAdd = $this->getAddCartForm($request);
 		
 		$message = null;
@@ -406,14 +412,24 @@ class KonfiguratorController extends BaseFrontController {
 			if($service_ids != null){
 				$service_product_sale_ids = $request->request->get('service_product_sale_id');
 				$nr_services = count($service_ids);
-				if($nr_services > 0)
-					for ($i = 1; $i<=$nr_services; $i++){
+				
+				
+				if($nr_services > 0) //if we have at least a service
+				{
+				 	//get appointments
+				 	$ca_end_ts = $request->request->get("ca_end_ts");
+				 	$ca_start_ts = $request->request->get("ca_start_ts" );
+				 	$ca_priority = $request->request->get("ca_priority");
+				 	$ca_employee_id = $request->request->get("ca_employee_id");
+					for ($i = 1; $i<=$nr_services; $i++){ //for each service
 					if($service_ids[$i]){	
-						$log->debug ( "-- service_appointment ".$service_ids[$i]." ".(new JsonResponse($request->request->all())));
-							//$sp_start_ts	." ".implode(" ",$sp_end_ts)." ".implode(" ",$sp_date));
-						$this->addServiceToCart($service_ids[$i], $service_product_sale_ids[$i],$request);
+						//$log->debug ( "-- service_appointment ".$service_ids[$i]);//.(new JsonResponse($request->request->all())));
+						if($ca_end_ts[$service_ids[$i]])
+						$service_appointments = array("ca_end_ts" => $ca_end_ts[$service_ids[$i]],"ca_start_ts" => $ca_start_ts[$service_ids[$i]],"ca_priority" => $ca_priority[$service_ids[$i]], "ca_employee_id" => $ca_employee_id[$service_ids[$i]]);
+						$this->addServiceToCart($service_ids[$i], $service_product_sale_ids[$i],$service_appointments,$request);
 					}
-				};
+				}
+				}
 			}
 		
 			if ($this->getRequest()->isXmlHttpRequest()) {
