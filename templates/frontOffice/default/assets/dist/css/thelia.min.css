@@ -3151,7 +3151,8 @@ fieldset[disabled] .btn-default:hover {
 .btn-primary {
     color: #000;
     background-color: #86AC34;
-    border-color: #86AC34
+    border-color: #86AC34!important;
+    border:solid 1px #86AC34!important;
 }
 .btn-primary.focus,
 .btn-primary:focus {
@@ -8717,6 +8718,7 @@ header .header .language-container .language-switch .dropdown-label {
     font-size:12px!important;
     color:#7a7a7a;
     border-top:1px solid #e5e5e5;
+    margin-top:30px;
 }
 .footer-container .footer-info {
     background-color: #444;
@@ -8889,7 +8891,7 @@ a {
 }
 .btn-primary {
     font-style: italic;
-    border-left: 3px solid #86ac34
+    border-left: 3px solid #86ac34!important;
 }
 .btn-primary:focus,
 .btn-primary:hover {
@@ -11244,6 +11246,18 @@ ul.dropdown-menu li:hover{
 
 
 /*KONFIGURATOR*/
+.konfigurator-buttons{
+    float:left;
+
+    text-align: left;
+}
+#review{
+    float:left;
+
+    background: #F8F8F8;
+    padding:10px;
+    //margin:10px;
+}
 
 .konfigurator-ergebniss{
     //margin-top:-100px;
@@ -11253,21 +11267,22 @@ ul.dropdown-menu li:hover{
 .fs-form-wrap {
 	position: relative;
 	width: 100%;
-	height: 500px;
+	height: 550px;
 	//color: #fff;
 }
 
 .overview .fs-form-wrap {
-	height: auto;
+	height: auto!important;
+    margin-bottom:20%;
 }
 
 /* Title */
 .fs-title {
 	position: absolute;
-	top: 0;
+	top: 7px;
 	left: 0;
 	margin: 0;
-	padding: 40px;
+	//padding: 40px;
 	width: 100%;
 }
 
@@ -11287,10 +11302,10 @@ ul.dropdown-menu li:hover{
 }
 
 /* Views (fullscreen and overview)*/
-.fs-form-full {
-	top: 20%;
+.fs-form-full{
+    top:10%;
 	margin: 0 auto;
-	width: 70%;
+	width: 100%;
 }
 
 .fs-form-full,
@@ -11299,12 +11314,16 @@ ul.dropdown-menu li:hover{
 }
 
 .fs-form-overview {
-	padding: 2.5em 30% 6em;
-	width: 100%;
+	//padding: 2.5em 30% 6em;
+    padding:10px;
+	//width: 30%;
 	height: auto;
 	background:#fff;
 	color: #3b3f45;
-	font-size: 1.2em;
+	font-size: 0.8em;
+    margin:0;
+    margin-bottom:20%;
+    max-width: 1200px;
 }
 
 .fs-form-overview .fs-fields::before {
@@ -11431,7 +11450,7 @@ button.fs-continue,
 
 .js .fs-form-full .fs-fields > li {
 	position: absolute;
-	width: 100%;
+	width: 90%;
 }
 
 .fs-form-overview .fs-fields > li,
@@ -12120,7 +12139,7 @@ input[type=text]::-ms-clear {
 	}
 
 	.fs-title {
-		padding: 20px;
+		//padding: 20px;
 	}
 
 	.fs-numbers {
@@ -12951,3 +12970,8 @@ display: none;
 #form-heizungangebot input[type=checkbox], input[type=radio]{
     margin:10px 3px 10px 10px;
  }  
+
+.product-info .short-description p {
+    max-height:75px;
+    overflow: hidden;
+}

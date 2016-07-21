@@ -26,8 +26,8 @@
 					<a href="{$URL nofilter}"><span itemprop="name">{$productTitle}</span></a>
 				</h2>
 				{if $hasDescription}
-				<div class="short-description" itemprop="description">
-					<p>{$DESCRIPTION nofilter}</p>
+				<div class="short-description" itemprop="description" >
+					<p maxlength="100">{$DESCRIPTION nofilter}</p>
 				</div>
 				{/if} {if $hasGrade}
 				<div class="short-description" itemprop="description">
@@ -35,7 +35,7 @@
 						nofilter}</p>
 				</div>
 				{/if} {if $hasPower}
-				<div class="short-description" itemprop="description">
+				<div class="short-description" itemprop="description" >
 					<p>{intl l="Power" d="hookkonfigurator.fo.default"}: {$POWER
 						nofilter} KW</p>
 				</div>
