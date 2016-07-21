@@ -187,6 +187,7 @@ class CartEvent extends ActionEvent
     {
         return $this->cart;
     }
+    
 	public function getSpStartTs() {
 		return $this->sp_start_ts;
 	}
@@ -194,6 +195,7 @@ class CartEvent extends ActionEvent
 		$this->sp_start_ts = $sp_start_ts;
 		return $this;
 	}
+	
 	public function getSpEndTs() {
 		return $this->sp_end_ts;
 	}
@@ -201,6 +203,7 @@ class CartEvent extends ActionEvent
 		$this->sp_end_ts = $sp_end_ts;
 		return $this;
 	}
+	
 	public function getSpDate() {
 		return $this->sp_date;
 	}
