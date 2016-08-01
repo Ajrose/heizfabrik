@@ -26,7 +26,6 @@ use HookKonfigurator\Form\PersonalData;
 
 class KonfiguratorController extends BaseFrontController {
     
-    
         public function sendMail(Request $request)
     {
         $log = Tlog::getInstance();
@@ -111,10 +110,8 @@ class KonfiguratorController extends BaseFrontController {
         $warmwasserversorgungExtraWaermepumpe = $heizungskonfiguratorForm->getLabel("warmwasserversorgung-extra-waermepumpe",$warmwasserversorgungExtraWaermepumpe);
         
      	//$contactForm = $this->createForm("konfigurator.personal.data");
-        
-    //    $contactForm = new PersonalData();
-   //     $form = $this->validateForm($contactForm);
-     //  $contactForm
+        //$contactForm = new PersonalData();
+
         $subject = "Heizungskonfigurator neue Anfrage ";
         $emailTest = "angebote@hausfabrik.at";
         $firstname = $this->getRequest()->get('konfiguratorpersonaldata')['firstname'];
@@ -132,8 +129,8 @@ class KonfiguratorController extends BaseFrontController {
         $files = new FileBag();
         $files = $this->getRequest()->files;
         
-        $headers  = 'MIME-Version: 1.0' . "\r\n";
-        $headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
+        //$headers  = 'MIME-Version: 1.0' . "\r\n";
+        //$headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
         
         $storeName="Hausfabrik";
         $contactEmail="angebote@hausfabrik.at";
@@ -194,7 +191,6 @@ class KonfiguratorController extends BaseFrontController {
         "<br>Wie groß ist die zu beheizende Fläche? ".  $heizflaeche.
         "<br>".$imagesHTML;
         
-        
 			$log->error(sprintf('message : %s', $message));
             $htmlMessage = "<p>$message</p>";
 
@@ -251,11 +247,9 @@ class KonfiguratorController extends BaseFrontController {
 				->setCreatedAt(date ( "Y-m-d H:i:s" ))
 				->setUserId($currentCustomer)
 				->setVersion("1.0")
-				->save();			
+				->save();
 				
-				
-				
-				$log->error(" create userdatenquery ".$userdata);
+				//$log->error(" create userdatenquery ".$userdata);
 				//get images
 				$files = new FileBag();
 				$files = $request->files;
@@ -285,33 +279,21 @@ class KonfiguratorController extends BaseFrontController {
 							$i++;
 							$userdata->addHeizungkonfiguratorImage($newImage);
 						}
-			
-			
 				}		
 			
 			$this->getSession()->set ( 'heizungkonfiguratoruserdaten', $userdata->getId());
 			$request->attributes->set ( '_view', $view );
-	/*	}
-		else
-		{
-			return new JsonResponse ( array ('personal-data' => 'imsirunani') ); // $productsQuerry->__toString()
-		}*/
 	}
-    
 	
 	public function suggestionsAction(Request $request) {
 
-		//TODO sequence diagramm with the operations starting from konfigurator form and ending to the response products
 		if ($request->isXmlHttpRequest ()) {
 			$view = $request->get ( 'ajax-view', "includes/konfigurator-suggestions" );
 			$request->attributes->set ( '_view', $view );
 		}
 		else 
-		{	
-		return new JsonResponse ( array ('stuff' => 'more stuff') ); // $productsQuerry->__toString()
-		}
-	}
-    
+			return new JsonResponse ( array ('stuff' => 'more stuff') );//TODO redirect these request to a different page
+	}  
 	
 	public function servicesAction(Request $request) {
 		if ($request->isXmlHttpRequest ()) {
@@ -323,9 +305,7 @@ class KonfiguratorController extends BaseFrontController {
 			$request->attributes->set ( '_view', $view );
 		}
 		else
-		{
 			return new JsonResponse ( array ('service_stuff' => 'more_service_stuff') ); // $productsQuerry->__toString()
-		}
 	}
 	
 	protected function addServiceToCart($id,$product_sale_id,$service_appointments,Request $request){
@@ -333,7 +313,6 @@ class KonfiguratorController extends BaseFrontController {
 		$log->debug ( "-- addservices+appointments " );
 		
 		$message = null;
-		
 		try {
 			$cartEvent = $this->getCartEvent();
 			$cartEvent->setProduct($id);

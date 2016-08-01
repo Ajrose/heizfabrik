@@ -111,6 +111,13 @@ abstract class ProductI18n implements ActiveRecordInterface
     /**
      * @var        Product
      */
+
+    /**
+     * The value for the faq field.
+     * @var        string
+     */
+    protected $faq;
+
     protected $aProduct;
 
     /**
@@ -492,6 +499,17 @@ abstract class ProductI18n implements ActiveRecordInterface
     }
 
     /**
+     * Get the [faq] column value.
+     *
+     * @return   string
+     */
+    public function getFaq()
+    {
+
+        return $this->faq;
+    }
+
+    /**
      * Set the value of [id] column.
      *
      * @param      int $v new value
@@ -685,6 +703,27 @@ abstract class ProductI18n implements ActiveRecordInterface
     } // setMetaKeywords()
 
     /**
+     * Set the value of [faq] column.
+     *
+     * @param      string $v new value
+     * @return   \Thelia\Model\ProductI18n The current object (for fluent API support)
+     */
+    public function setFaq($v)
+    {
+        if ($v !== null) {
+            $v = (string) $v;
+        }
+
+        if ($this->faq !== $v) {
+            $this->faq = $v;
+            $this->modifiedColumns[ProductI18nTableMap::FAQ] = true;
+        }
+
+
+        return $this;
+    } // setFaq()
+
+    /**
      * Indicates whether the columns in this object are only set to default values.
      *
      * This method can be used in conjunction with isModified() to indicate whether an object is both
@@ -751,6 +790,9 @@ abstract class ProductI18n implements ActiveRecordInterface
 
             $col = $row[TableMap::TYPE_NUM == $indexType ? 8 + $startcol : ProductI18nTableMap::translateFieldName('MetaKeywords', TableMap::TYPE_PHPNAME, $indexType)];
             $this->meta_keywords = (null !== $col) ? (string) $col : null;
+			
+			$col = $row[TableMap::TYPE_NUM == $indexType ? 9 + $startcol : ProductI18nTableMap::translateFieldName('Faq', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->faq = (null !== $col) ? (string) $col : null;
             $this->resetModified();
 
             $this->setNew(false);
@@ -1007,7 +1049,10 @@ abstract class ProductI18n implements ActiveRecordInterface
         if ($this->isColumnModified(ProductI18nTableMap::META_KEYWORDS)) {
             $modifiedColumns[':p' . $index++]  = '`META_KEYWORDS`';
         }
-
+        if ($this->isColumnModified(ProductI18nTableMap::FAQ)) {
+            $modifiedColumns[':p' . $index++]  = 'FAQ';
+        }
+		
         $sql = sprintf(
             'INSERT INTO `product_i18n` (%s) VALUES (%s)',
             implode(', ', $modifiedColumns),
@@ -1044,6 +1089,9 @@ abstract class ProductI18n implements ActiveRecordInterface
                         break;
                     case '`META_KEYWORDS`':
                         $stmt->bindValue($identifier, $this->meta_keywords, PDO::PARAM_STR);
+                        break;
+					case 'FAQ':
+                        $stmt->bindValue($identifier, $this->faq, PDO::PARAM_STR);
                         break;
                 }
             }
@@ -1127,6 +1175,9 @@ abstract class ProductI18n implements ActiveRecordInterface
             case 8:
                 return $this->getMetaKeywords();
                 break;
+            case 9:
+                return $this->getFaq();
+                break;
             default:
                 return null;
                 break;
@@ -1165,6 +1216,7 @@ abstract class ProductI18n implements ActiveRecordInterface
             $keys[6] => $this->getMetaTitle(),
             $keys[7] => $this->getMetaDescription(),
             $keys[8] => $this->getMetaKeywords(),
+			$keys[9] => $this->getFaq(),
         );
         $virtualColumns = $this->virtualColumns;
         foreach ($virtualColumns as $key => $virtualColumn) {
@@ -1236,6 +1288,9 @@ abstract class ProductI18n implements ActiveRecordInterface
             case 8:
                 $this->setMetaKeywords($value);
                 break;
+            case 9:
+                $this->setFaq($value);
+                break;
         } // switch()
     }
 
@@ -1269,6 +1324,7 @@ abstract class ProductI18n implements ActiveRecordInterface
         if (array_key_exists($keys[6], $arr)) $this->setMetaTitle($arr[$keys[6]]);
         if (array_key_exists($keys[7], $arr)) $this->setMetaDescription($arr[$keys[7]]);
         if (array_key_exists($keys[8], $arr)) $this->setMetaKeywords($arr[$keys[8]]);
+		if (array_key_exists($keys[9], $arr)) $this->setFaq($arr[$keys[9]]);
     }
 
     /**
@@ -1289,6 +1345,7 @@ abstract class ProductI18n implements ActiveRecordInterface
         if ($this->isColumnModified(ProductI18nTableMap::META_TITLE)) $criteria->add(ProductI18nTableMap::META_TITLE, $this->meta_title);
         if ($this->isColumnModified(ProductI18nTableMap::META_DESCRIPTION)) $criteria->add(ProductI18nTableMap::META_DESCRIPTION, $this->meta_description);
         if ($this->isColumnModified(ProductI18nTableMap::META_KEYWORDS)) $criteria->add(ProductI18nTableMap::META_KEYWORDS, $this->meta_keywords);
+        if ($this->isColumnModified(ProductI18nTableMap::FAQ)) $criteria->add(ProductI18nTableMap::FAQ, $this->faq);
 
         return $criteria;
     }
@@ -1368,6 +1425,7 @@ abstract class ProductI18n implements ActiveRecordInterface
         $copyObj->setMetaTitle($this->getMetaTitle());
         $copyObj->setMetaDescription($this->getMetaDescription());
         $copyObj->setMetaKeywords($this->getMetaKeywords());
+        $copyObj->setFaq($this->getFaq());
         if ($makeNew) {
             $copyObj->setNew(true);
         }
@@ -1460,6 +1518,7 @@ abstract class ProductI18n implements ActiveRecordInterface
         $this->meta_title = null;
         $this->meta_description = null;
         $this->meta_keywords = null;
+        $this->faq = null;
         $this->alreadyInSave = false;
         $this->clearAllReferences();
         $this->applyDefaultValues();
