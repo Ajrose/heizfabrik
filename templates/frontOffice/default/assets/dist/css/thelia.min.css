@@ -10801,6 +10801,19 @@ td.product .name>a:hover {
 .aside-banner-wartung{
      background: url(../img/aside-banners/aside-banner-services.png) #f3f5f8 right no-repeat;
 }
+.aside-banner-installator{
+     background: url(../img/aside-banners/aside-banner-installator.png) #f3f5f8  no-repeat;
+     color:#000;
+}
+.aside-banner-thermen-wartung{
+     background: url(../img/aside-banners/aside-banner-thermen-wartung.png) #f3f5f8  no-repeat;
+     color:#FFF;
+    background-size:100%;
+}
+.aside-banner-wc{
+     background: url(../img/aside-banners/aside-banner-wc.png) #f3f5f8  no-repeat;
+     color:#FFF;
+}
 .fertige-badezimmer-set{
     background: url(../img/fertige-badezimmer.png)   no-repeat;
     background-size:100%;
@@ -12974,4 +12987,30 @@ display: none;
 .product-info .short-description p {
     max-height:75px;
     overflow: hidden;
+}
+
+/* SERVICES */
+
+.services-top-image{
+    position: relative; 
+}
+.services-top-image div{
+   position: absolute; 
+   bottom: 10%; 
+   left: 0; 
+   max-width:400px;
+   padding:0 20px;
+    background: rgba(255, 255, 255, 0.8);
+    font-size: 1.5vh;
+}
+
+.services-top-image div h2{
+    font-size: 2.5vh;
+} 
+.faq{ 
+    border-top: 1px solid #e5e5e5;
+    margin-top: 30px;
+}
+.faq p{
+    font-size:11px;
 }
