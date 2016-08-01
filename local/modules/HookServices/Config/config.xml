@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<config xmlns="http://thelia.net/schema/dic/config"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://thelia.net/schema/dic/config http://thelia.net/schema/dic/config/thelia-1.0.xsd">
+
+    <loops>
+        <!-- sample definition
+        <loop name="MySuperLoop" class="HookServices\Loop\MySuperLoop" />
+        -->
+    </loops>
+
+    <forms>
+        
+        <form name="services" class="HookServices\Form\Services" />
+       
+    </forms>
+
+    <commands>
+        <!--
+        <command class="HookServices\Command\MySuperCommand" />
+        -->
+    </commands>
+
+    <!--
+    <services>
+
+    </services>
+    -->
+
+
+    <hooks>
+        <hook id="hookservices.hook.front" class="HookServices\Hook\Front" scope="request">
+            <tag name="hook.event_listener" event="main.head-bottom" active="1"/>
+            <tag name="hook.event_listener" event="servicesjs.bottom" active="1"/>
+            <tag name="hook.event_listener" event="register.after-javascript-include" active="1"/>        
+        </hook>
+    </hooks>
+
+
+    <!--
+    <exports>
+
+    </exports>
+    -->
+
+    <!--
+    <imports>
+
+    </imports>
+    -->
+</config>

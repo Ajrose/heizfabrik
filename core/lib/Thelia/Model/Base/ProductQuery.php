@@ -1146,6 +1146,23 @@ abstract class ProductQuery extends ModelCriteria
             throw new PropelException('filterByAccessoryRelatedByAccessory() only accepts arguments of type \Thelia\Model\Accessory or Collection');
         }
     }
+    
+    /**
+     * Filter the query by a related Category object
+     * using the product_category table as cross reference
+     *
+     * @param Category $category the related object to use as filter
+     * @param string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return ChildProductQuery The current query, for fluid interface
+     */
+    public function filterByCategory($category, $comparison = Criteria::EQUAL)
+    {
+     return $this
+     ->useProductCategoryQuery()
+     ->filterByCategory($category, $comparison)
+     ->endUse();
+    }
 
     /**
      * Adds a JOIN clause to the query using the AccessoryRelatedByAccessory relation
