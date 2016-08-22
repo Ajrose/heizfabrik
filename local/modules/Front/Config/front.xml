@@ -296,6 +296,15 @@
         <default key="_controller">Front\Controller\KlimaAngebotController::sendAction</default>
         <default key="_view">klima-angebot</default>
     </route>
+    <route id="services.send" path="/services/sendmail" methods="post">
+        <default key="_controller">Front\Controller\HirePlumberController::sendAction</default>
+        <default key="_view">services-sendmail</default>
+    </route>
+     <route id="services.success" path="/services/success">
+        <default key="_controller">Thelia\Controller\Front\DefaultController::noAction</default>
+        <default key="_view">services-success</default>
+    </route>
+    
     <route id="heizung.angebot.send" path="/heizungskonfigurator-angebot/sendmail" methods="post">
         <default key="_controller">Front\Controller\HeizungAngebotController::sendAction</default>
         <default key="_view">heizung-angebot</default>

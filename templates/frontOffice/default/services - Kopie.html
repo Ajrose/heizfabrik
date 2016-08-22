@@ -103,9 +103,9 @@
                         {form_field field="kueche-projekt-geraet"}
                            <div class="form-group group-title{if $error} has-error{/if} {$label_attr.for}" >
 
-                                <label class="control-label col-sm-5" for="q3">{$label}</label>
+                                <label class="control-label col-sm-4" for="q3">{$label}</label>
                                         
-                                <div class="control-input col-sm-4">
+                                <div class="control-input col-sm-5">
                                    
                                          
 											<select class="form-control" name="{$name}" id="{$label_attr.for}">
@@ -519,11 +519,90 @@
                     <div class="panel-heading"><strong>
                         2. {intl l="Schritt"}
                     </strong></div>
-                
+                    <div class="panel-body">
                         
                         {include file="includes/personal-data.html"}
-                           
-                      
+                           {form_field field="firstname"}
+                           <div class="form-group group-title{if $error} has-error{/if} {$label_attr.for}" >
+
+                                <label class="control-label col-sm-5" for="q3">{$label}</label>
+                                        
+                                <div class="control-input col-sm-4">
+                                    <input type="text" name="{$name}" id="{$label_attr.for}" class="form-control" maxlength="20"  value="{$value}"{if $required} {/if}{if !isset($error_focus) && $error} autofocus{/if}>
+                                    {if $error }
+                                        <span class="help-block">{$message}</span>
+                                        {assign var="error_focus" value="true"}
+                                    {/if}
+
+
+                                </div>
+                            </div><!--/.form-group-->
+                    </div>
+                        {/form_field}
+                        {form_field field="lastname"}
+                           <div class="form-group group-title{if $error} has-error{/if} {$label_attr.for}" >
+
+                                <label class="control-label col-sm-5" for="q3">{$label}</label>
+                                        
+                                <div class="control-input col-sm-4">
+                                    <input type="text" name="{$name}" id="{$label_attr.for}" class="form-control" maxlength="20"  value="{$value}"{if $required}  {/if}{if !isset($error_focus) && $error} autofocus{/if}>
+                                    {if $error }
+                                        <span class="help-block">{$message}</span>
+                                        {assign var="error_focus" value="true"}
+                                    {/if}
+
+
+                                </div>
+                            </div><!--/.form-group-->
+                        {/form_field}
+                        {form_field field="phone"}
+                           <div class="form-group group-title{if $error} has-error{/if} {$label_attr.for}" >
+
+                                <label class="control-label col-sm-5" for="q3">{$label}</label>
+                                        
+                                <div class="control-input col-sm-4">
+                                    <input type="text" name="{$name}" id="{$label_attr.for}" class="form-control" maxlength="20"  value="{$value}"{if $required}  {/if}{if !isset($error_focus) && $error} autofocus{/if}>
+                                    {if $error }
+                                        <span class="help-block">{$message}</span>
+                                        {assign var="error_focus" value="true"}
+                                    {/if}
+
+
+                                </div>
+                            </div><!--/.form-group-->
+                        {/form_field}
+                        {form_field field="cellphone"}
+                           <div class="form-group group-title{if $error} has-error{/if} {$label_attr.for}" >
+
+                                <label class="control-label col-sm-5" for="q3">{$label}</label>
+                                        
+                                <div class="control-input col-sm-4">
+                                    <input type="text" name="{$name}" id="{$label_attr.for}" class="form-control" maxlength="20"  value="{$value}"{if $required} {/if}{if !isset($error_focus) && $error} autofocus{/if}>
+                                    {if $error }
+                                        <span class="help-block">{$message}</span>
+                                        {assign var="error_focus" value="true"}
+                                    {/if}
+
+
+                                </div>
+                            </div><!--/.form-group-->
+                        {/form_field}
+                        {form_field field="email"}
+                           <div class="form-group group-title{if $error} has-error{/if} {$label_attr.for}" >
+
+                                <label class="control-label col-sm-5" for="q3">{$label}</label>
+                                        
+                                <div class="control-input col-sm-4">
+                                    <input name="{$name}" type="email" required id="{$label_attr.for}" class="form-control" maxlength="100"  value="{$value}">
+                                    {if $error }
+                                        <span class="help-block">{$message}</span>
+                                        {assign var="error_focus" value="true"}
+                                    {/if}
+
+
+                                </div>
+                            </div><!--/.form-group-->
+                        {/form_field}
                     <div class="panel-body">
                         {form_field field="anmerkungen"}
 							<label class="fs-field-label" for="{$label_attr.for}">Bitte geben Sie hier mehr Details zu Ihrer Anfrage bekannt.</label><br>

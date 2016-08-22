@@ -82,6 +82,7 @@ class KlimaAngebotController extends BaseFrontController
         $imagesHTML = "";
         $new_image_path = THELIA_ROOT .ConfigQuery::read('images_library_path')."/imani";
         
+        if($files->get("file")!=NULL)
         foreach ($files->get("file") as $image){
         	if($image != null){
         		$new_image_name = $image->getClientOriginalName();

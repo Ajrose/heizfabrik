@@ -39,8 +39,9 @@
 {* Content *}
 {block name="main-content"}
     {if $product_id}
-{assign var="service_test_id" value=3147}
-
+{assign var="service_test_id" value=array(3147,3148,3149,3150,3151,3152,315,2308,2309 )}
+<!-- 3147,3148 -->
+<!-- 1868 -->
     <div class="main">
         {loop name="product.details" type="product" id=$product_id limit="1" with_prev_next_info="1" with_prev_next_visible="1"}
         {assign var="service_category" value={category attr="parent"}}
@@ -64,7 +65,7 @@
             *}
 
             {hook name="product.top" product={$ID}}
-{if $service_category=#services_category_id# AND $ID==$service_test_id}
+{if $service_category=#services_category_id# AND {$product_id|in_array:$service_test_id}}
 
         {else}
             {ifhook rel="product.gallery"}
@@ -300,16 +301,16 @@
 					{/if}
                     
 			         {assign var="service_title" value="{$TITLE}"}
-                     {if $service_category=#services_category_id# AND $product_id==$service_test_id}
+                     {if $service_category=#services_category_id# AND {$product_id|in_array:$service_test_id}}
                     <h2 style="margin-left:15px; margin-right:15px">{$TITLE}</h2>
                     {/if}
                     {loop type="image" name="image.main" product={$ID} resize_mode="borders" limit="1"}
                     
-                    <div {if $service_category=#services_category_id# AND $product_id==$service_test_id}
+                    <div {if $service_category=#services_category_id# AND {$product_id|in_array:$service_test_id}}
                             style="margin-left:15px; margin-right:15px;background:url({$IMAGE_URL nofilter}) no-repeat; height:250px; background-size:100%;"
                          {/if}>
                         
-                        {if $service_category=#services_category_id# AND $product_id==$service_test_id}
+                        {if $service_category=#services_category_id# AND {$product_id|in_array:$service_test_id}}
                         <div style="background:#FFF; width:300px;border-radius: 10px;box-shadow: 3px 3px 3px rgba(0,0,0,0.35);text-align:center!important; margin-right: 35px;margin-top:35px; float:right">
                         <div class="price-container">
                         {loop type="category" name="category_tag" id=$DEFAULT_CATEGORY}
@@ -337,8 +338,8 @@
                     <fieldset class="product-cart form-inline">
                         {form_field field='quantity'}
                         <div class="form-group group-qty {if $error}has-error{elseif $value != "" && !$error}has-success{/if}" 
-                             {if $service_category=#services_category_id# AND $product_id==$service_test_id}style="display:none"{/if}>
-                            <label for="{$label_attr.for}">{$label}</label>
+                             {if $service_category=#services_category_id# AND {$product_id|in_array:$service_test_id}} style="display:none"{/if}>
+                            <label for="{$label_attr.for}">{$label}{$ID}</label>
                             <input type="number" name="{$name}" id="{$label_attr.for}" class="form-control" value="{$value|default:1}" min="1" required>
                             {if $error }
                                 <span class="help-block">{$message}</span>
@@ -353,7 +354,7 @@
                         </div>
                     </fieldset>
                             
-                    {if $service_category=#services_category_id# AND $product_id==$service_test_id}</div>{/if}
+                    {if $service_category=#services_category_id# AND {$product_id|in_array:$service_test_id}}</div>{/if}
                     </div>
 {/loop}
                     
@@ -435,28 +436,16 @@
                     {/ifloop}
                 {/capture}
             {/strip}
-{if $service_category=#services_category_id# AND $product_id==$service_test_id}
+{if $service_category=#services_category_id# AND {$product_id|in_array:$service_test_id}}
 <div class="faq">
             <div><h3 style="margin:10px">Häufig gestellte Fragen</h3></div>
             <div class="col-sm-5">
-            <h4> Was ist inkludiert? </h4>
-            <ul>
-                <li>Lorem ipsum dolor</li>
-                <li>PLorem ipsum dolorLorem ipsum dolor</li>
-                <li>Lorem ipsum dolorLorem ipsum dolorLorem ipsum </li>
-                <li>Lorem ipsum dolor</li>
-            </ul>
-                
-            <h4>Lorem ipsum dolor sit amet, consetetur sadipsci?</h4>
-                <span>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita 
-                </span>
+             {$FAQ nofilter}
            
             </div>
             <div class="col-sm-5">
-                <h4>Was brauche ich für den Termin?</h4>
-                <span>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elit
-                </span>
-                
+                {$FAQ_COL2 nofilter}
+               
                 
             </div>
             <div class="col-sm-2">

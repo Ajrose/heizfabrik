@@ -56,15 +56,14 @@ class Services extends BaseForm
          $formBuilder = $this->formBuilder
              
              
-         
+             
          ->add($this->setField("projekt_art"), "choice", array(
          		"choices" => array (
                         1 => $this->setLabel(1,"Bitte wählen"),
-                        2 => $this->setLabel(2,"Bad"),
-                        3 => $this->setLabel(3,"Küche"),
-                        4 => $this->setLabel(4,"Heizung"),
-                        5 => $this->setLabel(5,"Warmwasser"),
-                        6 => $this->setLabel(6,"Andere Installationen")
+                        2 => $this->setLabel(2,"Küche&Bad"),
+                        3 => $this->setLabel(3,"Rohre, Kanalisation und Klärgrube"),
+                        4 => $this->setLabel(4,"Warmwasser"),
+                        5 => $this->setLabel(5,"Andere Installationen")
          		),
          		"label" => Translator::getInstance()->trans("Um welche Art von Projekt handelt es sich?"),
          		"label_attr" => array(
@@ -73,31 +72,16 @@ class Services extends BaseForm
          		"data" => 1
          ))
            
-       //Badezimmer
+       //Kitchen or Bathroom
              
         ->add($this->setField("bad-projekt-geraet"), "choice", array(
          		"choices" => array (
                         1 => $this->setLabel(1,"Bitte wählen"),
                         2 => $this->setLabel(2,"Toiletten"),
                         3 => $this->setLabel(3,"Dusche oder Badewanne"),
-                        4 => $this->setLabel(4,"Waschbecken"),
-                        5 => $this->setLabel(5,"Armaturen"),
-                        6 => $this->setLabel(6,"andere Bad Arbeiten")
-         		),
-         		"label" => Translator::getInstance()->trans("Welchen Bereich umfasst Ihr Projekt?"),
-         		"label_attr" => array(
-         				"for" => $this->currentField,
-         		),
-         		"data" => 1
-         ))
-        //Küche  
-         ->add($this->setField("kueche-projekt-geraet"), "choice", array(
-         		"choices" => array (
-                        1 => $this->setLabel(1,"Bitte wählen"),
-                        2 => $this->setLabel(2,"Abwasch"),
-                        3 => $this->setLabel(3,"Armaturen"),
-                        4 => $this->setLabel(4,"Abfluss"),
-                        5 => $this->setLabel(5,"andere Küchen Arbeiten")
+                        4 => $this->setLabel(4,"Waschbecken oder Armaturen"),
+                        5 => $this->setLabel(5,"Sanitär Geräte"),
+                        6 => $this->setLabel(6,"Andere Küchen - oder Bad Arbeit")
          		),
          		"label" => Translator::getInstance()->trans("Welchen Bereich umfasst Ihr Projekt?"),
          		"label_attr" => array(
@@ -106,39 +90,7 @@ class Services extends BaseForm
          		"data" => 1
          ))
              
-         //Heizung  
-        
-         ->add($this->setField("heizung-projekt-geraet"), "choice", array(
-         		"choices" => array (
-                        1 => $this->setLabel(1,"Bitte wählen"),
-                        2 => $this->setLabel(2,"Therme"),
-                        3 => $this->setLabel(3,"Holzkessel"),
-                        4 => $this->setLabel(4,"Gasheizung"),
-                        5 => $this->setLabel(5,"Ölkessel"),
-                        6 => $this->setLabel(6,"andere")
-         		),
-         		"label" => Translator::getInstance()->trans("Welchen Bereich umfasst Ihr Projekt?"),
-         		"label_attr" => array(
-         				"for" => $this->currentField,
-         		),
-         		"data" => 1
-         ))   
-             
-
-        
-         ->add($this->setField("warmwasser-projekt-geraet"), "choice", array(
-         		"choices" => array (
-                        1 => $this->setLabel(1,"Bitte wählen"),
-                        2 => $this->setLabel(2,"Speicher"),
-                        3 => $this->setLabel(3,"andere")
-         		),
-         		"label" => Translator::getInstance()->trans("Welchen Bereich umfasst Ihr Projekt?"),
-         		"label_attr" => array(
-         				"for" => $this->currentField,
-         		),
-         		"data" => 1
-         ))    
-                              
+                          
         ->add($this->setField("bad-arbeit-typ"), "choice", array(
          		"choices" => array (
                         1 => $this->setLabel(1,"Bitte wählen"),
@@ -151,45 +103,21 @@ class Services extends BaseForm
          		),
          		"data" => 1
          ))
-         ->add($this->setField("kueche-arbeit-typ"), "choice", array(
+         ->add($this->setField("bad-arbeit-typ-voll"), "choice", array(
          		"choices" => array (
                         1 => $this->setLabel(1,"Bitte wählen"),
                         2 => $this->setLabel(2,"Reparatur"),
-                        3 => $this->setLabel(3,"Ersatz")
+                        3 => $this->setLabel(3,"Ersatz"),
+                        4 => $this->setLabel(4,"Erstmalige Montage"),
+                        5 => $this->setLabel(5,"Andere"),
          		),
-         		"label" => Translator::getInstance()->trans("Was muss getan werden?"),
+         		"label" => Translator::getInstance()->trans("Was muss getan werden"),
          		"label_attr" => array(
          				"for" => $this->currentField,
          		),
          		"data" => 1
          ))
              
-         ->add($this->setField("heizung-arbeit-typ"), "choice", array(
-         		"choices" => array (
-                        1 => $this->setLabel(1,"Bitte wählen"),
-                        2 => $this->setLabel(2,"Reparatur"),
-                        3 => $this->setLabel(3,"Ersatz")
-         		),
-         		"label" => Translator::getInstance()->trans("Was muss getan werden?"),
-         		"label_attr" => array(
-         				"for" => $this->currentField,
-         		),
-         		"data" => 1
-         ))
-             
-          ->add($this->setField("andere-arbeit-typ"), "choice", array(
-         		"choices" => array (
-                        1 => $this->setLabel(1,"Bitte wählen"),
-                        2 => $this->setLabel(2,"Reparatur"),
-                        3 => $this->setLabel(3,"Ersatz")
-         		),
-         		"label" => Translator::getInstance()->trans("Was muss getan werden?"),
-         		"label_attr" => array(
-         				"for" => $this->currentField,
-         		),
-         		"data" => 1
-         ))
-        
         ->add($this->setField("toilet-repair"), "choice", array(
          		"choices" => array (
                         1 => $this->setLabel(1,"Bitte wählen"),
@@ -257,19 +185,36 @@ class Services extends BaseForm
          ))
              
              
-        
-             
-             
-             
-        //Warmwasser
+        //Pipe, Sewer or Septic
              
         
-            ->add($this->setField("warmwasser-arbeit-typ"), "choice", array(
+         ->add($this->setField("pipe-projekt-geraet"), "choice", array(
+         		"choices" => array (
+                        1 => $this->setLabel(1,"Bitte wählen"),
+                        2 => $this->setLabel(2,"Rohre, Kanalisation und Klärgrube"),
+                        3 => $this->setLabel(3,"Sump pump"),
+                        4 => $this->setLabel(4,"Sewer"),
+                        5 => $this->setLabel(5,"Septic system"),
+                        6 => $this->setLabel(6,"Other pipe or sewer project")
+         		),
+         		"label" => Translator::getInstance()->trans("Um welche Art von Projekt handelt es sich?"),
+         		"label_attr" => array(
+         				"for" => $this->currentField,
+         		),
+         		"data" => 1
+         ))
+             
+             
+             
+        //Water heater
+             
+        
+            ->add($this->setField("water-heater-arbeit-typ"), "choice", array(
          		"choices" => array (
                         1 => $this->setLabel(1,"Bitte wählen"),
                         2 => $this->setLabel(2,"Reparatur"),
-                        3 => $this->setLabel(3,"Ersatz")
-
+                        3 => $this->setLabel(3,"Ersatz"),
+                        4 => $this->setLabel(4,"Andere")
          		),
          		"label" => Translator::getInstance()->trans("Was muss getan werden?"),
          		"label_attr" => array(
@@ -455,117 +400,19 @@ class Services extends BaseForm
              
              
 
-       ->add($this->setField("badMarke"), "choice", array(
+       ->add($this->setField("marke"), "choice", array(
          		"label" => Translator::getInstance()->trans("Welche Marke oder welches Modell wollen Sie?"),
          		"label_attr" => array(
          				"for" => $this->currentField,
          		)
          ))
-             
-        ->add($this->setField("badAnbieten"), "choice", array(
-         		"choices" => array (
-                        1 => $this->setLabel(1,"Bitte wählen"),
-                        2 => $this->setLabel(2,"Nur die Arbeitszeit, (Produkt wird vom Kunden zu Verfügung gestellt)"),
-                        3 => $this->setLabel(3,"Nur das Produkt, (Der Kunde benötigt keine Montage von der Hausfabrik)"), 
-                        4 => $this->setLabel(4,"Arbeitszeit und Produkt")
-
-         		),
-         		"label" => Translator::getInstance()->trans("Was soll unser Angebot beeinhalten?"),
-         		"label_attr" => array(
-         				"for" => $this->currentField,
-         		),
-         		"data" => 1
-         ))
-             
-             
-    ->add($this->setField("kuecheMarke"), "choice", array(
-         		"label" => Translator::getInstance()->trans("Welche Marke oder welches Modell wollen Sie?"),
+        
+      ->add($this->setField("anzahl"), "choice", array(
+         		"label" => Translator::getInstance()->trans("Wie viele Geräte benötigt das Service?"),
          		"label_attr" => array(
          				"for" => $this->currentField,
          		)
          ))
-             
-        ->add($this->setField("kuecheAnbieten"), "choice", array(
-         		"choices" => array (
-                        1 => $this->setLabel(1,"Bitte wählen"),
-                        2 => $this->setLabel(2,"Nur die Arbeitszeit, (Produkt wird vom Kunden zu Verfügung gestellt)"),
-                        3 => $this->setLabel(3,"Nur das Produkt, (Der Kunde benötigt keine Montage von der Hausfabrik)"), 
-                        4 => $this->setLabel(4,"Arbeitszeit und Produkt")
-
-         		),
-         		"label" => Translator::getInstance()->trans("Was soll unser Angebot beeinhalten?"),
-         		"label_attr" => array(
-         				"for" => $this->currentField,
-         		),
-         		"data" => 1
-         ))
-             
-         ->add($this->setField("heizungMarke"), "choice", array(
-         		"label" => Translator::getInstance()->trans("Welche Marke oder welches Modell wollen Sie?"),
-         		"label_attr" => array(
-         				"for" => $this->currentField,
-         		)
-         ))
-             
-        ->add($this->setField("heizungAnbieten"), "choice", array(
-         		"choices" => array (
-                        1 => $this->setLabel(1,"Bitte wählen"),
-                        2 => $this->setLabel(2,"Nur die Arbeitszeit, (Produkt wird vom Kunden zu Verfügung gestellt)"),
-                        3 => $this->setLabel(3,"Nur das Produkt, (Der Kunde benötigt keine Montage von der Hausfabrik)"), 
-                        4 => $this->setLabel(4,"Arbeitszeit und Produkt")
-
-         		),
-         		"label" => Translator::getInstance()->trans("Was soll unser Angebot beeinhalten?"),
-         		"label_attr" => array(
-         				"for" => $this->currentField,
-         		),
-         		"data" => 1
-         ))
-             
-        ->add($this->setField("warmwasserMarke"), "choice", array(
-         		"label" => Translator::getInstance()->trans("Welche Marke oder welches Modell wollen Sie?"),
-         		"label_attr" => array(
-         				"for" => $this->currentField,
-         		)
-         ))
-             
-        ->add($this->setField("warmwasserAnbieten"), "choice", array(
-         		"choices" => array (
-                        1 => $this->setLabel(1,"Bitte wählen"),
-                        2 => $this->setLabel(2,"Nur die Arbeitszeit, (Produkt wird vom Kunden zu Verfügung gestellt)"),
-                        3 => $this->setLabel(3,"Nur das Produkt, (Der Kunde benötigt keine Montage von der Hausfabrik)"), 
-                        4 => $this->setLabel(4,"Arbeitszeit und Produkt")
-
-         		),
-         		"label" => Translator::getInstance()->trans("Was soll unser Angebot beeinhalten?"),
-         		"label_attr" => array(
-         				"for" => $this->currentField,
-         		),
-         		"data" => 1
-         ))
-             
-         ->add($this->setField("andereMarke"), "choice", array(
-         		"label" => Translator::getInstance()->trans("Welche Marke oder welches Modell wollen Sie?"),
-         		"label_attr" => array(
-         				"for" => $this->currentField,
-         		)
-         ))
-             
-        ->add($this->setField("andereAnbieten"), "choice", array(
-         		"choices" => array (
-                        1 => $this->setLabel(1,"Bitte wählen"),
-                        2 => $this->setLabel(2,"Nur die Arbeitszeit, (Produkt wird vom Kunden zu Verfügung gestellt)"),
-                        3 => $this->setLabel(3,"Nur das Produkt, (Der Kunde benötigt keine Montage von der Hausfabrik)"), 
-                        4 => $this->setLabel(4,"Arbeitszeit und Produkt")
-
-         		),
-         		"label" => Translator::getInstance()->trans("Was soll unser Angebot beeinhalten?"),
-         		"label_attr" => array(
-         				"for" => $this->currentField,
-         		),
-         		"data" => 1
-         ))
-		
 		
 			->add($this->setField("anmerkungen"), "choice", array(
 		"label" => Translator::getInstance()->trans("Anmerkungen"),

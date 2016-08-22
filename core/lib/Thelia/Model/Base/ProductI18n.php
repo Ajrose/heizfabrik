@@ -118,6 +118,12 @@ abstract class ProductI18n implements ActiveRecordInterface
      */
     protected $faq;
 
+    /**
+     * The value for the faq_col2 field.
+     * @var        string
+     */
+    protected $faq_col2;
+
     protected $aProduct;
 
     /**
@@ -510,6 +516,17 @@ abstract class ProductI18n implements ActiveRecordInterface
     }
 
     /**
+     * Get the [faq_col2] column value.
+     * 
+     * @return   string
+     */
+    public function getFaqCol2()
+    {
+
+        return $this->faq_col2;
+    }
+
+    /**
      * Set the value of [id] column.
      *
      * @param      int $v new value
@@ -724,6 +741,27 @@ abstract class ProductI18n implements ActiveRecordInterface
     } // setFaq()
 
     /**
+     * Set the value of [faq_col2] column.
+     * 
+     * @param      string $v new value
+     * @return   \Thelia\Model\ProductI18n The current object (for fluent API support)
+     */
+    public function setFaqCol2($v)
+    {
+        if ($v !== null) {
+            $v = (string) $v;
+        }
+
+        if ($this->faq_col2 !== $v) {
+            $this->faq_col2 = $v;
+            $this->modifiedColumns[ProductI18nTableMap::FAQ_COL2] = true;
+        }
+
+
+        return $this;
+    } // setFaqCol2()
+
+    /**
      * Indicates whether the columns in this object are only set to default values.
      *
      * This method can be used in conjunction with isModified() to indicate whether an object is both
@@ -793,6 +831,9 @@ abstract class ProductI18n implements ActiveRecordInterface
 			
 			$col = $row[TableMap::TYPE_NUM == $indexType ? 9 + $startcol : ProductI18nTableMap::translateFieldName('Faq', TableMap::TYPE_PHPNAME, $indexType)];
             $this->faq = (null !== $col) ? (string) $col : null;
+			
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 10 + $startcol : ProductI18nTableMap::translateFieldName('FaqCol2', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->faq_col2 = (null !== $col) ? (string) $col : null;
             $this->resetModified();
 
             $this->setNew(false);
@@ -1052,6 +1093,9 @@ abstract class ProductI18n implements ActiveRecordInterface
         if ($this->isColumnModified(ProductI18nTableMap::FAQ)) {
             $modifiedColumns[':p' . $index++]  = 'FAQ';
         }
+		if ($this->isColumnModified(ProductI18nTableMap::FAQ_COL2)) {
+            $modifiedColumns[':p' . $index++]  = 'FAQ_COL2';
+        }
 		
         $sql = sprintf(
             'INSERT INTO `product_i18n` (%s) VALUES (%s)',
@@ -1092,6 +1136,9 @@ abstract class ProductI18n implements ActiveRecordInterface
                         break;
 					case 'FAQ':
                         $stmt->bindValue($identifier, $this->faq, PDO::PARAM_STR);
+						break;
+					case 'FAQ_COL2':                        
+                        $stmt->bindValue($identifier, $this->faq_col2, PDO::PARAM_STR);
                         break;
                 }
             }
@@ -1346,6 +1393,7 @@ abstract class ProductI18n implements ActiveRecordInterface
         if ($this->isColumnModified(ProductI18nTableMap::META_DESCRIPTION)) $criteria->add(ProductI18nTableMap::META_DESCRIPTION, $this->meta_description);
         if ($this->isColumnModified(ProductI18nTableMap::META_KEYWORDS)) $criteria->add(ProductI18nTableMap::META_KEYWORDS, $this->meta_keywords);
         if ($this->isColumnModified(ProductI18nTableMap::FAQ)) $criteria->add(ProductI18nTableMap::FAQ, $this->faq);
+		if ($this->isColumnModified(ProductI18nTableMap::FAQ_COL2)) $criteria->add(ProductI18nTableMap::FAQ_COL2, $this->faq_col2);
 
         return $criteria;
     }
@@ -1426,6 +1474,7 @@ abstract class ProductI18n implements ActiveRecordInterface
         $copyObj->setMetaDescription($this->getMetaDescription());
         $copyObj->setMetaKeywords($this->getMetaKeywords());
         $copyObj->setFaq($this->getFaq());
+		$copyObj->setFaqCol2($this->getFaqCol2());
         if ($makeNew) {
             $copyObj->setNew(true);
         }
@@ -1519,6 +1568,7 @@ abstract class ProductI18n implements ActiveRecordInterface
         $this->meta_description = null;
         $this->meta_keywords = null;
         $this->faq = null;
+		$this->faq_col2 = null;
         $this->alreadyInSave = false;
         $this->clearAllReferences();
         $this->applyDefaultValues();

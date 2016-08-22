@@ -26,6 +26,7 @@ use HookKonfigurator\Form\PersonalData;
 
 class KonfiguratorController extends BaseFrontController {
     
+    
         public function sendMail(Request $request)
     {
         $log = Tlog::getInstance();
@@ -109,11 +110,14 @@ class KonfiguratorController extends BaseFrontController {
         $warmwasserversorgungExtraWaermepumpe = $konfiguratorDaten->getWarmwasserversorgungExtraWaermepumpe();
         $warmwasserversorgungExtraWaermepumpe = $heizungskonfiguratorForm->getLabel("warmwasserversorgung-extra-waermepumpe",$warmwasserversorgungExtraWaermepumpe);
         
-     	//$contactForm = $this->createForm("konfigurator.personal.data");
-        //$contactForm = new PersonalData();
-
+        
+     //   $contactForm = $this->createForm("konfigurator.personal.data");
+        
+    //    $contactForm = new PersonalData();
+   //     $form = $this->validateForm($contactForm);
+     //  $contactForm
         $subject = "Heizungskonfigurator neue Anfrage ";
-        $emailTest = "angebote@hausfabrik.at";
+        $emailTest = "ani.jalavyan@sepa.at";
         $firstname = $this->getRequest()->get('konfiguratorpersonaldata')['firstname'];
         $lastname =  $this->getRequest()->get('konfiguratorpersonaldata')['lastname'];
         $phone =  $this->getRequest()->get('konfiguratorpersonaldata')['phone'];
@@ -129,8 +133,8 @@ class KonfiguratorController extends BaseFrontController {
         $files = new FileBag();
         $files = $this->getRequest()->files;
         
-        //$headers  = 'MIME-Version: 1.0' . "\r\n";
-        //$headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
+        $headers  = 'MIME-Version: 1.0' . "\r\n";
+        $headers .= 'Content-type: text/html; charset=iso-8859-1' . "\r\n";
         
         $storeName="Hausfabrik";
         $contactEmail="angebote@hausfabrik.at";
@@ -191,7 +195,8 @@ class KonfiguratorController extends BaseFrontController {
         "<br>Wie groß ist die zu beheizende Fläche? ".  $heizflaeche.
         "<br>".$imagesHTML;
         
-			$log->error(sprintf('message : %s', $message));
+        
+$log->error(sprintf('message : %s', $message));
             $htmlMessage = "<p>$message</p>";
 
             $instance->setBody($message, 'text/plain')
@@ -219,7 +224,7 @@ class KonfiguratorController extends BaseFrontController {
 				$log->error(" create userdatenquery ".$currentCustomer);				
 				
 				$userdata = new HeizungkonfiguratorUserdaten();
-				$userdata //->setBrennstoffMomentan($request->request->get('konfigurator')['brennstoff_momentan'])
+				$userdata->setBrennstoffMomentan($request->request->get('konfigurator')['brennstoff_momentan'])
 				->setBrennstoffZukunft($request->request->get('konfigurator')['brennstoff_zukunft'])
 				->setGebaeudeart($request->request->get('konfigurator')['gebaeudeart'])
 				->setPersonenAnzahl($request->request->get('konfigurator')['personen_anzahl'])
@@ -247,9 +252,11 @@ class KonfiguratorController extends BaseFrontController {
 				->setCreatedAt(date ( "Y-m-d H:i:s" ))
 				->setUserId($currentCustomer)
 				->setVersion("1.0")
-				->save();
+				->save();			
 				
-				//$log->error(" create userdatenquery ".$userdata);
+				
+				
+				$log->error(" create userdatenquery ".$userdata);
 				//get images
 				$files = new FileBag();
 				$files = $request->files;
@@ -279,21 +286,33 @@ class KonfiguratorController extends BaseFrontController {
 							$i++;
 							$userdata->addHeizungkonfiguratorImage($newImage);
 						}
+			
+			
 				}		
 			
 			$this->getSession()->set ( 'heizungkonfiguratoruserdaten', $userdata->getId());
 			$request->attributes->set ( '_view', $view );
+	/*	}
+		else
+		{
+			return new JsonResponse ( array ('personal-data' => 'imsirunani') ); // $productsQuerry->__toString()
+		}*/
 	}
+    
 	
 	public function suggestionsAction(Request $request) {
 
+		//TODO sequence diagramm with the operations starting from konfigurator form and ending to the response products
 		if ($request->isXmlHttpRequest ()) {
 			$view = $request->get ( 'ajax-view', "includes/konfigurator-suggestions" );
 			$request->attributes->set ( '_view', $view );
 		}
 		else 
-			return new JsonResponse ( array ('stuff' => 'more stuff') );//TODO redirect these request to a different page
-	}  
+		{	
+		return new JsonResponse ( array ('stuff' => 'more stuff') ); // $productsQuerry->__toString()
+		}
+	}
+    
 	
 	public function servicesAction(Request $request) {
 		if ($request->isXmlHttpRequest ()) {
@@ -305,14 +324,17 @@ class KonfiguratorController extends BaseFrontController {
 			$request->attributes->set ( '_view', $view );
 		}
 		else
+		{
 			return new JsonResponse ( array ('service_stuff' => 'more_service_stuff') ); // $productsQuerry->__toString()
+		}
 	}
 	
-	protected function addServiceToCart($id,$product_sale_id,$service_appointments,Request $request){
+	protected function addServiceToCart($id,$product_sale_id,Request $request){
 		$log = Tlog::getInstance ();
-		$log->debug ( "-- addservices+appointments " );
+		$log->debug ( "-- addservices " );
 		
 		$message = null;
+		
 		try {
 			$cartEvent = $this->getCartEvent();
 			$cartEvent->setProduct($id);
@@ -320,16 +342,9 @@ class KonfiguratorController extends BaseFrontController {
 			$cartEvent->setProductSaleElementsId($product_sale_id);
 			$cartEvent->setQuantity(1);
 			
-			if($service_appointments){
-				
-				$log->error("end ts ".implode(" ",$service_appointments["ca_end_ts"]));
-				$sp_start_ts = $service_appointments["ca_start_ts"];
-				$sp_end_ts   = $service_appointments["ca_end_ts"];
-				$sp_date     = array(
-						($sp_start_ts[1] ?date('d', $sp_start_ts[1]) : ""),
-						($sp_start_ts[2] ?date('d', $sp_start_ts[2]) : ""),
-						($sp_start_ts[3] ?date('d', $sp_start_ts[3]) : ""));
-			}
+			$sp_start_ts = $request->request->get('sp_start_ts_'.$id);
+			$sp_end_ts   = $request->request->get('sp_end_ts_'.$id);
+			$sp_date     = $request->request->get('sp_start_ts_'.$id);
 
 			if(count($sp_start_ts)>0)
 				$cartEvent->setSpStartTs($sp_start_ts);
@@ -366,7 +381,8 @@ class KonfiguratorController extends BaseFrontController {
 	}
 	
 	public function addProductWithServicesAction(Request $request) {
-
+		//$request = $this->getRequest();
+	//	$cartAdd = new CartAdd();
 		$cartAdd = $this->getAddCartForm($request);
 		
 		$message = null;
@@ -391,24 +407,14 @@ class KonfiguratorController extends BaseFrontController {
 			if($service_ids != null){
 				$service_product_sale_ids = $request->request->get('service_product_sale_id');
 				$nr_services = count($service_ids);
-				
-				
-				if($nr_services > 0) //if we have at least a service
-				{
-				 	//get appointments
-				 	$ca_end_ts = $request->request->get("ca_end_ts");
-				 	$ca_start_ts = $request->request->get("ca_start_ts" );
-				 	$ca_priority = $request->request->get("ca_priority");
-				 	$ca_employee_id = $request->request->get("ca_employee_id");
-					for ($i = 1; $i<=$nr_services; $i++){ //for each service
+				if($nr_services > 0)
+					for ($i = 1; $i<=$nr_services; $i++){
 					if($service_ids[$i]){	
-						//$log->debug ( "-- service_appointment ".$service_ids[$i]);//.(new JsonResponse($request->request->all())));
-						if($ca_end_ts[$service_ids[$i]])
-						$service_appointments = array("ca_end_ts" => $ca_end_ts[$service_ids[$i]],"ca_start_ts" => $ca_start_ts[$service_ids[$i]],"ca_priority" => $ca_priority[$service_ids[$i]], "ca_employee_id" => $ca_employee_id[$service_ids[$i]]);
-						$this->addServiceToCart($service_ids[$i], $service_product_sale_ids[$i],$service_appointments,$request);
+						$log->debug ( "-- service_appointment ".$service_ids[$i]." ".(new JsonResponse($request->request->all())));
+							//$sp_start_ts	." ".implode(" ",$sp_end_ts)." ".implode(" ",$sp_date));
+						$this->addServiceToCart($service_ids[$i], $service_product_sale_ids[$i],$request);
 					}
-				}
-				}
+				};
 			}
 		
 			if ($this->getRequest()->isXmlHttpRequest()) {

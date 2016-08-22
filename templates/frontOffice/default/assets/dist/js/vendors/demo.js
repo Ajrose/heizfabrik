@@ -7,73 +7,97 @@
         // Start creating a new ruleset
         var ruleset = $.deps.createRuleset();
         
-        /* Badezimmer */
         
-        var masterSwitchBad = ruleset.createRule("#projekt-art"); 
-        // Fragen
-        var projektArtBad = masterSwitchBad.createRule("#projekt-art", "==", 2);
+        var masterSwitchBad = ruleset.createRule("#projekt_art");
+        
+        /* Bad */
+        
+        var projektArtBad = masterSwitchBad.createRule("#projekt_art", "==", 2);
         projektArtBad.include(".bad-projekt-geraet");
+        var badGeraet = projektArtBad.createRule("#bad-projekt-geraet", "any",new Array("2","3","4","5","6"));
+        badGeraet.include(".bad-arbeit-typ");
+        
+        var badGeraetErsatzRepair = badGeraet.createRule("#bad-arbeit-typ", "any",new Array("2","3"));
+        badGeraetErsatzRepair.include(".badMarke");
+       badGeraetErsatzRepair.include(".badAnbieten"); 
+
+        
+        /* Küche */
+       
+        var projektArtKueche = masterSwitchBad.createRule("#projekt_art", "==", 3);
+        projektArtKueche.include(".kueche-projekt-geraet");
+        var kuecheGeraet = projektArtKueche.createRule("#kueche-projekt-geraet", "any",new Array("2","3","4","5"));
+        kuecheGeraet.include(".kueche-arbeit-typ");
+        var kuecheGeraetErsatzRepair = kuecheGeraet.createRule("#kueche-arbeit-typ", "any",new Array("2","3"));
+        kuecheGeraetErsatzRepair.include(".kuecheMarke");
+        kuecheGeraetErsatzRepair.include(".kuecheAnbieten");
+        
+         /* Heizung */
+       
+        var projektArtHeizung = masterSwitchBad.createRule("#projekt_art", "==", 4);
+        projektArtHeizung.include(".heizung-projekt-geraet");
+        var heizungGeraet = projektArtHeizung.createRule("#heizung-projekt-geraet", "any",new Array("2","3","4","5","6"));
+        heizungGeraet.include(".heizung-arbeit-typ");
+        var heizungGeraetErsatzRepair = heizungGeraet.createRule("#heizung-arbeit-typ", "any",new Array("2","3"));
+        heizungGeraetErsatzRepair.include(".heizungMarke");
+        heizungGeraetErsatzRepair.include(".heizungAnbieten");
+        
+        /* Warmwasser */
+       
+        var projektArtWarmwasser = masterSwitchBad.createRule("#projekt_art", "==", 5);
+        projektArtWarmwasser.include(".warmwasser-projekt-geraet");
+        var warmwasserGeraet = projektArtWarmwasser.createRule("#warmwasser-projekt-geraet", "any",new Array("2","3"));
+        warmwasserGeraet.include(".warmwasser-arbeit-typ");
+        var warmwasserGeraetErsatzRepair = warmwasserGeraet.createRule("#warmwasser-arbeit-typ", "any",new Array("2","3"));
+        warmwasserGeraetErsatzRepair.include(".warmwasserMarke");
+        warmwasserGeraetErsatzRepair.include(".warmwasserAnbieten");
+
+        
+        /* Andere Insallationen */
+       
+        var projektArtAndere = masterSwitchBad.createRule("#projekt_art", "==", 6);
+        projektArtAndere.include(".andere-arbeit-typ");
+        var andereGeraetErsatzRepair = projektArtAndere.createRule("#andere-arbeit-typ", "any",new Array("2","3"));
+        andereGeraetErsatzRepair.include(".andereMarke");
+        andereGeraetErsatzRepair.include(".andereAnbieten");
+        
         
 
-        var projektArtBadToilette = projektArtBad.createRule("#bad-projekt-geraet", "==",2);
-        var projektArtBadToiletteSink = projektArtBad.createRule("#bad-projekt-geraet", "any",new Array("2","4"));
-        projektArtBadToiletteSink.include(".anzahl");
-        
-        
-        var projektArtBadToiletteErsatz = projektArtBadToilette.createRule("#bad-arbeit-typ", "==",3);
-        projektArtBadToiletteErsatz.include(".bad-ersatz-unit");
-        projektArtBadToiletteErsatz.include(".marke");
-        
-        var projektArtBadToiletteReparatur = projektArtBadToilette.createRule("#bad-arbeit-typ", "==",2);
-        projektArtBadToiletteReparatur.include(".toilet-repair");
-        
-      
-        var projektArtBadShower = projektArtBad.createRule("#bad-projekt-geraet", "==",3);
-        
-       
+        /*var projektArtBadShower = projektArtBad.createRule("#bad-projekt-geraet", "==",3);
         
         var projektArtBadToiletShowerSinkPlumbing = projektArtBad.createRule("#bad-projekt-geraet", "any",new Array("2","3","4","5"));
-        projektArtBadToiletShowerSinkPlumbing.include(".bad-arbeit-typ");
+        projektArtBadToiletShowerSinkPlumbing.include(".arbeit-typ");
         
-        var projektArtBadShowerReparatur = projektArtBadShower.createRule("#bad-arbeit-typ", "==",2);
-        projektArtBadShowerReparatur.include(".shower-repair");
-        
-        var projektArtBadShowerErsatz = projektArtBadShower.createRule("#bad-arbeit-typ", "==",3);
+        var projektArtBadShowerErsatz = projektArtBadShower.createRule("#arbeit-typ", "==",3);
         projektArtBadShowerErsatz.include(".bad-ersatz-unit");
         
         var projektArtBadSink = projektArtBad.createRule("#bad-projekt-geraet", "==",4);
-        var projektArtBadSinkReparatur = projektArtBadSink.createRule("#bad-arbeit-typ", "==",2);
-        projektArtBadSinkReparatur.include(".sink-repair");
-        
+
         var projektArtBadPlumbing = projektArtBad.createRule("#bad-projekt-geraet", "==",5);
         var projektArtBadPlumbingOther = projektArtBad.createRule("#bad-projekt-geraet", "any",new Array("5","6"));
         projektArtBadPlumbingOther.include(".plumbing-appliance-type");
+
         
+        var projektArtHeizung = masterSwitchBad.createRule("#projekt_art", "==", 4);
+        projektArtHeizung.include(".heizung-projekt-geraet");
         
-        
-        var projektArtPipe = masterSwitchBad.createRule("#projekt-art", "==", 3);
-        projektArtPipe.include(".pipe-projekt-geraet");
-        
-        var projektArtWaterHeater = masterSwitchBad.createRule("#projekt-art", "==", 4);
-        
-        
-        projektArtWaterHeater.include(".water-heater-arbeit-typ");
+        var projektArtWaterHeater = masterSwitchBad.createRule("#projekt_art", "==", 5);
+        projektArtWaterHeater.include(".water-heater-projekt-geraet");
+
         var projektArtWaterHeaterErsatz = projektArtWaterHeater.createRule("#water-heater-arbeit-typ", "==", 3);
         projektArtWaterHeaterErsatz.include(".baujahr");
         projektArtWaterHeaterErsatz.include(".hausgroesse");
-        projektArtWaterHeaterErsatz.include(".badezimmer-anzahl");
         projektArtWaterHeaterErsatz.include(".pipe-material");
         projektArtWaterHeaterErsatz.include(".water-heater-location");
         projektArtWaterHeaterErsatz.include(".water-heater-age");
         projektArtWaterHeaterErsatz.include(".supply-water-heater");
         
-        var projektArtWaterHeaterReparatur = projektArtWaterHeater.createRule("#water-heater-arbeit-typ", "==", 2);
-        projektArtWaterHeaterReparatur.include(".water-heater-marke");
+
         
         var supplyWaterHeater = projektArtWaterHeater.createRule("#supply-water-heater", "==", 2);
         supplyWaterHeater.include(".water-heater-type");
         supplyWaterHeater.include(".water-heater-capacity");
-
+*/
         
         
         
@@ -90,7 +114,7 @@
         twoAttempts.include("#two-attempts-test");
 
         var threeAttempts = masterSwitchBad.createRule("#numberOfAttempts", "==", 3);
-        threeAttempts.include("#three-attempts-test");
+        threeAttempts.include("#three-attempts-test"); 
 
       
 

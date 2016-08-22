@@ -48,7 +48,12 @@
                 {/form_field}
 
                 {include file="includes/standard-description-form-fields.html"}
-faq|{$FAQ}|faq
+
+
+
+         {render_form_field field="faq" extra_class="wysiwyg" value=$FAQ}
+        {render_form_field field="faq_col2" extra_class="wysiwyg" value=$FAQ_COL2}
+
             </div>
 
             <div class="col-md-4">

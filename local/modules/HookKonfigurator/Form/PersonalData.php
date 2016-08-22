@@ -72,7 +72,7 @@ class PersonalData extends BaseForm
          		)
          ))
         ->add("cellphone", "text", array(
-         		"label" => $this->setLabel("cellphone",null,"mobil"),
+         		"label" => $this->setLabel("cellphone",null,"Mobil"),
          		"label_attr" => array(
          				"for" => "cellphone",
          		)

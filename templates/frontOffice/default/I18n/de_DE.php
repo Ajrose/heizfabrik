@@ -1,5 +1,5 @@
 <?php
-
+//templates/frontOffice/default/l18n
 return [
     '%nb Item' => '%nb Artikel',
     '%nb Items' => '%nb Artikel',

@@ -365,6 +365,7 @@ class Product extends BaseI18nLoop implements PropelSearchLoopInterface, SearchL
             ->set("DESCRIPTION", $product->getVirtualColumn('i18n_DESCRIPTION'))
             ->set("POSTSCRIPTUM", $product->getVirtualColumn('i18n_POSTSCRIPTUM'))
             ->set("FAQ", $product->getVirtualColumn('i18n_FAQ'))
+            ->set("FAQ_COL2", $product->getVirtualColumn('i18n_FAQ_COL2'))
             ->set("URL", $this->getReturnUrl() ? $product->getUrl($this->locale) : null)
             ->set("META_TITLE", $product->getVirtualColumn('i18n_META_TITLE'))
             ->set("META_DESCRIPTION", $product->getVirtualColumn('i18n_META_DESCRIPTION'))
@@ -584,7 +585,7 @@ class Product extends BaseI18nLoop implements PropelSearchLoopInterface, SearchL
         }
 
         /* manage translations */
-        $this->configureI18nProcessing($search, ['TITLE', 'CHAPO', 'DESCRIPTION', 'POSTSCRIPTUM','FAQ', 'META_TITLE', 'META_DESCRIPTION', 'META_KEYWORDS']);
+        $this->configureI18nProcessing($search, ['TITLE', 'CHAPO', 'DESCRIPTION', 'POSTSCRIPTUM','FAQ','FAQ_COL2', 'META_TITLE', 'META_DESCRIPTION', 'META_KEYWORDS']);
 
         $id = $this->getId();
 

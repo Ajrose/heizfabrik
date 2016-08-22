@@ -328,7 +328,8 @@ class Product extends BaseAction implements EventSubscriberInterface
                     ->setVisible($event->getVisible() ? 1 : 0)
                     ->setVirtual($event->getVirtual() ? 1 : 0)
                     ->setBrandId($event->getBrandId() <= 0 ? null : $event->getBrandId())
-
+					->setFaq($event->getFaq())
+					->setFaqCol2($event->getFaqCol2())
                     ->save($con)
                 ;
 

@@ -6198,6 +6198,7 @@ abstract class Product implements ActiveRecordInterface
         public function getDescription()
         {
         return $this->getCurrentTranslation()->getDescription();
+        
     }
 
 
@@ -6331,6 +6332,43 @@ abstract class Product implements ActiveRecordInterface
         {    $this->getCurrentTranslation()->setMetaKeywords($v);
 
         return $this;
+    }
+    
+    
+    public function getFaq()
+    {
+    	return $this->getCurrentTranslation()->getFaq();
+    }
+    
+    
+    /**
+     * Set the value of [faq] column.
+     *
+     * @param      string $v new value
+     * @return   \Thelia\Model\ProductI18n The current object (for fluent API support)
+     */
+    public function setFaq($v)
+    {    $this->getCurrentTranslation()->setFaq($v);
+    
+    return $this;
+    }
+
+    public function getFaqCol2()
+    {
+    	return $this->getCurrentTranslation()->getFaqCol2();
+    }
+    
+    
+    /**
+     * Set the value of [faq_col2] column.
+     *
+     * @param      string $v new value
+     * @return   \Thelia\Model\ProductI18n The current object (for fluent API support)
+     */
+    public function setFaqCol2($v)
+    {    $this->getCurrentTranslation()->setFaqCol2($v);
+    
+    return $this;
     }
 
     // versionable behavior

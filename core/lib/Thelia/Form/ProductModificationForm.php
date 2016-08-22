@@ -50,6 +50,14 @@ class ProductModificationForm extends ProductCreationForm
                 "label"      => Translator::getInstance()->trans("Virtual document"),
                 "label_attr" => array("for" => "virtual_document_id_field"),
             ))
+            ->add("faq", "textarea", array(
+            		"label"       => Translator::getInstance()->trans("Product FAQ"),
+            		"label_attr"  => array("for" => "product_faq_field"),
+            ))
+            ->add("faq_col2", "textarea", array(
+            		"label"       => Translator::getInstance()->trans("Product FAQ2"),
+            		"label_attr"  => array("for" => "product_faq_col2_field"),
+            ))
         ;
 
         // Add standard description fields, excluding title and locale, which a re defined in parent class

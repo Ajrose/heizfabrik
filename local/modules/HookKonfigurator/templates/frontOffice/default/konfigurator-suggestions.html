@@ -1,9 +1,13 @@
 <div class="products-content">
 	<ul class="list-unstyled">
+          <div class="contact-success alert alert-success">
+Das Konfgurator Ergebnis beinhaltet keine außerordentlichen Umbaumaßnahmen, sowie keine Kaminsanierung (Brennwertgeräte benötgen in der Regel ein Kaminsanierung) und Montagematerial (wie z.B.: keine neu Verrohrung und hat die bestehende Anlage nicht berücksichtigt). Sollten sie ein unverbindliches Angebot benötigen bitte nutzen sie unser <a href="/heizungskonfigurator-angebot">Individuelles Angebot.</a>
+        </div>
 		{loop type="product_heizung" name="product_list" category=$category_id limit="8" }
 			{include file="includes/product-suggestion.html" product_id=$ID hasBtn=true hasDescription=true hasPower=false hasGrade=false hasWarmwater=false hasQuickView=true width="300" height="230"}
 		{/loop}
 	</ul>
+  
 </div>    
 
 {block name="after-javascript-include"}

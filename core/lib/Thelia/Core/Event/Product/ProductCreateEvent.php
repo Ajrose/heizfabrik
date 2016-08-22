@@ -27,6 +27,11 @@ class ProductCreateEvent extends ProductEvent
     protected $currencyId;
     protected $baseQuantity;
     protected $templateId;
+    
+    protected $faq;
+    protected $faq_col2;
+    
+    
 
     public function getRef()
     {
@@ -243,4 +248,19 @@ class ProductCreateEvent extends ProductEvent
         $this->templateId = $templateId;
         return $this;
     }
+	public function getFaq() {
+		return $this->faq;
+	}
+	public function setFaq($faq) {
+		$this->faq = $faq;
+		return $this;
+	}
+	public function getFaqCol2() {
+		return $this->faq_col2;
+	}
+	public function setFaqCol2($faq_col2) {
+		$this->faq_col2 = $faq_col2;
+		return $this;
+	}
+	
 }

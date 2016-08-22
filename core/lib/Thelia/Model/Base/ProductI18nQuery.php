@@ -19,7 +19,7 @@ use Thelia\Model\Map\ProductI18nTableMap;
 /**
  * Base class that represents a query for the 'product_i18n' table.
  *
- *
+ * 
  *
  * @method     ChildProductI18nQuery orderById($order = Criteria::ASC) Order by the id column
  * @method     ChildProductI18nQuery orderByLocale($order = Criteria::ASC) Order by the locale column
@@ -31,6 +31,7 @@ use Thelia\Model\Map\ProductI18nTableMap;
  * @method     ChildProductI18nQuery orderByMetaDescription($order = Criteria::ASC) Order by the meta_description column
  * @method     ChildProductI18nQuery orderByMetaKeywords($order = Criteria::ASC) Order by the meta_keywords column
  * @method     ChildProductI18nQuery orderByFaq($order = Criteria::ASC) Order by the faq column
+ * @method     ChildProductI18nQuery orderByFaqCol2($order = Criteria::ASC) Order by the faq_col2 column
  *
  * @method     ChildProductI18nQuery groupById() Group by the id column
  * @method     ChildProductI18nQuery groupByLocale() Group by the locale column
@@ -42,6 +43,7 @@ use Thelia\Model\Map\ProductI18nTableMap;
  * @method     ChildProductI18nQuery groupByMetaDescription() Group by the meta_description column
  * @method     ChildProductI18nQuery groupByMetaKeywords() Group by the meta_keywords column
  * @method     ChildProductI18nQuery groupByFaq() Group by the faq column
+ * @method     ChildProductI18nQuery groupByFaqCol2() Group by the faq_col2 column
  *
  * @method     ChildProductI18nQuery leftJoin($relation) Adds a LEFT JOIN clause to the query
  * @method     ChildProductI18nQuery rightJoin($relation) Adds a RIGHT JOIN clause to the query
@@ -64,6 +66,7 @@ use Thelia\Model\Map\ProductI18nTableMap;
  * @method     ChildProductI18n findOneByMetaDescription(string $meta_description) Return the first ChildProductI18n filtered by the meta_description column
  * @method     ChildProductI18n findOneByMetaKeywords(string $meta_keywords) Return the first ChildProductI18n filtered by the meta_keywords column
  * @method     ChildProductI18n findOneByFaq(string $faq) Return the first ChildProductI18n filtered by the faq column
+ * @method     ChildProductI18n findOneByFaqCol2(string $faq_col2) Return the first ChildProductI18n filtered by the faq_col2 column
  *
  * @method     array findById(int $id) Return ChildProductI18n objects filtered by the id column
  * @method     array findByLocale(string $locale) Return ChildProductI18n objects filtered by the locale column
@@ -75,6 +78,7 @@ use Thelia\Model\Map\ProductI18nTableMap;
  * @method     array findByMetaDescription(string $meta_description) Return ChildProductI18n objects filtered by the meta_description column
  * @method     array findByMetaKeywords(string $meta_keywords) Return ChildProductI18n objects filtered by the meta_keywords column
  * @method     array findByFaq(string $faq) Return ChildProductI18n objects filtered by the faq column
+ * @method     array findByFaqCol2(string $faq_col2) Return ChildProductI18n objects filtered by the faq_col2 column
  *
  */
 abstract class ProductI18nQuery extends ModelCriteria
@@ -163,7 +167,7 @@ abstract class ProductI18nQuery extends ModelCriteria
      */
     protected function findPkSimple($key, $con)
     {
-        $sql = 'SELECT `ID`, `LOCALE`, `TITLE`, `DESCRIPTION`, `CHAPO`, `POSTSCRIPTUM`, `META_TITLE`, `META_DESCRIPTION`, `META_KEYWORDS`, `FAQ` FROM `product_i18n` WHERE `ID` = :p0 AND `LOCALE` = :p1';
+        $sql = 'SELECT ID, LOCALE, TITLE, DESCRIPTION, CHAPO, POSTSCRIPTUM, META_TITLE, META_DESCRIPTION, META_KEYWORDS, FAQ, FAQ_COL2 FROM product_i18n WHERE ID = :p0 AND LOCALE = :p1';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key[0], PDO::PARAM_INT);
@@ -566,6 +570,35 @@ abstract class ProductI18nQuery extends ModelCriteria
         }
 
         return $this->addUsingAlias(ProductI18nTableMap::FAQ, $faq, $comparison);
+    }
+
+    /**
+     * Filter the query on the faq_col2 column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByFaqCol2('fooValue');   // WHERE faq_col2 = 'fooValue'
+     * $query->filterByFaqCol2('%fooValue%'); // WHERE faq_col2 LIKE '%fooValue%'
+     * </code>
+     *
+     * @param     string $faqCol2 The value to use as filter.
+     *              Accepts wildcards (* and % trigger a LIKE)
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return ChildProductI18nQuery The current query, for fluid interface
+     */
+    public function filterByFaqCol2($faqCol2 = null, $comparison = null)
+    {
+        if (null === $comparison) {
+            if (is_array($faqCol2)) {
+                $comparison = Criteria::IN;
+            } elseif (preg_match('/[\%\*]/', $faqCol2)) {
+                $faqCol2 = str_replace('*', '%', $faqCol2);
+                $comparison = Criteria::LIKE;
+            }
+        }
+
+        return $this->addUsingAlias(ProductI18nTableMap::FAQ_COL2, $faqCol2, $comparison);
     }
 
     /**

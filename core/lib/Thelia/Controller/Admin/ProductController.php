@@ -71,7 +71,6 @@ use Thelia\Model\ProductImageQuery;
 use Thelia\Model\ProductPrice;
 use Thelia\Model\ProductPriceQuery;
 use Thelia\Model\ProductQuery;
-use Thelia\Model\ProductSaleElements;
 use Thelia\Model\ProductSaleElements as ProductSaleElementsModel;
 use Thelia\Model\ProductSaleElementsProductDocument;
 use Thelia\Model\ProductSaleElementsProductDocumentQuery;
@@ -182,6 +181,8 @@ class ProductController extends AbstractSeoCrudController
             ->setDefaultCategory($formData['default_category'])
             ->setBrandId($formData['brand_id'])
             ->setVirtualDocumentId($formData['virtual_document_id'])
+            ->setFaq($formData['faq'])
+            ->setFaqCol2($formData['faq_col2'])
         ;
 
         // Create and dispatch the change event
@@ -354,7 +355,9 @@ class ProductController extends AbstractSeoCrudController
             'visible'          => $object->getVisible(),
             'virtual'          => $object->getVirtual(),
             'default_category' => $object->getDefaultCategoryId(),
-            'brand_id'         => $object->getBrandId()
+            'brand_id'         => $object->getBrandId(),
+        	'faq'              => $object->getFaq(),
+        	'faq_col2'         => $object->getFaqCol2()
         );
 
         // Virtual document
