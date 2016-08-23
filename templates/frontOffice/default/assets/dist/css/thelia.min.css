@@ -9919,7 +9919,7 @@ td.product .name {
     font-weight: 600
 }
 .product-info .name{
-    padding:10px;
+    padding:3px;
 
 }
 .product-info .name>a,
@@ -12994,8 +12994,7 @@ display: none;
  }  
 
 .product-info .short-description p {
-    //max-height:75px;
-    //overflow: hidden;
+    
 }
 
 /* SERVICES */
