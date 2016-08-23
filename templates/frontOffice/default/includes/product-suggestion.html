@@ -81,8 +81,25 @@
 							{/if} 
 							{else} 
 								<span class="regular-price col-xs-12">
-								<span itemprop="price" style="visibility: hidden;" class="price" name="price_product">{format_money number=$BEST_TAXED_PRICE symbol={currency attr="symbol"}}</span>
-								<div name="price_product_{$product_id}" style="font-size:30px; font-weight:bold;float:left" >{$BEST_TAXED_PRICE|string_format:"%d"}</div><div style="float:left;font-size:20px; padding:10px"> €</div><div class="clearfix"></div>
+								<div style="font-size:30px; font-weight:bold;float:left" >{$BEST_TAXED_PRICE|string_format:"%.2f"}</div><div style="float:left;font-size:20px; padding:10px"> €</div>
+                                <div class="clearfix"></div>
+                                    
+                                    <table id="zwischensumme" style="display:none">
+<tr>
+    <td><div>Zwischensumme:</div></td>
+</tr>
+<tr>
+    <td style="font-size:20px; font-weight:bold; color:#000;">
+	<span name="price_product_{$product_id}">
+	{$BEST_TAXED_PRICE|string_format:"%.2f"}
+	</span>
+	<span>€</span>
+	</td>
+    <span name="org_price_product_{$product_id}" style="display:none"> 		{$BEST_TAXED_PRICE|string_format:"%.2f"}
+	</span>
+</tr>
+</table>
+                                    
 						</span> 
 					{/if}
 				</div>
