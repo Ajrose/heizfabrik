@@ -356,17 +356,14 @@
                     </fieldset>
                             
                     {if $service_category==#services_category_id# }</div>{/if}
-                    </div>
-                    
-                                                 
+                    </div>                            
 
-                    
-              <span class="product-service-calendar">
-								{hook name="productservice.bottom" service="{$ID}" week="{$smarty.now|date_format:"%W"}" year={$smarty.now|date_format:"%Y"}}
-						</span>        
-         
-                    
-                    
+            {if $service_category==#services_category_id# }       
+            <span class="product-service-calendar col-sm-12">
+				{hook name="productservice.bottom" service="{$ID}" week="{$smarty.now|date_format:"%W"}" year={$smarty.now|date_format:"%Y"}}
+			</span>
+			{/if}
+			        
                 </form>
                 {/form}
                 

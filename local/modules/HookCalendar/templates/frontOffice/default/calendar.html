@@ -18,13 +18,23 @@
 	{/if}
 {/function}
 <div class="panel panel-default pjAsContainer pjAsAside calendarFor{$service_id}">
-	<div class="panel-heading pjAsHead">
-		<h2 class="pjAsHeadTitle">Planen Sie Ihren Termin</h2><!-- /.pjAsHeadTitle -->
+<!-- 	<div class="panel-heading pjAsHead">
+		<h2 class="pjAsHeadTitle">Planen Sie Ihren Termin</h2>/.pjAsHeadTitle
         	<h4>Wählen Sie 3 bevorzugte Termine</h4>
             <p style="text-transform: none;">Unser Mitarbeiter wird Ihnen einen Termin innerhalb 24 Stunden per E-mail bestätigen.</p>
-	</div><!-- /.panel-heading pjAsHead -->
+	</div> -->
+	<!-- /.panel-heading pjAsHead -->
 
-	<div class="panel-body pjAsCalendarInline">
+
+<div class="panel-body pjAsCalendarInline col-sm-1">
+<span class="pj-calendar-actions">Liefergebiet</span>
+	<input type="number" name="service_zipcode" min="0999" max="9999" required>
+</div>
+
+
+
+
+	<div class="panel-body pjAsCalendarInline col-sm-9">
 		<div class="pjIcCalendar">
 			<div class="pj-calendar">
 
@@ -33,23 +43,19 @@
 					<div class="col-lg-12 col-md-12 col-sm-12 col-sx-12">
 						<div class="pjAsTableTimes">
 
+						<!-- Monat header -->
 						<div class="pj-calendar-actions">
-					  		<a class="btn btn-primary btn-sm pull-left pjAsCalendarLinkMonth" data-direction="prev" data-month="27" data-year="2016">
-								<span class="glyphicon glyphicon-chevron-left"></span>
-							</a>
-								<div class="pj-calendar-ym">
-									<span>Kalenderwoche</span>
-									<span id="calendar_week_number">{$smarty.now|date_format:"%W"}</span>
-									<span id="calendar_year">{$smarty.now|date_format:"%Y"}</span>
-									<span id="calendar_month">{$smarty.now|date_format:"%B"}</span>
-									<span id="calendar_time_reference" style="display:none;">{$smarty.now}</span>
-								</div>
-					
+							<div class="pj-calendar-ym">
+								<span id="calendar_month">{$smarty.now|date_format:"%B"}</span>
+								<span id="calendar_year">{$smarty.now|date_format:"%Y"}</span>
+								<span id="calendar_time_reference" style="display:none;">{$smarty.now}</span>
+							</div>
 							<a class="btn btn-primary btn-sm pull-right pjAsCalendarLinkMonth" data-direction="next" data-month="29" data-year="2016">
 							<span class="glyphicon glyphicon-chevron-right"></span>
 							</a>
 						</div>
 
+						<!-- Monat tagen -->
 						<div class="pj-calendar-head pj-calendar-7-columns">
 							{for $day_nr=6 to 12}
 					    		<div class="pj-calendar-day-header"><p>{mktime(0, 0, 0, 0, $day_nr, 0)|date_format:"%a"}</p></div>
@@ -94,7 +100,7 @@
 		</div>
 	</div><!-- /.panel-body pjAsCalendarInline -->
 
-
+<div class="panel-body calendarData col-sm-2">
 	<div class="panel-body pjAsCalendarInline selectedTimeSlotsList" {$service_id} style="display:none;">
 				<ul id="pjAsAsideCart" class="list-group pjAsAsideServices">
 					
@@ -157,6 +163,8 @@
                 <span id="calendar_debug"></span>
                 
 			</div><!-- /.panel panel-default pjAsContainer pjAsAside -->
+</div>
+
 </div>
 
 <script>
