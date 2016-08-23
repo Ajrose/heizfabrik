@@ -9918,6 +9918,10 @@ td.product .name {
     font-size: 14px;
     font-weight: 600
 }
+.product-info .name{
+    padding:10px;
+
+}
 .product-info .name>a,
 td.product .name>a {
     color: #7a7a7a;
@@ -12970,7 +12974,7 @@ display: none;
     margin:10px;
 }
 .services-checkbox{
-    max-width:450px;
+    max-width:250px;
 }
 .services-checkbox .name{
     font-size:15px!important;
@@ -13013,6 +13017,9 @@ display: none;
     font-size: 2.5vh;
 } 
 .faq{ 
-    border-top: 1px solid #e5e5e5;
+    //border-top: 1px solid #e5e5e5;
     margin-top: 30px;
+}
+.pointer{
+    cursor:pointer;
 }

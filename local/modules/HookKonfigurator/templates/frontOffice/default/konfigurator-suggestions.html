@@ -1,7 +1,11 @@
 <div class="products-content">
 	<ul class="list-unstyled">
-          <div class="contact-success alert alert-success">
-Das Konfgurator Ergebnis beinhaltet keine außerordentlichen Umbaumaßnahmen, sowie keine Kaminsanierung (Brennwertgeräte benötgen in der Regel ein Kaminsanierung) und Montagematerial (wie z.B.: keine neu Verrohrung und hat die bestehende Anlage nicht berücksichtigt). Sollten sie ein unverbindliches Angebot benötigen bitte nutzen sie unser <a href="/heizungskonfigurator-angebot">Individuelles Angebot.</a>
+          <div class="contact-success alert alert-info" style="display: table;">
+              <div class="fa fa-warning col-sm-1" style="font-size:4em; display: table-cell;
+    vertical-align: middle;"></div>
+              <div class="col-sm-11">Das Konfgurator Ergebnis beinhaltet keine außerordentlichen Umbaumaßnahmen, sowie keine Kaminsanierung (Brennwertgeräte benötgen in der Regel ein Kaminsanierung) und Montagematerial (wie z.B.: keine neu Verrohrung und hat die bestehende Anlage nicht berücksichtigt). Sollten sie ein unverbindliches Angebot benötigen bitte nutzen sie unser <a href="/heizungskonfigurator-angebot">Individuelles Angebot.</a>
+              </div>
+              <div class="clearfix"></div>
         </div>
 		{loop type="product_heizung" name="product_list" category=$category_id limit="8" }
 			{include file="includes/product-suggestion.html" product_id=$ID hasBtn=true hasDescription=true hasPower=false hasGrade=false hasWarmwater=false hasQuickView=true width="300" height="230"}
@@ -13,8 +17,9 @@ Das Konfgurator Ergebnis beinhaltet keine außerordentlichen Umbaumaßnahmen, so
 {block name="after-javascript-include"}
 <script>
 $('.products-content').on('click', '.thumbnail', function (event) {
+            $("#zwischensumme").show();
 	if($(this).hasClass("selected")){
-   
+
 	$(this).removeClass("selected");
     //now disable inputs
      $(this).find($("[name^=service]")).prop('disabled',true);
@@ -24,7 +29,9 @@ $('.products-content').on('click', '.thumbnail', function (event) {
 	    $serviceObject = $(this).find($("[name=price_service_o]"));
 	    $productid = $serviceObject.attr('product');
 	    $productObject = $("[name=price_product_"+$productid+"]");
-	    $productObject.text(parseInt($productObject.text())-parseInt($serviceObject.text()) );
+	    $productOriginalPrice = $("[name=org_price_product_"+$productid+"]");
+	    $productOriginalPrice.text(parseFloat($productOriginalPrice.text())-parseFloat($serviceObject.text()));
+	    $productObject.text(parseFloat($productOriginalPrice.text()).formatMoney(2, ',', '.')   );
 	}
 	else  {
 		$(this).addClass("selected");
@@ -33,10 +40,22 @@ $('.products-content').on('click', '.thumbnail', function (event) {
 	    $serviceObject = $(this).find($("[name=price_service_o]"));
 	    $productid = $serviceObject.attr('product');
 	    $productObject = $("[name=price_product_"+$productid+"]");
-	    $productObject.text(parseInt($productObject.text())+parseInt($serviceObject.text()) );
+	    $productOriginalPrice = $("[name=org_price_product_"+$productid+"]");
+	    $productOriginalPrice.text(parseFloat($productOriginalPrice.text())+parseFloat($serviceObject.text()));
+	    $productObject.text(parseFloat($productOriginalPrice.text()).formatMoney(2, ',', '.'));
 	}
-	
 });
+
+Number.prototype.formatMoney = function(c, d, t){
+	var n = this, 
+	    c = isNaN(c = Math.abs(c)) ? 2 : c, 
+	    d = d == undefined ? "," : d, 
+	    t = t == undefined ? "." : t, 
+	    s = n < 0 ? "-" : "", 
+	    i = parseInt(n = Math.abs(+n || 0).toFixed(c)) + "", 
+	    j = (j = i.length) > 3 ? j % 3 : 0;
+	   return s + (j ? i.substr(0, j) + t : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + t) + (c ? d + Math.abs(n - i).toFixed(c).slice(2) : "");
+	 }
 </script>
 
 {hook name="register.after-javascript-include"}
