@@ -81,7 +81,7 @@
 							{/if} 
 							{else} 
 								<span class="regular-price col-xs-12">
-								<div style="font-size:30px; font-weight:bold;float:left" >{$BEST_TAXED_PRICE|string_format:"%.2f"}</div><div style="float:left;font-size:20px; padding:10px"> €</div>
+								<div style="font-size:20px; font-weight:bold;float:left" >{format_money number=$BEST_TAXED_PRICE symbol={currency attr="symbol"}}</div>
                                 <div class="clearfix"></div>
                                     
                                     <table id="zwischensumme" style="display:none">
