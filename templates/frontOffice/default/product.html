@@ -1,6 +1,5 @@
 {extends file="layout.tpl"}
 
-
 {block name="init"}
     {$product_id={product attr="id"}}
     {$pse_count=1}
@@ -39,16 +38,13 @@
 {* Content *}
 {block name="main-content"}
     {if $product_id}
-{assign var="service_test_id" value=array(3147,3148,3149,3150,3151,3152,315,2308,2309 )}
-<!-- 3147,3148 -->
-<!-- 1868 -->
+    
     <div class="main">
         {loop name="product.details" type="product" id=$product_id limit="1" with_prev_next_info="1" with_prev_next_visible="1"}
         {assign var="service_category" value={category attr="parent"}}
         
         <article id="product" class="col-main row" role="main" itemscope itemtype="http://schema.org/Product">
             
-
             {$pse_count=$PSE_COUNT}
 
             {* Use the meta tag to specify content that is not visible on the page in any way *}
@@ -66,52 +62,52 @@
             
             {hook name="product.top" product={$ID}}
             
-{if $service_category==#services_category_id#}
+			{if $service_category==#services_category_id#}
 
-        {else}
-            {ifhook rel="product.gallery"}
-               {hook name="product.gallery" product={$ID}}
-            {/ifhook}
-            {elsehook rel="product.gallery"}
-            <section id="product-gallery" class="col-sm-6">
-                {ifloop rel="image.main"}
-                <figure class="product-image">
-                    {loop type="image" name="image.main" product={$ID} width="560" height="445" resize_mode="borders" limit="1"}
-                        <img src="{$IMAGE_URL nofilter}" alt="{$TITLE}" class="img-responsive" itemprop="image" data-toggle="magnify">
-                    {/loop}
-                </figure>
-                {/ifloop}
+        	{else}
+            	{ifhook rel="product.gallery"}
+               		{hook name="product.gallery" product={$ID}}
+            	{/ifhook}
+            	{elsehook rel="product.gallery"}
+            	<section id="product-gallery" class="col-sm-6">
+                	{ifloop rel="image.main"}
+                		<figure class="product-image">
+                    		{loop type="image" name="image.main" product={$ID} width="560" height="445" resize_mode="borders" limit="1"}
+                        		<img src="{$IMAGE_URL nofilter}" alt="{$TITLE}" class="img-responsive" itemprop="image" data-toggle="magnify">
+                    		{/loop}
+                		</figure>
+                	{/ifloop}
 
-                {ifloop rel="image.carousel"}
-                <div id="product-thumbnails" class="carousel slide" style="position:relative;">
-                    <div class="carousel-inner">
-                        <div class="item active">
-                            <ul class="list-inline">
-                                {loop name="image.carousel" type="image" product={$ID}  width="560" height="445" resize_mode="borders" limit="5"}
-                                <li>
-                                    <a href="{$IMAGE_URL nofilter}" class="thumbnail {if $LOOP_COUNT == 1}active{/if}">
-                                        {loop type="image" name="image.thumbs" id={$ID} product="$OBJECT_ID" width="118" height="85" resize_mode="borders"}
-                                            <img src="{$IMAGE_URL nofilter}" alt="{$TITLE}">
-                                        {/loop}
-                                    </a>
-                                </li>
-                                {/loop}
-                            </ul>
-                        </div>
-                        {ifloop rel="image.carouselsup"}
-                        <div class="item">
-                            <ul class="list-inline">
-                                {loop name="image.carouselsup" type="image" product={$ID}  width="560" height="445" resize_mode="borders" offset="5"}
-                                    <li>
-                                        <a href="{$IMAGE_URL nofilter}" class="thumbnail">
-                                            {loop type="image" name="image.thumbssup" id={$ID} product="$OBJECT_ID" width="118" height="85" resize_mode="borders"}
-                                                <img src="{$IMAGE_URL nofilter}" alt="{$TITLE}">
-                                            {/loop}
-                                        </a>
-                                    </li>
-                                {/loop}
-                            </ul>
-                        </div>
+                	{ifloop rel="image.carousel"}
+                	<div id="product-thumbnails" class="carousel slide" style="position:relative;">
+                    	<div class="carousel-inner">
+                        	<div class="item active">
+                            	<ul class="list-inline">
+                                	{loop name="image.carousel" type="image" product={$ID}  width="560" height="445" resize_mode="borders" limit="5"}
+                                	<li>
+                                    	<a href="{$IMAGE_URL nofilter}" class="thumbnail {if $LOOP_COUNT == 1}active{/if}">
+                                        	{loop type="image" name="image.thumbs" id={$ID} product="$OBJECT_ID" width="118" height="85" resize_mode="borders"}
+                                           		<img src="{$IMAGE_URL nofilter}" alt="{$TITLE}">
+                                        	{/loop}
+                                    	</a>
+                                	</li>
+                                	{/loop}
+                            	</ul>
+                        	</div>
+                        	{ifloop rel="image.carouselsup"}
+                        	<div class="item">
+                            	<ul class="list-inline">
+                                	{loop name="image.carouselsup" type="image" product={$ID}  width="560" height="445" resize_mode="borders" offset="5"}
+                                    	<li>
+                                        	<a href="{$IMAGE_URL nofilter}" class="thumbnail">
+                                            	{loop type="image" name="image.thumbssup" id={$ID} product="$OBJECT_ID" width="118" height="85" resize_mode="borders"}
+                                                	<img src="{$IMAGE_URL nofilter}" alt="{$TITLE}">
+                                            	{/loop}
+                                        	</a>
+                                    	</li>
+                                	{/loop}
+                            	</ul>
+                        	</div>
                         {/ifloop}
                     </div>
                     {ifloop rel="image.carouselsup"}
@@ -293,22 +289,26 @@
 								{loop type="service"  name="services_list" product_id=$product_id limit="8"}
                                	{assign var="service_for_appointment" value = $SERVICE_ID} 
  									{include file="includes/product-services.html"  hasServiceDescription=false hasQuickView=true width="200" height="100"}
- 										<span class="product-service-calendar">
-											{hook name="productservice.bottom" service="{$SERVICE_ID}" week="{$smarty.now|date_format:"%W"}" year={$smarty.now|date_format:"%Y"}}
-										</span>
+ 									<span class="product-service-calendar">
+								{hook name="productservice.bottom" service="{$SERVICE_ID}" week="{$smarty.now|date_format:"%W"}" year={$smarty.now|date_format:"%Y"}}
+						</span>	
 								{/loop}	
  							</ul>
  						</div>
+ 						
 					{/if}
                     
 			         {assign var="service_title" value="{$TITLE}"}
+			         
                      {if $service_category==#services_category_id#}
                     <h2 style="margin-left:15px; margin-right:15px">{$TITLE}</h2>
                     {/if}
                     {loop type="image" name="image.main" product={$ID} resize_mode="borders" limit="1"}
+                    	{assign var="service_image_url" value="{$IMAGE_URL}"}
+                    {/loop}
                     
                     <div {if $service_category==#services_category_id#}
-                            style="margin-left:15px; margin-right:15px;background:url({$IMAGE_URL nofilter}) no-repeat; height:250px; background-size:100%;"
+                            style="margin-left:15px; margin-right:15px;background:url({$service_image_url nofilter}) no-repeat; height:250px; background-size:100%;"
                          {/if}>
                         
                         {if $service_category==#services_category_id#}
@@ -334,7 +334,7 @@
 
                         
                     </div>
-                    
+
                         {/if}
                     <fieldset class="product-cart form-inline">
                         {form_field field='quantity'}
@@ -357,10 +357,14 @@
                             
                     {if $service_category==#services_category_id# }</div>{/if}
                     </div>
-{/loop}
                     
+                                                 
+
                     
-                    
+              <span class="product-service-calendar">
+								{hook name="productservice.bottom" service="{$ID}" week="{$smarty.now|date_format:"%W"}" year={$smarty.now|date_format:"%Y"}}
+						</span>        
+         
                     
                     
                 </form>
@@ -503,7 +507,7 @@
                 {/hookblock}
             </section>
             
-            {if $service_category=#services_category_id# AND {$product_id|in_array:$service_test_id}}
+            {if $service_category==#services_category_id#}
             <div class="faq">
                 <div><h3 style="margin:10px">Häufig gestellte Fragen</h3></div>
                 <div class="col-sm-5">
