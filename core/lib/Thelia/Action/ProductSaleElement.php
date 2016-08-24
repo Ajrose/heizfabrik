@@ -40,6 +40,7 @@ use Thelia\Model\Map\AttributeCombinationTableMap;
 use Propel\Runtime\ActiveQuery\Criteria;
 use Thelia\Core\Event\Product\ProductCombinationGenerationEvent;
 use Propel\Runtime\Connection\ConnectionInterface;
+use Thelia\Log\Tlog;
 
 class ProductSaleElement extends BaseAction implements EventSubscriberInterface
 {
@@ -188,7 +189,9 @@ class ProductSaleElement extends BaseAction implements EventSubscriberInterface
                     ->setPrice(0)
                 ;
             }
-
+            $log = Tlog::getInstance();
+            $log->error("productlistenprice ".$event->getListenPrice());
+            
             $productPrice->setListenPrice($event->getListenPrice())
             ->setEkPreisGc($event->getEkPreisGc())
             ->setEkPreisOag($event->getEkPreisOag())

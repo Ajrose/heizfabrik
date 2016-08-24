@@ -17,6 +17,7 @@ use Thelia\Tools\URL;
 use Thelia\Controller\Front\BaseFrontController;
 use Thelia\Core\HttpFoundation\JsonResponse;
 use Thelia\Core\HttpFoundation\Request;
+use Thelia\Log\Tlog;
 
 /**
  * Class CalendarController
@@ -42,6 +43,13 @@ class CalendarController extends BaseFrontController
     
     public function saveAppointmentChoices(Request $request){
     	
+    }
+    
+    public function getDaysForMonth($month,$year){
+    	$stringTime = strtotime("first Monday ".$year."-".$month);
+    	$log = Tlog::getInstance();
+    	$log->error("CalendarController ".$stringTime." ".date("j, d-M-Y",$stringTime));
+		
     }
     
     public function getAppointmentsForWeek($week,$year){
@@ -119,6 +127,27 @@ class CalendarController extends BaseFrontController
     					//timeslot 1 available 2 booked 3 selected 4 booked_by_user 5 not_available 6 past_time_slot
 						//day 1 past 2 select 3 today 4 inactive
     	return $available_times;
+    }
+    
+    static private function adjustDate($month, $year)
+    {
+    	$arr = array();
+    	$arr[0] = $month;
+    	$arr[1] = $year;
+    
+    	while ($arr[0] > 12)
+    	{
+    		$arr[0] -= 12;
+    		$arr[1]++;
+    	}
+    
+    	while ($arr[0] <= 0)
+    	{
+    		$arr[0] += 12;
+    		$arr[1]--;
+    	}
+    
+    	return $arr;
     }
 
 

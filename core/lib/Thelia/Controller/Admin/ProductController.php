@@ -160,6 +160,7 @@ class ProductController extends AbstractSeoCrudController
             ->setTaxRuleId($formData['tax_rule'])
             ->setBaseQuantity($formData['quantity'])
             ->setTemplateId($formData['template_id'])
+            
         ;
 
         return $createEvent;
@@ -309,7 +310,16 @@ class ProductController extends AbstractSeoCrudController
                     "onsale"                  => $saleElement->getPromo() > 0 ? 1 : 0,
                     "isnew"                   => $saleElement->getNewness() > 0 ? 1 : 0,
                     "isdefault"               => $saleElement->getIsDefault() > 0 ? 1 : 0,
-                    "ean_code"                => $saleElement->getEanCode()
+                    "ean_code"                => $saleElement->getEanCode(),
+                	"listen_price"            => $productPrice->getListenPrice(),
+                	"ek_preis_gc"             => $productPrice->getEkPreisGc(),
+                	"ek_preis_sht"            => $productPrice->getEkPreisSht(),
+                	"ek_preis_oag"            => $productPrice->getEkPreisOag(),
+                	"ek_preis_holter"         => $productPrice->getEkPreisHolter(),
+                    "ek_preis_odorfer"        => $productPrice->getEkPreisOdorfer(),
+            		"preis_reuter"			  => $productPrice->getPreisReuter(),
+            		"vergleich_ek"            => $productPrice->getVergleichEk(),
+                	"aufschlag"               => $productPrice->getAufschlag()
                 );
             } else {
                 if ($saleElement->getIsDefault()) {
@@ -1083,8 +1093,17 @@ class ProductController extends AbstractSeoCrudController
             ->setEanCode($data['ean_code'])
             ->setTaxRuleId($data['tax_rule'])
             ->setFromDefaultCurrency($data['use_exchange_rate'])
+            ->setListenPrice($data['listen_price'])
+            ->setEkPreisGc($data['ek_preis_gc'])
+            ->setEkPreisSht($data['ek_preis_sht'])
+            ->setEkPreisOag($data['ek_preis_oag'])
+            ->setEkPreisHolter($data['ek_preis_holter'])
+            ->setEkPreisOdorfer($data['ek_preis_odorfer'])
+            ->setPreisReuter($data['preis_reuter'])
+            ->setVergleichEk($data['vergleich_ek'])
+            ->setAufschlag($data['aufschlag'])
         ;
-
+ 
         $this->dispatch(TheliaEvents::PRODUCT_UPDATE_PRODUCT_SALE_ELEMENT, $event);
 
         // Log object modification
