@@ -18,25 +18,22 @@ class Front extends BaseHook{
 		//$event->add($content);
 	}
 		
-    public function onProductserviceBottom(HookRenderEvent $event)
+    public function onProductServiceBottom(HookRenderEvent $event)
     {
-    	
     	$log = Tlog::getInstance();
     	
     	$initial_appointments = new CalendarController();
     	
-    	$log->error("hookcalendar fron service ".implode(" ",$event->getArguments()));
-    	
+    	$log->error("hookcalendar front service ".implode(" ",$event->getArguments()));
     	
     	$event->add($this->addJS('assets/js/calendar.js'));
     	
+    	$initial_appointments->getDaysForMonth($event->getArgument("month"),$event->getArgument("year"));
         $content = $this->render('calendar.html',
             array(
                 "service_id"        => $event->getArgument("service"),
                 "week_available" => $initial_appointments->getAppointmentsForWeek($event->getArgument("month"),$event->getArgument("year"))
             ));
         $event->add($content);
-        
     }
-    
 }

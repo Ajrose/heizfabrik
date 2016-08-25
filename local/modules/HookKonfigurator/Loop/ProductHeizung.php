@@ -692,8 +692,8 @@ class ProductHeizung extends BaseI18nLoop implements PropelSearchLoopInterface, 
 		
 		$warm_water = $request->request->get('konfigurator')['warmwasserversorgung'];
 		
-		if($warm_water != 2)
-          $warm_water = $request->request->get('konfigurator')['warmwasserversorgung']+$request->request->get('konfigurator')['warmwasserversorgung-extra'];
+		if($warm_water == 1)
+          $warm_water = $request->request->get('konfigurator')['warmwasserversorgung-extra'];
 		else $warm_water = 0;
           $log->error(" warm_water ".$warm_water." ws ".$request->request->get('konfigurator')['warmwasserversorgung']);
 		$search
@@ -716,10 +716,9 @@ class ProductHeizung extends BaseI18nLoop implements PropelSearchLoopInterface, 
 			->condition('brennstoff_zukunft', 'energy_carrier > ?',$brennstoff,\PDO::PARAM_STR)
 			->where ( array ('power_larger_then','brennstoff_zukunft','warmwasserversorgung' ), Criteria::LOGICAL_AND ); // power_condition
 		else */
-			$search
-			->condition('brennstoff_zukunft', 'energy_carrier = ?',$brennstoff,\PDO::PARAM_INT)
-			->where ( array ('power_larger_then','brennstoff_zukunft','warmwasserversorgung' ), Criteria::LOGICAL_AND );			
-
+			$search->condition('brennstoff_zukunft', 'energy_carrier = ?',$brennstoff,\PDO::PARAM_INT);
+//			if($warm_water >0)
+				$search->where ( array ('power_larger_then','brennstoff_zukunft','warmwasserversorgung' ), Criteria::LOGICAL_AND );			
 		//if ($visible !== Type\BooleanOrBothType::ANY) {
 			$search->filterByVisible(1);
 		//}

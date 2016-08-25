@@ -26,6 +26,7 @@ use Thelia\Log\Tlog;
  */
 class CalendarController extends BaseFrontController
 {
+	private $daySeconds = 86400;
 
     public function getAppointments(Request $request){
     	//TODO sequence diagramm with the operations starting from konfigurator form and ending to the response products
@@ -46,10 +47,34 @@ class CalendarController extends BaseFrontController
     }
     
     public function getDaysForMonth($month,$year){
-    	$stringTime = strtotime("first Monday ".$year."-".$month);
+    	$time = strtotime("monday ".$year."-".$month);
+    	$date = mktime(0,0,0, $month, "1", $year);
+    	$firstWeekNumber = (int)date('W',$date);
+
+    	$this->getDaysForWeek($firstWeekNumber, $year);
+    }
+    
+    public function getDaysForWeek($week,$year){
+    	$weekStartTime = strtotime($year.'W'.$week);
+    	$weekDate = date('d-m-Y', $weekStartTime);
+
+    	$weekStructure = array();
+    	for($i = 0;$i<7;$i++){
+    		$dayTimestamp = $weekStartTime+$i*$this->daySeconds;
+    		$dayDate  = date('d', $dayTimestamp);
+    		$dayMonth = date('m', $dayTimestamp);
+    		$dayYear  = date('Y', $dayTimestamp);
+    		
+    		array_push($weekStructure, "d".($i+1), 
+    			array("nr" => $dayDate, 
+    				  "type" => 3,
+    				  "start_ts" => mktime(   7, 0, 0, $dayMonth, $dayDate, $dayYear),
+    				  "stop_ts"  => mktime(  17, 0, 0, $dayMonth, $dayDate, $dayYear)));
+    	}
     	$log = Tlog::getInstance();
-    	$log->error("CalendarController ".$stringTime." ".date("j, d-M-Y",$stringTime));
-		
+    	$log->error("CalendarController week ".implode(' ',$weekStructure['d1']));
+    	
+    	return $weekStructure;
     }
     
     public function getAppointmentsForWeek($week,$year){
