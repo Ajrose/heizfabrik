@@ -10115,8 +10115,12 @@ td.product .name>a:hover {
 }
 .grid #category-products .item>article .product-info .name {
     margin: 4px;
-    height: 2em;
+    height: 50px;
     overflow: hidden
+}
+
+.grid #category-products .item>article .product-info {
+    
 }
 .grid #category-products .item>article .product-info .description {
     margin-left: 4px
@@ -13021,4 +13025,16 @@ display: none;
 }
 .pointer{
     cursor:pointer;
+}
+.underline{
+    text-decoration:underline;
+}
+.img-services{
+    width: 80%!important;
+    margin-left: auto;
+    margin-right: auto;
+}
+.ergebnissliste{
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 30px;
 }

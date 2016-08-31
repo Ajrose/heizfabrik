@@ -17,7 +17,11 @@
 {block name="after-javascript-include"}
 <script>
 $('.products-content').on('click', '.thumbnail', function (event) {
-            $("#zwischensumme").show();
+  $(".zwischensumme").show();
+   /* $(".zwischensumme").each(function(){
+        
+        $(this).show();
+    });*/
 	if($(this).hasClass("selected")){
 
 	$(this).removeClass("selected");

@@ -1,4 +1,4 @@
-<li class="item {$colClass|default:col-md} ">
+<li class="ergebnissliste" class="item {$colClass|default:col-md} " >
 {if $PSE_COUNT > 1}
 	{assign var="hasSubmit" value = false} 
 {else} 
@@ -14,17 +14,17 @@
 			{hook name="singleproduct.top" product="{$product_id}"} 
 			<a href="{$URL nofilter}" itemprop="url" tabindex="-1" class="product-image{if $hasQuickView == true} product-quickview{/if} overlay col-sm-4">
 				{loop name="product_thumbnail" type="image" product=$product_id width="{$width}" height="{$height}" resize_mode="borders" limit="1"}
-					<img itemprop="image" src="{$IMAGE_URL nofilter}" class="img-responsive" alt="{$productTitle}"> 
+					<img itemprop="image" src="{$IMAGE_URL nofilter}" class="img-responsive" alt="{$productTitle}" style="margin-top:8px"> 
 				{/loop}
 				{elseloop rel="product_thumbnail"} 
-					<img itemprop="image" src="{image file='assets/dist/img/218x146.png'}" class="img-responsive" alt="{$productTitle}"> 
+					<img itemprop="image" src="{image file='assets/dist/img/218x146.png'}" class="img-responsive" alt="{$productTitle}" style="margin-top:8px> 
 				{/elseloop}
 			</a>
 
 			<div class="product-info col-sm-4">
-				<h2 class="name">
+				<div class="name">
 					<a href="{$URL nofilter}"><span itemprop="name">{$productTitle}</span></a>
-				</h2>
+				</div>
 				{if $hasDescription}
 				<div class="short-description" itemprop="description" >
 					<p>{$DESCRIPTION nofilter}</p>
@@ -57,7 +57,7 @@
 			{/if}
 
 			<div class="product-price col-sm-3">
-				<div class="price-container row" itemprop="offers" itemscope itemtype="http://schema.org/Offer">
+				<div class="price-container row" style="margin-top:0px" itemprop="offers" itemscope itemtype="http://schema.org/Offer">
 					<meta itemprop="category" content="{category attr="title"}">
 					{* List of condition : NewCondition, DamagedCondition, UsedCondition, RefurbishedCondition *}
 					<meta itemprop="itemCondition" itemscope itemtype="http://schema.org/NewCondition">
@@ -84,21 +84,21 @@
 								<div style="font-size:20px; font-weight:bold;float:left" >{format_money number=$BEST_TAXED_PRICE symbol={currency attr="symbol"}}</div>
                                 <div class="clearfix"></div>
                                     
-                                    <table id="zwischensumme" style="display:none">
-<tr>
-    <td><div>Zwischensumme:</div></td>
-</tr>
-<tr>
-    <td style="font-size:20px; font-weight:bold; color:#000;">
-	<span name="price_product_{$product_id}">
-	{$BEST_TAXED_PRICE|string_format:"%.2f"}
-	</span>
-	<span>€</span>
-	</td>
-    <span name="org_price_product_{$product_id}" style="display:none"> 		{$BEST_TAXED_PRICE|string_format:"%.2f"}
-	</span>
-</tr>
-</table>
+                                    <table class="zwischensumme" style="display:none">
+                                        <tr>
+                                            <td><div>Zwischensumme:</div></td>
+                                        </tr>
+                                        <tr>
+                                            <td style="font-size:20px; font-weight:bold; color:#000;">
+                                            <span name="price_product_{$product_id}">
+                                            {$BEST_TAXED_PRICE|string_format:"%.2f"}
+                                            </span>
+                                            <span>€</span>
+                                            </td>
+                                            <span name="org_price_product_{$product_id}" style="display:none"> 		{$BEST_TAXED_PRICE|string_format:"%.2f"}
+                                            </span>
+                                        </tr>
+                                    </table>
                                     
 						</span> 
 					{/if}

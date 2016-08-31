@@ -51,6 +51,7 @@ use Thelia\Tools\I18n;
 use Thelia\Log\Tlog;
 use Thelia\Model\OrderQuery;
 
+
 /**
  *
  * Class Order
@@ -422,9 +423,10 @@ class Order extends BaseAction implements EventSubscriberInterface
     {
         $session = $this->getSession();
 
-        $order = $event->getOrder();      
-        Tlog::getInstance()->error(" orderdebug ordercontroller ".$order);
-        $paymentModule = ModuleQuery::create()->findPk($order->getPaymentModuleId());
+        $eventOrder = $event->getOrder();      
+        Tlog::getInstance()->error(" orderdebug ordercontroller ".$eventOrder." module from event ".$event->getPaymentModule()." from db ".$eventOrder->getPaymentModuleId());
+        
+        $paymentModule = ModuleQuery::create()->findPk($eventOrder->getPaymentModuleId());
 
         /** @var \Thelia\Module\PaymentModuleInterface $paymentModuleInstance */
         $paymentModuleInstance = $paymentModule->createInstance();
@@ -433,6 +435,7 @@ class Order extends BaseAction implements EventSubscriberInterface
         $cart = $session->getSessionCart($dispatcher);
         //$cart = new Cart();
         $existingOrders = OrderQuery::create()->findOneByCartId($cart->getId());
+        
         
        if($existingOrders == null)
         $placedOrder = $this->createOrder(
@@ -450,7 +453,15 @@ class Order extends BaseAction implements EventSubscriberInterface
         else {
         	Tlog::getInstance()->error(" orderdebug ordercontroller found existing order ".$existingOrders);
         	$placedOrder = $existingOrders;
-        	$placedOrder->setDiscount($cart->getDiscount())
+
+        	$placedOrder->setPaymentModuleId($eventOrder->getPaymentModuleId());
+        	//$placedOrder->setInvoiceOrderAddressId($eventOrder->getInvoiceOrderAddressId());
+        	$placedOrder->setDeliveryModuleId($eventOrder->getDeliveryModuleId());
+        	if($eventOrder->getTransactionRef())
+        		$placedOrder->setTransactionRef($eventOrder->getTransactionRef());
+        	$placedOrder->setPostage($eventOrder->getPostage());
+        	//$placedOrder->setLangId($eventOrder->getLang());
+        	$placedOrder->setDiscount($eventOrder->getDiscount())
         	->save();
         }
 

@@ -34,7 +34,7 @@
         {$breadcrumbs[] = ['title' => {$TITLE}, 'url'=> {$URL nofilter}]}
     {/loop}
 {/block}
-
+{$SHOW_ORIGINAL_PRICE=false}
 {* Content *}
 {block name="main-content"}
     {if $product_id}
@@ -214,10 +214,18 @@
                                     
                                     <tr>
                                         <td>
-                                        <div name="price_product_{$product_id}" style="font-size:20px; font-weight:bold;">
+                                        <div style="font-size:20px; font-weight:bold;">
                                         {$BEST_TAXED_PRICE|string_format:"%.2f"}€</div>
                                         </td>
                                     </tr>
+                                    <tr>
+                                    <td style="height:50px" colspan="2"></td>
+                                    </tr>
+                                    <tr id="zwischensumme" style="display:none">
+                                     <td><div>Zwischensumme:</div></td>
+                                    <td style="font-size:20px; font-weight:bold; color:#000;"><span name="price_product_{$product_id}" >{$BEST_TAXED_PRICE|string_format:"%.2f"}</span><span>€</span></td>
+                               <span name="org_price_product_{$product_id}" style="display:none">{$BEST_TAXED_PRICE|string_format:"%.2f"}</span>
+                                </tr>
                                     <tr>
                                     <td ><small><br>Alle Preise inkl. 20% MwSt.</small></td>
                                     </tr>
@@ -229,8 +237,8 @@
                            
                             </span>
                             <meta itemprop="price" content="{$TAXED_PROMO_PRICE}">
-                            {if $SHOW_ORIGINAL_PRICE}
-                                <span class="old-price"><span class="price-label">{intl l="Regular Price:"} </span><span id="pse-price-old" class="price">{format_money number=$TAXED_PRICE}</span></span>
+                            {if $SHOW_ORIGINAL_PRICE!=false}
+                                <!--span class="old-price"><span class="price-label">{intl l="Regular Price:"} </span><span id="pse-price-old" class="price">{format_money number=$TAXED_PRICE}</span></span-->
                             {/if}
                         </span>
                     </div>
@@ -300,7 +308,7 @@
                      {if $service_category==#services_category_id#}
                     <h2 style="margin-left:15px; margin-right:15px">{$TITLE}</h2>
                     {/if}
-                    {loop type="image" name="image.main" product={$ID} resize_mode="borders" limit="1"}
+                    {loop type="image" name="image.main" product={$ID} resize_mode="borders"  limit="1"}
                     	{assign var="service_image_url" value="{$IMAGE_URL}"}
                     {/loop}
                     
@@ -370,8 +378,14 @@
 <!--                 <div id="services-appointments" {if $parent_category != #services_category_id#} style="display:none" {/if}>
                      <script type="text/javascript" src="schedule/index.php?controller=pjFrontEnd&action=pjActionLoad&service_appointment={$service_for_appointment}"></script>
                 </div> -->
-
+                
                 {hook name="product.details-bottom" product={$ID}}
+                
+                
+				{if $service_category!=#services_category_id#}
+                	{hook name="product.delivery-delay" product={$ID}}
+                {/if}
+                
             </section>
 
             {strip}

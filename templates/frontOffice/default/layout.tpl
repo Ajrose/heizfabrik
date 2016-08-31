@@ -7,7 +7,7 @@ Copyright (c) SEPA
 email : office@sepa.at
 web : http://www.hausfabrik.at
 
-
+/// templates/frontOffice/default
 -->
 
 {* Declare assets directory, relative to template base directory *}
@@ -98,6 +98,15 @@ web : http://www.hausfabrik.at
    <script src="{javascript file='assets/dist/js/vendors/modernizr.custom.js'}"></script>
 
    <script src="{javascript file='assets/dist/js/vendors/dropzone.js'}"></script>
+{literal}
+    <!-- Start Alexa Certify Javascript -->
+<script type="text/javascript">
+_atrk_opts = { atrk_acct:"bt9Bn1QolK107i", domain:"hausfabrik.at",dynamic: true};
+(function() { var as = document.createElement('script'); as.type = 'text/javascript'; as.async = true; as.src = "https://d31qbv1cthcecs.cloudfront.net/atrk.js"; var s = document.getElementsByTagName('script')[0];s.parentNode.insertBefore(as, s); })();
+</script>
+<noscript><img src="https://d5nxst8fruw4z.cloudfront.net/atrk.gif?account=bt9Bn1QolK107i" style="display:none" height="1" width="1" alt="" /></noscript>
+<!-- End Alexa Certify Javascript -->
+{/literal}
 
    
     <!--Start of Zopim Live Chat Script-->
@@ -153,8 +162,9 @@ type="text/javascript";e.parentNode.insertBefore($,e)})(document,"script");
                 <h1 class="logo  hidden-xs col-sm-4" >
                         <a href="{navigate to="index"}" title="{$store_name}">
                             <img src="{image file='assets/dist/img/logo.png'}" style="max-width:200px" alt="{$store_name}">
-                        </a>
+                        </a> 
                 </h1>
+                           
                 <!--div class="col-sm-4 zertifikat-logos">
                <img src={image file='assets/dist/img/installateur_fachbetrieb-logo.png'} style="width:80px">
                 <img src={image file='assets/dist/img/shk_innung.png'}  style="width:80px">       
@@ -194,8 +204,12 @@ type="text/javascript";e.parentNode.insertBefore($,e)})(document,"script");
                     <div class="container">
                         <div class="col col-sm-12 lieferungbedienungen">
                                 <h6><strong>Alle Preise inkl. 20% MwSt., ggf. zzgl. Versandkosten</strong></h6>  *unverbindliche Preisangabe der Hersteller<br>
-                               <sup>1)</sup>Ab 300 EUR Warenwert versenden wir generell in einer Lieferung versandkostenfrei in folgende Länder : Österreich<br>
-                            <small>Die Abbildungen müssen nicht den tatsächlichen Produkten entsprechen</small>
+                               <small><sup>1)</sup>Ab 300 EUR Warenwert versenden wir generell in einer Lieferung versandkostenfrei in folgende Länder : Österreich</small><br>
+                            	<small><sup>2)</sup>Produkte welche nicht von uns bezogen wurden können nur nach Rücksprache montiert werden.</small><br>
+                            	<small><sup>3)</sup>Das Angebot bezieht sich auf Ihre Angaben, und beinhaltet nur das Produkt ohne Montagematerial</small><br>
+                        	<small>Produktabbildung kann abweichen</small><br>
+                            <small>Die Ergebnisse aus dem Konfigurator haben keinen Anspruch auf Vollständigkeit der Produkte und Pakete.</small><br>
+                            <small>Wenn Sie aber ein Angebot benötigen welches genau auf Sie zugeschnitten ist, füllen Sie bitte das Formular <a href="heizungskonfigurator-angebot"> <span style="color:#74A027;">NEU HEIZUNG</a> aus.</small><br>
                         </div>
                     </div>
       </section>
@@ -231,10 +245,10 @@ type="text/javascript";e.parentNode.insertBefore($,e)})(document,"script");
                                 <span class="shopicon shop-bezahlung highlightcolor"></span>
                                 <div><strong>{intl l="BEZAHLUNG"} </strong></div><div><br><small>{intl l="Folgende Zahlungsmethoden stehen Ihnen zu Auswahl:"}</small></div>
                                 <div>
-                                    <img src="{image file='assets/dist/img/paymentsystems/paypal.jpg'}" alt="paypal"/>
-                                    <img src="{image file='assets/dist/img/paymentsystems/mastercard.jpg'}" alt="paypal"/>
-                                    <img src="{image file='assets/dist/img/paymentsystems/visa.jpg'}" alt="paypal"/>
-                                    <!--img src="{image file='assets/dist/img/paymentsystems/western.jpg'}" alt="paypal"/-->
+                                    <img src="{image file='assets/dist/img/paymentsystems/paypal.png'}" alt="paypal"/>
+                                    <img src="{image file='assets/dist/img/paymentsystems/mastercard.png'}" alt="master"/>
+                                    <img src="{image file='assets/dist/img/paymentsystems/visacard.png'}" alt="visa"/>
+                                    <img src="{image file='assets/dist/img/paymentsystems/sofort.png'}" alt="sofort"/>
                                 </div>
                             </div>
                             <a href="contact">
@@ -301,10 +315,14 @@ type="text/javascript";e.parentNode.insertBefore($,e)})(document,"script");
                         <div class="info row">
                             <nav class="nav-footer col-lg-9" role="navigation">
                                 <ul class="list-unstyled list-inline">
+                                	<li><a href="?view=content&lang=de_DE&content_id=15">Presse</a></li>
+                                	<li><a href="faq">Häufig gestellte Fragen (FAQ)</a></li>
                                     <li><a href="?view=content&lang=de_DE&content_id=14">AGB</a></li>
+                                    <li><a href="?view=content&lang=de_DE&content_id=2">Datenschutz</a></li>
                                     <li><a href="impressum">Impressum</a></li>
-                                    <li><a href="widerruf">Widerrufsrerklärung</a></li>
-                                    <li><a href="faq">Häufige Fragen (FAQ)</a></li>
+                                    <li><a href="?view=content&lang=de_DE&content_id=16">Über uns</a></li>
+                               		<!--li><a href="widerruf">Widerrufsrerklärung</a></li--> 
+                                    <!--li><a href="faq">Häufig gestellte Fragen (FAQ)</a></li-->
                                 </ul>
                                 <!--ul class="list-unstyled list-inline">
                                     {$folder_information={config key="information_folder_id"}}

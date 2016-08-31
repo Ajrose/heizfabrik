@@ -365,7 +365,7 @@ return [
     'Please select the offered product' => 'Bitte wählen Sie das Produkt ',
     'Please upload a valid Zip file' => 'Bitte laden Sie eine gültige Zip-Datei',
     'Port' => 'Port',
-    'Postage' => 'Porto',
+    'Postage' => 'Versand',
     'Preferred locale' => 'Gewünschte Sprache',
     'Prevent mailing template modification or deletion, except for super-admin' => 'Mailling Templates Bearbeitung oder Löschung verhindern, außer für den Administrator',
     'Prevent variable modification or deletion, except for super-admin' => 'Variable Änderung oder Löschung verhindern, Ausnahme für Superadministratoren. ',
