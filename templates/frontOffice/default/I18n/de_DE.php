@@ -151,7 +151,7 @@ return [
     'Please enter your email address below.' => 'Bitte geben Sie Ihre E-Mail-Adresse ein.',
     'Please try again to order' => 'Versuchen Sie es erneut',
     'Position' => 'Position',
-    'Postage' => 'Porto',
+    'Postage' => 'Versand',
     'Previous' => 'Zurück',
     'Previous product' => 'Vorgängerprodukt',
     'Price' => 'Preis',

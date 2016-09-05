@@ -17,7 +17,8 @@ class Front extends BaseHook{
 
     public function onKonfiguratorSuggestions(HookRenderEvent $event)
     {
-        $content = $this->render('konfigurator-suggestions.html');
+        $content = $this->render('konfigurator-suggestions.html',array(
+                "brennstoff_zukunft"        => $this->getRequest()->request->get('konfigurator')['brennstoff_zukunft']));
         $event->add($content);
     }
     public function onMainNavbarPrimary(HookRenderEvent $event)

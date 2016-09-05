@@ -68,7 +68,8 @@ return [
     'Your subscription to newsletter'=>'Ihr Abonement zum Newsletter',
     'Dear %firstname %lastname,'=>'Liebe(r) %firstname %lastname,',
     'Hello'=>'Hallo',
-    'To unsubscribe from our newsletter, please <a href=\"%unsublink\">click here</a>.'=>'Um Newsletter abzubestellen, bitte <a href=\"%unsublink\">hier drücken.</a>.',
+    'To unsubscribe from our newsletter, please'=>'Um Newsletter abzubestellen, bitte',
+    'click here'=>'Kliken Sie hier',
     
     'Thank you for your registration. You will now receive the %store newsletter on your email address %email.'=>'Vielen Dank für Ihre Registrierung. Sie werden an diese Email Adresse %email Newsletter bekommen.',
     

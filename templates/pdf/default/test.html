@@ -14,12 +14,12 @@
 {literal}
 <style>
     h1, h2, h3, h4 {
-        color:#666;
+        color:#86ac34;
         margin: .5em 0;
     }
 
     h1 {
-        font-size: 40px;
+        font-size: 48px;
     }
 
     h2 {
@@ -60,25 +60,17 @@
     td {
         vertical-align: top;
     }
-    .table-info{
-        float:left;
-        width:50%;
-    }
-    .logo{
-        float:left;
-        width:50%;
-    }
+
     .table-info h3 {
-        font-size: 15px;
+        font-size: 18px;
         color: #58585a;
         margin-top: 0;
         margin-bottom: 15px;
-        
     }
 
     .table-info h3 span {
-        font-size: 12px;
-        color: #666;
+        font-size: 18px;
+        color: #86ac34;
     }
 
     .table-1 td {
@@ -128,41 +120,26 @@
     .clear-none {
         padding: 0.5%;
     }
-    .table-bottom{
-        position:absolute;
-        bottom:50px;
-        left:20px
-
-    }
 	
 	{hook name="invoice.css"}
 
 </style>
 {/literal}
 {$logo = {image file='assets/img/logo.png' failsafe=true}}
-<page backtop="10mm" backleft="10mm" backright="10mm" backbottom="10mm" style="position:relative; padding:20px;">
-    
+<page backtop="10mm" backleft="10mm" backright="10mm" backbottom="10mm">
+    <div style="float:left"><img src={$logo}> </div>
     <page_header>
 		{hook name="invoice.header" order=$order_id}
         
     </page_header>
  
-    <page_footer style="padding:20px">
+    <page_footer>
 		{hook name="invoice.footer-top" order=$order_id}
-       <table style="padding:20px">
-            <tr>
-                <td><h2>Danke für Ihre Bestellung</h2></td>
-            </tr>
-            <tr>
-                <td>SEPA Engineering GmbH, UID: ATU64598867, IBAN:AT822011129117613500, BIC:GIBAATWWXXX</td>
-            </tr>
-        </table>
-        <table style="padding:20px">
-            <col style="width: 60%; padding: 1mm; border: solid 0px; text-align: left;" />
-            <col style="width: 20%; padding: 1mm; border: solid 0px; text-align: right;" />
-            <col style="width: 20%; padding: 1mm; border: solid 0px; text-align: right;" />
+       
+        <table style="float:left">
+            <col style="width: 80%; padding: 1mm; border: none; text-align: left;" />
+            <col style="width: 20%; padding: 1mm; border: none; text-align: right;" />
             <tbody>
-            
             <tr>
                 <td>
 					{hook name="invoice.imprint" order=$order_id}
@@ -188,38 +165,47 @@
 		                {/if}
 					{/elsehook}
                 </td>
-                <td>{intl l="page"} [[page_cu]]/[[page_nb]] </td>
-                
+                <td>{intl l="page"} [[page_cu]]/[[page_nb]]</td>
             </tr>
-                 
             </tbody>
         </table>
-      
 		{hook name="invoice.footer-bottom" order=$order_id}
     </page_footer>
 
     {$taxes = []}
 
     {loop name="order.invoice" type="order" id=$order_id customer="*"}
-
+    <table class="table-info">
+        <col style="width: 100%; padding: 0mm;" />
+        <tr>
+            <td>
+                <h1>{intl l="INVOICE"}</h1>
+            </td>
+        </tr>
+        <tr>
+            <td><h3>{intl l="Invoice date"} : <span>{format_date date=$INVOICE_DATE output="date"}</span></h3></td>
+        </tr>
+        <tr>
+            <td><h3>{intl l="Invoice REF"} : <span>{$REF}</span></h3></td>
+        </tr>
+        <tr>
+            <td><h3>{intl l="Customer Number"} : <span>{loop type="customer" name="customer.invoice" id=$CUSTOMER current="0"}{$REF}{/loop}</span></h3></td>
+        </tr>
+		{hookblock name="invoice.information" order=$order_id fields="title,value"}
+        {forhook rel="invoice.information"}
+        <tr>
+            <td><h3>{$title} : <span>{$value}</span></h3></td>
+        </tr>
+        {/forhook}
+        {/hookblock}
+    </table>
+	
 	{hook name="invoice.after-information" order=$order_id}
 
     <table class="table-address">
         <col style="width: 50%; padding: 3mm;" />
         <col style="padding: 3mm;" />
-
-        
-
         <tr>
-           <td>
-               <h1>{intl l="INVOICE"}</h1>
-           </td>
-        </tr>
-        <tr>
-             <td style="border-left: solid 1mm #86ac34;">
-                <h3>{intl l="Invoice address"}</h3>
-                {format_address order_address=$INVOICE_ADDRESS locale=$locale}
-            </td>
             <td style="border-left: solid 1mm #86ac34;" >
                 <h3>{intl l="Delivery address"}</h3>
 				{ifhook rel="invoice.delivery-address"}
@@ -230,41 +216,12 @@
 				    {format_address order_address=$DELIVERY_ADDRESS locale=$locale}
                	{/elsehook}
             </td>
-           
+            <td style="border-left: solid 1mm #86ac34;">
+                <h3>{intl l="Invoice address"}</h3>
+                {format_address order_address=$INVOICE_ADDRESS locale=$locale}
+            </td>
         </tr>
     </table>
-    
-        <table>
-    <col style="width: 70%;padding: 3mm;" />
-    <col style="width: 30%; padding: 3mm;" />
-    <tr>
-        <td>
-   
-            <table class="table-info">
-                <col style="width: 100%; padding: 0mm;" />
-               
-                <tr>
-                    <td><h3>{intl l="Invoice date"} : <span>{format_date date=$INVOICE_DATE output="date"}</span></h3></td>
-                </tr>
-                <tr>
-                    <td><h3>{intl l="Invoice REF"} : <span>{$REF}</span></h3></td>
-                </tr>
-                <tr>
-                    <td><h3>{intl l="Customer Number"} : <span>{loop type="customer" name="customer.invoice" id=$CUSTOMER current="0"}{$REF}{/loop}</span></h3></td>
-                </tr>
-                {hookblock name="invoice.information" order=$order_id fields="title,value"}
-                {forhook rel="invoice.information"}
-                <tr>
-                    <td><h3>{$title} : <span>{$value}</span></h3></td>
-                </tr>
-                {/forhook}
-                {/hookblock}
-            </table>
-        </td>
-
-        <!--td> <img src={$logo} style="width:150px"> </td-->
-    </tr>
-</table>
 
     {hook name="invoice.after-addresses" order=$order_id}
 
@@ -365,10 +322,10 @@
                                     {$_price_taxe_= $_price_taxe_ + $price}
                                 {/foreach}
                                 {if $_price_taxe_ != 0}
-                                <!--tr>
+                                <tr>
                                     <td class="table-3-2"><p>{$name}</p></td>
                                     <td class="table-3-2 align-right"><p>{format_money number=$_price_taxe_ currency_id=$CURRENCY}</p></td>
-                                </tr-->
+                                </tr>
                                 {/if}
                             {/foreach}
                             {if $POSTAGE_TAX != 0}
@@ -386,10 +343,10 @@
                     </tr>
                     {$smarty.capture.tax nofilter}
                     {/if}
-                    <!--tr>
+                    <tr>
                         <td class="table-3-1"><p>{intl l="Total with tax"}</p></td>
                         <td class="table-3-1 align-right"><p>{format_money number={$TOTAL_TAXED_AMOUNT - $POSTAGE} currency_id=$CURRENCY}</p></td>
-                    </tr-->
+                    </tr>
                     <tr>
                         <td class="table-3-1"><p>{intl l="Postage"}</p></td>
                         <td class="table-3-1 align-right"><p>{format_money number=$POSTAGE currency_id=$CURRENCY}</p></td>
@@ -402,7 +359,6 @@
             </td>
         </tr>
     </table>
-    
 
 {hook name="invoice.after-summary" order=$order_id}
 
