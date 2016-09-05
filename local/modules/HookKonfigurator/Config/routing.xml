@@ -16,16 +16,11 @@
     <route id="my_route_id" path="/admin/module/hookkonfigurator/route-name">
         <default key="_controller">HookKonfigurator\Full\Class\Name\Of\YourAdminController::methodName</default>
     </route>
-
-    <route id="my_route_id" path="/my/route/name">
+-->
+<!--     <route id="my_route_id" path="/my/route/name">
         <default key="_controller">HookKonfigurator\Full\Class\Name\Of\YourOtherController::methodName</default>
     </route>
-
-    ...add as many routes as required.
-
-    <route>
-    ...
-    </route>
-    -->
+ -->
+    
 
 </routes>

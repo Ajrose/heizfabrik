@@ -23,6 +23,7 @@ use HookKonfigurator\Model\HeizungkonfiguratorUserdaten;
 use HookKonfigurator\Model\HeizungkonfiguratorImage;
 use HookKonfigurator\Model\HeizungkonfiguratorUserdatenQuery;
 use HookKonfigurator\Form\PersonalData;
+use Base\BookingsServicesQuery;
 
 class KonfiguratorController extends BaseFrontController {
     
@@ -329,6 +330,41 @@ $log->error(sprintf('message : %s', $message));
 		}
 	}
 	
+	protected function saveServiceAppointment(Request $request){
+		$log = Tlog::getInstance ();
+		$log->debug ( "-- addAppointment " );
+		
+		$service_id = $request->request->get('product_id');
+		$ca_start_ts = $request->request->get('ca_start_ts');
+		$ca_end_ts   = $request->request->get('ca_end_ts');
+		$ca_employee_id = $request->request->get('ca_employee_id');
+		//$sp_date     = $request->request->get('sp_start_ts_'.$service_id);
+		
+		$log->debug ( "-- addAppointment service ".$service_id." start ".implode(" ",$ca_start_ts[$service_id])." end ".implode(" ",$ca_end_ts[$service_id])." ".implode(" ",$ca_employee_id[$service_id]) );
+	
+		//$start_ts = $ca_start_ts[0];
+		//$stop_ts = $ca_end_ts[0];
+		/*
+		$message = null;
+		try {
+			$bookingServiceQuery = BookingsServicesQuery::create();
+			$bookingServiceQuery
+			->condition ( 'start_ts', 'start_ts >= ?', $start_ts, \PDO::PARAM_INT )
+			->condition ( 'stop_ts', 'stop_ts >= ?', $stop_ts, \PDO::PARAM_INT )
+			->condition ( 'service', 'service_id = ?', $service_id, \PDO::PARAM_INT )
+			;
+			
+		} catch (PropelException $e) {
+			Tlog::getInstance()->error(sprintf("Failed to add item to cart with message : %s", $e->getMessage()));
+			$message = $this->getTranslator()->trans(
+					"Failed to add this article to your cart, please try again",
+					[],
+					Front::MESSAGE_DOMAIN
+					);
+		}
+		*/
+	}
+	
 	protected function addServiceToCart($id,$product_sale_id,Request $request){
 		$log = Tlog::getInstance ();
 		$log->debug ( "-- addservices " );
@@ -345,7 +381,11 @@ $log->error(sprintf('message : %s', $message));
 			$sp_start_ts = $request->request->get('sp_start_ts_'.$id);
 			$sp_end_ts   = $request->request->get('sp_end_ts_'.$id);
 			$sp_date     = $request->request->get('sp_start_ts_'.$id);
+			
+			$
 
+			$this->saveServiceAppointment($sp_start_ts, $sp_end_ts,$id);
+			
 			if(count($sp_start_ts)>0)
 				$cartEvent->setSpStartTs($sp_start_ts);
 			
@@ -403,6 +443,11 @@ $log->error(sprintf('message : %s', $message));
 		
 		//	$log->debug ( "-- addservices ".$cartEvent->getProduct() );
 			
+			$service_appointment = $request->request->get('service_zipcode');
+			
+			if($service_appointment)
+				$this->saveServiceAppointment($request);
+			
 			$service_ids = $request->request->get('service_id');
 			if($service_ids != null){
 				$service_product_sale_ids = $request->request->get('service_product_sale_id');
@@ -416,6 +461,7 @@ $log->error(sprintf('message : %s', $message));
 					}
 				};
 			}
+			
 		
 			if ($this->getRequest()->isXmlHttpRequest()) {
 				$this->changeViewForAjax();

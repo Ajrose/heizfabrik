@@ -1,15 +1,4 @@
 <?php
-/*************************************************************************************/
-/*      This file is part of the Thelia package.                                     */
-/*                                                                                   */
-/*      Copyright (c) OpenStudio                                                     */
-/*      email : dev@thelia.net                                                       */
-/*      web : http://www.thelia.net                                                  */
-/*                                                                                   */
-/*      For the full copyright and license information, please view the LICENSE.txt  */
-/*      file that was distributed with this source code.                             */
-/*************************************************************************************/
-
 namespace HookCalendar\Controller;
 
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -18,22 +7,53 @@ use Thelia\Controller\Front\BaseFrontController;
 use Thelia\Core\HttpFoundation\JsonResponse;
 use Thelia\Core\HttpFoundation\Request;
 use Thelia\Log\Tlog;
-
 /**
  * Class CalendarController
  * @package HookCalendar\Controller
- * @author manuel raynaud <mraynaud@openstudio.fr>
+ * @author emanuel plopu <emanuel.plopu@sepa.at>
  */
 class CalendarController extends BaseFrontController
 {
 	private $daySeconds = 86400;
 
-    public function getAppointments(Request $request){
+    public function getDaysFromMonthRequest(Request $request){
     	//TODO sequence diagramm with the operations starting from konfigurator form and ending to the response products
     	if ($request->isXmlHttpRequest ()) {
     		//$view = $request->get ( 'ajax-view', "includes/konfigurator-suggestions" );
     		//$request->attributes->set ( '_view', $view );
-    		return new JsonResponse ( array ('stuff' => 'more stuff') );
+    		$direction =$request->get('direction');
+    			$month =date('m', time());
+    			$year = date('Y', time());
+    			$correctMonthIncrement = array();
+    		if($direction == "next")
+    			$correctMonthIncrement = $this->adjustDate($month+1, $year);
+    		
+    		if($direction == "prev")
+    			$correctMonthIncrement = $this->adjustDate($month, $year);
+    		
+    		$month = $correctMonthIncrement[0];
+    		$year  = $correctMonthIncrement[1];
+    		$content =$this->render('days_table',
+    		array("month_days_array" => $this->getDaysForMonth($month, $year)));
+    		//TODO redirect to the service category
+    		return $content; 
+    	}
+    	else
+    	{
+    		//TODO redirect to the service category
+    		return new JsonResponse ( array ('stuff' => 'more stuff') ); // $productsQuerry->__toString()
+    	}
+    }
+    
+    public function getTimeslotsFromDayRequest(Request $request){
+    	if ($request->isXmlHttpRequest ()) {
+    	$start_ts = $request->get("start_ts");
+    	//$stop_ts  = $request->get("stop_ts");
+    	
+    	$content =$this->render('hours_table',
+    			array("day_hours_array" => $this->getAppointmentsForDay(date('d', $start_ts), date('m', $start_ts), date('Y', $start_ts))));
+    	
+    	return $content;
     	}
     	else
     	{
@@ -45,19 +65,66 @@ class CalendarController extends BaseFrontController
     public function saveAppointmentChoices(Request $request){
     	
     }
-    
+    /* 27 28 29 30  1  2  3
+     *  4  5  6  7  8  9 10
+     * 11 12 13 14 15 16 17
+     * 18 19 20 21 22 23 24
+     * 25 26 27 28 29 30 31
+     * */
     public function getDaysForMonth($month,$year){
-    	$time = strtotime("monday ".$year."-".$month);
-    	$date = mktime(0,0,0, $month, "1", $year);
-    	$firstWeekNumber = (int)date('W',$date);
 
-    	$this->getDaysForWeek($firstWeekNumber, $year);
+    	//$time = strtotime("monday ".$year."-".$month);
+    	$startingDate = mktime(0,0,0, $month, "1", $year);
+    	$endingDate = mktime(0,0,0, $month, date('t',$startingDate), $year);
+    	$firstWeekNumber = (int)date('W',$startingDate);
+    	$lastWeekNumber  = (int)date('W',$endingDate);
+    	$monthStructure = array();
+    	
+    	for($i=$firstWeekNumber;$i<=$lastWeekNumber;$i++)
+    		$monthStructure["w".($i-$firstWeekNumber+1)] = $this->getDaysForWeek($i, $year);
+    	return $monthStructure;//$monthStructure;
+    }
+    
+    /*
+    array('week' => '31', 'year' => '2016', 'weekStartTime' => '1470002400', 'weekDate' => '01-08-2016', 
+    		array(
+    		'w1' => array(
+    				'd1', array('nr' => '01', 'type' => '3', 'start_ts' => '1470027600', 'stop_ts' => '1470063600'), 
+    				'd2', array('nr' => '02', 'type' => '3', 'start_ts' => '1470114000', 'stop_ts' => '1470150000'), 
+    				'd3', array('nr' => '03', 'type' => '3', 'start_ts' => '1470200400', 'stop_ts' => '1470236400'), 
+    				'd4', array('nr' => '04', 'type' => '3', 'start_ts' => '1470286800', 'stop_ts' => '1470322800'), 
+    				'd5', array('nr' => '05', 'type' => '3', 'start_ts' => '1470373200', 'stop_ts' => '1470409200'), 
+    				'd6', array('nr' => '06', 'type' => '3', 'start_ts' => '1470459600', 'stop_ts' => '1470495600'), 
+    				'd7', array('nr' => '07', 'type' => '3', 'start_ts' => '1470546000', 'stop_ts' => '1470582000'))
+    				),
+    		'w2' => array(
+    				'd8', array('nr' => '01', 'type' => '3', 'start_ts' => '1470027600', 'stop_ts' => '1470063600'), 
+    				'd9', array('nr' => '02', 'type' => '3', 'start_ts' => '1470114000', 'stop_ts' => '1470150000'), 
+    				'd10', array('nr' => '03', 'type' => '3', 'start_ts' => '1470200400', 'stop_ts' => '1470236400'), 
+    				'd11', array('nr' => '04', 'type' => '3', 'start_ts' => '1470286800', 'stop_ts' => '1470322800'), 
+    				'd12', array('nr' => '05', 'type' => '3', 'start_ts' => '1470373200', 'stop_ts' => '1470409200'), 
+    				'd13', array('nr' => '06', 'type' => '3', 'start_ts' => '1470459600', 'stop_ts' => '1470495600'), 
+    				'd14', array('nr' => '07', 'type' => '3', 'start_ts' => '1470546000', 'stop_ts' => '1470582000'))
+    				),
+    */
+    private function isDayAvailable($current_day,$todayTimestamp){
+    	//past days
+    	if($current_day < $todayTimestamp)
+    		return 1;
+    	else if($current_day == $todayTimestamp)
+    			return 3;
+    	return 5;
+    	// weekends
     }
     
     public function getDaysForWeek($week,$year){
     	$weekStartTime = strtotime($year.'W'.$week);
     	$weekDate = date('d-m-Y', $weekStartTime);
 
+    	$todayTime = time();
+    	$todayTimestamp  =  mktime( 0, 0, 0, date('m', $todayTime), date('d', $todayTime), date('Y', $todayTime));
+    	$log = Tlog::getInstance();
+    	
     	$weekStructure = array();
     	for($i = 0;$i<7;$i++){
     		$dayTimestamp = $weekStartTime+$i*$this->daySeconds;
@@ -65,16 +132,29 @@ class CalendarController extends BaseFrontController
     		$dayMonth = date('m', $dayTimestamp);
     		$dayYear  = date('Y', $dayTimestamp);
     		
-    		array_push($weekStructure, "d".($i+1), 
-    			array("nr" => $dayDate, 
-    				  "type" => 3,
+    		////day 1 past 2 select 3 today 4 inactive 5 available
+    		$weekDay = array("nr" => $dayDate, 
+    				  "type" => $this->isDayAvailable($dayTimestamp, $todayTimestamp),
     				  "start_ts" => mktime(   7, 0, 0, $dayMonth, $dayDate, $dayYear),
-    				  "stop_ts"  => mktime(  17, 0, 0, $dayMonth, $dayDate, $dayYear)));
+    				  "stop_ts"  => mktime(  17, 0, 0, $dayMonth, $dayDate, $dayYear));
+    		$weekStructure["d".($i+1)] = $weekDay;
+    			
+    			$log->error(implode(' ',$weekDay));
     	}
-    	$log = Tlog::getInstance();
-    	$log->error("CalendarController week ".implode(' ',$weekStructure['d1']));
-    	
     	return $weekStructure;
+    }
+    
+    public function getAppointmentsForDay($day,$month,$year){
+    	return array(	"nr" => $day,
+    					"type" => 3,
+    					"ts" => array(
+    					array("type" => "1", "start" => "07:00", "start_ts" => mktime(  7,  0, 0, $month, $day, $year), "end" => "09:00", "end_ts" => mktime(  9,  0, 0, $month, $day, $year), "employee_id" => "2"),
+    					array("type" => "1", "start" => "09:00", "start_ts" => mktime(  9,  0, 0, $month, $day, $year), "end" => "11:00", "end_ts" => mktime( 11,  0, 0, $month, $day, $year), "employee_id" => "2"),
+    					array("type" => "1", "start" => "11:00", "start_ts" => mktime( 11,  0, 0, $month, $day, $year), "end" => "13:00", "end_ts" => mktime( 13,  0, 0, $month, $day, $year), "employee_id" => "2"),
+    					array("type" => "1", "start" => "13:00", "start_ts" => mktime( 13,  0, 0, $month, $day, $year), "end" => "15:00", "end_ts" => mktime( 15,  0, 0, $month, $day, $year), "employee_id" => "2"),
+    					array("type" => "1", "start" => "15:00", "start_ts" => mktime( 15,  0, 0, $month, $day, $year), "end" => "17:00", "end_ts" => mktime( 17,  0, 0, $month, $day, $year), "employee_id" => "2"),
+    					array("type" => "1", "start" => "17:00", "start_ts" => mktime( 17,  0, 0, $month, $day, $year), "end" => "19:00", "end_ts" => mktime( 19,  0, 0, $month, $day, $year), "employee_id" => "2")
+    	));
     }
     
     public function getAppointmentsForWeek($week,$year){

@@ -21,26 +21,26 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildBookingsServicesQuery orderById($order = Criteria::ASC) Order by the id column
  * @method     ChildBookingsServicesQuery orderByTmpHash($order = Criteria::ASC) Order by the tmp_hash column
  * @method     ChildBookingsServicesQuery orderByBookingId($order = Criteria::ASC) Order by the booking_id column
+ * @method     ChildBookingsServicesQuery orderByUserId($order = Criteria::ASC) Order by the user_id column
  * @method     ChildBookingsServicesQuery orderByServiceId($order = Criteria::ASC) Order by the service_id column
  * @method     ChildBookingsServicesQuery orderByEmployeeId($order = Criteria::ASC) Order by the employee_id column
  * @method     ChildBookingsServicesQuery orderByDate($order = Criteria::ASC) Order by the date column
  * @method     ChildBookingsServicesQuery orderByStart($order = Criteria::ASC) Order by the start column
  * @method     ChildBookingsServicesQuery orderByStartTs($order = Criteria::ASC) Order by the start_ts column
- * @method     ChildBookingsServicesQuery orderByTotal($order = Criteria::ASC) Order by the total column
- * @method     ChildBookingsServicesQuery orderByPrice($order = Criteria::ASC) Order by the price column
+ * @method     ChildBookingsServicesQuery orderByStopTs($order = Criteria::ASC) Order by the stop_ts column
  * @method     ChildBookingsServicesQuery orderByReminderEmail($order = Criteria::ASC) Order by the reminder_email column
  * @method     ChildBookingsServicesQuery orderByReminderSms($order = Criteria::ASC) Order by the reminder_sms column
  *
  * @method     ChildBookingsServicesQuery groupById() Group by the id column
  * @method     ChildBookingsServicesQuery groupByTmpHash() Group by the tmp_hash column
  * @method     ChildBookingsServicesQuery groupByBookingId() Group by the booking_id column
+ * @method     ChildBookingsServicesQuery groupByUserId() Group by the user_id column
  * @method     ChildBookingsServicesQuery groupByServiceId() Group by the service_id column
  * @method     ChildBookingsServicesQuery groupByEmployeeId() Group by the employee_id column
  * @method     ChildBookingsServicesQuery groupByDate() Group by the date column
  * @method     ChildBookingsServicesQuery groupByStart() Group by the start column
  * @method     ChildBookingsServicesQuery groupByStartTs() Group by the start_ts column
- * @method     ChildBookingsServicesQuery groupByTotal() Group by the total column
- * @method     ChildBookingsServicesQuery groupByPrice() Group by the price column
+ * @method     ChildBookingsServicesQuery groupByStopTs() Group by the stop_ts column
  * @method     ChildBookingsServicesQuery groupByReminderEmail() Group by the reminder_email column
  * @method     ChildBookingsServicesQuery groupByReminderSms() Group by the reminder_sms column
  *
@@ -54,26 +54,26 @@ use Propel\Runtime\Exception\PropelException;
  * @method     ChildBookingsServices findOneById(int $id) Return the first ChildBookingsServices filtered by the id column
  * @method     ChildBookingsServices findOneByTmpHash(string $tmp_hash) Return the first ChildBookingsServices filtered by the tmp_hash column
  * @method     ChildBookingsServices findOneByBookingId(int $booking_id) Return the first ChildBookingsServices filtered by the booking_id column
+ * @method     ChildBookingsServices findOneByUserId(int $user_id) Return the first ChildBookingsServices filtered by the user_id column
  * @method     ChildBookingsServices findOneByServiceId(int $service_id) Return the first ChildBookingsServices filtered by the service_id column
  * @method     ChildBookingsServices findOneByEmployeeId(int $employee_id) Return the first ChildBookingsServices filtered by the employee_id column
  * @method     ChildBookingsServices findOneByDate(string $date) Return the first ChildBookingsServices filtered by the date column
  * @method     ChildBookingsServices findOneByStart(string $start) Return the first ChildBookingsServices filtered by the start column
  * @method     ChildBookingsServices findOneByStartTs(int $start_ts) Return the first ChildBookingsServices filtered by the start_ts column
- * @method     ChildBookingsServices findOneByTotal(int $total) Return the first ChildBookingsServices filtered by the total column
- * @method     ChildBookingsServices findOneByPrice(string $price) Return the first ChildBookingsServices filtered by the price column
+ * @method     ChildBookingsServices findOneByStopTs(int $stop_ts) Return the first ChildBookingsServices filtered by the stop_ts column
  * @method     ChildBookingsServices findOneByReminderEmail(boolean $reminder_email) Return the first ChildBookingsServices filtered by the reminder_email column
  * @method     ChildBookingsServices findOneByReminderSms(boolean $reminder_sms) Return the first ChildBookingsServices filtered by the reminder_sms column
  *
  * @method     array findById(int $id) Return ChildBookingsServices objects filtered by the id column
  * @method     array findByTmpHash(string $tmp_hash) Return ChildBookingsServices objects filtered by the tmp_hash column
  * @method     array findByBookingId(int $booking_id) Return ChildBookingsServices objects filtered by the booking_id column
+ * @method     array findByUserId(int $user_id) Return ChildBookingsServices objects filtered by the user_id column
  * @method     array findByServiceId(int $service_id) Return ChildBookingsServices objects filtered by the service_id column
  * @method     array findByEmployeeId(int $employee_id) Return ChildBookingsServices objects filtered by the employee_id column
  * @method     array findByDate(string $date) Return ChildBookingsServices objects filtered by the date column
  * @method     array findByStart(string $start) Return ChildBookingsServices objects filtered by the start column
  * @method     array findByStartTs(int $start_ts) Return ChildBookingsServices objects filtered by the start_ts column
- * @method     array findByTotal(int $total) Return ChildBookingsServices objects filtered by the total column
- * @method     array findByPrice(string $price) Return ChildBookingsServices objects filtered by the price column
+ * @method     array findByStopTs(int $stop_ts) Return ChildBookingsServices objects filtered by the stop_ts column
  * @method     array findByReminderEmail(boolean $reminder_email) Return ChildBookingsServices objects filtered by the reminder_email column
  * @method     array findByReminderSms(boolean $reminder_sms) Return ChildBookingsServices objects filtered by the reminder_sms column
  *
@@ -88,7 +88,7 @@ abstract class BookingsServicesQuery extends ModelCriteria
      * @param     string $modelName The phpName of a model, e.g. 'Book'
      * @param     string $modelAlias The alias for the model in this query, e.g. 'b'
      */
-    public function __construct($dbName = 'thelia', $modelName = '\\HookCalendar\\Model\\BookingsServices', $modelAlias = null)
+    public function __construct($dbName = 'default', $modelName = '\\HookCalendar\\Model\\BookingsServices', $modelAlias = null)
     {
         parent::__construct($dbName, $modelName, $modelAlias);
     }
@@ -164,7 +164,7 @@ abstract class BookingsServicesQuery extends ModelCriteria
      */
     protected function findPkSimple($key, $con)
     {
-        $sql = 'SELECT ID, TMP_HASH, BOOKING_ID, SERVICE_ID, EMPLOYEE_ID, DATE, START, START_TS, TOTAL, PRICE, REMINDER_EMAIL, REMINDER_SMS FROM bookings_services WHERE ID = :p0';
+        $sql = 'SELECT ID, TMP_HASH, BOOKING_ID, USER_ID, SERVICE_ID, EMPLOYEE_ID, DATE, START, START_TS, STOP_TS, REMINDER_EMAIL, REMINDER_SMS FROM bookings_services WHERE ID = :p0';
         try {
             $stmt = $con->prepare($sql);
             $stmt->bindValue(':p0', $key, PDO::PARAM_INT);
@@ -362,6 +362,47 @@ abstract class BookingsServicesQuery extends ModelCriteria
         }
 
         return $this->addUsingAlias(BookingsServicesTableMap::BOOKING_ID, $bookingId, $comparison);
+    }
+
+    /**
+     * Filter the query on the user_id column
+     *
+     * Example usage:
+     * <code>
+     * $query->filterByUserId(1234); // WHERE user_id = 1234
+     * $query->filterByUserId(array(12, 34)); // WHERE user_id IN (12, 34)
+     * $query->filterByUserId(array('min' => 12)); // WHERE user_id > 12
+     * </code>
+     *
+     * @param     mixed $userId The value to use as filter.
+     *              Use scalar values for equality.
+     *              Use array values for in_array() equivalent.
+     *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
+     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
+     *
+     * @return ChildBookingsServicesQuery The current query, for fluid interface
+     */
+    public function filterByUserId($userId = null, $comparison = null)
+    {
+        if (is_array($userId)) {
+            $useMinMax = false;
+            if (isset($userId['min'])) {
+                $this->addUsingAlias(BookingsServicesTableMap::USER_ID, $userId['min'], Criteria::GREATER_EQUAL);
+                $useMinMax = true;
+            }
+            if (isset($userId['max'])) {
+                $this->addUsingAlias(BookingsServicesTableMap::USER_ID, $userId['max'], Criteria::LESS_EQUAL);
+                $useMinMax = true;
+            }
+            if ($useMinMax) {
+                return $this;
+            }
+            if (null === $comparison) {
+                $comparison = Criteria::IN;
+            }
+        }
+
+        return $this->addUsingAlias(BookingsServicesTableMap::USER_ID, $userId, $comparison);
     }
 
     /**
@@ -574,16 +615,16 @@ abstract class BookingsServicesQuery extends ModelCriteria
     }
 
     /**
-     * Filter the query on the total column
+     * Filter the query on the stop_ts column
      *
      * Example usage:
      * <code>
-     * $query->filterByTotal(1234); // WHERE total = 1234
-     * $query->filterByTotal(array(12, 34)); // WHERE total IN (12, 34)
-     * $query->filterByTotal(array('min' => 12)); // WHERE total > 12
+     * $query->filterByStopTs(1234); // WHERE stop_ts = 1234
+     * $query->filterByStopTs(array(12, 34)); // WHERE stop_ts IN (12, 34)
+     * $query->filterByStopTs(array('min' => 12)); // WHERE stop_ts > 12
      * </code>
      *
-     * @param     mixed $total The value to use as filter.
+     * @param     mixed $stopTs The value to use as filter.
      *              Use scalar values for equality.
      *              Use array values for in_array() equivalent.
      *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
@@ -591,16 +632,16 @@ abstract class BookingsServicesQuery extends ModelCriteria
      *
      * @return ChildBookingsServicesQuery The current query, for fluid interface
      */
-    public function filterByTotal($total = null, $comparison = null)
+    public function filterByStopTs($stopTs = null, $comparison = null)
     {
-        if (is_array($total)) {
+        if (is_array($stopTs)) {
             $useMinMax = false;
-            if (isset($total['min'])) {
-                $this->addUsingAlias(BookingsServicesTableMap::TOTAL, $total['min'], Criteria::GREATER_EQUAL);
+            if (isset($stopTs['min'])) {
+                $this->addUsingAlias(BookingsServicesTableMap::STOP_TS, $stopTs['min'], Criteria::GREATER_EQUAL);
                 $useMinMax = true;
             }
-            if (isset($total['max'])) {
-                $this->addUsingAlias(BookingsServicesTableMap::TOTAL, $total['max'], Criteria::LESS_EQUAL);
+            if (isset($stopTs['max'])) {
+                $this->addUsingAlias(BookingsServicesTableMap::STOP_TS, $stopTs['max'], Criteria::LESS_EQUAL);
                 $useMinMax = true;
             }
             if ($useMinMax) {
@@ -611,48 +652,7 @@ abstract class BookingsServicesQuery extends ModelCriteria
             }
         }
 
-        return $this->addUsingAlias(BookingsServicesTableMap::TOTAL, $total, $comparison);
-    }
-
-    /**
-     * Filter the query on the price column
-     *
-     * Example usage:
-     * <code>
-     * $query->filterByPrice(1234); // WHERE price = 1234
-     * $query->filterByPrice(array(12, 34)); // WHERE price IN (12, 34)
-     * $query->filterByPrice(array('min' => 12)); // WHERE price > 12
-     * </code>
-     *
-     * @param     mixed $price The value to use as filter.
-     *              Use scalar values for equality.
-     *              Use array values for in_array() equivalent.
-     *              Use associative array('min' => $minValue, 'max' => $maxValue) for intervals.
-     * @param     string $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
-     *
-     * @return ChildBookingsServicesQuery The current query, for fluid interface
-     */
-    public function filterByPrice($price = null, $comparison = null)
-    {
-        if (is_array($price)) {
-            $useMinMax = false;
-            if (isset($price['min'])) {
-                $this->addUsingAlias(BookingsServicesTableMap::PRICE, $price['min'], Criteria::GREATER_EQUAL);
-                $useMinMax = true;
-            }
-            if (isset($price['max'])) {
-                $this->addUsingAlias(BookingsServicesTableMap::PRICE, $price['max'], Criteria::LESS_EQUAL);
-                $useMinMax = true;
-            }
-            if ($useMinMax) {
-                return $this;
-            }
-            if (null === $comparison) {
-                $comparison = Criteria::IN;
-            }
-        }
-
-        return $this->addUsingAlias(BookingsServicesTableMap::PRICE, $price, $comparison);
+        return $this->addUsingAlias(BookingsServicesTableMap::STOP_TS, $stopTs, $comparison);
     }
 
     /**

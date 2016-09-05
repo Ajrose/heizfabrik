@@ -1,22 +1,5 @@
 {$locale = setlocale( $smarty.const.LC_ALL, array("de_DE.utf8", "de_DE", "de"))|intval}
-{function name=timeslottype slot=1}
-	{if $slot == 1}pjAsTimeAvailable
-		{elseif $slot == 2}pjAsTimeBooked
-		{elseif $slot == 3} pjAsTimeSelected
-		{elseif $slot == 4} pjAsTimeBooked
-		{elseif $slot == 5} pjAsTimeUnavailable
-		{elseif $slot == 6} pjAsTimeUnavailable
-	{/if}
-{/function}
 
-{function name=daytype day=1}         
-	{if $day == 1}pj-calendar-day-past
-		{elseif $day == 2}pj-calendar-day-selected
-		{elseif $day == 3}pj-calendar-day-today
-		{elseif $day == 4}pj-calendar-day-inactive
-		{elseif $day == 5}pjAsCalendarDate
-	{/if}
-{/function}
 <div class="panel panel-default pjAsContainer pjAsAside calendarFor{$service_id}">
 <!-- 	<div class="panel-heading pjAsHead">
 		<h2 class="pjAsHeadTitle">Planen Sie Ihren Termin</h2>/.pjAsHeadTitle
@@ -25,15 +8,10 @@
 	</div> -->
 	<!-- /.panel-heading pjAsHead -->
 
-
 <div class="panel-body pjAsCalendarInline col-sm-1">
 <span class="pj-calendar-actions">Liefergebiet</span>
 	<input type="number" name="service_zipcode" min="0999" max="9999" required>
 </div>
-
-
-
-
 	<div class="panel-body pjAsCalendarInline col-sm-9">
 		<div class="pjIcCalendar">
 			<div class="pj-calendar">
@@ -43,43 +21,33 @@
 					<div class="col-lg-12 col-md-12 col-sm-12 col-sx-12">
 						<div class="pjAsTableTimes">
 
-						<!-- Monat header -->
+						<!-- Month header -->
 						<div class="pj-calendar-actions">
 							<div class="pj-calendar-ym">
 								<span id="calendar_month">{$smarty.now|date_format:"%B"}</span>
 								<span id="calendar_year">{$smarty.now|date_format:"%Y"}</span>
 								<span id="calendar_time_reference" style="display:none;">{$smarty.now}</span>
 							</div>
-							<a class="btn btn-primary btn-sm pull-right pjAsCalendarLinkMonth" data-direction="next" data-month="29" data-year="2016">
+							<a class="btn btn-primary btn-sm pull-right pjAsCalendarLinkMonth" data-direction="next">
 							<span class="glyphicon glyphicon-chevron-right"></span>
 							</a>
 						</div>
 
-						<!-- Monat tagen -->
+						<!-- Weekdays header -->
 						<div class="pj-calendar-head pj-calendar-7-columns">
 							{for $day_nr=6 to 12}
 					    		<div class="pj-calendar-day-header"><p>{mktime(0, 0, 0, 0, $day_nr, 0)|date_format:"%a"}</p></div>
 							{/for}
 				    	</div>
 							    	
-							    	
-									  	
-					
-						<div class="pj-calendar-body pj-calendar-7-columns">
-							{foreach from=$week_available item=day}	  
-							<div class="pj-calendar-day {{daytype day=$day.type}|regex_replace:'/[\r\t\n]/':''}" data-iso="2016-07-11" data-time="1468195200"><p>{$day.nr}</p>
-							
-								<table class="table" border="0" cellpadding="0" cellspacing="0" width="100%">
-									<tbody>		
-										{foreach from=$day.ts item=timeslot}				
-					    					<tr><td class="text-uppercase pjAsTime {{timeslottype slot=$timeslot.type}|regex_replace:'/[\r\t\n ]/':''}"><a href="#" class="asSlotBlock asSlotAvailable" data-start="{$timeslot.start}" data-start_ts="{$timeslot.start_ts}" data-end="{$timeslot.end}" data-end_ts="{$timeslot.end_ts}" data-employee_id="{$timeslot.employee_id}" data-service_id="{$service_id}">{$timeslot.start}-{$timeslot.end}</a></td></tr>
-										{/foreach}
-									</tbody>
-								</table>
-							</div>
-							{/foreach}
-						</div>			
-		    		
+						<!-- Days table -->  
+						<div id="month_table">
+							{include file="days_table.html" month_days_array=$month_available}	
+						</div>
+						<div id="timeslot_table">
+							{include file="hours_table.html" day_hours_array=$day_available}			
+		    			</div>
+
 	    				<span class="selected_employee_id" style="display:none;"></span>
 						<span class="selected_start_ts" {$service_id} style="display:none;"></span>
 						<span class="selected_end_ts" style="display:none;"></span>
@@ -155,8 +123,7 @@
 						<button class="pjAsBtn pjAsBtnRemove pjAsBtnRemoveSelectedAppointment" id="2">
 							<span class="glyphicon glyphicon-remove"></span>
 						</button>
-					</li><!-- /.list-group-item pjAsAsideService -->
-								
+					</li><!-- /.list-group-item pjAsAsideService -->	
 					
 				</ul><!-- /.list-group pjAsAsideServices -->
                 
@@ -184,21 +151,45 @@ return 1 + Math.round(((date.getTime() - week1.getTime()) / 86400000
 //navigation previous/next month
 
 (function(service_id){
-
+var monthNames = ["Januar", "Februar", "März", "April", "Mai", "Juni",
+	              "Juli", "August", "September", "Oktober", "November", "Dezember"];
 var calendar = document.getElementsByClassName("calendarFor"+service_id)[0];
+
+//month changers
 var monthChangers = calendar.getElementsByClassName("pjAsCalendarLinkMonth");
 for(var i=0;i<monthChangers.length;i++){
 	monthChangers[i].onclick = function(e) {
-		e.preventDefault();
-		
+
+		$monthChanger = $(this);
+		$direction = $(this).attr('data-direction');
+		$currentMonth = new Date().getMonth();
+
 		$.ajax({
 			type: "post",
-			url: "calendar/",
-			data: $(this).serialize()
+			url: "calendar/month",
+			data: "&direction="+$direction
 		})
 		.done(function (data, textStatus, request) {
-			$debug = $("#calendar_debug");
-			$debug.empty().append(data);
+			if($direction == "next"){
+				$direction_sign = $(".glyphicon-chevron-right");
+				$direction_sign.removeClass("glyphicon-chevron-right");	
+				$direction_sign.addClass("glyphicon-chevron-left");
+				$monthChanger.attr('data-direction',"prev");
+				if($currentMonth == 12)
+					$('#calendar_month').text(monthNames[1]);//monthNames
+				else
+					$('#calendar_month').text(monthNames[$currentMonth+1]);
+			}
+			else{
+				$direction_sign = $(".glyphicon-chevron-left");
+				$direction_sign.removeClass("glyphicon-chevron-left");	
+				$direction_sign.addClass("glyphicon-chevron-right");
+				$monthChanger.attr('data-direction',"next");
+				$('#calendar_month').text(monthNames[$currentMonth]);
+			}
+			$month_table = $("#month_table");
+			$month_table.empty().append(data);
+			updateDayLinks();
 		})
 		.fail(function (jqXHR, textStatus, errorThrown) {
 			if (typeof jqXHR.responseJSON !== 'undefined') {
@@ -212,31 +203,82 @@ for(var i=0;i<monthChangers.length;i++){
 		});
 	}
 };
-//selecting a timeslot
-var timeSlots = calendar.getElementsByClassName("asSlotBlock");
+
+//set date onclick
+function updateDayLinks(){
+	var dateChoice = calendar.getElementsByClassName("pj-calendar-day");
+	for(var i=0;i<dateChoice.length;i++){
+		dateChoice[i].onclick = function(e) {
+			//remove today class from previous day
+			$currentToday =$('.pj-calendar-day-today');
+			$currentToday.removeClass('pj-calendar-day-today');
+			$currentToday.addClass('pjAsCalendarDate');
+			
+			//add today to this element
+			$(this).removeClass('pjAsCalendarDate');
+			$(this).addClass('pj-calendar-day-today');
+			
+			$dayStartTS = $(this).attr('data-start_ts');
+			$dayStopTS  = $(this).attr('data-stop_ts');
+			
+			$.ajax({
+				type: "post",
+				url: "calendar/day",
+				data: "&start_ts="+$dayStartTS+"&stop_ts="+$dayStopTS
+			})
+			.done(function (data, textStatus, request) {
+				$timeslot_table = $("#timeslot_table");
+				$timeslot_table.empty().append(data);
+				updateTimeslotLinks();
+			})
+			.fail(function (jqXHR, textStatus, errorThrown) {
+				if (typeof jqXHR.responseJSON !== 'undefined') {
+					if (jqXHR.responseJSON.hasOwnProperty('form')) {
+						$('#form_body').html(jqXHR.responseJSON.form);
+					}
+					$('.form_error').html(jqXHR.responseJSON.message);
+				} else {
+					alert(errorThrown);
+				}
+			});
+		}
+	}
+}
+updateDayLinks();
+
 var selectedStartTs = calendar.getElementsByClassName("selected_start_ts")[0];
 var selectedEndTs = calendar.getElementsByClassName("selected_end_ts")[0];
 var selectedEmployeeId = calendar.getElementsByClassName("selected_employee_id")[0];
 
+//selecting a timeslot
+//set timeslot onclick
+function updateTimeslotLinks(){
+	var timeSlots = calendar.getElementsByClassName("asSlotBlock");
+	for(var i=0;i<timeSlots.length;i++){
+		timeSlots[i].onclick = function(e){
+			e.preventDefault();
+			
+			//TODO remove lastSelectedTimeSlot if not in the list
+			//TODO remove timeSlot selected when it is removed from the list
 
-for(var i=0;i<timeSlots.length;i++){
-	timeSlots[i].onclick = function(e){
-		e.preventDefault();
-		
-		//TODO remove lastSelectedTimeSlot if not in the list
-		//TODO remove timeSlot selected when it is removed from the list
+			selectedStartTs.textContent = this.getAttribute("data-start_ts");
+			selectedEndTs.textContent = this.getAttribute("data-end_ts");
+			selectedEmployeeId.textContent = this.getAttribute("data-employee_id");
 
-		selectedStartTs.textContent = this.getAttribute("data-start_ts");
-		selectedEndTs.textContent = this.getAttribute("data-end_ts");
-		selectedEmployeeId.textContent = this.getAttribute("data-employee_id");
-
-		className = this.parentNode.className;
-		if(className.indexOf("pjAsTimeAvailable")>-1)
-		if(!className.indexOf("pjAsTimeSelected")>-1)
-			this.parentNode.className =className+ " pjAsTimeSelected";
-		var lastSelectedTimeSlot = this;
-	}
-};
+			$currentTimeslot = $('.pjAsTimeSelected');
+			$currentTimeslot.removeClass('pjAsTimeSelected');
+			$currentTimeslot.addClass('pjAsTimeAvailable');
+			
+			className = this.parentNode.className;
+			if(className.indexOf("pjAsTimeAvailable")>-1)
+			if(!className.indexOf("pjAsTimeSelected")>-1)
+				this.parentNode.className =className+ " pjAsTimeSelected";
+			var lastSelectedTimeSlot = this;
+	
+		}
+	};
+}
+updateTimeslotLinks();
 
 //get selected appointments
 var selectedTimeSlotsList = calendar.getElementsByClassName("selectedTimeSlotsList")[0];
@@ -288,8 +330,7 @@ var removeAppointmentValues = function(st_pos){
 		timeslot = selectedTimeSlotItems[j+1];
 
 		if(timeslot.style.display != "none"){ //if we reach a slot that is not shown go to the end and set slot with id st_pos as empty
-		
-		setAppointmentValues(j,j+1,
+			setAppointmentValues(j,j+1,
 				timeslot.getElementsByClassName("ca_start_ts")[0].value,
 				timeslot.getElementsByClassName("ca_end_ts")[0].value,
 				timeslot.getElementsByClassName("ca_employee_id")[0].value);

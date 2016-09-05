@@ -72,6 +72,12 @@ abstract class BookingsServices implements ActiveRecordInterface
     protected $booking_id;
 
     /**
+     * The value for the user_id field.
+     * @var        int
+     */
+    protected $user_id;
+
+    /**
      * The value for the service_id field.
      * @var        int
      */
@@ -102,16 +108,10 @@ abstract class BookingsServices implements ActiveRecordInterface
     protected $start_ts;
 
     /**
-     * The value for the total field.
+     * The value for the stop_ts field.
      * @var        int
      */
-    protected $total;
-
-    /**
-     * The value for the price field.
-     * @var        string
-     */
-    protected $price;
+    protected $stop_ts;
 
     /**
      * The value for the reminder_email field.
@@ -441,6 +441,17 @@ abstract class BookingsServices implements ActiveRecordInterface
     }
 
     /**
+     * Get the [user_id] column value.
+     *
+     * @return   int
+     */
+    public function getUserId()
+    {
+
+        return $this->user_id;
+    }
+
+    /**
      * Get the [service_id] column value.
      *
      * @return   int
@@ -514,25 +525,14 @@ abstract class BookingsServices implements ActiveRecordInterface
     }
 
     /**
-     * Get the [total] column value.
+     * Get the [stop_ts] column value.
      *
      * @return   int
      */
-    public function getTotal()
+    public function getStopTs()
     {
 
-        return $this->total;
-    }
-
-    /**
-     * Get the [price] column value.
-     *
-     * @return   string
-     */
-    public function getPrice()
-    {
-
-        return $this->price;
+        return $this->stop_ts;
     }
 
     /**
@@ -619,6 +619,27 @@ abstract class BookingsServices implements ActiveRecordInterface
 
         return $this;
     } // setBookingId()
+
+    /**
+     * Set the value of [user_id] column.
+     *
+     * @param      int $v new value
+     * @return   \HookCalendar\Model\BookingsServices The current object (for fluent API support)
+     */
+    public function setUserId($v)
+    {
+        if ($v !== null) {
+            $v = (int) $v;
+        }
+
+        if ($this->user_id !== $v) {
+            $this->user_id = $v;
+            $this->modifiedColumns[BookingsServicesTableMap::USER_ID] = true;
+        }
+
+
+        return $this;
+    } // setUserId()
 
     /**
      * Set the value of [service_id] column.
@@ -726,46 +747,25 @@ abstract class BookingsServices implements ActiveRecordInterface
     } // setStartTs()
 
     /**
-     * Set the value of [total] column.
+     * Set the value of [stop_ts] column.
      *
      * @param      int $v new value
      * @return   \HookCalendar\Model\BookingsServices The current object (for fluent API support)
      */
-    public function setTotal($v)
+    public function setStopTs($v)
     {
         if ($v !== null) {
             $v = (int) $v;
         }
 
-        if ($this->total !== $v) {
-            $this->total = $v;
-            $this->modifiedColumns[BookingsServicesTableMap::TOTAL] = true;
+        if ($this->stop_ts !== $v) {
+            $this->stop_ts = $v;
+            $this->modifiedColumns[BookingsServicesTableMap::STOP_TS] = true;
         }
 
 
         return $this;
-    } // setTotal()
-
-    /**
-     * Set the value of [price] column.
-     *
-     * @param      string $v new value
-     * @return   \HookCalendar\Model\BookingsServices The current object (for fluent API support)
-     */
-    public function setPrice($v)
-    {
-        if ($v !== null) {
-            $v = (string) $v;
-        }
-
-        if ($this->price !== $v) {
-            $this->price = $v;
-            $this->modifiedColumns[BookingsServicesTableMap::PRICE] = true;
-        }
-
-
-        return $this;
-    } // setPrice()
+    } // setStopTs()
 
     /**
      * Sets the value of the [reminder_email] column.
@@ -879,29 +879,29 @@ abstract class BookingsServices implements ActiveRecordInterface
             $col = $row[TableMap::TYPE_NUM == $indexType ? 2 + $startcol : BookingsServicesTableMap::translateFieldName('BookingId', TableMap::TYPE_PHPNAME, $indexType)];
             $this->booking_id = (null !== $col) ? (int) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 3 + $startcol : BookingsServicesTableMap::translateFieldName('ServiceId', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 3 + $startcol : BookingsServicesTableMap::translateFieldName('UserId', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->user_id = (null !== $col) ? (int) $col : null;
+
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 4 + $startcol : BookingsServicesTableMap::translateFieldName('ServiceId', TableMap::TYPE_PHPNAME, $indexType)];
             $this->service_id = (null !== $col) ? (int) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 4 + $startcol : BookingsServicesTableMap::translateFieldName('EmployeeId', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 5 + $startcol : BookingsServicesTableMap::translateFieldName('EmployeeId', TableMap::TYPE_PHPNAME, $indexType)];
             $this->employee_id = (null !== $col) ? (int) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 5 + $startcol : BookingsServicesTableMap::translateFieldName('Date', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 6 + $startcol : BookingsServicesTableMap::translateFieldName('Date', TableMap::TYPE_PHPNAME, $indexType)];
             if ($col === '0000-00-00') {
                 $col = null;
             }
             $this->date = (null !== $col) ? PropelDateTime::newInstance($col, null, '\DateTime') : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 6 + $startcol : BookingsServicesTableMap::translateFieldName('Start', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 7 + $startcol : BookingsServicesTableMap::translateFieldName('Start', TableMap::TYPE_PHPNAME, $indexType)];
             $this->start = (null !== $col) ? PropelDateTime::newInstance($col, null, '\DateTime') : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 7 + $startcol : BookingsServicesTableMap::translateFieldName('StartTs', TableMap::TYPE_PHPNAME, $indexType)];
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 8 + $startcol : BookingsServicesTableMap::translateFieldName('StartTs', TableMap::TYPE_PHPNAME, $indexType)];
             $this->start_ts = (null !== $col) ? (int) $col : null;
 
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 8 + $startcol : BookingsServicesTableMap::translateFieldName('Total', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->total = (null !== $col) ? (int) $col : null;
-
-            $col = $row[TableMap::TYPE_NUM == $indexType ? 9 + $startcol : BookingsServicesTableMap::translateFieldName('Price', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->price = (null !== $col) ? (string) $col : null;
+            $col = $row[TableMap::TYPE_NUM == $indexType ? 9 + $startcol : BookingsServicesTableMap::translateFieldName('StopTs', TableMap::TYPE_PHPNAME, $indexType)];
+            $this->stop_ts = (null !== $col) ? (int) $col : null;
 
             $col = $row[TableMap::TYPE_NUM == $indexType ? 10 + $startcol : BookingsServicesTableMap::translateFieldName('ReminderEmail', TableMap::TYPE_PHPNAME, $indexType)];
             $this->reminder_email = (null !== $col) ? (boolean) $col : null;
@@ -1119,10 +1119,6 @@ abstract class BookingsServices implements ActiveRecordInterface
         $modifiedColumns = array();
         $index = 0;
 
-        $this->modifiedColumns[BookingsServicesTableMap::ID] = true;
-        if (null !== $this->id) {
-            throw new PropelException('Cannot insert a value for auto-increment primary key (' . BookingsServicesTableMap::ID . ')');
-        }
 
          // check the columns in natural order for more readable SQL queries
         if ($this->isColumnModified(BookingsServicesTableMap::ID)) {
@@ -1133,6 +1129,9 @@ abstract class BookingsServices implements ActiveRecordInterface
         }
         if ($this->isColumnModified(BookingsServicesTableMap::BOOKING_ID)) {
             $modifiedColumns[':p' . $index++]  = 'BOOKING_ID';
+        }
+        if ($this->isColumnModified(BookingsServicesTableMap::USER_ID)) {
+            $modifiedColumns[':p' . $index++]  = 'USER_ID';
         }
         if ($this->isColumnModified(BookingsServicesTableMap::SERVICE_ID)) {
             $modifiedColumns[':p' . $index++]  = 'SERVICE_ID';
@@ -1149,11 +1148,8 @@ abstract class BookingsServices implements ActiveRecordInterface
         if ($this->isColumnModified(BookingsServicesTableMap::START_TS)) {
             $modifiedColumns[':p' . $index++]  = 'START_TS';
         }
-        if ($this->isColumnModified(BookingsServicesTableMap::TOTAL)) {
-            $modifiedColumns[':p' . $index++]  = 'TOTAL';
-        }
-        if ($this->isColumnModified(BookingsServicesTableMap::PRICE)) {
-            $modifiedColumns[':p' . $index++]  = 'PRICE';
+        if ($this->isColumnModified(BookingsServicesTableMap::STOP_TS)) {
+            $modifiedColumns[':p' . $index++]  = 'STOP_TS';
         }
         if ($this->isColumnModified(BookingsServicesTableMap::REMINDER_EMAIL)) {
             $modifiedColumns[':p' . $index++]  = 'REMINDER_EMAIL';
@@ -1181,6 +1177,9 @@ abstract class BookingsServices implements ActiveRecordInterface
                     case 'BOOKING_ID':
                         $stmt->bindValue($identifier, $this->booking_id, PDO::PARAM_INT);
                         break;
+                    case 'USER_ID':
+                        $stmt->bindValue($identifier, $this->user_id, PDO::PARAM_INT);
+                        break;
                     case 'SERVICE_ID':
                         $stmt->bindValue($identifier, $this->service_id, PDO::PARAM_INT);
                         break;
@@ -1196,11 +1195,8 @@ abstract class BookingsServices implements ActiveRecordInterface
                     case 'START_TS':
                         $stmt->bindValue($identifier, $this->start_ts, PDO::PARAM_INT);
                         break;
-                    case 'TOTAL':
-                        $stmt->bindValue($identifier, $this->total, PDO::PARAM_INT);
-                        break;
-                    case 'PRICE':
-                        $stmt->bindValue($identifier, $this->price, PDO::PARAM_STR);
+                    case 'STOP_TS':
+                        $stmt->bindValue($identifier, $this->stop_ts, PDO::PARAM_INT);
                         break;
                     case 'REMINDER_EMAIL':
                         $stmt->bindValue($identifier, (int) $this->reminder_email, PDO::PARAM_INT);
@@ -1215,13 +1211,6 @@ abstract class BookingsServices implements ActiveRecordInterface
             Propel::log($e->getMessage(), Propel::LOG_ERR);
             throw new PropelException(sprintf('Unable to execute INSERT statement [%s]', $sql), 0, $e);
         }
-
-        try {
-            $pk = $con->lastInsertId();
-        } catch (Exception $e) {
-            throw new PropelException('Unable to get autoincrement id.', 0, $e);
-        }
-        $this->setId($pk);
 
         $this->setNew(false);
     }
@@ -1280,25 +1269,25 @@ abstract class BookingsServices implements ActiveRecordInterface
                 return $this->getBookingId();
                 break;
             case 3:
-                return $this->getServiceId();
+                return $this->getUserId();
                 break;
             case 4:
-                return $this->getEmployeeId();
+                return $this->getServiceId();
                 break;
             case 5:
-                return $this->getDate();
+                return $this->getEmployeeId();
                 break;
             case 6:
-                return $this->getStart();
+                return $this->getDate();
                 break;
             case 7:
-                return $this->getStartTs();
+                return $this->getStart();
                 break;
             case 8:
-                return $this->getTotal();
+                return $this->getStartTs();
                 break;
             case 9:
-                return $this->getPrice();
+                return $this->getStopTs();
                 break;
             case 10:
                 return $this->getReminderEmail();
@@ -1337,13 +1326,13 @@ abstract class BookingsServices implements ActiveRecordInterface
             $keys[0] => $this->getId(),
             $keys[1] => $this->getTmpHash(),
             $keys[2] => $this->getBookingId(),
-            $keys[3] => $this->getServiceId(),
-            $keys[4] => $this->getEmployeeId(),
-            $keys[5] => $this->getDate(),
-            $keys[6] => $this->getStart(),
-            $keys[7] => $this->getStartTs(),
-            $keys[8] => $this->getTotal(),
-            $keys[9] => $this->getPrice(),
+            $keys[3] => $this->getUserId(),
+            $keys[4] => $this->getServiceId(),
+            $keys[5] => $this->getEmployeeId(),
+            $keys[6] => $this->getDate(),
+            $keys[7] => $this->getStart(),
+            $keys[8] => $this->getStartTs(),
+            $keys[9] => $this->getStopTs(),
             $keys[10] => $this->getReminderEmail(),
             $keys[11] => $this->getReminderSms(),
         );
@@ -1395,25 +1384,25 @@ abstract class BookingsServices implements ActiveRecordInterface
                 $this->setBookingId($value);
                 break;
             case 3:
-                $this->setServiceId($value);
+                $this->setUserId($value);
                 break;
             case 4:
-                $this->setEmployeeId($value);
+                $this->setServiceId($value);
                 break;
             case 5:
-                $this->setDate($value);
+                $this->setEmployeeId($value);
                 break;
             case 6:
-                $this->setStart($value);
+                $this->setDate($value);
                 break;
             case 7:
-                $this->setStartTs($value);
+                $this->setStart($value);
                 break;
             case 8:
-                $this->setTotal($value);
+                $this->setStartTs($value);
                 break;
             case 9:
-                $this->setPrice($value);
+                $this->setStopTs($value);
                 break;
             case 10:
                 $this->setReminderEmail($value);
@@ -1448,13 +1437,13 @@ abstract class BookingsServices implements ActiveRecordInterface
         if (array_key_exists($keys[0], $arr)) $this->setId($arr[$keys[0]]);
         if (array_key_exists($keys[1], $arr)) $this->setTmpHash($arr[$keys[1]]);
         if (array_key_exists($keys[2], $arr)) $this->setBookingId($arr[$keys[2]]);
-        if (array_key_exists($keys[3], $arr)) $this->setServiceId($arr[$keys[3]]);
-        if (array_key_exists($keys[4], $arr)) $this->setEmployeeId($arr[$keys[4]]);
-        if (array_key_exists($keys[5], $arr)) $this->setDate($arr[$keys[5]]);
-        if (array_key_exists($keys[6], $arr)) $this->setStart($arr[$keys[6]]);
-        if (array_key_exists($keys[7], $arr)) $this->setStartTs($arr[$keys[7]]);
-        if (array_key_exists($keys[8], $arr)) $this->setTotal($arr[$keys[8]]);
-        if (array_key_exists($keys[9], $arr)) $this->setPrice($arr[$keys[9]]);
+        if (array_key_exists($keys[3], $arr)) $this->setUserId($arr[$keys[3]]);
+        if (array_key_exists($keys[4], $arr)) $this->setServiceId($arr[$keys[4]]);
+        if (array_key_exists($keys[5], $arr)) $this->setEmployeeId($arr[$keys[5]]);
+        if (array_key_exists($keys[6], $arr)) $this->setDate($arr[$keys[6]]);
+        if (array_key_exists($keys[7], $arr)) $this->setStart($arr[$keys[7]]);
+        if (array_key_exists($keys[8], $arr)) $this->setStartTs($arr[$keys[8]]);
+        if (array_key_exists($keys[9], $arr)) $this->setStopTs($arr[$keys[9]]);
         if (array_key_exists($keys[10], $arr)) $this->setReminderEmail($arr[$keys[10]]);
         if (array_key_exists($keys[11], $arr)) $this->setReminderSms($arr[$keys[11]]);
     }
@@ -1471,13 +1460,13 @@ abstract class BookingsServices implements ActiveRecordInterface
         if ($this->isColumnModified(BookingsServicesTableMap::ID)) $criteria->add(BookingsServicesTableMap::ID, $this->id);
         if ($this->isColumnModified(BookingsServicesTableMap::TMP_HASH)) $criteria->add(BookingsServicesTableMap::TMP_HASH, $this->tmp_hash);
         if ($this->isColumnModified(BookingsServicesTableMap::BOOKING_ID)) $criteria->add(BookingsServicesTableMap::BOOKING_ID, $this->booking_id);
+        if ($this->isColumnModified(BookingsServicesTableMap::USER_ID)) $criteria->add(BookingsServicesTableMap::USER_ID, $this->user_id);
         if ($this->isColumnModified(BookingsServicesTableMap::SERVICE_ID)) $criteria->add(BookingsServicesTableMap::SERVICE_ID, $this->service_id);
         if ($this->isColumnModified(BookingsServicesTableMap::EMPLOYEE_ID)) $criteria->add(BookingsServicesTableMap::EMPLOYEE_ID, $this->employee_id);
         if ($this->isColumnModified(BookingsServicesTableMap::DATE)) $criteria->add(BookingsServicesTableMap::DATE, $this->date);
         if ($this->isColumnModified(BookingsServicesTableMap::START)) $criteria->add(BookingsServicesTableMap::START, $this->start);
         if ($this->isColumnModified(BookingsServicesTableMap::START_TS)) $criteria->add(BookingsServicesTableMap::START_TS, $this->start_ts);
-        if ($this->isColumnModified(BookingsServicesTableMap::TOTAL)) $criteria->add(BookingsServicesTableMap::TOTAL, $this->total);
-        if ($this->isColumnModified(BookingsServicesTableMap::PRICE)) $criteria->add(BookingsServicesTableMap::PRICE, $this->price);
+        if ($this->isColumnModified(BookingsServicesTableMap::STOP_TS)) $criteria->add(BookingsServicesTableMap::STOP_TS, $this->stop_ts);
         if ($this->isColumnModified(BookingsServicesTableMap::REMINDER_EMAIL)) $criteria->add(BookingsServicesTableMap::REMINDER_EMAIL, $this->reminder_email);
         if ($this->isColumnModified(BookingsServicesTableMap::REMINDER_SMS)) $criteria->add(BookingsServicesTableMap::REMINDER_SMS, $this->reminder_sms);
 
@@ -1543,20 +1532,20 @@ abstract class BookingsServices implements ActiveRecordInterface
      */
     public function copyInto($copyObj, $deepCopy = false, $makeNew = true)
     {
+        $copyObj->setId($this->getId());
         $copyObj->setTmpHash($this->getTmpHash());
         $copyObj->setBookingId($this->getBookingId());
+        $copyObj->setUserId($this->getUserId());
         $copyObj->setServiceId($this->getServiceId());
         $copyObj->setEmployeeId($this->getEmployeeId());
         $copyObj->setDate($this->getDate());
         $copyObj->setStart($this->getStart());
         $copyObj->setStartTs($this->getStartTs());
-        $copyObj->setTotal($this->getTotal());
-        $copyObj->setPrice($this->getPrice());
+        $copyObj->setStopTs($this->getStopTs());
         $copyObj->setReminderEmail($this->getReminderEmail());
         $copyObj->setReminderSms($this->getReminderSms());
         if ($makeNew) {
             $copyObj->setNew(true);
-            $copyObj->setId(NULL); // this is a auto-increment column, so set to default value
         }
     }
 
@@ -1590,13 +1579,13 @@ abstract class BookingsServices implements ActiveRecordInterface
         $this->id = null;
         $this->tmp_hash = null;
         $this->booking_id = null;
+        $this->user_id = null;
         $this->service_id = null;
         $this->employee_id = null;
         $this->date = null;
         $this->start = null;
         $this->start_ts = null;
-        $this->total = null;
-        $this->price = null;
+        $this->stop_ts = null;
         $this->reminder_email = null;
         $this->reminder_sms = null;
         $this->alreadyInSave = false;

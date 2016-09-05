@@ -38,7 +38,7 @@ class BookingsServicesTableMap extends TableMap
     /**
      * The default database name for this class
      */
-    const DATABASE_NAME = 'thelia';
+    const DATABASE_NAME = 'default';
 
     /**
      * The table name for this class
@@ -86,6 +86,11 @@ class BookingsServicesTableMap extends TableMap
     const BOOKING_ID = 'bookings_services.BOOKING_ID';
 
     /**
+     * the column name for the USER_ID field
+     */
+    const USER_ID = 'bookings_services.USER_ID';
+
+    /**
      * the column name for the SERVICE_ID field
      */
     const SERVICE_ID = 'bookings_services.SERVICE_ID';
@@ -111,14 +116,9 @@ class BookingsServicesTableMap extends TableMap
     const START_TS = 'bookings_services.START_TS';
 
     /**
-     * the column name for the TOTAL field
+     * the column name for the STOP_TS field
      */
-    const TOTAL = 'bookings_services.TOTAL';
-
-    /**
-     * the column name for the PRICE field
-     */
-    const PRICE = 'bookings_services.PRICE';
+    const STOP_TS = 'bookings_services.STOP_TS';
 
     /**
      * the column name for the REMINDER_EMAIL field
@@ -142,11 +142,11 @@ class BookingsServicesTableMap extends TableMap
      * e.g. self::$fieldNames[self::TYPE_PHPNAME][0] = 'Id'
      */
     protected static $fieldNames = array (
-        self::TYPE_PHPNAME       => array('Id', 'TmpHash', 'BookingId', 'ServiceId', 'EmployeeId', 'Date', 'Start', 'StartTs', 'Total', 'Price', 'ReminderEmail', 'ReminderSms', ),
-        self::TYPE_STUDLYPHPNAME => array('id', 'tmpHash', 'bookingId', 'serviceId', 'employeeId', 'date', 'start', 'startTs', 'total', 'price', 'reminderEmail', 'reminderSms', ),
-        self::TYPE_COLNAME       => array(BookingsServicesTableMap::ID, BookingsServicesTableMap::TMP_HASH, BookingsServicesTableMap::BOOKING_ID, BookingsServicesTableMap::SERVICE_ID, BookingsServicesTableMap::EMPLOYEE_ID, BookingsServicesTableMap::DATE, BookingsServicesTableMap::START, BookingsServicesTableMap::START_TS, BookingsServicesTableMap::TOTAL, BookingsServicesTableMap::PRICE, BookingsServicesTableMap::REMINDER_EMAIL, BookingsServicesTableMap::REMINDER_SMS, ),
-        self::TYPE_RAW_COLNAME   => array('ID', 'TMP_HASH', 'BOOKING_ID', 'SERVICE_ID', 'EMPLOYEE_ID', 'DATE', 'START', 'START_TS', 'TOTAL', 'PRICE', 'REMINDER_EMAIL', 'REMINDER_SMS', ),
-        self::TYPE_FIELDNAME     => array('id', 'tmp_hash', 'booking_id', 'service_id', 'employee_id', 'date', 'start', 'start_ts', 'total', 'price', 'reminder_email', 'reminder_sms', ),
+        self::TYPE_PHPNAME       => array('Id', 'TmpHash', 'BookingId', 'UserId', 'ServiceId', 'EmployeeId', 'Date', 'Start', 'StartTs', 'StopTs', 'ReminderEmail', 'ReminderSms', ),
+        self::TYPE_STUDLYPHPNAME => array('id', 'tmpHash', 'bookingId', 'userId', 'serviceId', 'employeeId', 'date', 'start', 'startTs', 'stopTs', 'reminderEmail', 'reminderSms', ),
+        self::TYPE_COLNAME       => array(BookingsServicesTableMap::ID, BookingsServicesTableMap::TMP_HASH, BookingsServicesTableMap::BOOKING_ID, BookingsServicesTableMap::USER_ID, BookingsServicesTableMap::SERVICE_ID, BookingsServicesTableMap::EMPLOYEE_ID, BookingsServicesTableMap::DATE, BookingsServicesTableMap::START, BookingsServicesTableMap::START_TS, BookingsServicesTableMap::STOP_TS, BookingsServicesTableMap::REMINDER_EMAIL, BookingsServicesTableMap::REMINDER_SMS, ),
+        self::TYPE_RAW_COLNAME   => array('ID', 'TMP_HASH', 'BOOKING_ID', 'USER_ID', 'SERVICE_ID', 'EMPLOYEE_ID', 'DATE', 'START', 'START_TS', 'STOP_TS', 'REMINDER_EMAIL', 'REMINDER_SMS', ),
+        self::TYPE_FIELDNAME     => array('id', 'tmp_hash', 'booking_id', 'user_id', 'service_id', 'employee_id', 'date', 'start', 'start_ts', 'stop_ts', 'reminder_email', 'reminder_sms', ),
         self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, )
     );
 
@@ -157,11 +157,11 @@ class BookingsServicesTableMap extends TableMap
      * e.g. self::$fieldKeys[self::TYPE_PHPNAME]['Id'] = 0
      */
     protected static $fieldKeys = array (
-        self::TYPE_PHPNAME       => array('Id' => 0, 'TmpHash' => 1, 'BookingId' => 2, 'ServiceId' => 3, 'EmployeeId' => 4, 'Date' => 5, 'Start' => 6, 'StartTs' => 7, 'Total' => 8, 'Price' => 9, 'ReminderEmail' => 10, 'ReminderSms' => 11, ),
-        self::TYPE_STUDLYPHPNAME => array('id' => 0, 'tmpHash' => 1, 'bookingId' => 2, 'serviceId' => 3, 'employeeId' => 4, 'date' => 5, 'start' => 6, 'startTs' => 7, 'total' => 8, 'price' => 9, 'reminderEmail' => 10, 'reminderSms' => 11, ),
-        self::TYPE_COLNAME       => array(BookingsServicesTableMap::ID => 0, BookingsServicesTableMap::TMP_HASH => 1, BookingsServicesTableMap::BOOKING_ID => 2, BookingsServicesTableMap::SERVICE_ID => 3, BookingsServicesTableMap::EMPLOYEE_ID => 4, BookingsServicesTableMap::DATE => 5, BookingsServicesTableMap::START => 6, BookingsServicesTableMap::START_TS => 7, BookingsServicesTableMap::TOTAL => 8, BookingsServicesTableMap::PRICE => 9, BookingsServicesTableMap::REMINDER_EMAIL => 10, BookingsServicesTableMap::REMINDER_SMS => 11, ),
-        self::TYPE_RAW_COLNAME   => array('ID' => 0, 'TMP_HASH' => 1, 'BOOKING_ID' => 2, 'SERVICE_ID' => 3, 'EMPLOYEE_ID' => 4, 'DATE' => 5, 'START' => 6, 'START_TS' => 7, 'TOTAL' => 8, 'PRICE' => 9, 'REMINDER_EMAIL' => 10, 'REMINDER_SMS' => 11, ),
-        self::TYPE_FIELDNAME     => array('id' => 0, 'tmp_hash' => 1, 'booking_id' => 2, 'service_id' => 3, 'employee_id' => 4, 'date' => 5, 'start' => 6, 'start_ts' => 7, 'total' => 8, 'price' => 9, 'reminder_email' => 10, 'reminder_sms' => 11, ),
+        self::TYPE_PHPNAME       => array('Id' => 0, 'TmpHash' => 1, 'BookingId' => 2, 'UserId' => 3, 'ServiceId' => 4, 'EmployeeId' => 5, 'Date' => 6, 'Start' => 7, 'StartTs' => 8, 'StopTs' => 9, 'ReminderEmail' => 10, 'ReminderSms' => 11, ),
+        self::TYPE_STUDLYPHPNAME => array('id' => 0, 'tmpHash' => 1, 'bookingId' => 2, 'userId' => 3, 'serviceId' => 4, 'employeeId' => 5, 'date' => 6, 'start' => 7, 'startTs' => 8, 'stopTs' => 9, 'reminderEmail' => 10, 'reminderSms' => 11, ),
+        self::TYPE_COLNAME       => array(BookingsServicesTableMap::ID => 0, BookingsServicesTableMap::TMP_HASH => 1, BookingsServicesTableMap::BOOKING_ID => 2, BookingsServicesTableMap::USER_ID => 3, BookingsServicesTableMap::SERVICE_ID => 4, BookingsServicesTableMap::EMPLOYEE_ID => 5, BookingsServicesTableMap::DATE => 6, BookingsServicesTableMap::START => 7, BookingsServicesTableMap::START_TS => 8, BookingsServicesTableMap::STOP_TS => 9, BookingsServicesTableMap::REMINDER_EMAIL => 10, BookingsServicesTableMap::REMINDER_SMS => 11, ),
+        self::TYPE_RAW_COLNAME   => array('ID' => 0, 'TMP_HASH' => 1, 'BOOKING_ID' => 2, 'USER_ID' => 3, 'SERVICE_ID' => 4, 'EMPLOYEE_ID' => 5, 'DATE' => 6, 'START' => 7, 'START_TS' => 8, 'STOP_TS' => 9, 'REMINDER_EMAIL' => 10, 'REMINDER_SMS' => 11, ),
+        self::TYPE_FIELDNAME     => array('id' => 0, 'tmp_hash' => 1, 'booking_id' => 2, 'user_id' => 3, 'service_id' => 4, 'employee_id' => 5, 'date' => 6, 'start' => 7, 'start_ts' => 8, 'stop_ts' => 9, 'reminder_email' => 10, 'reminder_sms' => 11, ),
         self::TYPE_NUM           => array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, )
     );
 
@@ -179,18 +179,18 @@ class BookingsServicesTableMap extends TableMap
         $this->setPhpName('BookingsServices');
         $this->setClassName('\\HookCalendar\\Model\\BookingsServices');
         $this->setPackage('HookCalendar.Model');
-        $this->setUseIdGenerator(true);
+        $this->setUseIdGenerator(false);
         // columns
-        $this->addPrimaryKey('ID', 'Id', 'INTEGER', true, 10, null);
+        $this->addPrimaryKey('ID', 'Id', 'INTEGER', true, null, null);
         $this->addColumn('TMP_HASH', 'TmpHash', 'VARCHAR', false, 32, null);
-        $this->addColumn('BOOKING_ID', 'BookingId', 'INTEGER', false, 10, null);
-        $this->addColumn('SERVICE_ID', 'ServiceId', 'INTEGER', false, 10, null);
-        $this->addColumn('EMPLOYEE_ID', 'EmployeeId', 'INTEGER', false, 10, null);
+        $this->addColumn('BOOKING_ID', 'BookingId', 'INTEGER', false, null, null);
+        $this->addColumn('USER_ID', 'UserId', 'INTEGER', false, null, null);
+        $this->addColumn('SERVICE_ID', 'ServiceId', 'INTEGER', false, null, null);
+        $this->addColumn('EMPLOYEE_ID', 'EmployeeId', 'INTEGER', false, null, null);
         $this->addColumn('DATE', 'Date', 'DATE', false, null, null);
         $this->addColumn('START', 'Start', 'TIME', false, null, null);
-        $this->addColumn('START_TS', 'StartTs', 'INTEGER', false, 10, null);
-        $this->addColumn('TOTAL', 'Total', 'SMALLINT', false, 5, null);
-        $this->addColumn('PRICE', 'Price', 'DECIMAL', false, 9, null);
+        $this->addColumn('START_TS', 'StartTs', 'INTEGER', false, null, null);
+        $this->addColumn('STOP_TS', 'StopTs', 'INTEGER', false, null, null);
         $this->addColumn('REMINDER_EMAIL', 'ReminderEmail', 'BOOLEAN', false, 1, false);
         $this->addColumn('REMINDER_SMS', 'ReminderSms', 'BOOLEAN', false, 1, false);
     } // initialize()
@@ -343,26 +343,26 @@ class BookingsServicesTableMap extends TableMap
             $criteria->addSelectColumn(BookingsServicesTableMap::ID);
             $criteria->addSelectColumn(BookingsServicesTableMap::TMP_HASH);
             $criteria->addSelectColumn(BookingsServicesTableMap::BOOKING_ID);
+            $criteria->addSelectColumn(BookingsServicesTableMap::USER_ID);
             $criteria->addSelectColumn(BookingsServicesTableMap::SERVICE_ID);
             $criteria->addSelectColumn(BookingsServicesTableMap::EMPLOYEE_ID);
             $criteria->addSelectColumn(BookingsServicesTableMap::DATE);
             $criteria->addSelectColumn(BookingsServicesTableMap::START);
             $criteria->addSelectColumn(BookingsServicesTableMap::START_TS);
-            $criteria->addSelectColumn(BookingsServicesTableMap::TOTAL);
-            $criteria->addSelectColumn(BookingsServicesTableMap::PRICE);
+            $criteria->addSelectColumn(BookingsServicesTableMap::STOP_TS);
             $criteria->addSelectColumn(BookingsServicesTableMap::REMINDER_EMAIL);
             $criteria->addSelectColumn(BookingsServicesTableMap::REMINDER_SMS);
         } else {
             $criteria->addSelectColumn($alias . '.ID');
             $criteria->addSelectColumn($alias . '.TMP_HASH');
             $criteria->addSelectColumn($alias . '.BOOKING_ID');
+            $criteria->addSelectColumn($alias . '.USER_ID');
             $criteria->addSelectColumn($alias . '.SERVICE_ID');
             $criteria->addSelectColumn($alias . '.EMPLOYEE_ID');
             $criteria->addSelectColumn($alias . '.DATE');
             $criteria->addSelectColumn($alias . '.START');
             $criteria->addSelectColumn($alias . '.START_TS');
-            $criteria->addSelectColumn($alias . '.TOTAL');
-            $criteria->addSelectColumn($alias . '.PRICE');
+            $criteria->addSelectColumn($alias . '.STOP_TS');
             $criteria->addSelectColumn($alias . '.REMINDER_EMAIL');
             $criteria->addSelectColumn($alias . '.REMINDER_SMS');
         }
@@ -460,10 +460,6 @@ class BookingsServicesTableMap extends TableMap
             $criteria = clone $criteria; // rename for clarity
         } else {
             $criteria = $criteria->buildCriteria(); // build Criteria from BookingsServices object
-        }
-
-        if ($criteria->containsKey(BookingsServicesTableMap::ID) && $criteria->keyContainsValue(BookingsServicesTableMap::ID) ) {
-            throw new PropelException('Cannot insert a value for auto-increment primary key ('.BookingsServicesTableMap::ID.')');
         }
 
 

@@ -28,11 +28,13 @@ class Front extends BaseHook{
     	
     	$event->add($this->addJS('assets/js/calendar.js'));
     	
-    	$initial_appointments->getDaysForMonth($event->getArgument("month"),$event->getArgument("year"));
+    	//$initial_appointments->getDaysForMonth($event->getArgument("month"),$event->getArgument("year"));
         $content = $this->render('calendar.html',
             array(
-                "service_id"        => $event->getArgument("service"),
-                "week_available" => $initial_appointments->getAppointmentsForWeek($event->getArgument("month"),$event->getArgument("year"))
+                "service_id"      => $event->getArgument("service"),
+                "month_available" => $initial_appointments->getDaysForMonth($event->getArgument("month"),$event->getArgument("year")),
+            	"day_available"   => $initial_appointments->getAppointmentsForDay($event->getArgument("day"),$event->getArgument("month"),$event->getArgument("year")),
+            	"single_product"  => $event->getArgument("single_product")
             ));
         $event->add($content);
     }

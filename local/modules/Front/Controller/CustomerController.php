@@ -416,9 +416,10 @@ class CustomerController extends BaseFrontController
 
             try {
                 $form = $this->validateForm($customerLoginForm, "post");
-
+                
                 // If User is a new customer
-                if ($form->get('account')->getData() == 0 && !$form->get("email")->getErrors()) {
+                if ($form->get('account')->getData() == 0) {// && !$form->get("email")->getErrors()
+                	
                     return $this->generateRedirectFromRoute(
                         "customer.create.process",
                         array(
